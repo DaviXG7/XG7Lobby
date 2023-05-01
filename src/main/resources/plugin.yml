@@ -1,0 +1,101 @@
+name: XG7Lobby
+version: 'BETA-0.9.2'
+main: br.com.xg7network.xg7lobby.XG7Lobby
+api-version: 1.13
+prefix: XG7 Lobby
+softdepend: [PlaceholderAPI, Multiverse-Core]
+commands:
+  xg7lsetlobby:
+    usage: "/<command>"
+    aliases: [setlobby, sl, xg7setlobby, lsl, 7setlobby]
+    permission: xg7lobby.admin
+    description: Colocar lobby para teletransportar, quando entrar ou quando digitar /lobby
+  xg7llobby:
+    usage: "/<commmand>"
+    aliases: [lobby, 7l, l, xg7lobby, 7lobby, ll, llobby, hub, h]
+    description: Teletransportar para o lobby
+  xg7lfly:
+    usage: "/<command> [Player]"
+    aliases: fly
+    permission: xg7lobby.fly
+    description: Fazer o jogador voar
+  xg7lkick:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [kick, 7kick]
+    permission: xg7lobby.admin
+    description: Expulsa jogadores
+  xg7lban:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [ban, 7ban]
+    permission: xg7lobby.admin
+    description: Bane jogadores
+  xg7lunban:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [unban, 7unban, pardon]
+    permission: xg7lobby.admin
+    description: Desbane jogadores
+  xg7ltempban:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [tempban, 7temp]
+    permission: xg7lobby.admin
+    description: Bane jogadores por um período de tempo
+  xg7lmute:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [mute, 7mute]
+    permission: xg7lobby.admin
+    description: Muta jogadores
+  xg7lunmute:
+    usage: "/<command> <Player> [Reason]"
+    aliases: [unmute, 7unmute]
+    permission: xg7lobby.admin
+    description: Desmuta jogadores
+  xg7lreload:
+    usage: "/<command>"
+    aliases: [7reload, 7rl, lrl, xg7lrl]
+    permission: xg7lobby.admin
+    description: Reinicia o plugin
+  xg7lgmcreative:
+    usage: "/<command>"
+    aliases: [ 7gmcreative, 7gmc, gmc]
+    description: Muda o modo do jogo para criativo
+  xg7lgmsurvival:
+    usage: "/<command>"
+    aliases: [7gms, 7gmcreative, gms]
+    description: Muda o modo do jogo para sobrevivência
+  xg7lgmspectator:
+    usage: "/<command>"
+    aliases: [7gmsp, 7gmspectator, gmsp]
+    description: Muda o modo do jogo para espectador
+  xg7lgmadventure:
+    usage: "/<command>"
+    aliases: [7gmadventure, 7gma, gma]
+    description: Muda o modo do jogo para Aventura
+  xg7lvanish:
+    usage: "/<command>"
+    aliases: [vanish, 7vanish, vnsh ]
+    description: Esconde jogadores
+permissions:
+  xg7lobby.block.break:
+    description: Permite quebrar blocos
+    default: op
+  xg7lobby.block.place:
+    description: Permite colocar blocos
+    default: op
+  xg7lobby.block.interact:
+    description: Permite interagir com blocos
+    default: op
+  xg7lobby.admin:
+    description: Administrador do plugin
+    default: op
+  xg7lobby.command.creative:
+    description: Permissão para o comando do modo de jogo criativo
+    default: op
+  xg7lobby.command.spectator:
+    description: Permissão para o comando do modo de jogo espectador
+    default: op
+  xg7lobby.command.survival:
+    description: Permissão para o comando do modo de jogo sobrevivência
+    default: op
+  xg7lobby.command.adventure:
+    description: Permissão para o comando do modo de jogo aventura
+    default: op

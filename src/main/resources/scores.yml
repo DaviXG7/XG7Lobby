@@ -1,0 +1,98 @@
+#Definir scoreboard, TAB e Action bars.
+#Futuramente terá um plugin específico para isso
+#Então se quiser pode deixar desativado!
+#Use %player_name% para recolocar o nome do jogador
+#Precisa-se do PlaceHolderAPI para isso!
+
+#Cores:
+#&a - Verde      | &e - Amarelo               | &b - Ciano
+#&9 - Azul       | &1 - Azul escuro           | &f - Branco
+#&7 - Cinza      | &8 - Cinza-escuro          | &0 - Preto
+#&5 - Roxo       | &6 - Laranja               | &d - Rosa
+#&c - Vermelho   | &4 - Vermelho-escuro
+
+#Opções para as letras:
+#&l - Negrito    | &r - Reset para o original | &k - Aleatório
+#&n - Sublinhado | &o - Itálico               | &m - Riscado
+
+#Tudo isso vai funcionar somente no mundo do lobby!
+
+
+#############################################
+#ACTION BAR                                 #
+#############################################
+
+#Pode gerar conflitos com mensagens
+#que usam actionBars
+actionbar:
+
+  ativado: true
+
+  texto: "&9XG7Lobby"
+
+#############################################
+#BOSS BAR                                   #
+#############################################
+
+bossbar:
+
+  ativado: true
+
+  #Os placeholders não funcionam aqui
+  título: "&9&lBem-vindo ao servidor"
+
+  #Veja aqui todas as cores
+  #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarColor.html
+  cor: BLUE
+
+  #Veja aqui todos os estilos
+  #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarStyle.html
+  estilo: SOLID
+
+  #Vai de 0 a 1. Por exemplo: 0.5
+  progresso: 1
+
+#############################################
+#TABLIST                                    #
+#############################################
+
+tablist:
+
+  ativado: true
+
+  cabeçalho:
+    - "&9XG7Lobby"
+    - "&fSeu rank: &r%luckperms_prefix%"
+
+  rodapé:
+    - "&eSe divirta!"
+    - "&7Visite nosso site! www.exemplo.com"
+#############################################
+#SCOREBOARD                                 #
+#############################################
+
+scoreboard:
+
+  ativado: true
+
+  titulo: "&9&lXG7 Lobby"
+
+  #Por algum motivo, se você colocar
+  #A mesma coisa em 2 linhas não
+  #funciona
+  linhas:
+    - "  "
+    - "&e&lJogador&f:"
+    - "&7Nome: &9%player_name%"
+    - "&7Rank: &r%luckperms_prefix%"
+    - " "
+    - "&7Jogadores online: &a%server_online%"
+    - ""
+    - "&8www.exemplo.com"
+
+#Em quanto tempo que as scores vão atualizar
+#20 = 1s
+#100 = 5s
+#600 = 30s
+#1200 = 1m
+atualizacao_das_scores: 20

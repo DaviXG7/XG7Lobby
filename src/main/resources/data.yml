@@ -1,0 +1,11 @@
+#Onde o lobby está
+lobby:
+  Mundo:
+  X:
+  Y:
+  Z:
+  Yaw:
+  Pitch:
+
+#Lista de mutados
+Mutados:

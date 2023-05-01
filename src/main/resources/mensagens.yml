@@ -1,0 +1,80 @@
+#Definir uma mensagem para cada coisa do plugin
+#use %player_name% para recolocar o nome do jogador
+#Precisa-se do PlaceHolderAPI para isso!
+
+#Cores:
+#&a - Verde      | &e - Amarelo               | &b - Ciano
+#&9 - Azul       | &1 - Azul escuro           | &f - Branco
+#&7 - Cinza      | &8 - Cinza-escuro          | &0 - Preto
+#&5 - Roxo       | &6 - Laranja               | &d - Rosa
+#&c - Vermelho   | &4 - Vermelho-escuro
+
+#Opções para as letras:
+#&l - Negrito    | &r - Reset para o original | &k - Aleatório
+#&n - Sublinhado | &o - Itálico               | &m - Riscado
+
+#Se estiver true, o aviso vai ser mandado
+#em Action bar, se estiver false
+#o aviso será mandado no chat.
+AvisoEmActionBars: true
+
+mensagens:
+  #Define se a mensagem vai estar ativada
+  ativar_EntrarMensagem: true
+  QuandoOJogadorEntrarMensagem: "&7[&a+&7] &9%player_name% &rEntrou no servidor!"
+
+  ativar_EntrarMensagemPessoal: true
+  QuandoOJogadorEntrarMensagemPessoal:
+    - "&8------------------------&7**&8----------------------------"
+    - "                           &a&LXG7Lobby                   "
+    - "&7Bem-vindo &f%player_name%                               "
+    - "&7Site do servidor: &bwww.exemplo.com                     "
+    - "&8------------------------&7**&8----------------------------"
+
+  ativar_EntrarTitulo: true
+  #Se quiser deixar vazio um ou outro coloque ""
+  QuandoOJogadorEntrarTitulo: "&b&lBem-Vindo"
+  QuandoOJogadorEntrarSubTitulo: "&7%player_name%"
+
+  ativar_SairMensagem: true
+  QuandoOJogadorSairMensagem: "&7[&a+&7] &9%player_name% &rSaiu no servidor!"
+
+  #Mensagem do comando "fly"
+  flyon: "&aSeu fly foi ativado!"
+  flyoff: "&cSeu fly foi desativado!"
+
+  ativar_mensagens_permissão: true
+  permissao_quebrar: "&cVocê não tem permissão para quebrar blocos."
+  permissao_colocar: "&cVocê não tem permissão para colocar blocos."
+  permissao_interagir: "&cVocê não tem permissão para interagir com blocos."
+  permissao_jogar_itens: "&cVocê não tem permissão para jogar itens."
+  permissao_pegar_itens: "&cVocê não tem permissão para pegar itens."
+  permissao_atacar: "&cVocê não tem permissão para atacar."
+  #Coloque [Comando] para retornar o comando
+  permissao_comandos: "&cVocê não tem permissão para executar o comando: &e[Comando]"
+
+  #Mensagem de ir para o lobby
+  tpLobby: "&7Você foi teletransportado para o &alobby"
+
+  #Relacionado ao mute
+  QuandoMutado: "&cVocê foi mutado!"
+  no_mute: "&cVocê está mutado! Você não pode enviar mensagens até que alguém retire seu mute"
+  QuandoDesmutado: "&aVocê foi desmutado!"
+
+  MensagemBloqueada: "&cEssa mensagem viola os termos do servidor, por favor não envie essa palavra!"
+
+  #Modo de jogo
+  ativar_mensagem_modo_de_jogo: true
+  modo_criativo: "&aVocê mudou seu modo de jogo para Criativo"
+  modo_sobrevivência: "&aVocê mudou seu modo de jogo para Sobrevivência"
+  modo_espectador: "&aVocê mudou seu modo de jogo para Espectador"
+  modo_aventura: "&aVocê mudou seu modo de jogo para Aventura"
+
+  #Mensagem de aviso que o lobby não foi colocado
+  ativar_aviso_lobby: true
+  aviso_lobby_admin: "&cO lobby não foi colocado! Execute &e/&asetlobby &cpara coloca-lo!"
+  aviso_lobby: "&cO lobby não foi colocado! Espere até que algum Administrador coloque-o!"
+
+  #Mensagens do /vanish
+  comando_esconder: "&aVocê escondeu os jogadores"
+  comando_revelar: "&cVocê revelou os jogadores"

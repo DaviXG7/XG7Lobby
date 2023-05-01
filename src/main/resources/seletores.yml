@@ -1,0 +1,115 @@
+#Definir Os itens que serão dados aos jogadores quando
+#entrar no lobby e criar.
+#Use %player_name% para recolocar o nome do jogador
+#Precisa-se do PlaceHolderAPI para isso!
+
+#Cores:
+#&a - Verde      | &e - Amarelo               | &b - Ciano
+#&9 - Azul       | &1 - Azul escuro           | &f - Branco
+#&7 - Cinza      | &8 - Cinza-escuro          | &0 - Preto
+#&5 - Roxo       | &6 - Laranja               | &d - Rosa
+#&c - Vermelho   | &4 - Vermelho-escuro
+
+#Opções para as letras:
+#&l - Negrito    | &r - Reset para o original | &k - Aleatório
+#&n - Sublinhado | &o - Itálico               | &m - Riscado
+
+#Tudo isso vai funcionar somente no mundo do lobby!
+
+#PARA FUNCIONAR CORRETAMENTE NÃO COLOQUE OS ITENS NO MESMO SLOT
+
+GanharItens:
+  QuandoEntrar: true
+  QuandoNaoEstaNoInventario: true
+
+  #O tempo que cada anúncio
+  #será anunciado
+  #20 = 1s
+  #100 = 5s
+  #200 = 10s
+  Cooldown: 40
+
+#Ative isso para garantir a organização do iventário
+MexerNoInventário: false
+
+#Permite que o item será ADICIONADO ao inventário do ADM
+#e não colocado no item quando entrar no mundo do lobby
+#PADMREIESSCSI -> Permitir que ADMs recebam esses itens ao entrar
+#no servidor sem comprometer seu inventário.
+PADMREIESSCSI: true
+
+#############################################
+#ESCONDER JOGADORES                         #
+#############################################
+
+EsconderJogadores:
+  ativado: true
+
+  #Cuidado, só itens com esse nome será acessado
+  nome_ativado: "&a&lEsconder jogadores &8> &aMostrando &7(Clique direito)"
+  nome_desativado: "&c&LEsconder jogadores &8> &7Escondendo  &7(Clique direito)"
+  lore:
+    - "&7Clique uma vez para &aesconder os jogadores."
+    - "&7Clique de novo para &cmostrar os jogadores."
+
+  item_ativado: LIME_DYE
+  item_desativado: GRAY_DYE
+
+  slot: 9
+
+  #Coloque mais que 2 para não haver bugs
+  Cooldown: 5
+  #Coloque [SEGUNDOS] para retornar a segundos
+  Mensagem_EmCooldown: "&cVocê precisa esperar &f[SEGUNDOS] &csegundos para usar isso de novo!"
+  Mensagem_EmCooldownRegressiva: "[SEGUNDOS]s &cPara usar de novo..."
+
+  Mensagem_On: "&aVocê escondeu os jogadores"
+  Mensagem_Off: "&cVocê revelou os jogadores"
+
+#############################################
+#INFORMAÇÕES DO SERVIDOR                    #
+#############################################
+
+InfServidor:
+  ativado: true
+
+  item: BOOK
+  nome: "&9Informações do serivdor"
+  lore:
+    - "&aClique aqui para obter as informações do servidor"
+  slot: 1
+
+
+  GUI:
+    #Caso não esteja ativado ele mandará somente
+    #uma mensagem ou action bar.
+    ativado: true
+    #Será mandado caso não esteja ativado
+    mensagem:
+      - "      &9Informaações do servidor"
+      - "&8> &fNosso discord: &1discord.gg/exemplo"
+      - "&8> &fNosso site: &awww.exemplo.com"
+
+    InfGUI:
+      nome: "&9Informações do servidor"
+      tamanho: 27
+
+    Itens:
+
+      Regras:
+        item: BOOK
+        slot: 10
+        Nome: "&c&lREGRAS"
+        lore:
+          - "&81. &fNão Xingue"
+          - "&82. &fNão Abuse de bugs"
+          - "&83. &fNão use hacks"
+          - "&84. &fetc"
+      Info:
+        item: PAPER
+        slot: 11
+        Nome: "&9&lINFO"
+        lore:
+        - "      &9Informações do servidor"
+        - "&8> &fNosso discord: &1discord.gg/exemplo"
+        - "&8> &fNosso site: &awww.exemplo.com"

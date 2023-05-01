@@ -1,0 +1,231 @@
+#   _________________    _____            _________    _______       _______   ____    ____
+#  /                /   /    /           / _____  /   / _____ \     / _____ \  \   \  /   /
+# /___________     /   /    /           / /    / /   / /    / /    / /    / /   \   \/   /
+#            /    /   /    /           / /    / /   / /____/ /    / /____/ /     \      /
+#           /    /   /    /           / /    / /   / ______ \    / ______ \       \    /
+#          /    /   /    /_______    / /    / /   / /     / /   / /     / /       /   /
+#         /    /   /            /   / /____/ /   / /_____/ /   / /_____/ /       /   /
+#        /____/   /____________/   /________/   /_________/   /_________/       /___/
+
+#Mundos em que o plugin irá funcionar
+mundos_ativados:
+  #Você pode resumir em ["mundo-1", "mundo-2"]
+  - lobby
+  - world
+
+#Teletransportar para o lobby quando entrar
+tp_quando_entrar: true
+#Aconcelho deixar no false caso você tem um plugin
+#Que precisa respawnar em um mundo diferente
+tp_quando_morrer: false
+
+#Aviso que não tem imagem no servidor
+#Será enviada para o console
+aviso_imagem: true
+
+#############################################
+#OPÇÕES DE CHAT                             #
+#############################################
+
+BloquearPalavrões:
+  ativado: true
+  palavras_bloqueadas:
+    - "porra"
+    - "wtf"
+    - "fuck"
+    - "puta"
+    - "shit"
+    - "merda"
+
+BloquearComandos:
+  ativado: true
+  comandos_bloqueados:
+    - /pl
+    - /plugins
+    - /?
+    - /bukkit:?
+    - /bukkit:plugins
+    - /bukkit:pl
+    - /bukkit:help
+    - /ver
+    - /version
+    - /bukkit:version
+    - /bukkit:ver
+    - /tell
+
+#############################################
+#ANÚNCIOS                                   #
+#############################################
+
+Anúncios:
+
+  ativado: true
+
+  #O tempo que cada anúncio
+  #será anunciado
+  #600 = 30s
+  #1200 = 1m
+  #6000 = 5m
+  #12000 = 10m
+  delay: 12000
+
+
+  #UTILIZE O CARACTERE ~ NOS ANÚNCIOS
+  ParteDeAnúncios:
+
+    #Para criar um anúncio é só criar uma seção
+    #Ele pegará o anúcio aleatóriamente
+    #Não coloque uma linha com mais de 40 caracteres
+    #Use "%" para deixar a mensagem no centro!
+    #Toda vêz que você usar "[CENTRALIZAR]"
+    #a mensagem irá centralziar
+    #de acordo com o Minecraft!
+    #Código de cor "&" também conta!
+    #Me desculpe
+    #Exemplo
+    #anuncio:
+    #- "&7--------------------------------------------"
+    #- "[CENTRALIZAR]&E&LANÚNCIO"
+    #- "[CENTRALIZAR] <- Use para centralizar "
+    #- "&7--------------------------------------------"
+    anuncio1:
+      - "&7--------------------------------------------"
+      - "[CENTRALIZAR]&e&lANÚNCIO"
+      - "[CENTRALIZAR]&aEste plugin foi criado por &9Da&3vi&bXG7"
+      - "&7--------------------------------------------"
+    anuncio2:
+      - "&7--------------------------------------------"
+      - "[CENTRALIZAR]&E&LANÚNCIO"
+      - "[CENTRALIZAR]&aEntre no discord! &1discord.gg/exemplo"
+      - "&7--------------------------------------------"
+
+#############################################
+#LAUNCHPAD                                  #
+#############################################
+
+#Só vai funcionar nos mundos do lobby
+launchPad:
+  ativado: true
+
+  #Caso esteja "true" só será nescessário
+  #um bloco para ativar o lauchPad
+  #Caso esteja "false" o código vai pular
+  #para a parte de baixo onde terá que
+  #colocar o bloco de cima e o de baixo
+  #para funcionar
+  umbloco: true
+
+  #Define se o bloco do lauchpad é
+  #uma placa de pressão.
+  #(Blocos que você consegue pisar
+  #sem estar no chão)
+  placadepressao: true
+
+  # Bloco do launchPad
+  bloco: STONE_PRESSURE_PLATE
+
+  #Define se o launchPad vai ser definido
+  #por dois blocos
+  blocodecima: STONE_PRESSURE_PLATE
+  blocodebaixo: REDSTONE_BLOCK
+
+  #O jogador será lançado para onde
+  #ele estiver olhando
+  força: 2
+  pulo: 1
+
+#############################################
+#MOTD                                       #
+#############################################
+
+#MOTD é a mensagem que aparece antes de
+#entrar no servidor!
+motd:
+  ativado: true
+
+  texto:
+    - "&9&lSeu Servidor"
+    - "&e&lSe divirta"
+
+#############################################
+#OPÇÕES DO JOGADOR                          #
+#############################################
+
+#Geral
+CancelarMortePeloVoid: true
+PerderPontosDeComida: false
+
+#Danos
+
+#Caso esteja "false", TODOS os tipos de dano
+#vão ser cancelados, se estiver "true", caso
+#algumas da de baixo estiver false somente
+#aquela opção vai ser cancelada!
+LevarDanos: false
+
+#Permite se a pessoa vai atacar,
+#Se "LevarDanoPorAtaque" estiver
+#falso, O jogador só poderá atacar
+#mobs
+Ataque: false
+
+LevarDanoPorAtaque: false
+LevarDanoPorSufocamento: false
+LevarDanoPorAfogamento: false
+LevarDanoPorQueda: false
+#Ejetores, tnts, magma, etc, mas são todos.
+LevarDanoPorBlocos: false
+LevarDanoPorMagma: false
+LevarDanoPorLava: false
+LevarDanoPorCongelamento: false
+LevarDanoPorFogo: false
+LevarDanoPorBlocoCaindo: false
+#Geralmente por Élitro
+LevarDanoPorColisão: false
+LevarDanoPorExplosão: false
+
+#Interação
+
+#Apenas jogadores que tiver a permissão
+#Vão quebrar blocos e colocar
+QuebrarBlocos: false
+ColocarBlocos: false
+InteragirComBlocos: false
+
+#Drop, pegar
+
+PegarItens: true
+JogarItens: false
+
+#############################################
+#OPÇÕES DE MUNDO                            #
+#############################################
+
+#Define se mobs vão spawnar no lobby
+mobSpawn: false
+
+#Define o ciclo do clima no lobby
+CicloDaChuva: false
+
+#SÓ VAI SER APLICADO QUANDO ALGUM JOGADOR ENTRAR!
+#Define o ciclo do dia e o tempo do mundo
+CicloDoDia: false
+
+#Nascer do Sol: 0
+#Meio-dia: 6000
+#Pôr do Sol: 13000
+#Meia-noite: 18000
+TempoDoDia: 6000
+
+#Define se as folhas vão cair no lobby
+FolhasCaindo: false
+
+#Define se os blocos vão queimar no lobby
+QueimaDeBlocos: false
+
+
+#Feito por DaviXG7
+#Programador iniciante
+#Com inspiração em Deluxehub
+#(Nenhum código deste plugin foi copiado
+#alguns podem ser parecidos)
