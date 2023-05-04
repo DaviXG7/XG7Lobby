@@ -77,7 +77,7 @@ Anúncios:
     #Ele pegará o anúcio aleatóriamente
     #Não coloque uma linha com mais de 40 caracteres
     #Use "%" para deixar a mensagem no centro!
-    #Toda vêz que você usar "[CENTRALIZAR]"
+    #Toda vêz que você usar "<centro>""</centro>"
     #a mensagem irá centralziar
     #de acordo com o Minecraft!
     #Código de cor "&" também conta!
@@ -85,19 +85,19 @@ Anúncios:
     #Exemplo
     #anuncio:
     #- "&7--------------------------------------------"
-    #- "[CENTRALIZAR]&E&LANÚNCIO"
-    #- "[CENTRALIZAR] <- Use para centralizar "
+    #- "<centro>&E&LANÚNCIO</centro>"
+    #- "<centro></centro> <- Use para centralizar "
     #- "&7--------------------------------------------"
     anuncio1:
-      - "&7--------------------------------------------"
-      - "[CENTRALIZAR]&e&lANÚNCIO"
-      - "[CENTRALIZAR]&aEste plugin foi criado por &9Da&3vi&bXG7"
-      - "&7--------------------------------------------"
+      - "&8------------------------&7**&8----------------------------"
+      - "<centro>&e&lANÚNCIO</centro>"
+      - "<centro>&aEste plugin foi criado por &9Da&3vi&bXG7</centro>"
+      - "&8------------------------&7**&8----------------------------"
     anuncio2:
-      - "&7--------------------------------------------"
-      - "[CENTRALIZAR]&E&LANÚNCIO"
-      - "[CENTRALIZAR]&aEntre no discord! &1discord.gg/exemplo"
-      - "&7--------------------------------------------"
+      - "&8------------------------&7**&8----------------------------"
+      - "<centro>&E&LANÚNCIO</centro>"
+      - "<centro>&aEntre no discord! &1discord.gg/exemplo</centro>"
+      - "&8------------------------&7**&8----------------------------"
 
 #############################################
 #LAUNCHPAD                                  #
@@ -173,11 +173,10 @@ LevarDanoPorAtaque: false
 LevarDanoPorSufocamento: false
 LevarDanoPorAfogamento: false
 LevarDanoPorQueda: false
-#Ejetores, tnts, magma, etc, mas são todos.
+#Ejetores, tnts, etc, mas são todos.
 LevarDanoPorBlocos: false
 LevarDanoPorMagma: false
 LevarDanoPorLava: false
-LevarDanoPorCongelamento: false
 LevarDanoPorFogo: false
 LevarDanoPorBlocoCaindo: false
 #Geralmente por Élitro
@@ -223,6 +222,8 @@ FolhasCaindo: false
 #Define se os blocos vão queimar no lobby
 QueimaDeBlocos: false
 
+#Coloca tudo no padrão de acordo de sua versão, não mude!
+ConfigDefaults: true
 
 #Feito por DaviXG7
 #Programador iniciante

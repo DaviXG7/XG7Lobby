@@ -14,8 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import static br.com.xg7network.xg7lobby.XG7Lobby.data;
-import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
+import static br.com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class setLobby implements CommandExecutor {
     private XG7Lobby pl;
@@ -61,11 +60,7 @@ public class setLobby implements CommandExecutor {
                     }
                 } else {
                     if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName())));
-                        } else {
-                            p.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                        }
+                        action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                         return true;
                     }
                 }

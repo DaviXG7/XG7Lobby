@@ -14,11 +14,7 @@ public class CancelWeather implements Listener {
     }
     @EventHandler
     public void onWheather(WeatherChangeEvent e) {
-        if (pl.getConfig().getBoolean("weatherCycle")) {
-            if (pl.getConfig().getStringList("mundos_ativados").contains(e.getWorld().getName())) {
-                e.setCancelled(false);
-            }
-        } else if (!pl.getConfig().getBoolean("CicloDaChuva")){
+        if (!pl.getConfig().getBoolean("CicloDaChuva")){
             if (pl.getConfig().getStringList("mundos_ativados").contains(e.getWorld().getName())) {
                 e.setCancelled(true);
             }

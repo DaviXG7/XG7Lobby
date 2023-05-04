@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class ModeracaoChat implements Listener {
@@ -26,11 +27,7 @@ public class ModeracaoChat implements Listener {
             String mensagemSuspeita = e.getMessage();
             if (pl.getConfig().getStringList("BloquearPalavrões.palavras_bloqueadas").contains(mensagemSuspeita)){
                 e.setCancelled(!p.hasPermission("xg7lobby.admin"));
-                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§")));
-                } else {
-                    p.sendMessage(mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§"));
-                }
+                action.mandarAction(p, mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§"));
             }
         }
     }
@@ -42,11 +39,7 @@ public class ModeracaoChat implements Listener {
             String comandobloqueado = e.getMessage();
             if (pl.getConfig().getStringList("BloquearComandos.comandos_bloqueados").contains(comandobloqueado)){
                 e.setCancelled(!p.hasPermission("xg7lobby.admin"));
-                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§")));
-                } else {
-                    p.sendMessage(mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§"));
-                }
+                action.mandarAction(p, mensagem.getMessage().getString("mensagens.MensagemBloqueada").replace("&", "§"));
             }
         }
     }

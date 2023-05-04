@@ -16,8 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static br.com.xg7network.xg7lobby.XG7Lobby.data;
-import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
+import static br.com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class Mute implements CommandExecutor, Listener {
 
@@ -30,29 +29,17 @@ public class Mute implements CommandExecutor, Listener {
                 targets.add(targetM.getName());
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Você mutou " + targetM.getName() + "!"));
-                    } else {
-                        p.sendMessage(ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
-                    }
+                    action.mandarAction(p, ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
                 } else {
                     sender.sendMessage(ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
                 }
                 if (targetM.isOnline()) {
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        targetM.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.QuandoMutado").replace("&", "§")));
-                    } else {
-                        targetM.sendMessage(mensagem.getMessage().getString("mensagens.QuandoMutado").replace("&", "§"));
-                    }
+                    action.mandarAction(targetM, ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
                 }
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /mute <Jogador>"));
-                    } else {
-                        sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /mute <Jogador>");
-                    }
+                    action.mandarAction(p, ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /mute <Jogador>");
                 } else {
                     sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /mute <Jogador>");
                 }
@@ -61,11 +48,7 @@ public class Mute implements CommandExecutor, Listener {
             if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName())));
-                    } else {
-                        p.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                    }
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName())    );
                 } else {
                     sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                 }
@@ -79,13 +62,7 @@ public class Mute implements CommandExecutor, Listener {
     public void onMute(AsyncPlayerChatEvent e) {
         if (targets.contains(e.getPlayer().getName())) {
             e.setCancelled(true);
-            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.no_mute").replace("&", "§")));
-            } else {
-                e.getPlayer().sendMessage(mensagem.getMessage().getString("mensagens.no_mute").replace("&", "§"));
-            }
+            action.mandarAction(e.getPlayer(), mensagem.getMessage().getString("mensagens.no_mute"));
         }
-
-
     }
 }

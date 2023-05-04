@@ -1,5 +1,6 @@
 package br.com.xg7network.xg7lobby.Comandos.Moderação;
 
+import br.com.xg7network.xg7lobby.XG7Lobby;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.BanList;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class Tempban implements CommandExecutor {
@@ -28,67 +30,45 @@ public class Tempban implements CommandExecutor {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.HOUR, Integer.parseInt(args[1]));
                 if (pIsOn != null || pIsOff != null) {
-                    if (pIsOn.isOnline()) {
-                        pIsOn.kickPlayer("");
-                    }
                     if (!Bukkit.getBanList(BanList.Type.NAME).isBanned(pIsOn.getName()) || !Bukkit.getBanList(BanList.Type.NAME).isBanned(pIsOff.getName())) {
                         if (pIsOn != null) {
+                            pIsOn.kickPlayer("");
                             Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOn.getName(), "", cal.getTime(), null);
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas"));
-                                } else {
-                                    sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
-                                }
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
                             } else {
-                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
+                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName());
                             }
                         } else if (pIsOff != null) {
                             Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOff.getName(), "", cal.getTime(), null);
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas"));
-                                } else {
-                                    sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
-                                }
+                                action.mandarAction(p,  ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
                             } else {
                                 sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
                             }
-
                         } else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                                } else {
-                                    sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                                }
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
+                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             }
                         }
                     } else {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!"));
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!");
-                            }
+                            action.mandarAction(p, ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!");
+                            sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         }
                     }
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                        }
+                        action.mandarAction(p, ChatColor.RED + "Este jogador não existe!");
+
                     } else {
                         sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
                     }
@@ -109,50 +89,44 @@ public class Tempban implements CommandExecutor {
                 if (pIsOn != null || pIsOff != null && !Bukkit.getBanList(BanList.Type.NAME).isBanned(pIsOn.getName()) || !Bukkit.getBanList(BanList.Type.NAME).isBanned(pIsOff.getName())) {
                     if (pIsOn != null) {
                         Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOn.getName(), str.trim().replace("&", "§"), cal.getTime(), null);
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas"));
+                        if (pIsOn != null) {
+                            pIsOn.kickPlayer("");
+                            Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOn.getName(), "", cal.getTime(), null);
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
                             } else {
-                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas");
+                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName());
+                            }
+                        } else if (pIsOff != null) {
+                            Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOff.getName(), str.trim().replace("&", "§"), cal.getTime(), null);
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                action.mandarAction(p,  ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
+                            } else {
+                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " horas");
                             }
                         } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas");
-                        }
-
-                    } else if (pIsOff != null) {
-                        Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOff.getName(), "", cal.getTime(), null);
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas"));
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             } else {
-                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas");
+                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             }
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por " + ChatColor.RESET + str.trim().replace("&", "§") + ChatColor.GREEN + ", por " + ChatColor.RESET + cal.getTime() + ChatColor.GREEN + " Horas");
                         }
-
                     } else {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!"));
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!");
-                            }
+                            action.mandarAction(p, ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe ou não foi encontrado na lista de banidos!");
+                            sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         }
                     }
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                        }
+                        action.mandarAction(p, ChatColor.RED + "Este jogador não existe!");
+
                     } else {
                         sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
                     }
@@ -160,25 +134,20 @@ public class Tempban implements CommandExecutor {
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /tempban <Jogador> <Tempo> [Mensagem]"));
-                    } else {
-                        sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /tempban <Jogador> <Tempo> [Mensagem]");
-                    }
+                    action.mandarAction(p, ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /tempban <Jogador> <Tempo> [Razão]");
                 } else {
-                    sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /tempban <Jogador> <Tempo> [Mensagem]");
+                    sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /tempban <Jogador> <Tempo> [Razão]");
                 }
             }
         } else {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName())));
+            if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                 } else {
                     sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                 }
-            } else {
-                sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
+
             }
         }
         return true;

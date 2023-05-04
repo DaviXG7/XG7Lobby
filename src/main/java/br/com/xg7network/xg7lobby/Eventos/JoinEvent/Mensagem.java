@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.centralizar;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class Mensagem implements Listener {
@@ -32,14 +33,13 @@ public class Mensagem implements Listener {
     public void onJoinPessoalMessage(PlayerJoinEvent pje) {
         if (mensagem.getMessage().getBoolean("mensagens.ativar_EntrarMensagemPessoal")) {
             List<String> joinPessoalMessage = mensagem.getMessage().getStringList("mensagens.QuandoOJogadorEntrarMensagemPessoal");
-            for (String s : joinPessoalMessage) {
-                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        s = PlaceholderAPI.setPlaceholders(p, s);
-                    }
+            String s = centralizar.centralizarTexto(joinPessoalMessage);
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    s = PlaceholderAPI.setPlaceholders(p, s);
                 }
-                pje.getPlayer().sendMessage(s.replace("&", "§"));
             }
+            pje.getPlayer().sendMessage(s.replace("&", "§"));
 
         }
     }

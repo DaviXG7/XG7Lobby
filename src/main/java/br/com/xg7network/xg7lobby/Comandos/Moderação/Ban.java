@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class Ban implements CommandExecutor {
@@ -31,11 +32,7 @@ public class Ban implements CommandExecutor {
                             Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOn.getName(), "", null, null);
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName()));
-                                } else {
-                                    sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName());
-                                }
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName());
                             } else {
                                 sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName());
                             }
@@ -43,22 +40,14 @@ public class Ban implements CommandExecutor {
                             Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOff.getName(), "", null, null);
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName()));
-                                } else {
-                                    sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
-                                }
+                                action.mandarAction(p,  ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             } else {
                                 sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             }
                         } else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName()));
-                                } else {
-                                    sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
-                                }
+                                action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             } else {
                                 sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName());
                             }
@@ -66,11 +55,7 @@ public class Ban implements CommandExecutor {
                     } else {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!"));
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
-                            }
+                            action.mandarAction(p, ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         } else {
                             sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         }
@@ -78,11 +63,8 @@ public class Ban implements CommandExecutor {
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                        }
+                        action.mandarAction(p, ChatColor.RED + "Este jogador não existe!");
+
                     } else {
                         sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
                     }
@@ -103,34 +85,22 @@ public class Ban implements CommandExecutor {
                         Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOn.getName(), str.trim().replace("&", "§"), null, null);
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§")));
-                            } else {
-                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
-                            }
+                            action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim());
                         } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
+                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOn.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim());
                         }
                     } else if (pIsOff != null) {
                         Bukkit.getBanList(BanList.Type.NAME).addBan(pIsOff.getName(), str.trim().replace("&", "§"), null, null);
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§")));
-                            } else {
-                                sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
-                            }
+                            action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim());
                         } else {
                             sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você baniu " + ChatColor.YELLOW + pIsOff.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
                         }
                     } else {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!"));
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
-                            }
+                            action.mandarAction(p, ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         } else {
                             sender.sendMessage(ChatColor.RED + "Este jogador foi encontrado na lista de banidos!");
                         }
@@ -138,11 +108,7 @@ public class Ban implements CommandExecutor {
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                        }
+                        action.mandarAction(p, ChatColor.RED + "Este jogador não existe!");
                     } else {
                         sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
 
@@ -152,11 +118,7 @@ public class Ban implements CommandExecutor {
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /ban <Jogador> [Razão]"));
-                    } else {
-                        sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /ban <Jogador> [Razão]");
-                    }
+                    action.mandarAction(p, ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /ban <Jogador> [Razão]");
                 } else {
                     sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /ban <Jogador> [Razão]");
                 }
@@ -165,11 +127,7 @@ public class Ban implements CommandExecutor {
             if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName())));
-                    } else {
-                        p.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                    }
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                 } else {
                     sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                 }

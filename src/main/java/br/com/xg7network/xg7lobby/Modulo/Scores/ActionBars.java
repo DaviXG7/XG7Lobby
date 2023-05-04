@@ -26,6 +26,8 @@ public class ActionBars extends Module {
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[Módulo] [XG7 Lobby] Carregando ActionBar...");
 
+
+
             actionbar =Bukkit.getScheduler().runTaskTimer(this.getPlugin(), () -> {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (score.getScore().getBoolean("actionbar.ativado")) {

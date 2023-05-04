@@ -34,6 +34,7 @@ actionbar:
 #BOSS BAR                                   #
 #############################################
 
+#SÓ FUNCIONA +1.9
 bossbar:
 
   ativado: true

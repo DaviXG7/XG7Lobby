@@ -54,6 +54,8 @@ EsconderJogadores:
 
   item_ativado: LIME_DYE
   item_desativado: GRAY_DYE
+  #Material (+)1.13 https://helpch.at/docs/1.13/org/bukkit/Material.html
+  #Material (-)1.13 https://helpch.at/docs/1.12.2/org/bukkit/Material.html
 
   slot: 9
 
@@ -61,7 +63,6 @@ EsconderJogadores:
   Cooldown: 5
   #Coloque [SEGUNDOS] para retornar a segundos
   Mensagem_EmCooldown: "&cVocê precisa esperar &f[SEGUNDOS] &csegundos para usar isso de novo!"
-  Mensagem_EmCooldownRegressiva: "[SEGUNDOS]s &cPara usar de novo..."
 
   Mensagem_On: "&aVocê escondeu os jogadores"
   Mensagem_Off: "&cVocê revelou os jogadores"

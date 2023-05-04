@@ -24,7 +24,7 @@ public class BossBar extends Module {
     public void onEnable() {
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[Módulo] [XG7 Lobby] Criando BossBar...");
-        String bossTitulo = score.getScore().getString("bossbar.título").replace("&", "§");
+        String bossTitulo = ChatColor.translateAlternateColorCodes('&', score.getScore().getString("bossbar.título"));
         boss = Bukkit.createBossBar(bossTitulo,
                 BarColor.valueOf(score.getScore().getString("bossbar.cor")),
                 BarStyle.valueOf(score.getScore().getString("bossbar.estilo")));

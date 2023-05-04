@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class VanishComand implements CommandExecutor {
@@ -37,11 +38,7 @@ public class VanishComand implements CommandExecutor {
                     for (Player target : Bukkit.getOnlinePlayers()) {
                             target.hidePlayer(p);
                     }
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("comando_esconder").replace("&", "§")));
-                    } else {
-                        p.sendMessage(mensagem.getMessage().getString("comando_esconder").replace("&", "§"));
-                    }
+                    action.mandarAction(p, mensagem.getMessage().getString("comando_esconder"));
                 } else {
                     for (Player target : Bukkit.getOnlinePlayers()) {
                         target.showPlayer(p);
@@ -50,15 +47,11 @@ public class VanishComand implements CommandExecutor {
                     if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("comando_revelar").replace("&", "§")));
                     } else {
-                        p.sendMessage(mensagem.getMessage().getString("comando_revelar").replace("&", "§"));
+                        action.mandarAction(p, mensagem.getMessage().getString("comando_revelar"));
                     }
                 }
             } else {
-                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Você precisa estar em um mundo diferente do lobby para usar isso!"));
-                } else {
-                    p.sendMessage(ChatColor.RED + "Você precisa estar em um mundo diferente do lobby para usar isso!");
-                }
+                action.mandarAction(p, ChatColor.RED + "Você precisa estar em um mundo diferente do lobby para usar isso!");
             }
 
 

@@ -29,9 +29,11 @@ import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.ServerInformations;
 
+import br.com.xg7network.xg7lobby.Utilidades.ActionBar;
+import br.com.xg7network.xg7lobby.Utilidades.CentralizarTexto;
+import br.com.xg7network.xg7lobby.Utilidades.ConfigDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -44,6 +46,10 @@ public final class XG7Lobby extends JavaPlugin {
     public static DataManager data = new DataManager();
     public static SeletorManager seletor = new SeletorManager();
 
+    public static ActionBar action;
+    public static CentralizarTexto centralizar;
+    public static ConfigDefaults configDef;
+
     public ModuleManager moduleManager;
     String prefix = ChatColor.BLUE + "[XG7 " + ChatColor.DARK_AQUA + "Lob" + ChatColor.AQUA + "by] " + ChatColor.RESET;
 
@@ -52,11 +58,11 @@ public final class XG7Lobby extends JavaPlugin {
     public void onEnable() {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando...");
-        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "__   __  ___   ______     " + ChatColor.DARK_AQUA + "_       ____    ____ " + ChatColor.AQUA + "  ____ __   __");
-        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "\\ \\ / / / __| |___   /   " + ChatColor.DARK_AQUA + "| |     / __ \\  | __ ) " + ChatColor.AQUA + "| __ )\\ \\ / /");
-        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + " \\ v / | |  _     / /    " + ChatColor.DARK_AQUA + "| |    | | | |  | \\ \\\\" + ChatColor.AQUA + " | \\ \\\\ \\ V /");
-        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + " / . \\ | |_| |   / /     " + ChatColor.DARK_AQUA + "| |___ | |_| |  | |_) |" + ChatColor.AQUA + "| |_) | | |  ");
-        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "/_/ \\_\\ \\____|  /_/      " + ChatColor.DARK_AQUA + "|_____| \\____/  |____/ " + ChatColor.AQUA + "|____/  |_|");
+        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "__   __  ___   ______     "   + ChatColor.DARK_AQUA + "_       ____    ____ "     + ChatColor.AQUA + "  ____ __   __");
+        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "\\ \\ / / / __| |___   /   "  + ChatColor.DARK_AQUA + "| |     / __ \\  | __ ) "  + ChatColor.AQUA + "| __ )\\ \\ / /");
+        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + " \\ v / | |  _     / /    "   + ChatColor.DARK_AQUA + "| |    | | | |  | \\ \\\\" + ChatColor.AQUA + " | \\ \\\\ \\ V /");
+        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + " / . \\ | |_| |   / /     "   + ChatColor.DARK_AQUA + "| |___ | |_| |  | |_) |"   + ChatColor.AQUA + "| |_) | | |  ");
+        this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "/_/ \\_\\ \\____|  /_/      " + ChatColor.DARK_AQUA + "|_____| \\____/  |____/ "  + ChatColor.AQUA + "|____/  |_|");
 
         try {
             Class.forName("org.spigotmc.SpigotConfig");
@@ -71,6 +77,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando configs...");
 
+        action = new ActionBar();
+        this.centralizar = new CentralizarTexto();
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         reloadConfig();
@@ -101,6 +109,11 @@ public final class XG7Lobby extends JavaPlugin {
             this.saveResource("seletores.yml", false);
         }
 
+        this.getServer().getConsoleSender().sendMessage(prefix + "Configurando de acordo com a versão...");
+        this.getServer().getConsoleSender().sendMessage(prefix + "Sua versão é: " + Bukkit.getServer().getVersion());
+        this.configDef = new ConfigDefaults(this);
+
+
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             this.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[XG7 Lobby] O PlaceholderAPI não foi encontrado! " +
@@ -108,7 +121,7 @@ public final class XG7Lobby extends JavaPlugin {
                     " baixe ele aqui: " + ChatColor.GOLD + "https://www.spigotmc.org/resources/placeholderapi.6245/");
         }
 
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Mensagens...");
+        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Mensagens de entrar e de saída...");
         this.getServer().getPluginManager().registerEvents(new Mensagem(), this);
         this.getServer().getPluginManager().registerEvents(new br.com.xg7network.xg7lobby.Eventos.QuitEvent.Mensagem(), this);
 

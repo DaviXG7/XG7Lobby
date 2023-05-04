@@ -80,7 +80,6 @@ public class InventoryManager extends Module implements Listener {
         HidePlayers.HPmetaDesativado.setLore(HidePlayers.HPlore);
         HidePlayers.HPitemDesativado.setItemMeta(HidePlayers.HPmetaDesativado);
 
-        //Server Informations
 
         ServerInformations.SImeta.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
         for (int i = 0; i < ServerInformations.SIlore.size(); i++) {

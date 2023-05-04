@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.Listener;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class PlayerAttackEvent implements Listener {
@@ -28,11 +29,7 @@ public class PlayerAttackEvent implements Listener {
                     if (!p.hasPermission("xg7lobby.admin")) {
                         e.setCancelled(true);
                         if (mensagem.getMessage().getBoolean("ativar_permissao_mensagem")) {
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_permissao_atacar").replace("&", "§")));
-                            } else {
-                                p.sendMessage(mensagem.getMessage().getString("mensagens.permissao_permissao_atacar").replace("&", "§"));
-                            }
+                            action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_permissao_atacar"));
                         }
                     }
                 }

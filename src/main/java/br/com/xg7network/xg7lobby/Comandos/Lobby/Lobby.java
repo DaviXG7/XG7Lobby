@@ -15,8 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static br.com.xg7network.xg7lobby.XG7Lobby.data;
-import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
+import static br.com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class Lobby implements CommandExecutor {
 
@@ -31,36 +30,18 @@ public class Lobby implements CommandExecutor {
                         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                             assert texto != null;
                             PlaceholderAPI.setPlaceholders(p.getPlayer(), texto);
-                            if (Bukkit.getVersion().contains("1.16")) {
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(texto.replace("&", "§")));
-                            } else {
-                                p.sendMessage(texto.replace("&", "§"));
-                                }
+                            action.mandarAction(p, texto);
                         } else {
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(texto.replace("&", "§")));
-                            } else {
-                                p.sendMessage(texto.replace("&", "§"));
-                            }
-                        }
+                            action.mandarAction(p, texto);
                         }
                     } else {
                         String texto = mensagem.getMessage().getString("mensagens.aviso_lobby");
                         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                             assert texto != null;
                             PlaceholderAPI.setPlaceholders(p.getPlayer(), texto);
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(texto.replace("&", "§")));
-                            } else {
-                                p.sendMessage(texto.replace("&", "§"));
-                            }
+                            action.mandarAction(p, texto);
                         } else {
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(texto.replace("&", "§")));
-                            } else {
-                                p.sendMessage(texto.replace("&", "§"));
-                            }
+                            action.mandarAction(p, texto);
                         }
                     }
                 } else {

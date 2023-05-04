@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 import static net.md_5.bungee.api.ChatMessageType.*;
 
@@ -20,27 +21,19 @@ public class CreativeCommand implements CommandExecutor {
             Player p = (Player) sender;
             if (p.hasPermission("xg7lobby.command.creative") ||
             p.hasPermission("xg7lobby.admin")) {
-                p.setGameMode(GameMode.CREATIVE);
-                if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagem_modo_de_jogo")) {
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.modo_criativo").replace("&", "§")));
-                    } else {
-                        p.sendMessage(mensagem.getMessage().getString("mensagens.modo_criativo").replace("&", "§"));
+                if (!p.getGameMode().equals(GameMode.CREATIVE)) {
+                    p.setGameMode(GameMode.CREATIVE);
+                    if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagem_modo_de_jogo")) {
+                        action.mandarAction(p, mensagem.getMessage().getString("mensagens.modo_criativo"));
+                    }
+                } else {
+                    if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagem_modo_de_jogo")) {
+                        action.mandarAction(p, mensagem.getMessage().getString("VocêJáEstáNoModo").replace("[MODO]", p.getGameMode().toString()));
                     }
                 }
             } else {
                 if (mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
-                    if (sender instanceof Player) {
-                        Player player = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            player.spigot().sendMessage(ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos")));
-                        } else {
-                            player.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                        }
-                    } else {
-                        sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                    }
-                    return true;
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                 }
             }
         } else {
