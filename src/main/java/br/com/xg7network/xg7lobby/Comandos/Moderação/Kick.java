@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class Kick implements CommandExecutor {
@@ -25,22 +26,14 @@ public class Kick implements CommandExecutor {
                     } else {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não está OnLine"));
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Este jogador não está OnLine");
-                            }
+                            action.mandarAction(p, ChatColor.RED + "Este jogador não está OnLine");
                         } else {
                             sender.sendMessage(ChatColor.RED + "Este jogador não está OnLine");
                         }
                     }
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName()));
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName());
-                        }
+                        action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName());
                     } else {
                         sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName());
                     }
@@ -53,22 +46,14 @@ public class Kick implements CommandExecutor {
                         pr.kickPlayer(str.toString().trim().replace("&", "§"));
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§")));
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
-                        }
+                        action.mandarAction(p, ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim());
                     } else {
                         sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você expulsou " + ChatColor.YELLOW + pr.getName() + ChatColor.GREEN + " por" + ChatColor.RESET + str.trim().replace("&", "§"));
                     }
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /kick <Jogador> [Razão]"));
-                        } else {
-                            sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /kick <Jogador> [Razão]");
-                        }
+                        action.mandarAction(p, ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /kick <Jogador> [Razão]");
                     } else {
                         sender.sendMessage(ChatColor.GOLD + "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /kick <Jogador> [Razão]");
                     }
@@ -77,11 +62,7 @@ public class Kick implements CommandExecutor {
                 if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName())));
-                        } else {
-                            p.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                        }
+                        action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos"));
                     } else {
                         sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                     }

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 import static br.com.xg7network.xg7lobby.Comandos.Moderação.Mute.targets;
 
@@ -24,20 +25,12 @@ public class Unmute implements CommandExecutor {
                     targets.remove(newTarget.getName());
                     sender.sendMessage(ChatColor.GREEN + "Você desmutou " + newTarget.getName() + "!");
                     if (newTarget.isOnline()) {
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            newTarget.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.QuandoDesmutado")));
-                        } else {
-                            newTarget.sendMessage(mensagem.getMessage().getString("mensagens.QuandoDesmutado"));
-                        }
+                        action.mandarAction(newTarget, mensagem.getMessage().getString("mensagens.QuandoDesmutado"));
                     }
                 } else {
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("[XG7Lobby] Este jogador não está na lista de mutados"));
-                        } else {
-                            sender.sendMessage("[XG7Lobby] Este jogador não está na lista de mutados");
-                        }
+                        action.mandarAction(p, "[XG7Lobby] Este jogador não está na lista de mutados");
                     } else {
                         sender.sendMessage("[XG7Lobby] Este jogador não está na lista de mutados");
                     }
@@ -45,11 +38,7 @@ public class Unmute implements CommandExecutor {
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unmute <Jogador>"));
-                    } else {
-                        sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unmute <Jogador>");
-                    }
+                    action.mandarAction(p, "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unmute <Jogador>");
                 } else {
                     sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unmute <Jogador>");
                 }
@@ -57,15 +46,12 @@ public class Unmute implements CommandExecutor {
         } else {
             if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
                 if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_comandos")));
-                    } else {
-                        player.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
-                    }
+                    Player p = (Player) sender;
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                 } else {
                     sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                 }
+
             }
         }
         return true;

@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class PlayerDropPickupEvent implements Listener {
@@ -26,11 +27,7 @@ public class PlayerDropPickupEvent implements Listener {
             if (!pl.getConfig().getBoolean("JogarItens")) {
                 if (!p.hasPermission("xg7lobby.admin")) {
                     e.setCancelled(true);
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_jogar_itens").replace("&", "§")));
-                    } else {
-                        p.sendMessage(mensagem.getMessage().getString("permissao_jogar_itens").replace("&", "§"));
-                    }
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_jogar_itens"));
                 }
             }
         }
@@ -44,11 +41,7 @@ public class PlayerDropPickupEvent implements Listener {
                 if (pl.getConfig().getBoolean("PegarItens")) {
                     if (!p.hasPermission("xg7lobby.admin")) {
                         e.setCancelled(true);
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_pegar_itens").replace("&", "§")));
-                        } else {
-                            p.sendMessage(mensagem.getMessage().getString("permissao_pegar_itens").replace("&", "§"));
-                        }
+                        action.mandarAction(p, mensagem.getMessage().getString("mesagens.permissao_pegar_itens"));
                     }
                 }
             }

@@ -25,9 +25,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
-import static br.com.xg7network.xg7lobby.XG7Lobby.seletor;
 import static br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager.addMeta;
+import static br.com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class HidePlayers implements Listener  {
 
@@ -102,22 +101,7 @@ public class HidePlayers implements Listener  {
                                             for (Player target : Bukkit.getOnlinePlayers()) {
                                                 target.hidePlayer(p);
                                             }
-                                            if (Bukkit.getServer().getVersion().contains("1.10")) {
-                                                if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("adsf"));
-                                                    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-                                                    executorService.scheduleAtFixedRate(() -> {
-
-                                                        long distancia = cooldown.asMap().get(p.getUniqueId()) - System.currentTimeMillis();
-
-                                                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((seletor.getSelector().getString("EsconderJogadores.Mensagem_EmCooldownRegressiva").replace("&", "§").replace("[SEGUNDOS]", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(distancia))))));
-                                                    }, 0, 1, TimeUnit.SECONDS);
-                                                } else {
-                                                    p.sendMessage(seletor.getSelector().getString("EsconderJogadores.Mensagem_On").replace("&", "§"));
-                                                }
-                                            } else {
-                                                p.sendMessage(seletor.getSelector().getString("EsconderJogadores.Mensagem_On").replace("&", "§"));
-                                            }
+                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_On"));
                                         }
                                         verf++;
                                     }
@@ -134,34 +118,12 @@ public class HidePlayers implements Listener  {
                                         for (Player target : Bukkit.getOnlinePlayers()) {
                                             target.showPlayer(p);
                                         }
-                                        if (Bukkit.getVersion().contains("1.10")) {
-                                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(seletor.getSelector().getString("EsconderJogadores.Mensagem_Off").replace("&", "§")));
-                                                ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-                                                executorService.scheduleAtFixedRate(() -> {
-
-                                                    long distancia = cooldown.asMap().get(p.getUniqueId()) - System.currentTimeMillis();
-
-                                                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText((seletor.getSelector().getString("EsconderJogadores.Mensagem_EmCooldownRegressiva").replace("&", "§").replace("[SEGUNDOS]", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(distancia))))));
-                                                }, 0, 1, TimeUnit.SECONDS);
-                                            } else {
-                                                p.sendMessage(seletor.getSelector().getString("EsconderJogadores.Mensagem_Off").replace("&", "§"));
-                                            }
-                                        } else {
-                                            p.sendMessage(seletor.getSelector().getString("EsconderJogadores.Mensagem_Off").replace("&", "§"));
-                                        }
+                                        action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_Off"));
                                     }
                                     verf--;
                                 }
                             }
 
-                        } else {
-                            long distancia = cooldown.asMap().get(p.getUniqueId()) - System.currentTimeMillis();
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(seletor.getSelector().getString("EsconderJogadores.Mensagem_EmCooldown").replace("&", "§").replace("[SEGUNDOS]", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(distancia)))));
-                            } else {
-                                p.sendMessage(seletor.getSelector().getString("EsconderJogadores.Mensagem_EmCooldown").replace("&", "§").replace("[SEGUNDOS]", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(distancia))));
-                            }
                         }
                     }
                 }

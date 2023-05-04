@@ -16,6 +16,7 @@
 #Se estiver true, o aviso vai ser mandado
 #em Action bar, se estiver false
 #o aviso será mandado no chat.
+#SÓ FUNCIONA +1.10!
 AvisoEmActionBars: true
 
 mensagens:
@@ -69,6 +70,8 @@ mensagens:
   modo_sobrevivência: "&aVocê mudou seu modo de jogo para Sobrevivência"
   modo_espectador: "&aVocê mudou seu modo de jogo para Espectador"
   modo_aventura: "&aVocê mudou seu modo de jogo para Aventura"
+
+  VocêJáEstáNoModo: "&cVocê já está no modo &e[MODO]"
 
   #Mensagem de aviso que o lobby não foi colocado
   ativar_aviso_lobby: true

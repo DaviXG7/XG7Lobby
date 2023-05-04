@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class Unban implements CommandExecutor {
@@ -27,22 +28,14 @@ public class Unban implements CommandExecutor {
                     Bukkit.getBanList(BanList.Type.NAME).pardon(p.getName());
                     if (sender instanceof Player) {
                         Player pm = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            pm.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "[XG7Lobby] Você perdoou " + ChatColor.YELLOW + p.getName()));
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você perdoou " + ChatColor.YELLOW + p.getName());
-                        }
+                        action.mandarAction(pm, ChatColor.GREEN + "[XG7Lobby] Você perdoou " + ChatColor.YELLOW + p.getName());
                     } else {
                         sender.sendMessage(ChatColor.GREEN + "[XG7Lobby] Você perdoou " + ChatColor.YELLOW + p.getName());
                     }
                 } else {
                     if (sender instanceof Player) {
                         Player pm = (Player) sender;
-                        if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                            pm.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Este jogador não existe!"));
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
-                        }
+                        action.mandarAction(pm,ChatColor.RED + "Este jogador não existe!");
                     } else {
                         sender.sendMessage(ChatColor.RED + "Este jogador não existe!");
                     }
@@ -50,11 +43,7 @@ public class Unban implements CommandExecutor {
             } else {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unban <Jogador>"));
-                    } else {
-                        sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unban <Jogador>");
-                    }
+                    action.mandarAction(p, "[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unban <Jogador>");
                 } else {
                     sender.sendMessage("[XG7Lobby] Você não usou o comando corretamente! O jeito certo é /unban <Jogador>");
                 }
@@ -63,13 +52,9 @@ public class Unban implements CommandExecutor {
             if (XG7Lobby.mensagem.getMessage().getBoolean("mensagens.ativar_permissao_mensagem")) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Você não tem permissão para usar este comando!"));
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Você não tem permissão para usar este comando!");
-                    }
+                    action.mandarAction(p, mensagem.getMessage().getString("mensagens.permissao_comandos").replace("[Comando]", "/" + command.getName()));
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Você não tem permissão para usar este comando!");
+                    sender.sendMessage(mensagem.getMessage().getString("mensagens.permissao_comandos").replace("&", "§").replace("[Comando]", "/" + command.getName()));
                 }
 
             }

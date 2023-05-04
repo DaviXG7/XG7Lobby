@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import static br.com.xg7network.xg7lobby.XG7Lobby.action;
 import static br.com.xg7network.xg7lobby.XG7Lobby.mensagem;
 
 public class BlockBreakEvent implements Listener {
@@ -24,11 +25,7 @@ public class BlockBreakEvent implements Listener {
                     if (!e.getPlayer().hasPermission("xg7lobby.admin")) {
                         e.setCancelled(true);
                         if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagens_permissão")) {
-                            if (mensagem.getMessage().getBoolean("AvisoEmActionBars")) {
-                                e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mensagem.getMessage().getString("mensagens.permissao_quebrar").replace("&", "§")));
-                            } else {
-                                e.getPlayer().sendMessage(mensagem.getMessage().getString("mensagens.permissao_quebrar").replace("&", "§"));
-                            }
+                            action.mandarAction(e.getPlayer(), mensagem.getMessage().getString("mensagens.permissao_quebrar"));
                         }
                     }
                 }

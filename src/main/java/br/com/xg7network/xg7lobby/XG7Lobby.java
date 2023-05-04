@@ -29,9 +29,10 @@ import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.ServerInformations;
 
+import br.com.xg7network.xg7lobby.Utilidades.ActionBar;
+import br.com.xg7network.xg7lobby.Utilidades.CentralizarTexto;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -43,6 +44,9 @@ public final class XG7Lobby extends JavaPlugin {
 
     public static DataManager data = new DataManager();
     public static SeletorManager seletor = new SeletorManager();
+
+    public static ActionBar action;
+    public static CentralizarTexto centralizar;
 
     public ModuleManager moduleManager;
     String prefix = ChatColor.BLUE + "[XG7 " + ChatColor.DARK_AQUA + "Lob" + ChatColor.AQUA + "by] " + ChatColor.RESET;
@@ -71,6 +75,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando configs...");
 
+        action = new ActionBar();
+        this.centralizar = new CentralizarTexto();
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         reloadConfig();
