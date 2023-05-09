@@ -18,7 +18,7 @@ public class ActionBar {
                 player.sendMessage(seletor.getSelector().getString(mesage).replace("&", "§"));
             }
         } else {
-            player.sendMessage(seletor.getSelector().getString(mesage   ).replace("&", "§"));
+            player.sendMessage(seletor.getSelector().getString(mesage).replace("&", "§"));
         }
     }
 }

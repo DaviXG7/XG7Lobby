@@ -11,10 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,7 +35,7 @@ public class HidePlayers implements Listener  {
         this.pl = pl;
     }
 
-    private List<UUID> vanished = new ArrayList<>();
+    public static List<UUID> vanished = new ArrayList<>();
 
     public static List<String> HPlore = seletor.getSelector().getStringList("EsconderJogadores.lore");
 
@@ -52,22 +49,6 @@ public class HidePlayers implements Listener  {
     public static ItemMeta HPmetaDesativado = HPitemDesativado.getItemMeta();
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(seletor.getSelector().getInt("EsconderJogadores.Cooldown"), TimeUnit.SECONDS).build();
-
-    @EventHandler
-    public void giveItem(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
-            if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-                addMeta(1);
-
-                if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar")) {
-                    p.getInventory().setItem(HPslot, HPitemAtivado);
-                } else if (p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar") && seletor.getSelector().getBoolean("PADMREIESSCSI")) {
-                    p.getInventory().addItem(HPitemAtivado);
-                }
-            }
-        }
-    }
 
 
 
@@ -125,25 +106,10 @@ public class HidePlayers implements Listener  {
         e.setCancelled(true);
     }
 
-
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
-            if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-                if (!p.hasPermission("xg7lobby.admin")) {
-                    p.getInventory().clear(HPslot);
-                } else {
-                    if (p.getInventory().contains(HPitemAtivado)) {
-                        p.getInventory().removeItem(HPitemAtivado);
-                    } else if (p.getInventory().contains(HPitemDesativado)) {
-                        p.getInventory().removeItem(HPitemDesativado);
-                    }
-                }
-
-                vanished.remove(p.getUniqueId());
-            }
-        }
+        vanished.remove(p.getUniqueId());
     }
 
     @EventHandler

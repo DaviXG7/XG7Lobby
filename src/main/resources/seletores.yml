@@ -34,9 +34,9 @@ MexerNoInventário: false
 
 #Permite que o item será ADICIONADO ao inventário do ADM
 #e não colocado no item quando entrar no mundo do lobby
-#PADMREIESSCSI -> Permitir que ADMs recebam esses itens ao entrar
-#no servidor sem comprometer seu inventário.
-PADMREIESSCSI: true
+#PADMREIESSCSIENJ -> Permitir que ADMs recebam esses itens ao entrar
+#no servidor sem comprometer seu inventário e no jogo.
+PADMREIESSCSIENJ: true
 
 #############################################
 #ESCONDER JOGADORES                         #

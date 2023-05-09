@@ -11,6 +11,7 @@ public class CentralizarTexto {
     final char c = '&';
 
     public String centralizarTexto(List<String> anuncioLista) {
+        StringBuilder sb = new StringBuilder();
         for (String anuncio: anuncioLista) {
             if (anuncio.contains("<centro>") && anuncio.contains("</centro>")) {
                 for (int i = 0; i < anuncio.length(); i++) {
@@ -25,26 +26,28 @@ public class CentralizarTexto {
                 int preenchimento = ((max + contador) - anuncio.length()) / 2;
                 int extra = anuncio.length() % 2; // caso o tamanho da string seja ímpar, tem um caractere a mais para adiconar no final
 
-                StringBuilder sb = new StringBuilder();
+                StringBuilder linha = new StringBuilder();
                 for (int i = 0; i < preenchimento; i++) {
-                    sb.append(' ');
+                    linha.append(' ');
                 }
 
-                sb.append(anuncio);
+                linha.append(anuncio);
 
                 for (int i = 0; i < preenchimento + extra; i++) {
-                    sb.append(' ');
+                    linha.append(' ');
                 }
 
-                anuncio = sb.toString();
+                anuncio = linha.toString();
+                sb.append(anuncio);
+                sb.append("\n");
 
                 contador = 0;
-                return anuncio;
             } else {
                 anuncio = ChatColor.translateAlternateColorCodes('&', anuncio);
-                return anuncio;
+                sb.append(anuncio);
+                sb.append("\n");
             }
         }
-        return "";
+        return sb.toString();
     }
 }

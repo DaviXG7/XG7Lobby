@@ -1,8 +1,6 @@
 package br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores;
 
-import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.XG7Lobby;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.Inventory;
@@ -10,8 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-
-import static br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.ServerInformations.inv;
 
 public class ServerInformationGUI {
 
@@ -21,7 +17,7 @@ public class ServerInformationGUI {
         this.pl = pl;
     }
 
-    public void siGui() {
+    public Inventory siGui(Inventory inventory) {
 
         ConfigurationSection itensSection = pl.getConfig().getConfigurationSection("InfServidor.GUI.Itens");
 
@@ -37,10 +33,9 @@ public class ServerInformationGUI {
                 metas.setLore(lores);
                 items.setItemMeta(metas);
 
-                inv.setItem(pl.getConfig().getInt("InfServidor.GUI.InfGUI.Itens." + subSection + ".slot"), items);
+                inventory.setItem(pl.getConfig().getInt("InfServidor.GUI.InfGUI.Itens." + subSection + ".slot"), items);
             }
         }
-
-
+        return inventory;
     }
 }

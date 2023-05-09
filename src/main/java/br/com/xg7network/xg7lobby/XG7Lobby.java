@@ -129,9 +129,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando tp para o lobby...");
         this.getServer().getPluginManager().registerEvents(new TpJoinLobby(this), this);
 
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Seletores...");
-        this.getServer().getPluginManager().registerEvents(new HidePlayers(this), this);
-
         this.getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[XG7 Lobby] Carregando Módulos...");
         this.moduleManager = new ModuleManager(this);
         this.moduleManager.loadModules();
