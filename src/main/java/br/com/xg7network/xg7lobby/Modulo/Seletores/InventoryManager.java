@@ -23,7 +23,8 @@ public class InventoryManager extends Module implements Listener {
         if (seletor.getSelector().getBoolean("GanharItens.QuandoNaoEstaNoInventario")) {
             itens = Bukkit.getScheduler().runTaskTimer(this.getPlugin(), () -> {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    addMeta();
+                    addMeta(1);
+                    addMeta(2);
                     if (p.getInventory().contains(HidePlayers.HPitemAtivado) && !p.getInventory().contains(HidePlayers.HPitemDesativado)) {
                         if (!p.hasPermission("xg7lobby.admin")) {
                             p.getInventory().setItem(HidePlayers.HPslot, HidePlayers.HPitemAtivado);
@@ -62,31 +63,39 @@ public class InventoryManager extends Module implements Listener {
 
     }
 
-    public static void addMeta() {
+    public static void addMeta(int selector) {
+        /*
+        seletor 1 = HidePlayers
+        seletor 2 = ServerInformations
+         */
 
         //Hide Players
-        HidePlayers.HPmetaAtivado.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
-        for (int i = 0; i < HidePlayers.HPlore.size(); i++) {
-            HidePlayers.HPlore.set(i, HidePlayers.HPlore.get(i).replaceAll("&", "§"));
+        if (selector == 1) {
+            HidePlayers.HPmetaAtivado.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
+            for (int i = 0; i < HidePlayers.HPlore.size(); i++) {
+                HidePlayers.HPlore.set(i, HidePlayers.HPlore.get(i).replaceAll("&", "§"));
+            }
+            HidePlayers.HPmetaAtivado.setLore(HidePlayers.HPlore);
+            HidePlayers.HPitemAtivado.setItemMeta(HidePlayers.HPmetaAtivado);
+
+
+            HidePlayers.HPmetaDesativado.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_desativado").replace("&", "§"));
+            for (int i = 0; i < HidePlayers.HPlore.size(); i++) {
+                HidePlayers.HPlore.set(i, HidePlayers.HPlore.get(i).replaceAll("&", "§"));
+            }
+            HidePlayers.HPmetaDesativado.setLore(HidePlayers.HPlore);
+            HidePlayers.HPitemDesativado.setItemMeta(HidePlayers.HPmetaDesativado);
         }
-        HidePlayers.HPmetaAtivado.setLore(HidePlayers.HPlore);
-        HidePlayers.HPitemAtivado.setItemMeta(HidePlayers.HPmetaAtivado);
+        if (selector == 2) {
 
 
-        HidePlayers.HPmetaDesativado.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_desativado").replace("&", "§"));
-        for (int i = 0; i < HidePlayers.HPlore.size(); i++) {
-            HidePlayers.HPlore.set(i, HidePlayers.HPlore.get(i).replaceAll("&", "§"));
+            ServerInformations.SImeta.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
+            for (int i = 0; i < ServerInformations.SIlore.size(); i++) {
+                ServerInformations.SIlore.set(i, ServerInformations.SIlore.get(i).replaceAll("&", "§"));
+            }
+            ServerInformations.SImeta.setLore(HidePlayers.HPlore);
+            ServerInformations.SIitem.setItemMeta(ServerInformations.SImeta);
         }
-        HidePlayers.HPmetaDesativado.setLore(HidePlayers.HPlore);
-        HidePlayers.HPitemDesativado.setItemMeta(HidePlayers.HPmetaDesativado);
-
-
-        ServerInformations.SImeta.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
-        for (int i = 0; i < ServerInformations.SIlore.size(); i++) {
-            ServerInformations.SIlore.set(i, ServerInformations.SIlore.get(i).replaceAll("&", "§"));
-        }
-        ServerInformations.SImeta.setLore(HidePlayers.HPlore);
-        ServerInformations.SIitem.setItemMeta(ServerInformations.SImeta);
     }
 
 }

@@ -21,9 +21,23 @@ public class CentralizarTexto {
                 anuncio = anuncio.replace("<centro>", "");
                 anuncio = anuncio.replace("</centro>", "");
                 anuncio = ChatColor.translateAlternateColorCodes('&', anuncio);
-                int espacoEsquerdo =((max + contador) - anuncio.length()) / 2;
-                int espacoDireito = (max + contador) - anuncio.length() - espacoEsquerdo;
-                String textoCentralizado = String.format("%" + espacoEsquerdo + "s%s%" + espacoDireito + "s", "", anuncio, "");
+
+                int preenchimento = ((max + contador) - anuncio.length()) / 2;
+                int extra = anuncio.length() % 2; // caso o tamanho da string seja ímpar, tem um caractere a mais para adiconar no final
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < preenchimento; i++) {
+                    sb.append(' ');
+                }
+
+                sb.append(anuncio);
+
+                for (int i = 0; i < preenchimento + extra; i++) {
+                    sb.append(' ');
+                }
+
+                anuncio = sb.toString();
+
                 contador = 0;
                 return anuncio;
             } else {

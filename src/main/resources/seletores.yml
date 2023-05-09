@@ -100,7 +100,7 @@ InfServidor:
       Regras:
         item: BOOK
         slot: 10
-        Nome: "&c&lREGRAS"
+        nome: "&c&lREGRAS"
         lore:
           - "&81. &fNão Xingue"
           - "&82. &fNão Abuse de bugs"
@@ -109,7 +109,7 @@ InfServidor:
       Info:
         item: PAPER
         slot: 11
-        Nome: "&9&lINFO"
+        nome: "&9&lINFO"
         lore:
         - "      &9Informações do servidor"
         - "&8> &fNosso discord: &1discord.gg/exemplo"

@@ -58,7 +58,7 @@ public class HidePlayers implements Listener  {
         Player p = e.getPlayer();
         if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
             if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-                addMeta();
+                addMeta(1);
 
                 if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar")) {
                     p.getInventory().setItem(HPslot, HPitemAtivado);
@@ -74,15 +74,9 @@ public class HidePlayers implements Listener  {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-            if (HPitemAtivado.getItemMeta() != null && primeiraVez == 0) {
-                addMeta();
-                primeiraVez++;
-            }
             Player p = e.getPlayer();
             if (e.getItem() != null && (e.getItem().equals(HPitemAtivado) || e.getItem().equals(HPitemDesativado))) {
                 if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
-                    if (p.getInventory().getItemInHand().getType().equals(Material.valueOf(seletor.getSelector().getString("EsconderJogadores.item_ativado"))) ||
-                            p.getInventory().getItemInHand().getType().equals(Material.valueOf(seletor.getSelector().getString("EsconderJogadores.item_desativado")))) {
                         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
                             if (!cooldown.asMap().containsKey(p.getUniqueId()) || cooldown.asMap().get(p.getUniqueId()) <= System.currentTimeMillis()) {
                                 long segundos = seletor.getSelector().getInt("EsconderJogadores.Cooldown");
@@ -125,7 +119,6 @@ public class HidePlayers implements Listener  {
                             }
 
                         }
-                    }
                 }
             }
         }
@@ -138,7 +131,6 @@ public class HidePlayers implements Listener  {
         Player p = e.getPlayer();
         if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
             if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-                addMeta();
                 if (!p.hasPermission("xg7lobby.admin")) {
                     p.getInventory().clear(HPslot);
                 } else {
