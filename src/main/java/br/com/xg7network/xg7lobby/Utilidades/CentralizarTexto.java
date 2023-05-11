@@ -24,7 +24,7 @@ public class CentralizarTexto {
                 anuncio = ChatColor.translateAlternateColorCodes('&', anuncio);
 
                 int preenchimento = ((max + contador) - anuncio.length()) / 2;
-                int extra = anuncio.length() % 2; // caso o tamanho da string seja ímpar, tem um caractere a mais para adiconar no final
+                int extra = anuncio.length() % 2;
 
                 StringBuilder linha = new StringBuilder();
                 for (int i = 0; i < preenchimento; i++) {

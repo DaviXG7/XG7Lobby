@@ -39,8 +39,6 @@ public class HidePlayers implements Listener  {
 
     public static List<String> HPlore = seletor.getSelector().getStringList("EsconderJogadores.lore");
 
-    int primeiraVez = 0;
-
     public static int HPslot = seletor.getSelector().getInt("EsconderJogadores.slot") - 1;
 
     public static ItemStack HPitemAtivado = new ItemStack(Material.valueOf(seletor.getSelector().getString("EsconderJogadores.item_ativado")));
@@ -56,11 +54,12 @@ public class HidePlayers implements Listener  {
     public void onInteract(PlayerInteractEvent e) {
         if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
             Player p = e.getPlayer();
-            if (e.getItem() != null && (e.getItem().equals(HPitemAtivado) || e.getItem().equals(HPitemDesativado))) {
+            if ((e.getItem() != null && HPitemAtivado != null && e.getItem().equals(HPitemAtivado)) || (e.getItem() != null && HPitemDesativado != null && e.getItem().equals(HPitemDesativado))) {
                 if (pl.getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
                         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+                            long segundos = 0;
                             if (!cooldown.asMap().containsKey(p.getUniqueId()) || cooldown.asMap().get(p.getUniqueId()) <= System.currentTimeMillis()) {
-                                long segundos = seletor.getSelector().getInt("EsconderJogadores.Cooldown");
+                                segundos = seletor.getSelector().getInt("EsconderJogadores.Cooldown");
                                 cooldown.put(p.getUniqueId(), System.currentTimeMillis() + segundos * 1000L);
 
                                 if (e.getItem().equals(HPitemAtivado)) {
@@ -80,30 +79,34 @@ public class HidePlayers implements Listener  {
                                         }
                                         verf++;
                                     }
-                                } else if (e.getItem().equals(HPitemDesativado) && verf == 1) {
-                                    if (vanished.contains(p.getUniqueId())) {
-                                        int slot = p.getInventory().getHeldItemSlot();
-                                        p.getInventory().clear(slot);
-                                        if (p.hasPermission("xg7lobby.admin")) {
-                                            p.getInventory().setItem(slot, HPitemAtivado);
-                                        } else {
-                                            p.getInventory().setItem(HPslot, HPitemAtivado);
+                                } else if (e.getItem().equals(HPitemDesativado)) {
+                                    if (verf == 1) {
+                                        if (vanished.contains(p.getUniqueId())) {
+                                            int slot = p.getInventory().getHeldItemSlot();
+                                            p.getInventory().clear(slot);
+                                            if (p.hasPermission("xg7lobby.admin")) {
+                                                p.getInventory().setItem(slot, HPitemAtivado);
+                                            } else {
+                                                p.getInventory().setItem(HPslot, HPitemAtivado);
+                                            }
+                                            vanished.remove(p.getUniqueId());
+                                            for (Player target : Bukkit.getOnlinePlayers()) {
+                                                target.showPlayer(p);
+                                            }
+                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_Off"));
                                         }
-                                        vanished.remove(p.getUniqueId());
-                                        for (Player target : Bukkit.getOnlinePlayers()) {
-                                            target.showPlayer(p);
-                                        }
-                                        action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_Off"));
+                                        verf--;
                                     }
-                                    verf--;
                                 }
+                            } else {
+                                long distancia = cooldown.asMap().get(p.getUniqueId()) - System.currentTimeMillis();
+                                action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_EmCooldown").replace("[SEGUNDOS]", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(distancia))));
                             }
 
                         }
                 }
             }
         }
-        e.setCancelled(true);
     }
 
     @EventHandler

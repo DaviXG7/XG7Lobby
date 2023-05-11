@@ -31,7 +31,7 @@ public class PlayeronVoid implements Listener {
                 if (Bukkit.getServer().getVersion().contains("1.18")) {
 
                     Location loc = p.getLocation();
-                    if (loc.getY() < camada) {
+                    if (loc.getBlockY() < camada) {
                         if (data.getData().getString("lobby.Mundo") != null) {
                             World w = Bukkit.getWorld(Objects.requireNonNull(data.getData().getString("lobby.Mundo")));
                             p.teleport(new Location(
@@ -47,7 +47,7 @@ public class PlayeronVoid implements Listener {
                     }
                 } else {
                     Location loc = p.getLocation();
-                    if (loc.getY() < 0) {
+                    if (loc.getBlockY() < 0) {
                         if (data.getData().get("lobby.Mundo") != null) {
                             World w = Bukkit.getWorld(Objects.requireNonNull(data.getData().getString("lobby.Mundo")));
                             p.teleport(new Location(

@@ -19,7 +19,7 @@ public class Mensagem implements Listener {
                     leaveMessage = PlaceholderAPI.setPlaceholders(p, leaveMessage);
                 }
             }
-            pqe.getPlayer().sendMessage(leaveMessage);
+            pqe.setQuitMessage(leaveMessage);
         } else {
             pqe.setQuitMessage(null);
         }

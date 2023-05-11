@@ -34,7 +34,7 @@ public class Mute implements CommandExecutor, Listener {
                     sender.sendMessage(ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
                 }
                 if (targetM.isOnline()) {
-                    action.mandarAction(targetM, ChatColor.GREEN + "Você mutou " + targetM.getName() + "!");
+                    action.mandarAction(targetM, mensagem.getMessage().getString("mensagens.QuandoMutado"));
                 }
             } else {
                 if (sender instanceof Player) {

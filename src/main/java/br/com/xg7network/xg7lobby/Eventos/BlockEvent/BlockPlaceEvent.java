@@ -24,9 +24,7 @@ public class BlockPlaceEvent implements Listener {
                 if (!e.getPlayer().hasPermission("xg7lobby.block.break")) {
                     e.setCancelled(!e.getPlayer().hasPermission("xg7lobby.admin"));
                     if(mensagem.getMessage().getBoolean("mensagens.ativar_mensagens_permissão")) {
-                        if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagens_permissão")) {
-                            action.mandarAction(e.getPlayer(), mensagem.getMessage().getString("mensagens.permissao_colocar"));
-                        }
+                        action.mandarAction(e.getPlayer(), mensagem.getMessage().getString("mensagens.permissao_colocar"));
                     }
                 }
             }

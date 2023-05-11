@@ -20,7 +20,6 @@
 
 GanharItens:
   QuandoEntrar: true
-  QuandoNaoEstaNoInventario: true
 
   #O tempo que cada anúncio
   #será anunciado
@@ -87,30 +86,38 @@ InfServidor:
     ativado: true
     #Será mandado caso não esteja ativado
     mensagem:
-      - "      &9Informaações do servidor"
+      - "       &9Informações do servidor"
       - "&8> &fNosso discord: &1discord.gg/exemplo"
       - "&8> &fNosso site: &awww.exemplo.com"
 
     InfGUI:
+
       nome: "&9Informações do servidor"
       tamanho: 27
 
-    Itens:
+      Itens:
 
-      Regras:
-        item: BOOK
-        slot: 10
-        nome: "&c&lREGRAS"
-        lore:
-          - "&81. &fNão Xingue"
-          - "&82. &fNão Abuse de bugs"
-          - "&83. &fNão use hacks"
-          - "&84. &fetc"
-      Info:
-        item: PAPER
-        slot: 11
-        nome: "&9&lINFO"
-        lore:
-        - "      &9Informações do servidor"
-        - "&8> &fNosso discord: &1discord.gg/exemplo"
-        - "&8> &fNosso site: &awww.exemplo.com"
+        #Coloque -1 para preencher todos os outros
+        #Para preencher os espaços essa seção
+        #deve ser chamada de "Padrão"
+        Padrão:
+          item: GRAY_STAINED_GLASS_PANE
+          slot: -1
+
+        Regras:
+          item: BOOK
+          slot: 11
+          nome: "&c&lREGRAS"
+          lore:
+            - "&81. &fNão Xingue"
+            - "&82. &fNão Abuse de bugs"
+            - "&83. &fNão use hacks"
+            - "&84. &fetc"
+        Info:
+          item: PAPER
+          slot: 15
+          nome: "&9&lINFO"
+          lore:
+          - "       &9Informações do servidor"
+          - "&8> &fNosso discord: &1discord.gg/exemplo"
+          - "&8> &fNosso site: &awww.exemplo.com"

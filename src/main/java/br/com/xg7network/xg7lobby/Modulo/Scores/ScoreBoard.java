@@ -25,9 +25,8 @@ public class ScoreBoard extends Module implements Listener {
     }
     int scorePri = 0;
 
-    public void Score(Player p){
+    public void Score(Player p) {
         if (scorePri == 0) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[Módulo] [XG7 Lobby] Criando ScoreBoard...");
             scorePri++;
         }
         board = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -47,7 +46,7 @@ public class ScoreBoard extends Module implements Listener {
             linha.addEntry(s);
             obj.getScore(s).setScore(size);
         }
-            p.setScoreboard(board);
+        p.setScoreboard(board);
     }
 
     @Override

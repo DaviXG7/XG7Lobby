@@ -140,6 +140,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Eventos de Chat...");
         this.getServer().getPluginManager().registerEvents(new ModeracaoChat(this), this);
+        this.getServer().getPluginManager().registerEvents(new Mute(), this);
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Configurações de mundos...");
         this.getServer().getPluginManager().registerEvents(new SpawnMobs(this), this);
@@ -170,7 +171,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lban").setExecutor(new Ban());
         this.getCommand("xg7lunban").setExecutor(new Unban());
         this.getCommand("xg7ltempban").setExecutor(new Tempban());
-        this.getServer().getPluginManager().registerEvents(new Mute(), this);
         this.getCommand("xg7lmute").setExecutor(new Mute());
         this.getCommand("xg7lunmute").setExecutor(new Unmute());
         this.getCommand("xg7lreload").setExecutor(new Reload(this));

@@ -23,7 +23,7 @@ public class Mensagem implements Listener {
                     joinMessage = PlaceholderAPI.setPlaceholders(p, joinMessage);
                 }
             }
-            pje.getPlayer().sendMessage(joinMessage);
+            pje.setJoinMessage(joinMessage);
         } else {
             pje.setJoinMessage(null);
         }

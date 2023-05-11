@@ -25,35 +25,8 @@ public class InventoryManager extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        if (seletor.getSelector().getBoolean("GanharItens.QuandoNaoEstaNoInventario")) {
-            itens = Bukkit.getScheduler().runTaskTimer(this.getPlugin(), () -> {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    addMeta(1);
-                    addMeta(2);
-                    if (!p.getInventory().contains(HPitemAtivado) && !p.getInventory().contains(HPitemDesativado)) {
-                        if (p.getInventory().contains(HPitemAtivado) && !p.getInventory().contains(HPitemDesativado)) {
-                            if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("PADMREIESSCSIENJ")) {
-                                vanished.remove(p.getUniqueId());
-                                p.getInventory().setItem(HPslot, HPitemAtivado);
-                            } else {
-                                vanished.remove(p.getUniqueId());
-                                p.getInventory().addItem(HPitemAtivado);
-                            }
-                        }
-                    }
-                    if (!p.getInventory().contains(SIitem)) {
-                        if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("PADMREIESSCSIENJ")) {
-                            p.getInventory().setItem(SIslot, SIitem);
-                        } else {
-                            p.getInventory().addItem(SIitem);
-                        }
-                    }
-                }
-
-            }, 0, seletor.getSelector().getInt("GanharItens.Cooldown")).getTaskId();
-
-
-        }
+        addMeta(1);
+        addMeta(2);
     }
 
     @Override
@@ -66,17 +39,28 @@ public class InventoryManager extends Module implements Listener {
     public void giveItem(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         if (getPlugin().getConfig().getStringList("mundos_ativados").contains(p.getWorld().getName())) {
-            if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
-                addMeta(1);
-
-                if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar")) {
-                    p.getInventory().setItem(HPslot, HPitemAtivado);
-                    p.getInventory().setItem(SIslot, SIitem);
-                } else if (p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar") && seletor.getSelector().getBoolean("PADMREIESSCSIENJ")) {
-                    p.getInventory().addItem(HPitemAtivado);
-                    p.getInventory().addItem(SIitem);
+            if (seletor.getSelector().getBoolean("InfServidor.ativado")) {
+                if (!p.getInventory().contains(SIitem)) {
+                    addMeta(2);
+                    if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar")) {
+                        p.getInventory().setItem(SIslot, SIitem);
+                    } else if (p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar") && seletor.getSelector().getBoolean("PADMREIESSCSIENJ")) {
+                        p.getInventory().addItem(SIitem);
+                    }
                 }
             }
+            if (seletor.getSelector().getBoolean("EsconderJogadores.ativado")) {
+                if (!p.getInventory().contains(HPitemAtivado) || !p.getInventory().contains(HPitemDesativado)) {
+                    addMeta(1);
+
+                    if (!p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar")) {
+                        p.getInventory().setItem(HPslot, HPitemAtivado);
+                    } else if (p.hasPermission("xg7lobby.admin") && seletor.getSelector().getBoolean("GanharItens.QuandoEntrar") && seletor.getSelector().getBoolean("PADMREIESSCSIENJ")) {
+                        p.getInventory().addItem(HPitemAtivado);
+                    }
+                }
+            }
+
         }
     }
 
@@ -92,6 +76,15 @@ public class InventoryManager extends Module implements Listener {
                         p.getInventory().removeItem(HPitemAtivado);
                     } else if (p.getInventory().contains(HPitemDesativado)) {
                         p.getInventory().removeItem(HPitemDesativado);
+                    }
+                }
+            }
+            if (seletor.getSelector().getBoolean("InfServidor")) {
+                if (!p.hasPermission("xg7lobby.admin")) {
+                    p.getInventory().clear(SIslot);
+                } else {
+                    if (p.getInventory().contains(SIitem)) {
+                        p.getInventory().removeItem(SIitem);
                     }
                 }
             }
@@ -131,14 +124,13 @@ public class InventoryManager extends Module implements Listener {
             HidePlayers.HPmetaDesativado.setLore(HidePlayers.HPlore);
             HPitemDesativado.setItemMeta(HidePlayers.HPmetaDesativado);
         }
+        //Server Informations
         if (selector == 2) {
-
-
-            ServerInformations.SImeta.setDisplayName(seletor.getSelector().getString("EsconderJogadores.nome_ativado").replace("&", "§"));
+            ServerInformations.SImeta.setDisplayName(seletor.getSelector().getString("InfServidor.nome").replace("&", "§"));
             for (int i = 0; i < ServerInformations.SIlore.size(); i++) {
                 ServerInformations.SIlore.set(i, ServerInformations.SIlore.get(i).replaceAll("&", "§"));
             }
-            ServerInformations.SImeta.setLore(HidePlayers.HPlore);
+            ServerInformations.SImeta.setLore(ServerInformations.SIlore);
             SIitem.setItemMeta(ServerInformations.SImeta);
         }
     }

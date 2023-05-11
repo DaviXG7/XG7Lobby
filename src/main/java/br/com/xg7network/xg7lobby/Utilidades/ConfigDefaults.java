@@ -23,12 +23,12 @@ public class ConfigDefaults {
                 mensagem.getMessage().set("AvisoEmActionBars", false);
             }
             if (Bukkit.getServer().getVersion().contains("1.9")) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Sua versão não tem suporte a Bossbars neste plugin");
                 score.getScore().set("bossbar.ativado", true);
             } else {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Sua versão não tem suporte a Bossbars neste plugin");
                 score.getScore().set("bossbar.ativado", false);
             }
-            if (Bukkit.getServer().getVersion().contains("1.13")) {
+            if (!Bukkit.getServer().getVersion().contains("1.13")) {
                 seletor.getSelector().set("EsconderJogadores.item_ativado", "EMERALD");
                 seletor.getSelector().set("EsconderJogadores.item_ativado", "STONE");
 
