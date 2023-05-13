@@ -5,6 +5,10 @@ api-version: 1.13
 prefix: XG7 Lobby
 softdepend: [PlaceholderAPI, Multiverse-Core]
 commands:
+  xg7lajuda:
+    usage: "/<command> [Seção 1] [Seção 2]"
+    aliasses: [lajuda, 7lajuda, lajd]
+    description: Ajuda do plugin
   xg7lsetlobby:
     usage: "/<command>"
     aliases: [setlobby, sl, xg7setlobby, lsl, 7setlobby]
@@ -87,15 +91,18 @@ permissions:
   xg7lobby.admin:
     description: Administrador do plugin
     default: op
-  xg7lobby.command.creative:
+  xg7lobby.gamemode.creative:
     description: Permissão para o comando do modo de jogo criativo
     default: op
-  xg7lobby.command.spectator:
+  xg7lobby.gamemode.spectator:
     description: Permissão para o comando do modo de jogo espectador
     default: op
-  xg7lobby.command.survival:
+  xg7lobby.gamemode.survival:
     description: Permissão para o comando do modo de jogo sobrevivência
     default: op
-  xg7lobby.command.adventure:
+  xg7lobby.gamemode.adventure:
     description: Permissão para o comando do modo de jogo aventura
+    default: op
+  xg7lobby.gamemode.others:
+    description: Mudar o modo de jogo de outros jogadores
     default: op

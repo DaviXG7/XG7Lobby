@@ -35,7 +35,7 @@ public class HidePlayers implements Listener  {
         this.pl = pl;
     }
 
-    public static List<UUID> vanished = new ArrayList<>();
+    private List<UUID> vanished = new ArrayList<>();
 
     public static List<String> HPlore = seletor.getSelector().getStringList("EsconderJogadores.lore");
 
@@ -65,23 +65,28 @@ public class HidePlayers implements Listener  {
                                 if (e.getItem().equals(HPitemAtivado)) {
                                     if (verf == 0) {
                                         if (!vanished.contains(p.getUniqueId())) {
+                                            vanished.add(p.getUniqueId());
+                                            for (Player target : Bukkit.getOnlinePlayers()) {
+                                                target.hidePlayer(p);
+                                            }
+                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_On"));
                                             int slot = p.getInventory().getHeldItemSlot();
                                             if (p.hasPermission("xg7lobby.admin")) {
                                                 p.getInventory().setItem(slot, HPitemDesativado);
                                             } else {
                                                 p.getInventory().setItem(HPslot, HPitemDesativado);
                                             }
-                                            vanished.add(p.getUniqueId());
-                                            for (Player target : Bukkit.getOnlinePlayers()) {
-                                                target.hidePlayer(p);
-                                            }
-                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_On"));
                                         }
                                         verf++;
                                     }
                                 } else if (e.getItem().equals(HPitemDesativado)) {
                                     if (verf == 1) {
                                         if (vanished.contains(p.getUniqueId())) {
+                                            vanished.remove(p.getUniqueId());
+                                            for (Player target : Bukkit.getOnlinePlayers()) {
+                                                target.showPlayer(p);
+                                            }
+                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_Off"));
                                             int slot = p.getInventory().getHeldItemSlot();
                                             p.getInventory().clear(slot);
                                             if (p.hasPermission("xg7lobby.admin")) {
@@ -89,11 +94,6 @@ public class HidePlayers implements Listener  {
                                             } else {
                                                 p.getInventory().setItem(HPslot, HPitemAtivado);
                                             }
-                                            vanished.remove(p.getUniqueId());
-                                            for (Player target : Bukkit.getOnlinePlayers()) {
-                                                target.showPlayer(p);
-                                            }
-                                            action.mandarAction(p, seletor.getSelector().getString("EsconderJogadores.Mensagem_Off"));
                                         }
                                         verf--;
                                     }

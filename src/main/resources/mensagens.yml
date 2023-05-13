@@ -52,6 +52,7 @@ mensagens:
   permissao_jogar_itens: "&cVocê não tem permissão para jogar itens."
   permissao_pegar_itens: "&cVocê não tem permissão para pegar itens."
   permissao_atacar: "&cVocê não tem permissão para atacar."
+  permissao_colocar_gamemode_aos_outros: "&cVocê não tem permissão para trocar o modo de jogos dos outros"
   #Coloque [Comando] para retornar o comando
   permissao_comandos: "&cVocê não tem permissão para executar o comando: &e[Comando]"
 

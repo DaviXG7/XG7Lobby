@@ -1,5 +1,6 @@
 package br.com.xg7network.xg7lobby;
 
+import br.com.xg7network.xg7lobby.Comandos.HelpCommand;
 import br.com.xg7network.xg7lobby.Comandos.Lobby.Fly;
 import br.com.xg7network.xg7lobby.Comandos.Lobby.Lobby;
 import br.com.xg7network.xg7lobby.Comandos.Lobby.VanishComand;
@@ -27,7 +28,6 @@ import br.com.xg7network.xg7lobby.MOTD.PingEvent;
 import br.com.xg7network.xg7lobby.Modulo.ModuleManager;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager;
-import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.ServerInformations;
 
 import br.com.xg7network.xg7lobby.Utilidades.ActionBar;
 import br.com.xg7network.xg7lobby.Utilidades.CentralizarTexto;
@@ -179,6 +179,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lgmadventure").setExecutor(new AdventureCommand());
         this.getCommand("xg7lgmspectator").setExecutor(new SpectatorCommand());
         this.getCommand("xg7lvanish").setExecutor(new VanishComand(this));
+        this.getCommand("xg7lajuda").setExecutor(new HelpCommand());
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Seletores...");
         this.getServer().getPluginManager().registerEvents(new InventoryManager(this), this);

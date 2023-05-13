@@ -67,57 +67,119 @@ EsconderJogadores:
   Mensagem_Off: "&cVocê revelou os jogadores"
 
 #############################################
-#INFORMAÇÕES DO SERVIDOR                    #
+#SELETORES PERSONALIZADOS                   #
 #############################################
+# [BUNGEE] executar algo na bungee
+# [CONSOLE] executar algo no console
+# [COMANDO] executar algum comando de jogador
+# [MENSAGEM] mandar uma mensagem
+# [SOM] fazer um som ex.: [SOM] "Som", "volume"
+# [ABRIR] abrir um inventário
+# [FECHAR] fechar um inventário
 
-InfServidor:
-  ativado: true
+Seletores:
 
-  item: BOOK
-  nome: "&9Informações do serivdor"
-  lore:
-    - "&aClique aqui para obter as informações do servidor"
-  slot: 1
+  #Itens que abrem o inventário
+  Seletores:
 
+    ServerSelector:
+      glow: false
+      slot: 3
+      item:
+      nome:
+      lore:
 
-  GUI:
-    #Caso não esteja ativado ele mandará somente
-    #uma mensagem ou action bar.
-    ativado: true
-    #Será mandado caso não esteja ativado
-    mensagem:
-      - "       &9Informações do servidor"
-      - "&8> &fNosso discord: &1discord.gg/exemplo"
-      - "&8> &fNosso site: &awww.exemplo.com"
+      #Se você quiser você pode fazer ações e remover a seção GUI
 
-    InfGUI:
+      #ações:
+      #  - "[MENSAGEM]       &9Informações do servidor"
+      #  - "[MENSAGEM]&8> &fNosso discord: &1discord.gg/exemplo"
+      #  - "[MENSAGEM]&8> &fNosso site: &awww.exemplo.com"
+      GUI:
+        nome:
+        tamanho:
 
-      nome: "&9Informações do servidor"
-      tamanho: 27
+        Itens:
+          Padrão:
+            #Para preencher os espaços dos
+            #inventários essa seção deve ser
+            #chamada de "Padrão"
+            item:
+          SMP:
+            glow: true
+            nome: "&c&lSMP"
+            item: TOTEM_OF_UNDYING
+            lore:
+              - "&eClique para jogar!"
 
+            ações: "[BUNGEE] smp"
+          Rankup:
+            glow: true
+            nome: ""
+            item:
+            lore:
+              - "&eClique para jogar!"
+
+            ações:
+              - "[SOM] ENTITY_EXPERIENCE_ORB_PICKUP, 10"
+              - "[FECHAR]"
+              - "[BUNGEE] rankup"
+
+    InfServeidor:
+      glow: false
+      slot: 3
+      item:
+      nome:
+      lore:
+
+      #Se você quiser você pode fazer ações e remover a seção GUI
+
+      #ações:
+      #  - "[MENSAGEM]       &9Informações do servidor"
+      #  - "[MENSAGEM]&8> &fNosso discord: &1discord.gg/exemplo"
+      #  - "[MENSAGEM]&8> &fNosso site: &awww.exemplo.com"
+      GUI:
+        nome:
+        tamanho:
+
+        Itens:
+          Padrão:
+            #Para preencher os espaços dos
+            #inventários essa seção deve ser
+            #chamada de "Padrão"
+            item: GRAY_STAINED_GLASS_PANE
+          Regras:
+            item: BOOK
+            slot: 11
+            nome: "&c&lREGRAS"
+            lore:
+              - "&81. &fNão Xingue"
+              - "&82. &fNão Abuse de bugs"
+              - "&83. &fNão use hacks"
+              - "&84. &fetc"
+            ações:
+              - "[ABRIR] Regras"
+          Info:
+            item: PAPER
+            slot: 15
+            nome: "&9&lINFO"
+            lore:
+              - "       &9Informações do servidor"
+              - "&8> &fNosso discord: &1discord.gg/exemplo"
+              - "&8> &fNosso site: &awww.exemplo.com"
+
+  #Quando há uma ação dentro dos
+  #Seletores para abrir o inventário
+  Inventários:
+    Regras:
+      #O nome do inventário definira como
+      #Você abrirá ele ex.: [ABRIR] "nome do inventário"
+      nome_inv: "Regras"
+      tamanho:
       Itens:
-
-        #Coloque -1 para preencher todos os outros
-        #Para preencher os espaços essa seção
-        #deve ser chamada de "Padrão"
-        Padrão:
-          item: GRAY_STAINED_GLASS_PANE
-          slot: -1
-
-        Regras:
-          item: BOOK
-          slot: 11
-          nome: "&c&lREGRAS"
+        RegrasGUI:
+          glow: true
+          item:
+          nome:
           lore:
-            - "&81. &fNão Xingue"
-            - "&82. &fNão Abuse de bugs"
-            - "&83. &fNão use hacks"
-            - "&84. &fetc"
-        Info:
-          item: PAPER
-          slot: 15
-          nome: "&9&lINFO"
-          lore:
-          - "       &9Informações do servidor"
-          - "&8> &fNosso discord: &1discord.gg/exemplo"
-          - "&8> &fNosso site: &awww.exemplo.com"
+          ações:

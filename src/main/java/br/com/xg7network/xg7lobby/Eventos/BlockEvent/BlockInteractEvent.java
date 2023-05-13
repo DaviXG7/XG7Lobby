@@ -26,7 +26,7 @@ public class BlockInteractEvent implements Listener {
         Player p = e.getPlayer();
         if (pl.getConfig().getStringList("mundos-ativados").contains(p.getWorld().getName())) {
             if (pl.getConfig().getBoolean("InteragirComBlocos")) {
-                if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getClickedBlock().getType().isInteractable()) {
+                if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                     if (!p.hasPermission("xg7lobby.admin") || !p.hasPermission("xg7lobby.block.interact")) {
                         e.setCancelled(true);
                         if (mensagem.getMessage().getBoolean("mensagens.ativar_mensagens_permissão")) {

@@ -1,7 +1,6 @@
 package br.com.xg7network.xg7lobby.Modulo.Seletores;
 
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
-import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.ServerInformations;
 import br.com.xg7network.xg7lobby.XG7Lobby;
 import br.com.xg7network.xg7lobby.Modulo.Module;
 import org.bukkit.Bukkit;
