@@ -1,4 +1,4 @@
-package br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.SeletoresPersonalizados;
+package br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
@@ -95,16 +95,40 @@ public class SPManager {
         return inventories;
     }
 
-    public Inventory getSeletor(Player player) {
+    public void open(Player player) {
         Inventory inv = null;
-        if (this.getSeletorItens().contains(player.getItemInHand())) {
-            int posição = this.getSeletorItens().indexOf(player.getItemInHand());
-            for (int i = 0; i < this.getSelectorInventories(player).size(); i++) {
-                inv = this.getSelectorInventories(player).get(posição);
+        String selector;
+        if (Seletores != null && !(Seletores.getKeys(false).isEmpty())) {
+            for (String Seletor : Seletores.getKeys(false)) {
+                if (seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI") != null) {
+                    if (this.getSeletorItens().contains(player.getItemInHand())) {
+                        int posição = this.getSeletorItens().indexOf(player.getItemInHand());
+                        for (int i = 0; i < this.getSelectorInventories(player).size(); i++) {
+                            inv = this.getSelectorInventories(player).get(posição);
+                        }
+                        player.openInventory(inv);
+                    }
+                } else {
+                    this.executeActionSeletor(player);
+                }
             }
         }
-        return inv;
 
+    }
+
+    public boolean inventory(Player player) {
+        if (Seletores != null && !(Seletores.getKeys(false).isEmpty())) {
+            for (String Seletor : Seletores.getKeys(false)) {
+                if (seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI") != null) {
+                    for (int i = 0; i < this.getSelectorInventories(player).size(); i++) {
+                        if (this.getSeletorItens().get(i).isSimilar(player.getItemInHand())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public void giveItens(Player player) {
@@ -122,13 +146,13 @@ public class SPManager {
             }
         }
     }
-    public void executeAction(Player player) {
+    public void executeActionSeletor(Player player) {
         if (Seletores != null && !(Seletores.getKeys(false).isEmpty())) {
             for (String Seletor : Seletores.getKeys(false)) {
-                if (seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI") != null) {
+                if (seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI") == null) {
                     itensSeletores = seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI.Itens");
-                    for (String ItemDeInventario : itensSeletores.getKeys(false)) {
-                        for (String ação : seletor.getSelector().getStringList("Seletores.Seletores." + Seletor + ".GUI.Itens." + ItemDeInventario + ".ações")) {
+                    for (String ação : seletor.getSelector().getStringList("Seletores.Seletores." + Seletor + ".ações")) {
+                        if (this.inventory(player)) {
                             if (ação != null) {
                                 String algo;
                                 String algo1;
@@ -156,41 +180,60 @@ public class SPManager {
                             }
                         }
                     }
-                } else {
-                    for (String ação : seletor.getSelector().getStringList("Seletores.Seletores." + Seletor + ".ações")) {
-                        if (ação != null) {
-                            String algo;
-                            String algo1;
-                            if (ação.startsWith("[MENSAGEM] ")) {
-                                algo = ação.replace("[MENSAGEM] ", "");
-                                algo = ChatColor.translateAlternateColorCodes('&', ação);
-                                player.sendMessage(algo);
+                }
+            }
+        }
 
-                            } else if (ação.startsWith("[COMANDO] ")) {
-                                algo = ação.replace("[COMANDO] ", "");
-                                player.performCommand(algo);
-                            } else if (ação.startsWith("[CONSOLE] ")) {
-                                algo = ação.replace("[CONSOLE] ", "");
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender().getServer().getConsoleSender(), algo);
-                            } else if (ação.startsWith("[BUNGEE]")) {
-                                algo = ação.replace("[BUNGEE]", "");
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender().getServer().getConsoleSender(), "bungee:tp " + player + algo);
-                            } else if (ação.startsWith("[ABRIR] ")) {
-                                algo = ação.replace("[ABRIR] ", "");
-                                for (Inventory inv : this.getInventories(player)) {
-                                    if (inv.getType().getDefaultTitle().equals(algo)) {
-                                        player.openInventory(inv);
+    }
+
+
+    public void executeActionInventário(Player player, ItemStack item, Inventory inventario) {
+
+        if (Seletores != null && !(Seletores.getKeys(false).isEmpty())) {
+            for (String Seletor : Seletores.getKeys(false)) {
+                if (seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI") != null) {
+                    itensSeletores = seletor.getSelector().getConfigurationSection("Seletores.Seletores." + Seletor + ".GUI.Itens");
+                    for (String ItemDeInventario : itensSeletores.getKeys(false)) {
+                        for (String ação : seletor.getSelector().getStringList("Seletores.Seletores." + Seletor + ".GUI.Itens." + ItemDeInventario + ".ações")) {
+                            if (this.getSelectorInventories(player).contains(inventario)) {
+                                if (inventario.contains(item)) {
+                                    if (ação != null) {
+                                        String algo;
+                                        String algo1;
+                                        if (ação.startsWith("[MENSAGEM] ")) {
+                                            algo = ação.replace("[MENSAGEM] ", "");
+                                            algo = ChatColor.translateAlternateColorCodes('&', ação);
+                                            player.sendMessage(algo);
+
+                                        } else if (ação.startsWith("[COMANDO] ")) {
+                                            algo = ação.replace("[COMANDO] ", "");
+                                            player.performCommand(algo);
+                                        } else if (ação.startsWith("[CONSOLE] ")) {
+                                            algo = ação.replace("[CONSOLE] ", "");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender().getServer().getConsoleSender(), algo);
+                                        } else if (ação.startsWith("[BUNGEE]")) {
+                                            algo = ação.replace("[BUNGEE]", "");
+                                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender().getServer().getConsoleSender(), "bungee:tp " + player + algo);
+                                        } else if (ação.startsWith("[ABRIR] ")) {
+                                            algo = ação.replace("[ABRIR] ", "");
+                                            for (Inventory inv : this.getInventories(player)) {
+                                                if (inv.getType().getDefaultTitle().equals(algo)) {
+                                                    player.openInventory(inv);
+                                                }
+                                            }
+                                        } else if (ação.startsWith("[SOM] ")) {
+                                            float volume;
+                                            algo = ação.replace("[SOM] ", "");
+                                            algo1 = ação.replaceAll("[\\D]", "");
+                                            volume = Float.parseFloat(algo1);
+                                            player.playSound(player.getLocation(), algo, volume, volume);
+
+                                        } else if (ação.startsWith("[CLOSE] ")) {
+                                            player.closeInventory();
+
+                                        }
                                     }
                                 }
-                            } else if (ação.startsWith("[SOM] ")) {
-                                float volume;
-                                algo = ação.replace("[SOM] ", "");
-                                algo1 = ação.replaceAll("[\\D]", "");
-                                volume = Float.parseFloat(algo1);
-                                player.playSound(player.getLocation(), algo, volume, volume);
-
-                            } else if (ação.startsWith("[CLOSE] ")) {
-                                player.closeInventory();
                             }
                         }
                     }

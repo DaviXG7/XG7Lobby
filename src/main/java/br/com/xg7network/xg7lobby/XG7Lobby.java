@@ -29,6 +29,7 @@ import br.com.xg7network.xg7lobby.Modulo.ModuleManager;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager;
 
+import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.SPListener;
 import br.com.xg7network.xg7lobby.Utilidades.ActionBar;
 import br.com.xg7network.xg7lobby.Utilidades.CentralizarTexto;
 import br.com.xg7network.xg7lobby.Utilidades.ConfigDefaults;
@@ -184,7 +185,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Seletores...");
         this.getServer().getPluginManager().registerEvents(new InventoryManager(this), this);
         this.getServer().getPluginManager().registerEvents(new HidePlayers(this), this);
-        this.getServer().getPluginManager().registerEvents(new ServerInformations(this), this);
+        this.getServer().getPluginManager().registerEvents(new SPListener(this), this);
 
     }
 
