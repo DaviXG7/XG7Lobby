@@ -193,7 +193,7 @@ public class SPManager {
         List<Inventory> inventories = new ArrayList<>();
         if (Inventários != null && !(Inventários.getKeys(false).isEmpty())) {
             for (String Inventarios : Inventários.getKeys(false)) {
-                inv = Bukkit.createInventory(player, seletor.getSelector().getInt("Seletores.Inventários." + Inventarios + "tamanho"), seletor.getSelector().getString("Seletores." + Inventarios + "nome_inv").replace("&", "§"));
+                Inventory inv = Bukkit.createInventory(player, seletor.getSelector().getInt("Seletores.Inventários." + Inventarios + "tamanho"), seletor.getSelector().getString("Seletores." + Inventarios + "nome_inv").replace("&", "§"));
                 for (String itens : seletor.getSelector().getConfigurationSection("Seletores.Inventários." + Inventarios + ".Itens").getKeys(false)) {
                     itemInventory = new ItemStack(Material.valueOf(seletor.getSelector().getString("Inventários." + Inventarios + ".Itens." + itens + ".item")));
                     meta = itemInventory.getItemMeta();
@@ -239,7 +239,7 @@ public class SPManager {
         for (String acao : acoes) {
             if (acao.startsWith("[MENSAGEM] ")) {
                 String mensagem = acao.replace("[MENSAGEM] ", "");
-                mensagem = ChatColor.translateAlternateColorCodes('&', som);
+                mensagem = ChatColor.translateAlternateColorCodes('&',  mensagem);
                 mensagem = mensagem.replace("[PLAYER]", player.getName());
                 player.sendMessage(mensagem);
             } else if (acao.startsWith("[COMANDO] ")) {
@@ -274,7 +274,7 @@ public class SPManager {
         for (String acao : acoes) {
             if (acao.startsWith("[MENSAGEM] ")) {
                 String mensagem = acao.replace("[MENSAGEM] ", "");
-                mensagem = ChatColor.translateAlternateColorCodes('&', som);
+                mensagem = ChatColor.translateAlternateColorCodes('&', mensagem);
                 mensagem = mensagem.replace("[PLAYER]", player.getName());
                 player.sendMessage(mensagem);
             } else if (acao.startsWith("[COMANDO] ")) {
