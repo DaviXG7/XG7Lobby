@@ -30,6 +30,7 @@ import br.com.xg7network.xg7lobby.Modulo.Seletores.Hotbar.HidePlayers;
 import br.com.xg7network.xg7lobby.Modulo.Seletores.InventoryManager;
 
 import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.SPListener;
+import br.com.xg7network.xg7lobby.Modulo.Seletores.Seletores.SPManager;
 import br.com.xg7network.xg7lobby.Utilidades.ActionBar;
 import br.com.xg7network.xg7lobby.Utilidades.CentralizarTexto;
 import br.com.xg7network.xg7lobby.Utilidades.ConfigDefaults;
@@ -48,6 +49,7 @@ public final class XG7Lobby extends JavaPlugin {
     public static SeletorManager seletor = new SeletorManager();
 
     public static ActionBar action;
+    public SPManager SPManager;
     public static CentralizarTexto centralizar;
     public static ConfigDefaults configDef;
 
@@ -122,49 +124,39 @@ public final class XG7Lobby extends JavaPlugin {
                     " baixe ele aqui: " + ChatColor.GOLD + "https://www.spigotmc.org/resources/placeholderapi.6245/");
         }
 
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Mensagens de entrar e de saída...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Mensagens de entrar e de saída...");
         this.getServer().getPluginManager().registerEvents(new Mensagem(), this);
         this.getServer().getPluginManager().registerEvents(new br.com.xg7network.xg7lobby.Eventos.QuitEvent.Mensagem(), this);
-
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando tp para o lobby...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando tp para o lobby...");
         this.getServer().getPluginManager().registerEvents(new TpJoinLobby(this), this);
-
-        this.getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[XG7 Lobby] Carregando Módulos...");
+        this.getServer().getConsoleSender().sendMessage(String.valueOf(ChatColor.GOLD) + "[XG7 Lobby] Carregando Módulos...");
         this.moduleManager = new ModuleManager(this);
         this.moduleManager.loadModules();
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Eventos de blocos...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Eventos de blocos...");
         this.getServer().getPluginManager().registerEvents(new BlockBreakEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new BlockPlaceEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new BlockInteractEvent(this), this);
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Eventos de Chat...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Eventos de Chat...");
         this.getServer().getPluginManager().registerEvents(new ModeracaoChat(this), this);
         this.getServer().getPluginManager().registerEvents(new Mute(), this);
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Configurações de mundos...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Configurações de mundos...");
         this.getServer().getPluginManager().registerEvents(new SpawnMobs(this), this);
         this.getServer().getPluginManager().registerEvents(new CancelWeather(this), this);
         this.getServer().getPluginManager().registerEvents(new Time(this), this);
         this.getServer().getPluginManager().registerEvents(new CancelBlockBurn(this), this);
         this.getServer().getPluginManager().registerEvents(new CancelLeavesDecay(this), this);
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Configurações de jogadores...");
+        this.getServer().getPluginManager().registerEvents(new Explosions(this), this);
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Configurações de jogadores...");
         this.getServer().getPluginManager().registerEvents(new PlayerHungerEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayeronVoid(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerDamageEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerDropPickupEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerAttackEvent(this), this);
-
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Launchpad...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Launchpad...");
         this.getServer().getPluginManager().registerEvents(new UnderBlockEvent(this), this);
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando MOTD...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando MOTD...");
         this.getServer().getPluginManager().registerEvents(new PingEvent(this), this);
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Comandos...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Comandos...");
         this.getCommand("xg7lsetlobby").setExecutor(new setLobby(this));
         this.getCommand("xg7llobby").setExecutor(new Lobby());
         this.getCommand("xg7lfly").setExecutor(new Fly());
@@ -181,8 +173,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lgmspectator").setExecutor(new SpectatorCommand());
         this.getCommand("xg7lvanish").setExecutor(new VanishComand(this));
         this.getCommand("xg7lajuda").setExecutor(new HelpCommand());
-
-        this.getServer().getConsoleSender().sendMessage(prefix + "Carregando Seletores...");
+        this.getServer().getConsoleSender().sendMessage(this.prefix + "Carregando Seletores...");
+        this.SPManager = new SPManager(this);
         this.getServer().getPluginManager().registerEvents(new InventoryManager(this), this);
         this.getServer().getPluginManager().registerEvents(new HidePlayers(this), this);
         this.getServer().getPluginManager().registerEvents(new SPListener(this), this);
