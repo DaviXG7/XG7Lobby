@@ -21,8 +21,8 @@ public class SPListener implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent r) {
-        SPM.giveItens(r.getPlayer());
+    public void onJoin(PlayerJoinEvent e) {
+        SPM.giveItens(e.getPlayer());
     }
 
     @EventHandler
