@@ -1,0 +1,76 @@
+selectors:
+
+  enabled: true
+
+  cooldown: 3
+
+  items:
+
+    profile:
+
+      name: "&7Hide Players &6- &cOFF!"
+      lore:
+        - "&aClick to hide!"
+      material: "PLAYER_HEAD, OWNER=THIS_PLAYER"
+      amount: 1
+      slot: 4
+      glow: true
+      actions:
+        - "HIDE"
+        - "SWAP: currentslot=hide_players_off, hide_players_on"
+        - "ACTIONBAR: &aYou hide the players!"
+
+    hide_players_off:
+
+      name: "&7Hide Players &6- &cOFF!"
+      lore:
+        - "&aClick to hide!"
+      material: GRAY_DYE
+      amount: 1
+      slot: 9
+      glow: true
+      actions:
+        - "HIDE"
+        - "SWAP: currentslot=hide_players_off, hide_players_on"
+        - "ACTIONBAR: &aYou hide the players!"
+
+    hide_players_on:
+
+      name: "&7Hide Players &6- &aON!"
+      lore:
+        - "&aClick to show!"
+      material: LIME_DYE
+      amount: 1
+      glow: true
+      actions:
+        - "SHOW"
+        - "SWAP: currentslot=hide_players_on, hide_players_off"
+        - "ACTIONBAR: &cYou've shown the players again!"
+
+
+
+
+
+
+
+inventories:
+
+  inventory1:
+
+    name: "asadd"
+    rows: 3
+    id: 1
+
+    items:
+
+      item1:
+
+        name: "DASA"
+        lore:
+          - "DFSASDA"
+        material: APPLE
+        amount: 1
+        glow: true
+        slot: 3
+        actions:
+          - "CLOSE"

@@ -1,0 +1,4 @@
+name: XG7Lobby
+version: '${project.version}'
+main: com.xg7network.xg7lobby.XG7Lobby
+api-version: '1.16'

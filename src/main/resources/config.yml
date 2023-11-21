@@ -1,0 +1,467 @@
+#   _________________    _____            _________    _______       _______   ____    ____
+#  /                /   /    /           / _____  /   / _____ \     / _____ \  \   \  /   /
+# /___________     /   /    /           / /    / /   / /    / /    / /    / /   \   \/   /
+#            /    /   /    /           / /    / /   / /____/ /    / /____/ /     \      /
+#           /    /   /    /           / /    / /   / ______ \    / ______ \       \    /
+#          /    /   /    /_______    / /    / /   / /     / /   / /     / /       /   /
+#         /    /   /            /   / /____/ /   / /_____/ /   / /_____/ /       /   /
+#        /____/   /____________/   /________/   /_________/   /_________/       /___/
+
+#Use %player_name% to replace player name
+#You need the PlaceHolderAPI for that!
+
+#Colors:
+#&0 - Black           | &9 - Blue
+#&1 - Dark blue       | &b - Cyan
+#&2 - Dark green      | &9 - Blue
+#&3 - Dark cyan       | &b - Cyan
+#&4 - Dark red        | &c - Red
+#&5 - Purple          | &d - Pink
+#&6 - Orange          | &e - Yellow
+#&7 - Gray            | &f - White
+
+#Lettering options:
+#&k - Random    | &n - Underlined
+#&l - Bold     | &o - Italic
+#&m - Track     | &r - Reset
+
+#All this will only work in the lobby world!
+
+#Actions
+
+#You can use actions in the "actions:"
+#The right way to use your action is: ACTION: content
+
+#MESSAGE Send a message
+#ACTION Send an action
+#TITLE Send a title
+#SUBTITLE Send a subtitle
+#TITSUBTIT Send a title and a subtitle (Use " // " to separate one from the other)
+
+#Ex.: TITLE: &bWelcome!, {fade in sec, stay in sec, fade out  in sec} -> OPTIONAL
+#IN SOME VERSIONS OF MINECRAFT, OPTIONALS DO NOT WORK!
+
+#BROADCAST Advertise to everyone.
+
+#COMMAND Make the player execute a command
+#CONSOLE Make console execute a command
+
+#SOUND send a sound
+#SOUND: ENTITY_EXPERIENCE_ORB_PICKUP, (Volume) 10.0, (Pitch) 10.0"
+
+#SUMMON Summons an entity
+
+#EFFECT give an effect to the player
+#EFFECT: effect, duration, amplifier
+
+#FLY Makes the player fly
+
+#TP teleport player for an exact location
+#TP: world, x, y, z (yaw, pictch)
+
+#OPEN Opens an inventory
+#CLOSE Closes an inventory
+#There in the selectors.yml file you can create an inventory
+#Mode of use: OPEN: (id), CLOSE
+
+#PLAYER returns the player's name (if you are not using PLACEHOLDER API)
+
+#GAMEMODE change the game mode of the player
+
+#CENTER Centers your text according to Minecraft's default chat size
+#It is an approximate centering according to the pixels of each letter in the game
+
+#PERMISSION Only do the action if you have permission
+#OPEN: 1 PERMISSION: your.permission
+#OPEN: 1 !PERMISSION: your.permission (If you don't have permission)
+
+#Links:
+
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+#Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
+
+enabled-worlds:
+  - "lobby"
+  - "world"
+
+#When you join the game you go to the lobby
+tp-when-join: true
+
+#UNDER MAINTENANCE
+#WAIT UNTIL THE UPDATE!
+#When you die you give tp to the lobby
+tp-when-die: false
+
+#UNDER MAINTENANCE
+#WAIT UNTIL THE UPDATE!
+warning-image: true
+
+###############################################
+#JOIN AND QUIT                                #
+###############################################
+
+# When the player enters everything in
+#"actions" will be executed
+join-events:
+  actions:
+    - "TITSUBTIT: &bWelcome // &f%player_name%"
+    - "MESSAGE: CENTER: &8-------------------&7**&8-------------------"
+    - "MESSAGE: CENTER: &bWelcome &f%player_name%"
+    - "MESSAGE:  "
+    - "MESSAGE: CENTER: &aSite: &fwww.website.com"
+    - "MESSAGE: CENTER: &4YT: &fwww.youtube.com"
+    - "MESSAGE:  "
+    - "MESSAGE: CENTER: &5&oPlugin made by DaviXG7"
+    - "MESSAGE: CENTER: &8-------------------&7**&8-------------------"
+    - "SOUND: ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
+    - "SUMMON: FIREWORK"
+    - "OPEN: 1 !PERMISSION: xg7lobby.admin"
+
+# Effects that will be given to the player over time
+# integer on server in lobby world
+effects:
+  - "JUMP, 1"
+  - "SPEED, 2"
+
+#Join and leave
+
+join-message: "&8[&a+&8] &f%player_name% joined the server."
+leave-message: "&8[&c-&8] &f%player_name% has left the server."
+
+###############################################
+#AUTO BROADCAST                               #
+###############################################
+
+
+announcements:
+
+  enabled: true
+
+  #Cooldown of ads in seconds
+  cooldown: 180
+
+  #Announce only in the lobby
+  AOOL: false
+
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP, 5.0, 0.0"
+
+  announcements:
+    #Create your announcement
+    #You can send in actionbars
+    announcement1:
+      - "CENTER: &8-------------------&7**&8-------------------"
+      - "CENTER: &e&lANNOUNCEMENT:"
+      - "CENTER: &9This plugin was made by &bDaviXG7"
+      - "CENTER: &8-------------------&7**&8-------------------"
+    announcement2:
+      - "CENTER: &8-------------------&7**&8-------------------"
+      - "CENTER: &e&lANNOUNCEMENT:"
+      - "CENTER: &aRate XG7Lobby in &e5 &bstars!"
+      - "CENTER: &8-------------------&7**&8-------------------"
+    announcement3:
+      - "CENTER: &8-------------------&7**&8-------------------"
+      - "CENTER: &e&lANNOUNCEMENT:"
+      - "CENTER: &fVisit our website: &bwww.example.com"
+      - "CENTER: &8-------------------&7**&8-------------------"
+
+
+
+###############################################
+#CHAT                                         #
+###############################################
+
+#UNDER MAINTENANCE
+#WAIT UNTIL THE UPDATE!
+
+block-swearing:
+  enabled: true
+
+  #If you don't have permission and
+  #if you send some this words
+  #The message do not be sent, and
+  #you will recive a warning
+
+  #Try putting the words in lower case
+  blocked-words:
+    - "cu"
+    - "wtf"
+    - "fuck"
+    - "porra"
+
+block-commands:
+  enabled: true
+
+  #If you don't have permission and
+  #if you send some these commands
+  #will block
+  commands-blocked:
+    - /pl
+    - /plugins
+    - /?
+    - /bukkit:?
+    - /bukkit:plugins
+    - /bukkit:pl
+    - /bukkit:help
+    - /to see
+    - /version
+    - /bukkit:version
+    - /bukkit:ver
+    - /tell
+
+anti-spam:
+  enabled: true
+
+  #To send other message (IN SECONDS)
+  cooldown: 1
+
+  #Reset spam list (IN TICKS) (20 = 1 second)
+  spam-cooldown: 100
+
+  #Messages tolerance
+  tolerance: 5
+
+###############################################
+#DATABASE                                     #
+###############################################
+
+#You can use SQL to store information, and store
+#lists that contain players without having to use
+#your computer to do so!
+
+sql:
+
+  enabled: false
+
+  host: "localhost"
+  port: 3306
+  database: "xg7_lobby"
+
+  user: "root"
+  password: ""
+
+  #Choose what you want to store in your database
+
+  lobby:
+  moderation:
+
+###############################################
+#WORLD OPTIONS                                #
+###############################################
+
+
+###############################################
+#LAUNCHPAD                                    #
+###############################################
+
+# Will only work on lobby worlds
+launch-pad:
+  enabled: true
+
+  # If it is "true", it will only be necessary
+  # a block to activate the launchPad
+  # If it is "false" the code will skip
+  # to the bottom part where you will have to
+  # place the top and bottom block
+  one-block: true
+
+  #Define if the launchpad block is
+  # a pressure plate.
+  #(Blocks you can step on
+  # without being on the ground)
+  pressure-plate: true
+
+  # launchpad block
+  block: STONE_PRESSURE_PLATE
+
+  #Define if the launchPad will be defined
+  # by two blocks
+  top-block: STONE_PRESSURE_PLATE
+  bottom-block: REDSTONE_BLOCK
+
+  # The player will be launched to where
+  #he is looking
+  strength: 2
+  jump: 1
+
+  sound: "ENTITY_BAT_TAKEOFF, 1.0, 2.0"
+
+#############################################
+#DOUBLE JUMP                                #
+#############################################
+
+
+double-jump:
+  enabled: true
+
+  # The player will be launched to where
+  #he is looking
+  strength: 2
+  jump: 1
+
+  cooldown: 2
+
+  sound: "ENTITY_BAT_TAKEOFF, 1.0, 2.0"
+
+#############################################
+#MOTD                                       #
+#############################################
+
+#MOTD is the message that appears before
+#join the server!
+motd:
+  enabled: true
+
+  text:
+    - "&9XG7&3Lob&bby&r"
+    - "&5&oMade by DaviXG7"
+
+#############################################
+#SCORES                                     #
+#############################################
+
+scores:
+  #Score update ticks
+
+  update: 5
+
+  tablist:
+
+    enabled: true
+
+    #Header of the tablist
+    header:
+      - "&9X&3G7&bLobby"
+      - "&7Your rank: %luckperms_prefix%"
+      - ""
+
+    #Footer of the tablist
+    footer:
+      - ""
+      - "&9Visit our website: &bwww.site.com"
+      - "&5&oPlugin made by DaviXG7"
+
+  scoreboard:
+
+    enabled: true
+
+    #Scoreboard title
+    title: "&9X&3G7&bLobby"
+
+    #Lines of the score
+    lines:
+      - " "
+      - "&e&lPlayer&f:"
+      - "&fName: &9%player_name%"
+      - "&fRank: &r[%luckperms_prefix%]"
+      - "  "
+      - "&fPlayers online: &a%server_online%"
+      - ""
+      - "&8www.example.com"
+
+
+  # ONLY WORKS +1.9
+  bossbar:
+
+    enabled: true
+
+    #Placeholders don't work here
+    title: "&9&lWelcome to the server"
+
+    #See all colors here
+    #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarColor.html
+    color: BLUE
+
+    #See all styles here
+    #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarStyle.html
+    style: SOLID
+
+    #Goes from 0 to 1. For example: 0.5
+    progress: 1
+
+###############################################
+#PLAYER OPTIONS                               #
+###############################################
+
+#ALL UNDER MAINTENANCE
+#WAIT UNTIL THE UPDATE!
+
+#General
+cancel-death-by-void: true
+hunger-loss: false
+
+#Damage
+
+#If it is "false", ALL types of damage
+#will be canceled, if it is "true", in case
+#some of the bottom is false only
+#that option is going to be cancelled!
+take-damage: false
+
+ignore-adm: false
+
+attack: false
+
+take-damage-by-entities: false
+take-damage-from-suffocation: false
+take-drowning-damage: false
+take-fall-damage: false
+#Ejectors, tnts, etc, but that's all.
+take-damage-by-blocks: false
+take-damage-by-lava: false
+take-damage-by-fire: false
+take-damage-per-falling-block: false
+take-blast-damage: false
+
+#Interaction
+
+# Only players who have the permission
+# Will break blocks and place
+break-blocks: false
+place-blocks: false
+interact-with-blocks: false
+
+#Drop, pick up
+
+pickup-items: true
+drop-items: false
+
+###############################################
+#WORLD OPTIONS                                #
+###############################################
+
+#ALL UNDER MAINTENANCE
+#WAIT UNTIL THE UPDATE!
+
+#Define if mobs will spawn in the lobby
+spawn-mobs: false
+
+#Define the weather cycle on lobby world
+weather-cycle: false
+
+#Define the day cycle on lobby world
+day-cycle: false
+
+#Sunrise: 0
+#Noon: 6000
+#Sunset: 13000
+#Midnight: 18000
+time: 6000
+
+#Define if the leaves will fall in the lobby
+leaves-decay: false
+
+#Define whether blocks will burn in the lobby
+burn-blocks: false
+
+#Cancel explosions
+cancel-explosions: true
+
+#Made by DaviXG7
+#Collaborators:
+#Rhyan57: Translate
+#eduardo10YT: Beta-tester
+
+#Special thanks to:
+#Sadness (Video helper)
+#Bultzz (Video helper)
