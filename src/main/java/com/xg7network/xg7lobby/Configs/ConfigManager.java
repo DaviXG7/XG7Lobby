@@ -107,7 +107,7 @@ public class ConfigManager {
                     return;
                 try {
                     System.out.println("aaaa");
-                    this.getConfig(type).save("lobby.yml");
+                    this.getConfig(type).save("data.yml");
                 } catch (IOException e) {
                     pl.getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Dfile, e);
                 }

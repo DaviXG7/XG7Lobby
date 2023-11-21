@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.DefautCommands.Moderation;
+package com.xg7network.xg7lobby.Player;
 
 import org.bukkit.entity.Player;
 
@@ -15,7 +15,11 @@ public class PlayerData {
 
     public PlayerData(Player player, boolean muted, int infractions, List<String> warns, Date lastDayToUnmute) {
 
-        
+        this.player = player;
+        this.muted = muted;
+        this.infractions = infractions;
+        this.warns = warns;
+        this.lastDayToUnmute = lastDayToUnmute;
 
 
     }

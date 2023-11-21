@@ -1,6 +1,7 @@
 package com.xg7network.xg7lobby.DefautCommands.Lobby;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Utils.Sql.SqlUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.util.*;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
@@ -33,32 +34,16 @@ public class LobbyLocation {
 
     public Location getLocation() {
         if (XG7Lobby.connected) {
-            try {
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM lobby");
-                ResultSet rs = ps.executeQuery();
-                World world;
-                double x;
-                double y;
-                double z;
-                float yaw;
-                float pitch;
+            List<Object> locationobj = SqlUtil.get(connection, "SELECT * FROM lobby", Arrays.asList("world", "x", "y", "z", "yaw", "pitch"));
 
-                if (rs.next()) {
-                    world = Bukkit.getWorld(rs.getString("world"));
-                    x = rs.getDouble("x");
-                    y = rs.getDouble("y");
-                    z = rs.getDouble("z");
-                    yaw = rs.getFloat("yaw");
-                    pitch = rs.getFloat("pitch");
-                } else {
-                    return null;
-                }
+            World world = Bukkit.getWorld((String) locationobj.get(0));
+            double x = (Double) locationobj.get(1);
+            double y = (Double) locationobj.get(2);
+            double z = (Double) locationobj.get(3);
+            float yaw = (Float) locationobj.get(4);
+            float pitch = (Float) locationobj.get(5);
 
-                return location = new Location(world, x, y, z, yaw, pitch);
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            return location = new Location(world, x, y, z, yaw, pitch);
 
         } else {
             if (configManager.getConfig(ConfigType.DATA).getString("lobby.world") == null) {
@@ -82,43 +67,31 @@ public class LobbyLocation {
     public void setLocation(FileConfiguration  data, File dataF, CommandSender sender, Location location1) {
 
         if (XG7Lobby.connected) {
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lobby WHERE world = ?");
-                preparedStatement.setString(1, location1.getWorld().getName());
 
-                ResultSet resultSet = preparedStatement.executeQuery();
+            List<Object> object = SqlUtil.get(connection, "SELECT * FROM lobby WHERE world = ?", new ArrayList<>(), Collections.singletonList(SqlUtil.get(connection, "SELECT * FROM lobby", "world")));
 
-                if (resultSet.next()) {
+            List<Object> objects = new ArrayList<>();
+            objects.add(location1.getWorld().getName());
+            objects.add(location1.getX());
+            objects.add(location1.getY());
+            objects.add(location1.getZ());
+            objects.add(location1.getYaw());
+            objects.add(location1.getPitch());
+            if (object != null) {
 
-                    PreparedStatement ps = connection.prepareStatement("UPDATE lobby SET world = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ? WHERE world = ?");
-                    ps.setString(1, location1.getWorld().getName());
-                    ps.setDouble(2, location1.getX());
-                    ps.setDouble(3, location1.getY());
-                    ps.setDouble(4, location1.getZ());
-                    ps.setFloat(5, location1.getYaw());
-                    ps.setFloat(6, location1.getPitch());
-                    ps.setString(7, resultSet.getString("world"));
-                    ps.executeUpdate();
 
-                    sender.sendMessage(prefix + ChatColor.GREEN + "The lobby was successfully updated!");
+                SqlUtil.set(connection, "UPDATE lobby SET world = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ? WHERE world = ?", objects);
 
-                } else {
-                    PreparedStatement ps = connection.prepareStatement("INSERT INTO lobby (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?)");
-                    ps.setString(1, location1.getWorld().getName());
-                    ps.setDouble(2, location1.getX());
-                    ps.setDouble(3, location1.getY());
-                    ps.setDouble(4, location1.getZ());
-                    ps.setFloat(5, location1.getYaw());
-                    ps.setFloat(6, location1.getPitch());
-                    ps.executeUpdate();
+                sender.sendMessage(prefix + ChatColor.GREEN + "The lobby was successfully updated!");
 
-                    sender.sendMessage(prefix + ChatColor.GREEN + "The lobby was successfully saved!");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+
+            } else {
+
+
+                SqlUtil.set(connection, "INSERT INTO lobby (world, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?)", objects);
+
+                sender.sendMessage(prefix + ChatColor.GREEN + "The lobby was successfully saved!");
             }
-
-
 
         } else {
 

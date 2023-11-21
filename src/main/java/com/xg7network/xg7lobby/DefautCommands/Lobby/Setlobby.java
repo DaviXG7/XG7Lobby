@@ -34,7 +34,7 @@ public class Setlobby implements CommandExecutor {
     public Setlobby(XG7Lobby pl) {
         this.pl = pl;
         this.data = configManager.getConfig(ConfigType.DATA);
-        this.dataF = new File(pl.getDataFolder(), "lobby.yml");
+        this.dataF = new File(pl.getDataFolder(), "data.yml");
 
         if (XG7Lobby.connected) {
             this.connection = pl.getSqlConnect().getConnection();

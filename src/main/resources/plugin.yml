@@ -2,3 +2,182 @@ name: XG7Lobby
 version: '${project.version}'
 main: com.xg7network.xg7lobby.XG7Lobby
 api-version: '1.16'
+loadbefore: [XG7RandomKits]
+depend: [ProtocolLib]
+softdepend: [PlaceholderAPI, Multiverse-Core]
+
+commands:
+  xg7lobbyreloadconfig:
+    description: Recarrega o as configs do plugin
+    aliases: [7lreloadconfig, xg7lreloadconfig, 7lrlcg, xg7lrlcg]
+    usage: "/<command>"
+  xg7lobbybuild:
+    description: Faz o player construir no lobby
+    aliases: [ 7lbuild, build, 7lb, xg7lb ]
+    usage: "/<command>"
+
+  xg7lobbymute:
+    description: Silencia jogadores
+    aliases: [7lmute, mute, xg7lmute]
+    usage: "/<command> <Jogador>"
+
+  xg7lobbyunmute:
+    description: Dessilencia jogadores
+    aliases: [7lunmute, unmute, xg7lunmute]
+    usage: "/<command> <Jogador>"
+
+  xg7lobbyban:
+    description: Bane jogadores
+    aliases: [7lban, ban, xg7lban]
+    usage: "/<command> <Jogador> [Motivo]"
+
+  xg7lobbyunban:
+    description: Dessilencia jogadores
+    aliases: [7lunban, unban, xg7lunban, 7lpardon, pardon, xg7lpardon]
+    usage: "/<command> <Jogador>"
+
+  xg7lobbytempban:
+    description: Bane jogadores temporariamente
+    aliases: [7ltempban, tempban, xg7ltempban]
+    usage: "/<command> <Jogador> [Motivo]"
+
+  xg7lobbykick:
+    description: Dessilencia jogadores
+    aliases: [7lkick, kick, xg7lkick]
+    usage: "/<command> <Jogador> [Motivo]"
+
+  xg7lobbywarn:
+    description: Avisa a jogadores
+    aliases: [7lwarn, warn, xg7lwarn]
+    usage: "/<command> <Jogador> <Motivo>"
+
+  xg7lobbywarns:
+    description: Ve seus avisos
+    aliases: [7lwarns, warns, xg7lwarns]
+    usage: "/<command>"
+
+  xg7lobbysetlobby:
+    description: Coloca a localização do lobby
+    aliases: [7lsetlobby, 7lsetl, xg7lsetlobby, xg7lsetl, setlobby]
+    usage: "/<command>"
+
+  xg7lobbylobby:
+    description: Teletransporta para a localização do lobby
+    aliases: [lobby, 7llobby, xg7llobby, l, 7l]
+    usage: "/<command>"
+
+  xg7lobbyfly:
+    description: Faz voar
+    aliases: [fly, 7lfly, xg7lfly]
+    usage: "/<command> [Jogador]"
+
+  xg7lobbygui:
+    description: abre uma gui
+    aliases: [7lgui, gui, xg7lgui]
+    usage: "/<command> <id>"
+
+  xg7lobbyvanish:
+    description: esconde jogadores
+    aliases: [7lvanish, vanish, xg7lvanish]
+    usage: "/<command>"
+
+  xg7lobbygmc:
+    description: Muda o moodo do jogo para criativo
+    aliases: [7lgmc, gmc, xg7lgmc]
+    usage: "/<command> [Player]"
+
+  xg7lobbygms:
+    description: Muda o moodo do jogo para sobrevivência
+    aliases: [7lgms, gms, xg7lgms]
+    usage: "/<command> [Player]"
+
+  xg7lobbygma:
+    description: Muda o moodo do jogo para aventura
+    aliases: [7lgma, gma, xg7lgma]
+    usage: "/<command> [Player]"
+
+  xg7lobbygmsp:
+    description: Muda o moodo do jogo para espectador
+    aliases: [7lgmsp, gmsp, xg7lgmsp]
+    usage: "/<command> [Player]"
+
+  xg7lobbyajuda:
+    description: Ajuda do plugin
+    aliases: [7lhelp, lhelp, 7lajuda, lajuda, xg7lobbyhelp, xg7lajuda, xg7lhelp]
+
+  xg7lobbylockchat:
+    description: Bloqueia o chat
+    aliases: [7llockchat, llockchat, lockchat, xg7llockchat]
+
+  execute:
+    description: a
+    aliases: [execute]
+    usage: "/<command>"
+
+
+permissions:
+  xg7lobby.admin:
+    default: op
+    description: Administradores do plugin
+    children:
+      xg7lobby.build: true
+      xg7lobby.command.*: true
+      xg7lobby.items.*: true
+      xg7lobby.blocks.*: true
+      xg7lobby.attack: true
+      xg7lobby.doublejump: true
+      xg7lobby.chat.*: true
+      xg7lobby.gamemode.*: true
+      xg7lobby.inv: true
+
+  xg7lobby.command.*:
+    default: op
+    description: Pode usar todos os comandos do plugin
+    children:
+      xg7lobby.command.mute: true
+      xg7lobby.command.setlobby: true
+      xg7lobby.command.reload: true
+      xg7lobby.command.ban: true
+      xg7lobby.command.unban: true
+      xg7lobby.command.kick: true
+      xg7lobby.command.unmute: true
+      xg7lobby.command.tempban: true
+      xg7lobby.command.warn: true
+      xg7lobby.command.fly: true
+      xg7lobby.command.flyother: true
+      xg7lobby.command.gui: true
+      xg7lobby.command.vanish: true
+      xg7lobby.command.help: true
+      xg7lobby.command.lockchat: true
+
+  xg7lobby.items.*:
+    default: op
+    description: Pode fazer de tudo com itens
+    children:
+      xg7lobby.items.pickup: true
+      xg7lobby.items.drop: true
+
+  xg7lobby.blocks.*:
+    default: op
+    description: Pode fazer de tudo com itens
+    children:
+      xg7lobby.blocos.colocar: true
+      xg7lobby.blocos.quebrar: true
+      xg7lobby.blocos.interagir: true
+
+  xg7lobby.chat.*:
+    default: op
+    description: Permissões de chat
+    children:
+      xg7lobby.chat.badwords: true
+      xg7lobby.chat.commands: true
+
+  xg7lobby.gamemode.*:
+    default: op
+    description: Altera o modo de jogo
+    children:
+      xg7lobby.gamemode.creative: true
+      xg7lobby.gamemode.survival: true
+      xg7lobby.gamemode.adventure: true
+      xg7lobby.gamemode.spectator: true
+      xg7lobby.gamemode.others: true

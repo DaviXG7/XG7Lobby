@@ -15,7 +15,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
@@ -61,7 +63,11 @@ public class InventoryItem {
 
                 String playername = materialByte[1].replace("OWNER=", "");
 
-                ItemStack cabeca = new ItemStack(Material.PLAYER_HEAD, 1);
+                boolean skull = Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK");
+
+                Material cabecatype = Material.matchMaterial(skull ? "COMMAND_BLOCK" : "COMMAND");
+
+                ItemStack cabeca = new ItemStack(cabecatype, 1);
                 SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
                 skullMeta.setOwner(playername);

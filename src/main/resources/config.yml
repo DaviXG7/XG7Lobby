@@ -246,8 +246,13 @@ sql:
   moderation:
 
 ###############################################
-#WORLD OPTIONS                                #
+#MODERATION OPTIONS                           #
 ###############################################
+
+infraction-on-warn: true
+
+infractions-to-ban: -1
+min-infractions-to-kick: -1
 
 
 ###############################################
