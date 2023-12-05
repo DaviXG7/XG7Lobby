@@ -19,11 +19,6 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class JoinAndQuit implements Listener {
 
-    private XG7Lobby pl;
-
-    public JoinAndQuit(XG7Lobby pl) {
-        this.pl = pl;
-    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -33,7 +28,7 @@ public class JoinAndQuit implements Listener {
         event.setJoinMessage(message.getMessage(player));
 
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("tp-when-join")) {
-            Location location = new LobbyLocation(pl).getLocation();
+            Location location = new LobbyLocation().getLocation();
             if (location != null) {
                 player.teleport(location);
             } else {
@@ -44,7 +39,7 @@ public class JoinAndQuit implements Listener {
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(pl, () -> {
+        Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
             if (PluginUtil.isInWorld(player)) {
                 for (String s : configManager.getConfig(ConfigType.CONFIG).getStringList("join-events.actions"))
                     new Action(player, s).execute();

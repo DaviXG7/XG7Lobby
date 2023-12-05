@@ -4,8 +4,7 @@ import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
 import com.xg7network.xg7lobby.Utils.Action.Action;
-import com.xg7network.xg7lobby.Utils.Inventory.SelectorItem;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class SelectorManager extends Module implements Listener {
 

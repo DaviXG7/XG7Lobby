@@ -1,9 +1,8 @@
 package com.xg7network.xg7lobby.Utils.Action;
 
-import com.xg7network.xg7chat.Text.Color;
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.Inventory.Inventory;
-import com.xg7network.xg7lobby.Utils.Inventory.SelectorItem;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Inventory;
+import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.Message;
 import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
@@ -15,7 +14,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
-import static com.xg7network.xg7lobby.XG7Lobby.xg7chat;
 
 public class Action {
 

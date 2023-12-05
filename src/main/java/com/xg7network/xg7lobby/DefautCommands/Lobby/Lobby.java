@@ -16,18 +16,12 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Lobby implements CommandExecutor {
 
-    private XG7Lobby pl;
-
-    public Lobby(XG7Lobby pl) {
-        this.pl = pl;
-    }
-
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            LobbyLocation location = new LobbyLocation(pl);
+            LobbyLocation location = new LobbyLocation();
 
             if (location.getLocation() == null) {
                 if (PluginUtil.hasPermission(commandSender, PermissionType.SETLOBBY_COMMAND, configManager.getConfig(ConfigType.MESSAGES).getString("commands.lobby-warn")))
@@ -35,7 +29,7 @@ public class Lobby implements CommandExecutor {
                 return true;
             }
 
-            player.teleport(new LobbyLocation(pl).getLocation());
+            player.teleport(new LobbyLocation().getLocation());
         } else {
             commandSender.sendMessage(ErrorMessages.NOT_PLAYER.getMessage());
         }

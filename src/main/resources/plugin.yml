@@ -41,6 +41,11 @@ commands:
     aliases: [7ltempban, tempban, xg7ltempban]
     usage: "/<command> <Jogador> [Motivo]"
 
+  xg7lobbytempmute:
+    description: Silencia jogadores temporariamente
+    aliases: [ 7ltempmute, tempmute, xg7ltempmute ]
+    usage: "/<command> <Jogador> [1 - Quanto tempo (Em dias)d, 2 - Quanto tempo (Em horas)h, 3 - Quanto tempo (Em minutos)min, 4 - Data final (dd/mm/aaaa, hh/min)]"
+
   xg7lobbykick:
     description: Dessilencia jogadores
     aliases: [7lkick, kick, xg7lkick]

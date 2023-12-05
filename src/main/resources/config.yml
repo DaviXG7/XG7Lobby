@@ -222,37 +222,16 @@ anti-spam:
   tolerance: 5
 
 ###############################################
-#DATABASE                                     #
-###############################################
-
-#You can use SQL to store information, and store
-#lists that contain players without having to use
-#your computer to do so!
-
-sql:
-
-  enabled: false
-
-  host: "localhost"
-  port: 3306
-  database: "xg7_lobby"
-
-  user: "root"
-  password: ""
-
-  #Choose what you want to store in your database
-
-  lobby:
-  moderation:
-
-###############################################
 #MODERATION OPTIONS                           #
 ###############################################
 
 infraction-on-warn: true
+infraction-on-mute: true
 
 infractions-to-ban: -1
 min-infractions-to-kick: -1
+
+mute-only-in-lobby: false
 
 
 ###############################################

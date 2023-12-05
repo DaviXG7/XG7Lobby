@@ -34,7 +34,7 @@ public class Message {
                 if (message.startsWith("CENTER: ")) {
                     message = message.replace("CENTER: ", "");
 
-                    player.sendMessage(XG7ChatUtil.centralize(message,player));
+                    player.sendMessage(XG7ChatUtil.centralize(getMessage(player),player));
 
                 } else player.sendMessage(getMessage(player));
 

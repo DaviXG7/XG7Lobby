@@ -1,12 +1,11 @@
-package com.xg7network.xg7lobby.Utils.Inventory;
+package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-
 import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,19 +20,20 @@ import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
-public class InventoryItem {
+public class SelectorItem {
 
-
-    public Inventory inv;
-    private int slot;
+    private int slot = -1;
     private String path;
     private ItemStack itemStack;
     private List<String> actions;
 
-    public InventoryItem(String path, Inventory inv, Player player) {
-        this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot");
-        this.inv = inv;
+    private Player player;
+
+    public SelectorItem(String path, Player player) {
+        if (configManager.getConfig(ConfigType.SELECTORS).get(path + ".slot") != null) this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") -1;
+
         this.path = path;
+        this.player = player;
         this.actions = configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".actions");
 
         this.itemStack = getItemAndMaterial();
@@ -60,21 +60,23 @@ public class InventoryItem {
         if (configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").contains(", ")) {
             String[] materialByte = configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").split(", ");
             if (materialByte[0].equals("PLAYER_HEAD") && materialByte[1].startsWith("OWNER=")) {
-
                 String playername = materialByte[1].replace("OWNER=", "");
 
-                boolean skull = Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK");
+                boolean skull = Arrays.stream(Material.values())
+                        .map(Material::name)
+                        .collect(Collectors.toList())
+                        .contains("PLAYER_HEAD");
 
-                Material cabecatype = Material.matchMaterial(skull ? "COMMAND_BLOCK" : "COMMAND");
-
-                ItemStack cabeca = new ItemStack(cabecatype, 1);
+                Material cabecatype = Material.matchMaterial(skull ? "PLAYER_HEAD" : "SKULL_ITEM");
+                ItemStack cabeca = new ItemStack(skull ? cabecatype : cabecatype,1, (short) SkullType.PLAYER.ordinal());
                 SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
-                skullMeta.setOwner(playername);
+                if (skull) skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
+                else skullMeta.setOwner(playername.equals("THIS_PLAYER") ? player.getName() : playername);
+
+
                 cabeca.setItemMeta(skullMeta);
-
                 return cabeca;
-
 
             } else {
                 MaterialData data = new MaterialData(Material.valueOf(materialByte[0].toUpperCase()), Byte.parseByte(materialByte[1]));
@@ -86,12 +88,20 @@ public class InventoryItem {
         }
     }
 
-    public org.bukkit.inventory.Inventory getInv() {
-        return inv.getInv();
+    public String getPath() {
+        return path;
     }
+
     public int getSlot() {
         return slot;
     }
+
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
+
+
+
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -99,4 +109,6 @@ public class InventoryItem {
     public List<String> getActions() {
         return actions;
     }
+
+
 }

@@ -1,15 +1,11 @@
 package com.xg7network.xg7lobby.Module.Selectors;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Configs.PermissionType;
-import com.xg7network.xg7lobby.Utils.Action.Action;
-import com.xg7network.xg7lobby.Utils.Inventory.SelectorItem;
+import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;

@@ -11,7 +11,8 @@ public enum ErrorMessages {
     NOT_PLAYER("Only players can execute this command!"),
     NOT_IN_WORLD("You cannot execute this command in a disabled world!"),
     PLAYER_DOESNOT_EXIST("This player does not exist!"),
-    PLAYER_IS_NOT_ONLINE("This player is not online");
+    PLAYER_IS_NOT_ONLINE("This player is not online"),
+    SYNTAX_ERROR("This command was written incorrectly!");
 
 
     private String s;

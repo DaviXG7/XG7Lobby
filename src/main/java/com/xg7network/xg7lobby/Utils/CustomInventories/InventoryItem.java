@@ -1,11 +1,12 @@
-package com.xg7network.xg7lobby.Utils.Inventory;
+package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
+
 import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,22 +15,25 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
-public class SelectorItem {
+public class InventoryItem {
 
-    private int slot = -1;
+
+    public Inventory inv;
+    private int slot;
     private String path;
     private ItemStack itemStack;
     private List<String> actions;
-
     private Player player;
 
-    public SelectorItem(String path, Player player) {
-        if (configManager.getConfig(ConfigType.SELECTORS).get(path + ".slot") != null) this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") -1;
-
+    public InventoryItem(String path, Inventory inv, Player player) {
+        this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot");
+        this.inv = inv;
         this.path = path;
         this.player = player;
         this.actions = configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".actions");
@@ -61,27 +65,21 @@ public class SelectorItem {
 
                 String playername = materialByte[1].replace("OWNER=", "");
 
-                if (playername.equals("THIS_PLAYER")) {
+                boolean skull = Arrays.stream(Material.values())
+                        .map(Material::name)
+                        .collect(Collectors.toList())
+                        .contains("PLAYER_HEAD");
 
-                    ItemStack cabeca = new ItemStack(Material.PLAYER_HEAD);
-                    SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+                Material cabecatype = Material.matchMaterial(skull ? "PLAYER_HEAD" : "SKULL_ITEM");
+                ItemStack cabeca = new ItemStack(skull ? cabecatype : cabecatype,1, (short) SkullType.PLAYER.ordinal());
+                SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
-                    skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()));
-                    cabeca.setItemMeta(skullMeta);
+                if (skull) skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
+                else skullMeta.setOwner(playername.equals("THIS_PLAYER") ? player.getName() : playername);
 
-                    return cabeca;
-                } else {
 
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playername);
-
-                    ItemStack cabeca = new ItemStack(Material.PLAYER_HEAD);
-                    SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
-
-                    skullMeta.setOwningPlayer(offlinePlayer);
-                    cabeca.setItemMeta(skullMeta);
-
-                    return cabeca;
-                }
+                cabeca.setItemMeta(skullMeta);
+                return cabeca;
 
 
             } else {
@@ -94,20 +92,12 @@ public class SelectorItem {
         }
     }
 
-    public String getPath() {
-        return path;
+    public org.bukkit.inventory.Inventory getInv() {
+        return inv.getInv();
     }
-
     public int getSlot() {
         return slot;
     }
-
-    public void setSlot(int slot) {
-        this.slot = slot;
-    }
-
-
-
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -115,6 +105,4 @@ public class SelectorItem {
     public List<String> getActions() {
         return actions;
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils.Inventory;
+package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;

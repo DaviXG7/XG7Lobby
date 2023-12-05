@@ -11,10 +11,7 @@ public enum PermissionType {
     FLY_OTHER("xg7lobby.command.flyother"),
     GUI_COMMAND("xg7lobby.command.gui"),
     MUTE_COMMAND("xg7lobby.command.mute"),
-    UNMUTE_COMMAND("xg7lobby.command.unmute"),
     BAN_COMMAND("xg7lobby.command.ban"),
-    UNBAN_COMMAND("xg7lobby.command.unban"),
-    TEMPBAN_COMMAND("xg7lobby.command.tempban"),
     KICK_COMMAND("xg7lobby.command.kick"),
     WARN_COMMAND("xg7lobby.command.warn"),
 

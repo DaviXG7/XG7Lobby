@@ -16,6 +16,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class OnBuild implements Listener {
@@ -62,9 +65,15 @@ public class OnBuild implements Listener {
                 World world = clickedBlock.getWorld();
 
                 if (PluginUtil.isInWorld(world)) {
+
+                    boolean crafiting_table = Arrays.stream(Material.values())
+                            .map(Material::name)
+                            .collect(Collectors.toList())
+                            .contains("CRAFITING_TABLE");
+
                     if (blockType == Material.ANVIL || blockType == Material.HOPPER
                             || blockType == Material.DISPENSER || blockType == Material.DROPPER || blockType == Material.CHEST
-                            || blockType == Material.FURNACE || blockType == Material.CRAFTING_TABLE) {
+                            || blockType == Material.FURNACE || blockType == Material.matchMaterial(crafiting_table ? "CRAFITING_TABLE" : "WORKBENCH")) {
 
                         event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks"), PermissionType.BLOCOS_INTERAGIR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-interact"), player));
                     }

@@ -28,9 +28,9 @@ commands:
   adm-lobby-warn: "&cLobby not placed! Type &7/&esetlobby &c to place!"
 
   #fly messages
-  #[PLAYERT] = target player
-  fly-enabled-other: "&aYou enabled fly to &bPLAYERT!"
-  fly-disabled-other: "&cYou disabled fly to &bPLAYERT!"
+  #[TARGET] = target player
+  fly-enabled-other: "&aYou enabled fly to &b[TARGET]!"
+  fly-disabled-other: "&cYou disabled fly to &b[TARGET]!"
   fly-enabled: "&aYour fly has been enabled!"
   fly-disabled: "&cYour fly has been disabled!"
 
@@ -54,6 +54,7 @@ commands:
   #Mute messages
   when-muted: "&cYou have been muted by an admin! Please don't break the rules!"
   on-mute: "&cYou cannot send messages. You are muted!"
+  on-mute-with-time: "&cYou cannot send messages. You are muted for [DAYS]"
 
 events:
 

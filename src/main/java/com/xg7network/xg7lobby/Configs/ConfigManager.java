@@ -10,12 +10,6 @@ import java.util.logging.Level;
 
 public class ConfigManager {
 
-    private XG7Lobby pl;
-
-    public ConfigManager(XG7Lobby pl) {
-        this.pl = pl;
-    }
-
     private static FileConfiguration config = null;
     private static  FileConfiguration seletor = null;
     private static FileConfiguration data = null;
@@ -31,7 +25,7 @@ public class ConfigManager {
         switch (type) {
             case CONFIG:
                 if (Cfile == null) {
-                    Cfile = new File(pl.getDataFolder(), type.getConfig());
+                    Cfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 config = YamlConfiguration.loadConfiguration(Cfile);
 
@@ -39,7 +33,7 @@ public class ConfigManager {
 
             case DATA:
                 if (Dfile == null) {
-                    Dfile = new File(pl.getDataFolder(), type.getConfig());
+                    Dfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 data = YamlConfiguration.loadConfiguration(Dfile);
 
@@ -47,7 +41,7 @@ public class ConfigManager {
 
             case MESSAGES:
                 if (Mfile == null) {
-                    Mfile = new File(pl.getDataFolder(), type.getConfig());
+                    Mfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 mensagem = YamlConfiguration.loadConfiguration(Mfile);
 
@@ -56,7 +50,7 @@ public class ConfigManager {
 
             case SELECTORS:
                 if (Sfile == null) {
-                    Sfile = new File(pl.getDataFolder(), type.getConfig());
+                    Sfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 seletor = YamlConfiguration.loadConfiguration(Sfile);
 
@@ -97,7 +91,7 @@ public class ConfigManager {
                 try {
                     this.getConfig(type).save(type.getConfig());
                 } catch (IOException e) {
-                    pl.getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Cfile, e);
+                    XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Cfile, e);
                 }
 
                 return;
@@ -107,9 +101,9 @@ public class ConfigManager {
                     return;
                 try {
                     System.out.println("aaaa");
-                    this.getConfig(type).save("data.yml");
+                    this.getConfig(type).save("data/data.yml");
                 } catch (IOException e) {
-                    pl.getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Dfile, e);
+                    XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Dfile, e);
                 }
 
                 return;
@@ -120,7 +114,7 @@ public class ConfigManager {
                 try {
                     this.getConfig(type).save(type.getConfig());
                 } catch (IOException e) {
-                    pl.getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Mfile, e);
+                    XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Mfile, e);
                 }
 
                 return;
@@ -131,7 +125,7 @@ public class ConfigManager {
                 try {
                     this.getConfig(type).save(type.getConfig());
                 } catch (IOException e) {
-                    pl.getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Sfile, e);
+                    XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Sfile, e);
                 }
 
         }
@@ -141,40 +135,40 @@ public class ConfigManager {
         switch (type) {
             case CONFIG:
                 if (Cfile == null) {
-                    Cfile = new File(pl.getDataFolder(), type.getConfig());
+                    Cfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 if (!Cfile.exists()) {
-                    pl.saveResource(type.getConfig(), false);
+                    XG7Lobby.getPlugin().saveResource(type.getConfig(), false);
                 }
 
                 return;
 
             case DATA:
                 if (Dfile == null) {
-                    Dfile = new File(pl.getDataFolder(), type.getConfig());
+                    Dfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 if (!Dfile.exists()) {
-                    pl.saveResource(type.getConfig(), false);
+                    XG7Lobby.getPlugin().saveResource(type.getConfig(), false);
                 }
 
                 return;
 
             case MESSAGES:
                 if (Mfile == null) {
-                    Mfile = new File(pl.getDataFolder(), type.getConfig());
+                    Mfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 if (!Mfile.exists()) {
-                    pl.saveResource(type.getConfig(), false);
+                    XG7Lobby.getPlugin().saveResource(type.getConfig(), false);
                 }
 
                 return;
 
             case SELECTORS:
                 if (Sfile == null) {
-                    Sfile = new File(pl.getDataFolder(), type.getConfig());
+                    Sfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
                 }
                 if (!Sfile.exists()) {
-                    pl.saveResource(type.getConfig(), false);
+                    XG7Lobby.getPlugin().saveResource(type.getConfig(), false);
                 }
         }
     }

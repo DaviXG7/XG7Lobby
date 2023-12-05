@@ -1,7 +1,6 @@
-package com.xg7network.xg7lobby.Utils.Inventory;
+package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 

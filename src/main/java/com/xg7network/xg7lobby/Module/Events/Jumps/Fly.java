@@ -44,11 +44,11 @@ public class Fly implements CommandExecutor {
                                         player.sendMessage(ChatColor.RED + "You cannot change fly of §b" + target.getName() + " §cif the player's gamemode is creative or spectator!");
                                         return true;
                                     }
-                                    new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled-other").replace("PLAYERT", target.getName()), player).sendMessage();
+                                    new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled-other").replace("[TARGET]", target.getName()), player).sendMessage();
                                     new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled"), target).sendMessage();
                                     FlyManager.canfly.put(target.getUniqueId(), true);
                                 } else {
-                                    new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled-other").replace("PLAYERT", target.getName()), target).sendMessage();
+                                    new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled-other").replace("[TARGET]", target.getName()), player).sendMessage();
                                     new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled"), target).sendMessage();
                                     target.setFlying(target.getGameMode().equals(GameMode.CREATIVE) || target.getGameMode().equals(GameMode.SPECTATOR));
                                     FlyManager.canfly.put(target.getUniqueId(), false);

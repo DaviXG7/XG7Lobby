@@ -4,7 +4,6 @@ import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -15,12 +14,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
-import static com.xg7network.xg7lobby.XG7Lobby.prefix;
+import static com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class Setlobby implements CommandExecutor {
 
@@ -28,17 +23,10 @@ public class Setlobby implements CommandExecutor {
 
     private static FileConfiguration data;
     private static File dataF;
-    private XG7Lobby pl;
-    private Connection connection;
 
-    public Setlobby(XG7Lobby pl) {
-        this.pl = pl;
+    public Setlobby() {
         this.data = configManager.getConfig(ConfigType.DATA);
-        this.dataF = new File(pl.getDataFolder(), "data.yml");
-
-        if (XG7Lobby.connected) {
-            this.connection = pl.getSqlConnect().getConnection();
-        }
+        this.dataF = new File(XG7Lobby.getPlugin().getDataFolder(), "data/data.yml");
     }
 
     @Override
@@ -47,11 +35,7 @@ public class Setlobby implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             location = player.getLocation();
-            if (strings.length == 1 && strings[0].equals("delete")) {
-                delete(commandSender);
-            } else {
-                save(commandSender);
-            }
+            save(commandSender);
         } else {
             if (strings.length == 4) {
 
@@ -82,17 +66,6 @@ public class Setlobby implements CommandExecutor {
     }
 
     void save(CommandSender sender) {
-        new LobbyLocation(pl).setLocation(data, dataF, sender, location);
-    }
-
-    void delete(CommandSender sender) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM lobby");
-            ps.executeUpdate();
-            sender.sendMessage(prefix + ChatColor.GREEN + "All lobbies have been deleted");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        new LobbyLocation().setLocation(data, dataF, sender, location);
     }
 }

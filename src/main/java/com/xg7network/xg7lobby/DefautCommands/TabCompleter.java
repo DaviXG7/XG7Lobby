@@ -1,5 +1,7 @@
 package com.xg7network.xg7lobby.DefautCommands;
 
+import org.bukkit.BanEntry;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,25 +19,55 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
         List<String> results = new ArrayList<>();
 
         switch (command.getName()) {
-            case "xg7lobbysetlobby":
-
-                if (strings.length == 1) results.add("delete");
-
-                break;
-
             case "xg7lobbyfly":
+            case "xg7lobbymute":
+            case "xg7lobbyunmute":
 
                 if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
 
                 break;
 
             case "xg7lobbykick":
+            case "xg7lobbyban":
+            case "xg7lobbytempban":
 
                 if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
-                else if (strings.length == 2) {
-                    Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
-                    results.add("<reason>");
+                else if (strings.length >= 2) results.add("<REASON>");
+
+                break;
+            case "xg7lobbyunban":
+
+                if (strings.length == 1) {
+                    for (BanEntry entry : Bukkit.getBanList(BanList.Type.NAME).getBanEntries()) results.add(entry.getTarget());
                 }
+
+            case "xg7lobbytempmute":
+
+                if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
+
+                else if (strings.length == 2) {
+                    results.add("30min");
+                    results.add("2h");
+                    results.add("1d");
+                    results.add("dd/mm/yyyy");
+                    results.add("26/04/2010 (Example)");
+                }
+                else if (strings.length == 3) {
+                    results.add("h:min");
+                    results.add("14:36 (Example)");
+                }
+
+                break;
+
+            case "execute":
+
+                if (strings.length == 1) {
+                    results.add("ACTION");
+                    results.add("ADD");
+                }
+
+                break;
+
         }
         return results;
     }
