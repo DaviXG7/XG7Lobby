@@ -57,8 +57,6 @@ public final class XG7Lobby extends JavaPlugin {
     public static boolean placeholderapi = false;
 
     private static XG7Lobby plugin;
-
-    private File playerdata;
     
     private ModuleManager moduleManager;
 

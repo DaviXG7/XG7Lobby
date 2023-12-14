@@ -51,7 +51,7 @@ public class PlayerData {
         this.infractions.remove(index - 1);
     }
 
-    public void addInfractions(String reason, Date date) {
+    public void addInfraction(String reason, Date date) {
         this.infractions.add(new Warn(reason, date));
     }
 

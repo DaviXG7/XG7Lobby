@@ -32,7 +32,7 @@ public class test implements CommandExecutor {
                 Player target = Bukkit.getPlayer(strings[1]);
 
 
-                PlayersManager.getData(target.getUniqueId().toString()).addInfractions("asdasdasd", new Date(System.currentTimeMillis()));
+                PlayersManager.getData(target.getUniqueId().toString()).addInfraction("asdasdasd", new Date(System.currentTimeMillis()));
 
                 PlayersManager.update(target.getUniqueId().toString(), PlayersManager.getData(target.getUniqueId().toString()));
 
