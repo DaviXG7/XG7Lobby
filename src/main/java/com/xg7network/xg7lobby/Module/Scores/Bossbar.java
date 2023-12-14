@@ -1,7 +1,7 @@
 package com.xg7network.xg7lobby.Module.Scores;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -21,7 +21,7 @@ public class Bossbar implements Listener {
     }
 
     public void createBossBar() {
-        String bossTitulo = XG7ChatUtil.getTexts(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title").replace("&", "§"));
+        String bossTitulo = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title")).get();
         boss = Bukkit.createBossBar(bossTitulo,
                 BarColor.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.color")),
                 BarStyle.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.style")));

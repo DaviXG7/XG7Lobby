@@ -4,7 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.Message;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +34,7 @@ public class SelectorListener implements Listener {
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
                             event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
                         if (this.cooldown.asMap().containsKey(player.getUniqueId())) {
-                            new Message(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-cooldown").replace("SECONDS", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(cooldown.asMap().get(player.getUniqueId()) - System.currentTimeMillis()))), player).sendMessage();
+                            new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-cooldown").replace("SECONDS", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(cooldown.asMap().get(player.getUniqueId()) - System.currentTimeMillis())))).send(player);
                         } else {
                             this.cooldown.put(player.getUniqueId(), System.currentTimeMillis() + configManager.getConfig(ConfigType.SELECTORS).getLong("selectors.cooldown") * 1000L);
                             SelectorManager.execute(player, player.getItemInHand());

@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Utils;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
-import com.xg7network.xg7lobby.Utils.Text.Message;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -31,7 +31,7 @@ public class PluginUtil {
     public static boolean hasPermission(Player player, PermissionType permissionType, String message) {
         if (player.hasPermission(permissionType.getPerm())) return true;
         else {
-            new Message(message, player).sendMessage();
+            new TextUtil(message).send(player);
             return false;
         }
     }
@@ -40,7 +40,7 @@ public class PluginUtil {
         if (sender instanceof Player) {
             if (sender.hasPermission(permissionType.getPerm())) return true;
             else {
-                new Message(message, (Player) sender).sendMessage();
+                new TextUtil(message).send((Player) sender);
                 return false;
             }
         }

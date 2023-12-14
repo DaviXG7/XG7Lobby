@@ -4,8 +4,7 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Inventory;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.Message;
-import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -27,7 +26,7 @@ public class Action {
                 if (actionType.equals(ActionType.valueOf(action.substring(0, action.indexOf(":"))))) {
                     this.type = actionType;
                     this.player = player;
-                    this.action = XG7ChatUtil.getTexts(action).replace(actionType + ": ", "");
+                    this.action = new TextUtil(action).get(player).replace(actionType + ": ", "");
 
                     return;
                 }
@@ -41,7 +40,7 @@ public class Action {
     }
 
     public void execute() {
-        String toUse = new Message(action.replace("PLAYER", player.getName()), player).getMessage(player);
+        String toUse = new TextUtil(action.replace("PLAYER", player.getName())).get(player);
         if (permission()) {
 
             switch (type) {
@@ -54,8 +53,8 @@ public class Action {
 
                 case MESSAGE:
 
-                    Message message = new Message(toUse, player);
-                    message.sendMessage();
+                    TextUtil message = new TextUtil(toUse);
+                    message.send(player);
 
                     return;
 
@@ -185,8 +184,8 @@ public class Action {
 
                 case ACTIONBAR:
 
-                    Message actionbar = new Message(toUse, player);
-                    actionbar.sendActionBar();
+                    TextUtil actionbar = new TextUtil(toUse);
+                    actionbar.sendActionBar(player);
 
                     return;
 

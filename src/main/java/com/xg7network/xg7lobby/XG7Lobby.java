@@ -55,7 +55,6 @@ public final class XG7Lobby extends JavaPlugin {
     public static ConfigManager configManager;
 
     public static boolean placeholderapi = false;
-    public static boolean xg7chat = false;
 
     private static XG7Lobby plugin;
 
@@ -104,12 +103,6 @@ public final class XG7Lobby extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "to get more resourses!");
 
         }
-
-        if (Bukkit.getPluginManager().getPlugin("XG7Chat") == null) {
-            this.getServer().getConsoleSender().sendMessage(prefix + "To get more features in XG7Lobby it's recommended to install XG7Chat!");
-        }
-
-        xg7chat = Bukkit.getPluginManager().getPlugin("XG7Chat") != null;
 
         placeholderapi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
 

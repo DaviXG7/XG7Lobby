@@ -4,8 +4,7 @@ import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.Message;
-import com.xg7network.xg7lobby.XG7Lobby;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +24,7 @@ public class Lobby implements CommandExecutor {
 
             if (location.getLocation() == null) {
                 if (PluginUtil.hasPermission(commandSender, PermissionType.SETLOBBY_COMMAND, configManager.getConfig(ConfigType.MESSAGES).getString("commands.lobby-warn")))
-                    new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn"), player).sendMessage();
+                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn")).send(player);
                 return true;
             }
 

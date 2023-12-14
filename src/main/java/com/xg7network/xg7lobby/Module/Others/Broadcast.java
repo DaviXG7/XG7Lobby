@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Module.Others;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Module.Module;
-import com.xg7network.xg7lobby.Utils.Text.Message;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -37,19 +37,19 @@ public class Broadcast extends Module {
 
 
                         for (String linhas : anuncio) {
-                            Message message = new Message(linhas, p);
+                            TextUtil message = new TextUtil(linhas);
                             if (configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.AOOL")) {
                                 if (configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(p.getWorld().getName())) {
                                     String s = configManager.getConfig(ConfigType.CONFIG).getString("announcements.sound");
                                     String[] s2 = s.split(", ");
                                     p.playSound(p.getLocation(), Sound.valueOf(s2[0]), Float.parseFloat(s2[1]), Float.parseFloat(s2[2]));
-                                    message.sendMessage();
+                                    message.send(p);
                                 }
                             } else {
                                 String s = configManager.getConfig(ConfigType.CONFIG).getString("announcements.sound");
                                 String[] s2 = s.split(", ");
                                 p.playSound(p.getLocation(), Sound.valueOf(s2[0]), Float.parseFloat(s2[1]), Float.parseFloat(s2[2]));
-                                message.sendMessage();
+                                message.send(p);
                             }
 
                         }

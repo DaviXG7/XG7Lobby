@@ -4,7 +4,7 @@ import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Utils.Action.Action;
-import com.xg7network.xg7lobby.Utils.Text.Message;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
@@ -24,8 +24,8 @@ public class JoinAndQuit implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        Message message = new Message(configManager.getConfig(ConfigType.CONFIG).getString("join-message"), player);
-        event.setJoinMessage(message.getMessage(player));
+        TextUtil message = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("join-message"));
+        event.setJoinMessage(message.get(player));
 
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("tp-when-join")) {
             Location location = new LobbyLocation().getLocation();
@@ -33,8 +33,8 @@ public class JoinAndQuit implements Listener {
                 player.teleport(location);
             } else {
                 if (PluginUtil.hasPermission(player, PermissionType.SETLOBBY_COMMAND, configManager.getConfig(ConfigType.MESSAGES).getString("commands.lobby-warn"))) {
-                    Message message1 = new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn"), player);
-                    message1.sendMessage();
+                    TextUtil message1 = new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn"));
+                    message1.send(player);
                 }
             }
         }
@@ -51,8 +51,8 @@ public class JoinAndQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Message message = new Message(configManager.getConfig(ConfigType.CONFIG).getString("leave-message"), player);
-        event.setQuitMessage(message.getMessage(player));
+        TextUtil message = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("leave-message"));
+        event.setQuitMessage(message.get(player));
     }
 
 

@@ -5,14 +5,12 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Tablist {
 
@@ -21,8 +19,8 @@ public class Tablist {
     private Player player;
 
     public Tablist(Player player, List<String> header, List<String> footer) {
-        this.header = header == null ? "" : XG7ChatUtil.getTexts(header.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§"));
-        this.footer = footer == null ? "" : XG7ChatUtil.getTexts(footer.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§"));
+        this.header = header == null ? "" : new TextUtil(header.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§")).get(player);
+        this.footer = footer == null ? "" : new TextUtil(footer.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§")).get(player);
         this.player = player;
     }
 

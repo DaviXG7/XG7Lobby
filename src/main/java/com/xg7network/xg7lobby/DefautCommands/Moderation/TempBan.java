@@ -1,11 +1,8 @@
 package com.xg7network.xg7lobby.DefautCommands.Moderation;
 
-import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.Message;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
 public class TempBan implements CommandExecutor {

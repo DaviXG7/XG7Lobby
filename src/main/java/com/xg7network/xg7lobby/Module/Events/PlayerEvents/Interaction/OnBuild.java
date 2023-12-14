@@ -4,7 +4,7 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Build;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.Message;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -32,7 +32,7 @@ public class OnBuild implements Listener {
 
                     if (Build.canBuild(player)) return false;
                     else {
-                        new Message(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn"), player).sendMessage();
+                        new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn")).send(player);
                         return true;
                     }
 

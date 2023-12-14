@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
-import com.xg7network.xg7lobby.Utils.Text.XG7ChatUtil;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -38,11 +38,10 @@ public class SelectorItem {
 
         this.itemStack = getItemAndMaterial();
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(XG7ChatUtil.getTexts(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name").replace("&", "§")));
+        meta.setDisplayName(new TextUtil(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name")).get(player));
         List<String> lore2 = new ArrayList<>();
         for (String l : configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore")) {
-            l = PluginUtil.setPlaceHolders(l, player);
-            l = XG7ChatUtil.getTexts(l.replace("&", "§"));
+            l = new TextUtil(l).get(player);
             lore2.add(l);
         }
         meta.setLore(lore2);
