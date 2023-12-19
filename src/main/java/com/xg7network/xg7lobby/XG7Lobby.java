@@ -7,6 +7,7 @@ import com.xg7network.xg7lobby.DefautCommands.Moderation.Ban;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.Kick;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.Mute;
 import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
+import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
 import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfig;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
@@ -191,7 +192,15 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbyreloadconfig").setExecutor(new ReloadConfig());
         this.getCommand("xg7lobbygui").setExecutor(new GUI());
         this.getCommand("xg7lobbylockchat").setExecutor(new LockChatCommand());
+        this.getCommand("xg7lobbygma").setExecutor(new Gamemode());
+        this.getCommand("xg7lobbygmc").setExecutor(new Gamemode());
+        this.getCommand("xg7lobbygms").setExecutor(new Gamemode());
+        this.getCommand("xg7lobbygmsp").setExecutor(new Gamemode());
 
+        this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
+        this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());
+        this.getCommand("xg7lobbygms").setTabCompleter(new TabCompleter());
+        this.getCommand("xg7lobbygmsp").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbytempmute").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbymute").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbyunmute").setTabCompleter(new TabCompleter());

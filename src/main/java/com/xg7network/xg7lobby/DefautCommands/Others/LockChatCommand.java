@@ -29,7 +29,11 @@ public class LockChatCommand implements CommandExecutor, Listener {
             return true;
         configManager.getConfig(ConfigType.DATA).set("chat-locked", !configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked"));
 
-        commandSender.sendMessage(prefix + ChatColor.GREEN + "The chat has been locked!");
+        configManager.saveConfig(ConfigType.DATA);
+
+        commandSender.sendMessage(configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked") ?
+                prefix + ChatColor.GREEN + "The chat has been locked!" : prefix + ChatColor.GREEN + "The chat has been unlocked!"
+        );
 
 
         return true;

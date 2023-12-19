@@ -22,6 +22,11 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbyfly":
             case "xg7lobbymute":
             case "xg7lobbyunmute":
+            case "xg7lobbygma":
+            case "xg7lobbygmc":
+            case "xg7lobbygms":
+            case "xg7lobbygmsp":
+
 
                 if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
 
@@ -30,6 +35,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbykick":
             case "xg7lobbyban":
             case "xg7lobbytempban":
+            case "xg7lobbywarn":
 
                 if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
                 else if (strings.length >= 2) results.add("<REASON>");

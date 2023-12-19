@@ -44,13 +44,6 @@ commands:
   gamemode-player: "&7Your game mode has been changed to &bGAMEMODE"
   gamemode-target: "&7You changed the game mode from &bPLAYERT &7to &bGAMEMODE"
 
-  #Use [WARNS] to return warns
-  warns-kick: "&cYou received &b[WARNS]&c warns. Please, don't break the rules."
-  warns-ban: "&cYou received &b[WARNS]&c warns. We warned to don't break the rules."
-
-  lock-chat: "&aThe chat has been locked!"
-  unlock-chat: "&aThe chat has been unlocked!"
-
   #Mute messages
   when-muted: "&cYou have been muted by an admin! Please don't break the rules!"
   on-mute: "&cYou cannot send messages. You are muted!"

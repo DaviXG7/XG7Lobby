@@ -13,6 +13,11 @@ public class CenterText {
         this.text = color.translateHexColor(text);
     }
 
+    public CenterText(String text) {
+        Color color = new Color();
+        this.text = color.translateHexColor(text);
+    }
+
     public String getCentralizedText() {
         int size = 0;
         int pararetirar = 0;

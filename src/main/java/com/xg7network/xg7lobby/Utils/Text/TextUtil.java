@@ -48,6 +48,13 @@ public class TextUtil {
 
         text = new Color().translateHexColor(text);
 
+        if (text.startsWith("CENTER: ")) {
+            text = text.replace("CENTER: ", "");
+
+            text = new CenterText(text).getCentralizedText();
+
+        }
+
         return text.replace("&", "§");
 
     }
