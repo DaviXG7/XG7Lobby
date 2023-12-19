@@ -6,6 +6,7 @@ import com.xg7network.xg7lobby.DefautCommands.Lobby.Setlobby;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.Ban;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.Kick;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.Mute;
+import com.xg7network.xg7lobby.DefautCommands.Moderation.Warn;
 import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
 import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
@@ -200,7 +201,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygmc").setExecutor(new Gamemode());
         this.getCommand("xg7lobbygms").setExecutor(new Gamemode());
         this.getCommand("xg7lobbygmsp").setExecutor(new Gamemode());
-        this.getCommand("xg7lobbywarns").setExecutor(new Gamemode());
+        this.getCommand("xg7lobbywarn").setExecutor(new Warn());
+        this.getCommand("xg7lobbywarns").setExecutor(new Warns());
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());

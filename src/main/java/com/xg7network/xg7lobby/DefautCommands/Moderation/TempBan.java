@@ -37,6 +37,11 @@ public class TempBan implements CommandExecutor {
                 return true;
             }
 
+            if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
+                commandSender.sendMessage(ChatColor.RED + "You cannot warn an adm!");
+                return true;
+            }
+
             if (strings.length < 2) {
                 commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§btempmute §2§i<Player> <Date ->  dd/mm/yyyy h:m>");
 

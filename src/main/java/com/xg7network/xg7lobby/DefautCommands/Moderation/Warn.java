@@ -6,10 +6,12 @@ import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -20,7 +22,7 @@ public class Warn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
 
-        if (!PluginUtil.hasPermission(commandSender, PermissionType.BAN_COMMAND, ErrorMessages.NO_PEMISSION.getMessage()))
+        if (!PluginUtil.hasPermission(commandSender, PermissionType.WARN_COMMAND, ErrorMessages.NO_PEMISSION.getMessage()))
             return true;
         if (strings.length <= 1) {
             commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bwarn §2§i<Player> <Reason>");
@@ -29,6 +31,11 @@ public class Warn implements CommandExecutor {
 
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(strings[0]);
+
+        if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
+            commandSender.sendMessage(ChatColor.RED + "You cannot warn an adm!");
+            return true;
+        }
 
 
         String str = "";

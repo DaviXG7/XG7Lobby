@@ -39,8 +39,7 @@ public class Warns implements CommandExecutor, Listener {
         Player player = (Player) event.getWhoClicked();
 
         for (InventoryUtil inventoryUtil : WarnsGUIManager.get(player).getInventoryUtils()) {
-            if (inventoryUtil.getInventory().equals(player.getInventory())) {
-
+            if (inventoryUtil.getInventory().equals(event.getClickedInventory())) {
 
                 inventoryUtil.execute(event.getCurrentItem());
 

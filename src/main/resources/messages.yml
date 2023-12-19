@@ -74,4 +74,5 @@ events:
   on-spam-mute: "&cYou have been muted by spam for TIME"
   message-cooldown: "&cYou must wait SECONDS seconds to send other message!"
   repeated-message: "&cYou cannot send the same message again!"
+  quick-messages: "&cPlease send the messages slower!"
   on-lock-chat: "&cYou cannot send messages because the chat is locked"

@@ -218,6 +218,8 @@ anti-spam:
   #Messages tolerance
   tolerance: 10
 
+  warn-tolerance: 5
+
   mute-on-spam-limit: false
 
   #To indeterminate and avoid errors, put "Indeterminate"

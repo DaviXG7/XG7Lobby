@@ -39,6 +39,11 @@ public class Ban implements CommandExecutor {
                 return true;
             }
 
+            if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
+                commandSender.sendMessage(ChatColor.RED + "You cannot warn an adm!");
+                return true;
+            }
+
             if (strings.length == 1) {
 
                 if (!Bukkit.getBanList(BanList.Type.NAME).isBanned(target.getName())) {

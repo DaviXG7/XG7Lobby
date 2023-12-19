@@ -86,8 +86,6 @@ public class PlayersManager implements Listener {
             writer.flush();
             writer.close();
 
-            Bukkit.getConsoleSender().sendMessage(prefix + "Player data saved!");
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
