@@ -10,6 +10,7 @@ import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
 import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
 import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfig;
+import com.xg7network.xg7lobby.DefautCommands.Others.Warns.Warns;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
 import com.xg7network.xg7lobby.Configs.ConfigManager;
@@ -172,6 +173,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new AntiSpam(this), this);
         this.getServer().getPluginManager().registerEvents(new Chat(), this);
         this.getServer().getPluginManager().registerEvents(new Blocks(), this);
+        this.getServer().getPluginManager().registerEvents(new Warns(), this);
+        this.getServer().getPluginManager().registerEvents(new WarnsGUIManager(), this);
         new Cycles();
 
 
