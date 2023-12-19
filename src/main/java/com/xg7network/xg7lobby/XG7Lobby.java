@@ -10,6 +10,7 @@ import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
 import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
 import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfig;
+import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
 import com.xg7network.xg7lobby.Configs.ConfigManager;
 import com.xg7network.xg7lobby.Configs.ConfigType;
@@ -136,15 +137,15 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading player data:");
 
-            PlayersManager.load();
+        PlayersManager.load();
 
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (PlayersManager.players.isEmpty()) PlayersManager.createData(player);
-                else
-                    if (PlayersManager.getData(player.getUniqueId().toString()) == null) {
-                        PlayersManager.createData(player).setFirstJoin(new Date(System.currentTimeMillis()));
-                    }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (PlayersManager.players.isEmpty()) PlayersManager.createData(player);
+            else if (PlayersManager.getData(player.getUniqueId().toString()) == null) {
+                    PlayersManager.createData(player).setFirstJoin(new Date(System.currentTimeMillis()));
             }
+        }
+        WarnsGUIManager.load();
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
