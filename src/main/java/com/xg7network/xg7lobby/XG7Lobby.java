@@ -196,6 +196,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygmc").setExecutor(new Gamemode());
         this.getCommand("xg7lobbygms").setExecutor(new Gamemode());
         this.getCommand("xg7lobbygmsp").setExecutor(new Gamemode());
+        this.getCommand("xg7lobbywarns").setExecutor(new Gamemode());
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());

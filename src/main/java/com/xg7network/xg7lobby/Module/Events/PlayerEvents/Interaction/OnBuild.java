@@ -51,7 +51,7 @@ public class OnBuild implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks"), PermissionType.BLOCOS_QUEBRAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-place"), player));
+        event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks"), PermissionType.BLOCOS_COLOCAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-place"), player));
     }
 
     @EventHandler
