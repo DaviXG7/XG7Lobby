@@ -175,7 +175,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new Blocks(), this);
         this.getServer().getPluginManager().registerEvents(new Warns(), this);
         this.getServer().getPluginManager().registerEvents(new WarnsGUIManager(), this);
-        new Cycles();
+        this.getServer().getPluginManager().registerEvents(new Cycles(), this);
 
 
 
