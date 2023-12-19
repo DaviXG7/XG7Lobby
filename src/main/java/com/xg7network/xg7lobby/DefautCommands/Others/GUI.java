@@ -25,7 +25,7 @@ public class GUI implements CommandExecutor {
         }
 
         if (strings.length != 1) {
-            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bban id");
+            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bban <id>");
             return true;
         }
 

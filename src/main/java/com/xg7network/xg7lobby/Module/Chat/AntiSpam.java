@@ -162,7 +162,7 @@ public class AntiSpam extends Module implements Listener {
 
         Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
             for (Player player : Bukkit.getOnlinePlayers()) get(player).getSpam().clear();
-        }, 0, config.getInt("anti-spam.spam-cooldown") * 20);
+        }, 0, config.getLong("anti-spam.spam-cooldown") * 20);
 
     }
 

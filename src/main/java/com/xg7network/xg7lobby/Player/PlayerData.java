@@ -66,11 +66,6 @@ public class PlayerData {
     public Date getFirstJoin() {
         return firstJoin;
     }
-
-    public boolean hasJoined() {
-        return getFirstJoin() != null;
-    }
-
     public void setFirstJoin(Date firstJoin) {
         this.firstJoin = firstJoin;
     }

@@ -81,11 +81,6 @@ commands:
     aliases: [7lgui, gui, xg7lgui]
     usage: "/<command> <id>"
 
-  xg7lobbyvanish:
-    description: esconde jogadores
-    aliases: [7lvanish, vanish, xg7lvanish]
-    usage: "/<command>"
-
   xg7lobbygmc:
     description: Muda o moodo do jogo para criativo
     aliases: [7lgmc, gmc, xg7lgmc]
