@@ -21,14 +21,6 @@ public class Setlobby implements CommandExecutor {
 
     private static Location location;
 
-    private static FileConfiguration data;
-    private static File dataF;
-
-    public Setlobby() {
-        this.data = configManager.getConfig(ConfigType.DATA);
-        this.dataF = new File(XG7Lobby.getPlugin().getDataFolder(), "data/data.yml");
-    }
-
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
@@ -66,6 +58,6 @@ public class Setlobby implements CommandExecutor {
     }
 
     void save(CommandSender sender) {
-        new LobbyLocation().setLocation(data, dataF, sender, location);
+        new LobbyLocation().setLocation(sender, location);
     }
 }

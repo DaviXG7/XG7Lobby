@@ -78,6 +78,7 @@ events:
   badword: "&cYou cannot type this word in chat!"
   command-block: "&cYou cannot type this command!"
   spam: "&cYou are sending messages too fast. Send slower."
+  on-spam-mute: "&cYou have been muted by spam for TIME"
   message-cooldown: "&cYou must wait SECONDS seconds to send other message!"
   repeated-message: "&cYou cannot send the same message again!"
   on-lock-chat: "&cYou cannot send messages because the chat is locked"

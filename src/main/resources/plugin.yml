@@ -114,11 +114,6 @@ commands:
     description: Bloqueia o chat
     aliases: [7llockchat, llockchat, lockchat, xg7llockchat]
 
-  execute:
-    description: a
-    aliases: [execute]
-    usage: "/<command>"
-
 
 permissions:
   xg7lobby.admin:

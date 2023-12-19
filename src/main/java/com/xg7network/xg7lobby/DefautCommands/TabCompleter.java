@@ -59,15 +59,9 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
                 break;
 
-            case "execute":
+            case "xg7lobbygui":
 
-                if (strings.length == 1) {
-                    results.add("ACTION");
-                    results.add("ADD");
-                }
-
-                break;
-
+                if (strings.length == 1) results.add("id");
         }
         return results;
     }

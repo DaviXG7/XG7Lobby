@@ -39,20 +39,16 @@ public class LobbyLocation {
 
     }
 
-    public void setLocation(FileConfiguration  data, File dataF, CommandSender sender, Location location1) {
+    public void setLocation(CommandSender sender, Location location1) {
 
-            data.set("lobby.world", location1.getWorld().getName());
-            data.set("lobby.x", location1.getX());
-            data.set("lobby.y", location1.getY());
-            data.set("lobby.z", location1.getZ());
-            data.set("lobby.yaw", location1.getYaw());
-            data.set("lobby.pitch", location1.getPitch());
+            configManager.getConfig(ConfigType.DATA).set("lobby.world", location1.getWorld().getName());
+            configManager.getConfig(ConfigType.DATA).set("lobby.x", location1.getX());
+            configManager.getConfig(ConfigType.DATA).set("lobby.y", location1.getY());
+            configManager.getConfig(ConfigType.DATA).set("lobby.z", location1.getZ());
+            configManager.getConfig(ConfigType.DATA).set("lobby.yaw", location1.getYaw());
+            configManager.getConfig(ConfigType.DATA).set("lobby.pitch", location1.getPitch());
 
-            try {
-                data.save(dataF);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            configManager.saveConfig(ConfigType.DATA);
 
             sender.sendMessage(prefix + ChatColor.GREEN + "The lobby was successfully saved in " + ChatColor.YELLOW +
                     configManager.getConfig(ConfigType.DATA).getString("lobby.world") + ", " +

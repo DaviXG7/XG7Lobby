@@ -1,6 +1,7 @@
 package com.xg7network.xg7lobby.Configs;
 
 import com.xg7network.xg7lobby.XG7Lobby;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -22,36 +23,33 @@ public class ConfigManager {
 
 
     public void reloadConfig(ConfigType type) {
+
         switch (type) {
             case CONFIG:
-                if (Cfile == null) {
-                    Cfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
-                }
+                if (Cfile == null) loadConfig(type);
+
                 config = YamlConfiguration.loadConfiguration(Cfile);
 
                 return;
 
             case DATA:
-                if (Dfile == null) {
-                    Dfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
-                }
+                if (Dfile == null) loadConfig(type);
+
                 data = YamlConfiguration.loadConfiguration(Dfile);
 
                 return;
 
             case MESSAGES:
-                if (Mfile == null) {
-                    Mfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
-                }
+                if (Mfile == null) loadConfig(type);
+
                 mensagem = YamlConfiguration.loadConfiguration(Mfile);
 
 
                 return;
 
             case SELECTORS:
-                if (Sfile == null) {
-                    Sfile = new File(XG7Lobby.getPlugin().getDataFolder(), type.getConfig());
-                }
+                if (Sfile == null) loadConfig(type);
+
                 seletor = YamlConfiguration.loadConfiguration(Sfile);
 
         }
@@ -89,7 +87,7 @@ public class ConfigManager {
                 if (config == null || Cfile == null)
                     return;
                 try {
-                    this.getConfig(type).save(type.getConfig());
+                    this.getConfig(type).save(Cfile);
                 } catch (IOException e) {
                     XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Cfile, e);
                 }
@@ -100,11 +98,11 @@ public class ConfigManager {
                 if (data == null || Dfile == null)
                     return;
                 try {
-                    System.out.println("aaaa");
-                    this.getConfig(type).save("data/data.yml");
+                    this.getConfig(type).save(Dfile);
                 } catch (IOException e) {
                     XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Dfile, e);
                 }
+
 
                 return;
 
@@ -112,7 +110,7 @@ public class ConfigManager {
                 if (mensagem == null || Mfile == null)
                     return;
                 try {
-                    this.getConfig(type).save(type.getConfig());
+                    this.getConfig(type).save(Mfile);
                 } catch (IOException e) {
                     XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Mfile, e);
                 }
@@ -123,7 +121,7 @@ public class ConfigManager {
                 if (seletor == null || Sfile == null)
                     return;
                 try {
-                    this.getConfig(type).save(type.getConfig());
+                    this.getConfig(type).save(Sfile);
                 } catch (IOException e) {
                     XG7Lobby.getPlugin().getLogger().log(Level.SEVERE, "Não foi possível carregar o arquivo: " + Sfile, e);
                 }

@@ -6,3 +6,5 @@ lobby:
   z:
   yaw:
   pitch:
+
+chat-locked: false

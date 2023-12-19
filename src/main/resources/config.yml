@@ -171,10 +171,7 @@ announcements:
 #CHAT                                         #
 ###############################################
 
-#UNDER MAINTENANCE
-#WAIT UNTIL THE UPDATE!
-
-block-swearing:
+anti-swearing:
   enabled: true
 
   #If you don't have permission and
@@ -215,11 +212,18 @@ anti-spam:
   #To send other message (IN SECONDS)
   cooldown: 1
 
-  #Reset spam list (IN TICKS) (20 = 1 second)
-  spam-cooldown: 100
+  #Reset spam list for everyone (IN SECONDS)
+  spam-cooldown: 10
 
   #Messages tolerance
-  tolerance: 5
+  tolerance: 10
+
+  mute-on-spam-limit: false
+
+  #To indeterminate and avoid errors, put "Indeterminate"
+  unmute-delay: "30min"
+
+  infraction-on-spam-limit: true
 
 ###############################################
 #MODERATION OPTIONS                           #
@@ -367,35 +371,10 @@ scores:
 #PLAYER OPTIONS                               #
 ###############################################
 
-#ALL UNDER MAINTENANCE
-#WAIT UNTIL THE UPDATE!
-
 #General
 cancel-death-by-void: true
 hunger-loss: false
-
-#Damage
-
-#If it is "false", ALL types of damage
-#will be canceled, if it is "true", in case
-#some of the bottom is false only
-#that option is going to be cancelled!
 take-damage: false
-
-ignore-adm: false
-
-attack: false
-
-take-damage-by-entities: false
-take-damage-from-suffocation: false
-take-drowning-damage: false
-take-fall-damage: false
-#Ejectors, tnts, etc, but that's all.
-take-damage-by-blocks: false
-take-damage-by-lava: false
-take-damage-by-fire: false
-take-damage-per-falling-block: false
-take-blast-damage: false
 
 #Interaction
 
@@ -413,9 +392,6 @@ drop-items: false
 ###############################################
 #WORLD OPTIONS                                #
 ###############################################
-
-#ALL UNDER MAINTENANCE
-#WAIT UNTIL THE UPDATE!
 
 #Define if mobs will spawn in the lobby
 spawn-mobs: false
@@ -437,6 +413,8 @@ leaves-decay: false
 
 #Define whether blocks will burn in the lobby
 burn-blocks: false
+
+block-spread: false
 
 #Cancel explosions
 cancel-explosions: true

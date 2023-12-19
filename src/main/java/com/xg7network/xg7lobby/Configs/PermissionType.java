@@ -32,6 +32,7 @@ public enum PermissionType {
 
     CHAT_PALAVRAS("xg7lobby.chat.badwords"),
     CHAT_COMANDOS("xg7lobby.chat.commands"),
+    CHAT("xg7lobby.chat.*"),
 
     GAMEMODE_CREATIVE("xg7lobby.gamemode.creative"),
     GAMEMODE_SURVIVAL("xg7lobby.gamemode.survival"),
