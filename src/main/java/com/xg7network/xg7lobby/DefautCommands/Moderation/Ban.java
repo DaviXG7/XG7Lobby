@@ -40,7 +40,7 @@ public class Ban implements CommandExecutor {
             }
 
             if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
-                commandSender.sendMessage(ChatColor.RED + "You cannot warn an adm!");
+                commandSender.sendMessage(prefix + "§cYou cannot ban a player with admin perms.");
                 return true;
             }
 

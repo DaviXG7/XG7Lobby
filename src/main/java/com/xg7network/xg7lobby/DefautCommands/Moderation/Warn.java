@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
+import static com.xg7network.xg7lobby.XG7Lobby.prefix;
+
 public class Warn implements CommandExecutor {
 
     @Override
@@ -33,7 +35,7 @@ public class Warn implements CommandExecutor {
         OfflinePlayer target = Bukkit.getOfflinePlayer(strings[0]);
 
         if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
-            commandSender.sendMessage(ChatColor.RED + "You cannot warn an adm!");
+            commandSender.sendMessage(prefix + "§cYou cannot warn a player with admin perms.");
             return true;
         }
 
