@@ -114,7 +114,7 @@ public class AntiSpam extends Module implements Listener {
                                 calendar.add(Calendar.SECOND, Integer.parseInt(time));
                                 data.setLastDayToUnmute(calendar.getTime());
 
-                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " seconds").send(player.getPlayer());
+                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toSeconds((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " seconds").send(player.getPlayer());
 
                             } else if (time.contains("min")) {
 
@@ -124,7 +124,7 @@ public class AntiSpam extends Module implements Listener {
                                 calendar.add(Calendar.MINUTE, Integer.parseInt(time));
                                 data.setLastDayToUnmute(calendar.getTime());
 
-                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " minutes").send(player.getPlayer());
+                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " minutes").send(player.getPlayer());
 
                             } else if (time.contains("h")) {
 
@@ -134,7 +134,7 @@ public class AntiSpam extends Module implements Listener {
                                 calendar.add(Calendar.HOUR, Integer.parseInt(time));
                                 data.setLastDayToUnmute(calendar.getTime());
 
-                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " hours!").send(player.getPlayer());
+                                new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " hours!").send(player.getPlayer());
 
                             } else if (time.contains("d")) {
 
@@ -149,10 +149,9 @@ public class AntiSpam extends Module implements Listener {
                             } else if (time.contains("mo")) {
 
                                 time = time.replace("mo" , "");
-
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.add(Calendar.HOUR, Integer.parseInt(time) * 720);
-                                data.setLastDayToUnmute(calendar.getTime());
+                                Date lastDay = new Date();
+                                lastDay.setMonth(new Date().getMonth() + Integer.parseInt(time));
+                                data.setLastDayToUnmute(lastDay);
 
                                 new TextUtil(prefix + "&cYou got muted by spam for " + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " months!").send(player.getPlayer());
 
@@ -160,6 +159,8 @@ public class AntiSpam extends Module implements Listener {
 
                             PlayersManager.update(data.getId(), data);
 
+                        } else {
+                            new TextUtil(prefix + "&cYou got muted by spam for undetermined time").send(player.getPlayer());
                         }
 
                     }
