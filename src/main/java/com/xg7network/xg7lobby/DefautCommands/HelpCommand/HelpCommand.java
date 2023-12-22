@@ -40,8 +40,6 @@ public class HelpCommand implements CommandExecutor, Listener {
 
         players.get(player.getUniqueId()).open();
 
-        System.out.println(helpGUI);
-
 
 
         return true;

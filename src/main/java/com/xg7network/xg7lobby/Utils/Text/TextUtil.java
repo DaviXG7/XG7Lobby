@@ -10,6 +10,7 @@ import com.xg7network.xg7lobby.Utils.PluginUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import static com.xg7network.xg7lobby.XG7Lobby.placeholderapi;
@@ -64,17 +65,22 @@ public class TextUtil {
     }
 
     public void sendActionBar(Player player) {
-        try {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(get(player)));
-        } catch (Exception ignored) {
-            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-            PacketContainer chat = new PacketContainer(PacketType.Play.Server.CHAT);
-            chat.getBytes().write(0, (byte) 2);
-            chat.getChatComponents().write(0, WrappedChatComponent.fromText(text.replace("&", "§")));
-            try {
-                protocolManager.sendServerPacket(player, chat);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+        String[] partes = Bukkit.getVersion().split("\\.");
+        if (partes.length >= 2) {
+            int vers = Integer.parseInt(partes[1]);
+            if (vers >= 13) {
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(get(player)));
+            } else {
+                ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+                PacketContainer chat = new PacketContainer(PacketType.Play.Server.CHAT);
+                chat.getBytes().write(0, (byte) 2);
+                chat.getChatComponents().write(0, WrappedChatComponent.fromText(text.replace("&", "§")));
+                try {
+                    protocolManager.sendServerPacket(player, chat);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

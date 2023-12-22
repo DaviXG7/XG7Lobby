@@ -15,7 +15,10 @@ public class Hunger implements Listener {
     @EventHandler
     public void onHunger(FoodLevelChangeEvent event) {
         Player player = (Player) event.getEntity();
-        if (PluginUtil.isInWorld(player) && !configManager.getConfig(ConfigType.CONFIG).getBoolean("hunger-loss")) player.setFoodLevel(20);
+        if (PluginUtil.isInWorld(player) && !configManager.getConfig(ConfigType.CONFIG).getBoolean("hunger-loss")) {
+            player.setFoodLevel(20);
+            event.setCancelled(true);
+        }
 
 
 

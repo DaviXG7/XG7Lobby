@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -25,36 +26,42 @@ public class OnBuild implements Listener {
 
     boolean defaultCondition(boolean def, PermissionType permissionType, String message, Player player) {
 
-        if (PluginUtil.isInWorld(player))
-            if (!def)
-                if (!PluginUtil.hasPermission(player, permissionType, message)) return true;
+        if (PluginUtil.isInWorld(player)) {
+
+            if (player.hasPermission(PermissionType.BUILD.getPerm())) {
+
+                if (Build.canBuild(player)) return false;
                 else {
 
-                    if (Build.canBuild(player)) return false;
-                    else {
-                        new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn")).send(player);
-                        return true;
-                    }
-
+                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn")).send(player);
+                    return true;
                 }
 
+            } else if (!def) {
+
+                return !PluginUtil.hasPermission(player, permissionType, message);
+
+            }
+        }
+
         return false;
+
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks"), PermissionType.BLOCOS_QUEBRAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-break"), player));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks"), PermissionType.BLOCOS_COLOCAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-place"), player));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block clickedBlock = event.getClickedBlock();

@@ -114,10 +114,10 @@ public class PlayersManager implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (players.isEmpty()) createData(player).setFirstJoin(new Date());
+        if (players.isEmpty()) createData(player).setFirstJoin(System.currentTimeMillis());
         else {
             if (getData(player.getUniqueId().toString()) == null) {
-                createData(player).setFirstJoin(new Date());
+                createData(player).setFirstJoin(System.currentTimeMillis());
             }
         }
 

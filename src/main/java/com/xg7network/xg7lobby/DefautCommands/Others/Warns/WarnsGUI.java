@@ -30,7 +30,7 @@ public class WarnsGUI {
 
         for (int i = 0; i < data.getInfractions().size(); i++) {
 
-            warnsitems.add(InventoryUtil.getItemStack(player, "PAPER", "§f" + data.getInfractions().get(i).getWarn(), data.getInfractions().get(i).getWhen().toString(), false, i + 1, 1, null));
+            warnsitems.add(InventoryUtil.getItemStack(player, "PAPER", "§f" + data.getInfractions().get(i).getWarn(), data.getInfractions().get(i).getWhen(), false, i + 1, 1, null));
 
         }
 

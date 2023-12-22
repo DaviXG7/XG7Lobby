@@ -69,8 +69,8 @@ public class Mute implements CommandExecutor, Listener {
                 }
 
                 data.setMuted(!target.getPlayer().hasPermission(PermissionType.WARN_COMMAND.getPerm()));
-                data.setLastDayToUnmute(null);
-                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", new Date());
+                data.setLastDayToUnmute(0);
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
                 Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
 
@@ -89,7 +89,7 @@ public class Mute implements CommandExecutor, Listener {
 
                 if (target.isOnline()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted")).send(target.getPlayer());
 
-                data.setLastDayToUnmute(null);
+                data.setLastDayToUnmute(0);
                 Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
 
@@ -118,34 +118,34 @@ public class Mute implements CommandExecutor, Listener {
                             Calendar calendar = Calendar.getInstance();
                             calendar.add(Calendar.MINUTE, Integer.parseInt(time));
                             data.setMuted(true);
-                            data.setLastDayToUnmute(calendar.getTime());
+                            data.setLastDayToUnmute(calendar.getTime().getTime());
                             if (target.isOnline())
-                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
+                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
                         } else if (strings[1].contains("h")) {
                             String time = strings[1].replace("h", "");
                             Calendar calendar = Calendar.getInstance();
                             calendar.add(Calendar.HOUR, Integer.parseInt(time));
                             data.setMuted(true);
-                            data.setLastDayToUnmute(calendar.getTime());
+                            data.setLastDayToUnmute(calendar.getTime().getTime());
                             if (target.isOnline())
-                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
+                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
                         } else if (strings[1].contains("d")) {
                             String time = strings[1].replace("d", "");
                             Calendar calendar = Calendar.getInstance();
                             calendar.add(Calendar.HOUR, Integer.parseInt(time) * 24);
                             data.setMuted(true);
-                            data.setLastDayToUnmute(calendar.getTime());
+                            data.setLastDayToUnmute(calendar.getTime().getTime());
                             if (target.isOnline())
-                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
+                                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
                         } else {
                             commandSender.sendMessage(ErrorMessages.SYNTAX_ERROR.getMessage());
                         }
 
-                        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", new Date());
+                        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
                         Infractions.verify(target.getPlayer(), data.getInfractions().size());
                         PlayersManager.update(target.getUniqueId().toString(), data);
 
-                        commandSender.sendMessage(prefix + "§aYou have successfully muted §b" + target.getName() + " §afor §e" + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!");
+                        commandSender.sendMessage(prefix + "§aYou have successfully muted §b" + target.getName() + " §afor §e" + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!");
                     } else {
                         commandSender.sendMessage(prefix + "§cYou cannot mute a player with admin perms.");
                     }
@@ -163,10 +163,10 @@ public class Mute implements CommandExecutor, Listener {
 
                         Date daytounmute = calendar.getTime();
                         data.setMuted(true);
-                        data.setLastDayToUnmute(daytounmute);
+                        data.setLastDayToUnmute(daytounmute.getTime());
 
-                        if (target.isOnline()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
-                        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", new Date());
+                        if (target.isOnline()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays(data.getLastDayToUnmute() - new Date().getTime()) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!")).send(target.getPlayer());
+                        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
                         Infractions.verify(target.getPlayer(), data.getInfractions().size());
                         PlayersManager.update(target.getUniqueId().toString(), data);
 
@@ -192,8 +192,8 @@ public class Mute implements CommandExecutor, Listener {
 
         PlayerData data = PlayersManager.getData(player.getUniqueId().toString());
 
-        if (data.getLastDayToUnmute() != null && data.getLastDayToUnmute().before(new Date())) {
-            data.setLastDayToUnmute(null);
+        if (data.getLastDayToUnmute() <= System.currentTimeMillis()) {
+            data.setLastDayToUnmute(0);
             data.setMuted(false);
             PlayersManager.update(player.getUniqueId().toString(), data);
             return;
@@ -202,11 +202,11 @@ public class Mute implements CommandExecutor, Listener {
         event.setCancelled(configManager.getConfig(ConfigType.CONFIG).getBoolean("mute-only-in-lobby") ? PluginUtil.isInWorld(player) && data.isMuted() : data.isMuted());
 
         if (event.isCancelled()) {
-            if (data.getLastDayToUnmute() == null)
+            if (data.getLastDayToUnmute() >= 0)
                 new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-mute")).send(player);
             else
 
-                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-mute-with-time").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute().getTime() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute().getTime() - new Date().getTime())) % 60 + " minutes!")).send(player);
+                new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-mute-with-time").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!")).send(player);
 
         }
 

@@ -1,9 +1,15 @@
 package com.xg7network.xg7lobby.DefautCommands.HelpCommand;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
 import com.xg7network.xg7lobby.Utils.PluginInventories.InventoryUtil;
 import com.xg7network.xg7lobby.Utils.PluginInventories.Item;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -12,9 +18,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
@@ -45,10 +53,11 @@ public class HelpGUI {
                 14,
                 1,
                 null
+
         );
 
         inicialPage.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.COMMAND_BLOCK) ? "COMMAND_BLOCK" : "COMMAND",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK") ? "COMMAND_BLOCK" : "COMMAND",
                 "&cCommands",
                 "&aClick to see all commands",
                 false,
@@ -86,7 +95,7 @@ public class HelpGUI {
         );
 
         inicialPage.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.WRITABLE_BOOK) ? "WRITABLE_BOOK" : "BOOK_AND_QUILL",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("WRITABLE_BOOK") ? "WRITABLE_BOOK" : "BOOK_AND_QUILL",
                 "&fOptions",
                 "&aClick to see options!",
                 false,
@@ -107,7 +116,29 @@ public class HelpGUI {
                 1,
                 () -> {
                     player.closeInventory();
-                    player.openBook(getSelectorGuide());
+                    String[] partes = Bukkit.getVersion().split("\\.");
+                    if (partes.length >= 2) {
+                        int vers = Integer.parseInt(partes[1]);
+                        if (vers >= 15) {
+                            player.openBook(getSelectorGuide());
+                        } else {
+
+                            player.sendMessage(ChatColor.GREEN+ "Selector guide!");
+                            player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+                            player.sendMessage(ChatColor.WHITE + "Guide on how to use Selectors\n");
+                            player.sendMessage(ChatColor.WHITE + "Selectors are the items on the hotbar that when you click, do something\n\nTo create the items you need to go to the file selectors.yml");
+                            player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+                            player.sendMessage(ChatColor.WHITE + "In the part selectors -> Items -> and there where you create your items\n\nIn the Items part you can create another part with any name and should put the following things on the next message");
+                            player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+                            player.sendMessage(ChatColor.WHITE + "Item description\n\nmaterial -> Where to place the Item's material\n\nname -> Item name\n\nlore -> Item Description\n\ngrow -> Enchantment or not\n\namount -> amount of the item\n\nslot -> Inventory slot where the item is\n\nactions -> All actions will be performed when the player clicks");
+                            player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+                            player.sendMessage(ChatColor.WHITE + "In the cooldown part is the item refresh time to be given to the player at all times");
+                            player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+
+
+                        }
+                    }
+
                 }
         );
 
@@ -123,9 +154,9 @@ public class HelpGUI {
         );
 
         inicialPage.createItemStack(player,
-                "PLAYER_HEAD, OWNER=DaviXG7",
+                "PAPER",
                 "&dCollaborators",
-                "",
+                "&aAll plugin helpers",
                 false,
                 54,
                 1,
@@ -224,7 +255,7 @@ public class HelpGUI {
         );
 
         commands.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.OAK_SIGN) ? "OAK_SIGN" : "SIGN",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_SIGN") ? "OAK_SIGN" : "SIGN",
                 "§e/§bwarn §2§i<Player> <Reason>",
                 "&f&iWarn a player /// &bPermission: &axg7lobby.command.warn",
                 false,
@@ -234,7 +265,7 @@ public class HelpGUI {
         );
 
         commands.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.WRITABLE_BOOK) ? "WRITABLE_BOOK" : "BOOK_AND_QUILL",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("WRITABLE_BOOK") ? "WRITABLE_BOOK" : "BOOK_AND_QUILL",
                 "§e/§bwarns",
                 "&f&iOpen you warns list /// &bPermission: &ano permission",
                 false,
@@ -328,7 +359,7 @@ public class HelpGUI {
                 "§e/§blockchat",
                 "&f&iLocks the chat /// &bPermission: &axg7lobby.gamemode.spactator",
                 false,
-                34,
+                26,
                 1,
                 null
         );
@@ -353,7 +384,7 @@ public class HelpGUI {
         InventoryUtil actions = new InventoryUtil(player, 6, "&8Actions");
 
         actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.OAK_SIGN) ? "OAK_SIGN" : "SIGN",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_SIGN") ? "OAK_SIGN" : "SIGN",
                 "§aTitle",
                 "&bSend a title to the player /// &dUsage: TITLE: (Title)",
                 false,
@@ -363,7 +394,7 @@ public class HelpGUI {
         );
 
         actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.OAK_SIGN) ? "OAK_SIGN" : "SIGN",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_SIGN") ? "OAK_SIGN" : "SIGN",
                 "§aSubTitle",
                 "&bSend a subtitle to the player /// &dUsage: SUBTITLE: (Subtitle)",
                 false,
@@ -373,7 +404,7 @@ public class HelpGUI {
         );
 
         actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.OAK_SIGN) ? "OAK_SIGN" : "SIGN",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_SIGN") ? "OAK_SIGN" : "SIGN",
                 "§aTitle and subtitle",
                 "&bSend a title and a subtitle to the player /// &dUsage: TITSUBTIT: (Title) // (SubTitle)",
                 false,
@@ -445,14 +476,14 @@ public class HelpGUI {
         actions.createItemStack(player,
                 "GLASS_BOTTLE",
                 "§aEffect",
-                "&bGive a potion effect to de player /// &dUsage: EFFECT: (effect_name_on_spigot)",
+                "&bGive a potion effect to de player /// &dUsage: EFFECT: (effect_name_on_spigot, duration, amplifier)",
                 false,
                 22,
                 1,
                 null
         );
         actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.COMMAND_BLOCK) ? "COMMAND_BLOCK" : "COMMAND",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK") ? "COMMAND_BLOCK" : "COMMAND",
                 "§aPlayer command",
                 "&bMakes the player perform a command /// &dUsage: COMMAND: (command name)",
                 false,
@@ -462,7 +493,7 @@ public class HelpGUI {
         );
 
         actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.COMMAND_BLOCK) ? "COMMAND_BLOCK" : "COMMAND",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK") ? "COMMAND_BLOCK" : "COMMAND",
                 "§aConsole command",
                 "&bMakes the console perform a command /// &dUsage: CONSOLE: (command name)",
                 false,
@@ -522,9 +553,9 @@ public class HelpGUI {
         );
 
         actions.createItemStack(player,
-                "BLAZE_POWDER",
-                "§aAction bar",
-                "&bSend an action bar /// &dUsage: ACTIONBAR: (message)",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_DOOR") ? "OAK_DOOR" : "WOOD_DOOR",
+                "§aHide",
+                "&bHide all the players /// &dUsage: HIDE",
                 false,
                 32,
                 1,
@@ -532,18 +563,8 @@ public class HelpGUI {
         );
 
         actions.createItemStack(player,
-                "ACACIA_DOOR",
-                "§aHide",
-                "&bHide all the players /// &dUsage: HIDE",
-                false,
-                33,
-                1,
-                null
-        );
-
-        actions.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.ENDER_EYE) ? "ENDER_EYE" : "EYE_OF_ENDER",
-                "§aSHOW",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("ENDER_EYE") ? "ENDER_EYE" : "EYE_OF_ENDER",
+                "§aShow",
                 "&bShow all the players /// &dUsage: SHOW",
                 false,
                 33,
@@ -638,7 +659,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.PLAYER_HEAD) ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD") ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
                 "§cVoid: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"),
                 "&aClick to change!",
                 false,
@@ -655,7 +676,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.PLAYER_HEAD) ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD") ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
                 "§cEnter portal: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"),
                 "&aClick to change!",
                 false,
@@ -672,7 +693,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.PLAYER_HEAD) ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD") ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
                 "§cAll with Items: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")),
                 "&aClick to change!",
                 false,
@@ -690,7 +711,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.PLAYER_HEAD) ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD") ? "PLAYER_HEAD" : "SKULL_ITEM, 3",
                 "§cAll with Blocks: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")),
                 "&aClick to change!",
                 false,
@@ -709,7 +730,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.GRASS_BLOCK) ? "GRASS_BLOCK" : "GRASS",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GRASS_BLOCK") ? "GRASS_BLOCK" : "GRASS",
                 "§cSpawn mobs: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"),
                 "&aClick to change!",
                 false,
@@ -726,7 +747,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.GRASS_BLOCK) ? "GRASS_BLOCK" : "GRASS",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GRASS_BLOCK") ? "GRASS_BLOCK" : "GRASS",
                 "§cWeather and Day cycles: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")),
                 "&aClick to change!",
                 false,
@@ -744,7 +765,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.GRASS_BLOCK) ? "GRASS_BLOCK" : "GRASS",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GRASS_BLOCK") ? "GRASS_BLOCK" : "GRASS",
                 "§cLeaves decay: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"),
                 "&aClick to change!",
                 false,
@@ -761,7 +782,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.GRASS_BLOCK) ? "GRASS_BLOCK" : "GRASS",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GRASS_BLOCK") ? "GRASS_BLOCK" : "GRASS",
                 "§cBurn: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")),
                 "&aClick to change!",
                 false,
@@ -779,7 +800,7 @@ public class HelpGUI {
         );
 
         options.createItemStack(player,
-                Arrays.stream(Material.values()).toList().contains(Material.GRASS_BLOCK) ? "GRASS_BLOCK" : "GRASS",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GRASS_BLOCK") ? "GRASS_BLOCK" : "GRASS",
                 "§cExplosions: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"),
                 "&aClick to change!",
                 false,
@@ -819,16 +840,6 @@ public class HelpGUI {
                 "§bDaviXG7",
                 "&aCreator of all plugin!",
                 false,
-                12,
-                1,
-                null
-        );
-
-        collaborators.createItemStack(player,
-                "PLAYER_HEAD, OWNER=eduardo10YT",
-                "§beduardo10YT",
-                "&aBeta tester!",
-                false,
                 13,
                 1,
                 null
@@ -838,9 +849,9 @@ public class HelpGUI {
         collaborators.createItemStack(player,
                 "PLAYER_HEAD, OWNER=pewtuck90",
                 "§bBultzzXG7",
-                "&aVideo Helper!",
+                "&aVideo Helper and Beta tester!",
                 false,
-                15,
+                14,
                 1,
                 null
         );
@@ -848,10 +859,9 @@ public class HelpGUI {
         collaborators.createItemStack(player,
                 "PLAYER_HEAD, OWNER=Enzo270622",
                 "§bSadness",
-                "&aVideo Helper!",
+                "&aVideo Helper and Beta tester!",
                 false,
-                16,
-                1,
+                15, 1,
                 null
         );
 
@@ -867,6 +877,8 @@ public class HelpGUI {
                     player.openInventory(inventoryUtils.get("Initial Page").getInventory());
                 }
         );
+
+        inventoryUtils.put("Collaborators", collaborators);
 
     }
 
@@ -897,7 +909,7 @@ public class HelpGUI {
 
     ItemStack getSelectorGuide() {
 
-        ItemStack stack = new ItemStack(Material.valueOf(Arrays.stream(Material.values()).toList().contains(Material.WRITTEN_BOOK) ? "WRITTEN_BOOK" : "BOOK_AND_QUILL"));
+        ItemStack stack = new ItemStack(Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("WRITTEN_BOOK") ? Material.valueOf("WRITTEN_BOOK") : Material.valueOf("BOOK_AND_QUILL"));
 
         BookMeta meta = (BookMeta) stack.getItemMeta();
 

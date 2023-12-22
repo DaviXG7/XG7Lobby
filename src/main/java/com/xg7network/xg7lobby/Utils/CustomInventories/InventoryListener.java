@@ -34,8 +34,10 @@ public class InventoryListener implements Listener {
                                 }
 
                             }
+                            e.setCancelled(true);
                         }
                     }
+                    if (e.isCancelled()) return;
                 }
             }
             if (!e.isCancelled()) e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()));

@@ -88,7 +88,7 @@ public class ScoresManager extends Module implements Listener {
     public void onDisable() {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            bossbar.removeBossBar(p);
+            if (boss) bossbar.removeBossBar(p);
         }
 
 

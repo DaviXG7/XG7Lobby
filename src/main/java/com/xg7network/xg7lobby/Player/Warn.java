@@ -1,14 +1,15 @@
 package com.xg7network.xg7lobby.Player;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Warn {
 
     private String warn;
 
-    private Date when;
+    private long when;
 
-    public Warn(String warn, Date when) {
+    public Warn(String warn, long when) {
         this.warn = warn;
         this.when = when;
     }
@@ -21,11 +22,11 @@ public class Warn {
         this.warn = warn;
     }
 
-    public Date getWhen() {
-        return when;
+    public String getWhen() {
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(when);
     }
 
-    public void setWhen(Date when) {
+    public void setWhen(long when) {
         this.when = when;
     }
 }

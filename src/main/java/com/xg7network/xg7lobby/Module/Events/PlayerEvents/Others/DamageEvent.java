@@ -43,7 +43,7 @@ public class DamageEvent implements Listener {
 
                 if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
 
-                event.setCancelled(config.getBoolean("take-damage"));
+                event.setCancelled(!config.getBoolean("take-damage"));
             }
         }
     }

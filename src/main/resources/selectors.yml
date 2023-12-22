@@ -111,7 +111,7 @@ selectors:
         - "&aClick to open profile!"
       #SKULLS ONLY WORKS IF SERVER IS ON ONLINE MODE!
       #OR PLAYER HAS WITH A SKIN!
-      material: "PLAYER_HEAD, OWNER=THIS_PLAYER"
+      material: "PAPER"
       amount: 1
       slot: 2
       glow: false

@@ -3,6 +3,7 @@ package com.xg7network.xg7lobby.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PlayerData {
@@ -12,8 +13,8 @@ public class PlayerData {
     private String playername;
     private boolean muted;
     private List<Warn> infractions = new ArrayList<>();
-    private Date lastDayToUnmute;
-    private Date firstJoin;
+    private long lastDayToUnmute;
+    private long firstJoin;
 
     public String getId() {
         return id;
@@ -60,22 +61,22 @@ public class PlayerData {
         this.infractions.remove(index - 1);
     }
 
-    public void addInfraction(String reason, Date date) {
+    public void addInfraction(String reason, long date) {
         this.infractions.add(new Warn(reason, date));
     }
 
-    public Date getLastDayToUnmute() {
+    public long getLastDayToUnmute() {
         return lastDayToUnmute;
     }
 
-    public void setLastDayToUnmute(Date lastDayToUnmute) {
+    public void setLastDayToUnmute(long lastDayToUnmute) {
         this.lastDayToUnmute = lastDayToUnmute;
     }
 
-    public Date getFirstJoin() {
-        return firstJoin;
+    public String getFirstJoin() {
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(firstJoin);
     }
-    public void setFirstJoin(Date firstJoin) {
+    public void setFirstJoin(long firstJoin) {
         this.firstJoin = firstJoin;
     }
 }
