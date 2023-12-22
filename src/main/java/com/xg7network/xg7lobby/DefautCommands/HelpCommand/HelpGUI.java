@@ -580,6 +580,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("announcements.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -596,6 +597,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("anti-spam.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -612,6 +614,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("infraction-on-warn", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -627,6 +630,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("infraction-on-mute", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -643,6 +647,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("cancel-death-by-void", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -659,6 +664,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("cancel-portal", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -676,6 +682,7 @@ public class HelpGUI {
                     configManager.getConfig(ConfigType.CONFIG).set("break-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")));
                     configManager.getConfig(ConfigType.CONFIG).set("place-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -694,6 +701,7 @@ public class HelpGUI {
                     configManager.getConfig(ConfigType.CONFIG).set("place-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")));
                     configManager.getConfig(ConfigType.CONFIG).set("interact-with-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -710,6 +718,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("spawn-mobs", !configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -727,6 +736,7 @@ public class HelpGUI {
                     configManager.getConfig(ConfigType.CONFIG).set("day-cycle", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")));
                     configManager.getConfig(ConfigType.CONFIG).set("weather-cycle", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -743,6 +753,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("leaves-decay", !configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -760,6 +771,7 @@ public class HelpGUI {
                     configManager.getConfig(ConfigType.CONFIG).set("burn-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")));
                     configManager.getConfig(ConfigType.CONFIG).set("block-spread", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
@@ -776,6 +788,7 @@ public class HelpGUI {
                 () -> {
                     configManager.getConfig(ConfigType.CONFIG).set("cancel-explosions", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"));
                     configManager.saveConfig(ConfigType.CONFIG);
+                    configManager.reloadConfig(ConfigType.CONFIG);
                     player.sendMessage(ChatColor.GREEN + "Changed!");
                     player.closeInventory();
                     player.openInventory(inventoryUtils.get("Options").getInventory());
