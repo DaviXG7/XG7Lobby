@@ -43,7 +43,7 @@ public class PlaceHolder extends PlaceholderExpansion {
         else if (params.equals("muted")) return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).isMuted());
         else if (params.equals("time_for_unmute")) return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).getLastDayToUnmute());
         else if (params.equals("first_join")) return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).getFirstJoin());
-        else if (params.equals("lobby_location")) return new LobbyLocation().getLocation() == null ? "null" : new LobbyLocation().getLocation().getWorld().getName() + ", " + new LobbyLocation().getLocation().getX() + ", " + new LobbyLocation().getLocation().getZ();
+        else if (params.equals("lobby_location")) return new LobbyLocation().getLocation() == null ? "null" : new LobbyLocation().getLocation().getWorld().getName() + ", " + (int) new LobbyLocation().getLocation().getX() + ", " + (int) new LobbyLocation().getLocation().getY() + ", " + (int) new LobbyLocation().getLocation().getZ();
         else if (params.equals("players_hide")) return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).isPlayershide());
         return null;
     }

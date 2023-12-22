@@ -28,12 +28,16 @@ public class ConfigManager {
             case CONFIG:
                 if (Cfile == null) loadConfig(type);
 
+                config = null;
+
                 config = YamlConfiguration.loadConfiguration(Cfile);
 
                 return;
 
             case DATA:
                 if (Dfile == null) loadConfig(type);
+
+                data = null;
 
                 data = YamlConfiguration.loadConfiguration(Dfile);
 
@@ -42,6 +46,8 @@ public class ConfigManager {
             case MESSAGES:
                 if (Mfile == null) loadConfig(type);
 
+                mensagem = null;
+
                 mensagem = YamlConfiguration.loadConfiguration(Mfile);
 
 
@@ -49,6 +55,8 @@ public class ConfigManager {
 
             case SELECTORS:
                 if (Sfile == null) loadConfig(type);
+
+                seletor = null;
 
                 seletor = YamlConfiguration.loadConfiguration(Sfile);
 

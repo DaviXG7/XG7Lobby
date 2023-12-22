@@ -24,17 +24,32 @@ public class Action {
     private ActionType type;
     private Player player;
     private String action;
-    private boolean valid = true;
+    private boolean valid;
     
     public Action(Player player, String action) {
+        if (action == null || action.equals("")) {
+            valid = false;
+            return;
+        }
         try {
-            ActionType.valueOf(action.substring(0, action.indexOf(":")));
+            ActionType.valueOf(action);
+
+            valid = true;
 
         } catch (Exception ignored) {
             valid = false;
-            System.out.println("The action is not valid!");
-            return;
         }
+        try {
+            if (!valid) ActionType.valueOf(action.substring(0, action.indexOf(":")));
+        } catch (Exception ignored) {
+            valid = false;
+            System.out.println("The action is not valid!");
+
+            return;
+
+        }
+
+        valid = true;
         for (ActionType actionType : ActionType.values()) {
 
             if (action.contains(": ")) {

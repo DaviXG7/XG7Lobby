@@ -156,12 +156,12 @@ inventories:
   profile:
 
     name: "&fProfile"
-    rows: 6
+    rows: 5
     id: 1
 
     items:
 
-      fill-item: "LIGHT_GRAY_STAINED_GLASS_PANE"
+      fill-item: GRAY_STAINED_GLASS_PANE
 
       item1:
 
@@ -173,7 +173,7 @@ inventories:
         material: "PLAYER_HEAD, OWNER=THIS_PLAYER"
         amount: 1
         glow: false
-        slot: 23
+        slot: 14
         actions:
           - ""
 
@@ -184,7 +184,7 @@ inventories:
           - "&aClick to Chose a game!"
         material: COMPASS
         amount: 1
-        slot: 43
+        slot: 34
         glow: false
         actions:
           - "OPEN: 2"
@@ -195,7 +195,7 @@ inventories:
           - "&aClick to see you warns!"
         material: PAPER
         amount: 1
-        slot: 39
+        slot: 30
         glow: false
         actions:
           - "CLOSE"
@@ -209,7 +209,7 @@ inventories:
         material: BARRIER
         amount: 1
         glow: false
-        slot: 46
+        slot: 37
         actions:
           - "CLOSE"
 
@@ -221,7 +221,7 @@ inventories:
 
     items:
 
-      fill-item: "LIGHT_GRAY_STAINED_GLASS_PANE"
+      fill-item: GRAY_STAINED_GLASS_PANE
 
       item1:
 
