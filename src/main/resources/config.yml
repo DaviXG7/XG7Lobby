@@ -11,9 +11,9 @@
 #You need the PlaceHolderAPI for that!
 
 #Colors:
-#&0 - Black           | &9 - Blue
-#&1 - Dark blue       | &b - Cyan
-#&2 - Dark green      | &9 - Blue
+#&0 - Black           | &8 - Dark Gray
+#&1 - Dark blue       | &9 - Blue
+#&2 - Dark green      | &a - Green
 #&3 - Dark cyan       | &b - Cyan
 #&4 - Dark red        | &c - Red
 #&5 - Purple          | &d - Pink
@@ -46,7 +46,7 @@
 #COMMAND Make the player execute a command
 #CONSOLE Make console execute a command
 
-#SOUND send a sound
+#SOUND play a sound
 #SOUND: ENTITY_EXPERIENCE_ORB_PICKUP, (Volume) 10.0, (Pitch) 10.0"
 
 #SUMMON Summons an entity
@@ -212,8 +212,8 @@ anti-spam:
   #To send other message (IN SECONDS)
   cooldown: 1
 
-  #Reset spam list for everyone (IN SECONDS)
-  spam-cooldown: 10
+  #Remove one spam from each player's list (IN SECONDS)
+  spam-cooldown: 1
 
   #Messages tolerance
   tolerance: 10
@@ -237,6 +237,7 @@ infraction-on-mute: true
 infractions-to-ban: -1
 min-infractions-to-kick: -1
 
+#Only in lobby will block the messages!
 mute-only-in-lobby: false
 
 
@@ -312,7 +313,7 @@ motd:
 
 scores:
   #Score update ticks
-
+  #Put a value greater than 1
   update: 5
 
   tablist:
@@ -377,6 +378,7 @@ scores:
 cancel-death-by-void: true
 hunger-loss: false
 take-damage: false
+cancel-portal: true
 
 #Interaction
 
@@ -423,7 +425,6 @@ cancel-explosions: true
 
 #Made by DaviXG7
 #Collaborators:
-#Rhyan57: Translate
 #eduardo10YT: Beta-tester
 
 #Special thanks to:

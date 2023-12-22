@@ -1,16 +1,13 @@
 package com.xg7network.xg7lobby;
 
+import com.xg7network.xg7lobby.DefautCommands.HelpCommand.HelpCommand;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Build;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Lobby;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Setlobby;
-import com.xg7network.xg7lobby.DefautCommands.Moderation.Ban;
-import com.xg7network.xg7lobby.DefautCommands.Moderation.Kick;
-import com.xg7network.xg7lobby.DefautCommands.Moderation.Mute;
-import com.xg7network.xg7lobby.DefautCommands.Moderation.Warn;
+import com.xg7network.xg7lobby.DefautCommands.Moderation.*;
 import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
 import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
-import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfig;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.Warns;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
@@ -18,7 +15,7 @@ import com.xg7network.xg7lobby.Configs.ConfigManager;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Module.Chat.AntiSpam;
 import com.xg7network.xg7lobby.Module.Chat.Chat;
-import com.xg7network.xg7lobby.Module.Events.JoinAndQuit;
+import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others.*;
 import com.xg7network.xg7lobby.Module.Events.Jumps.DoubleJump;
 import com.xg7network.xg7lobby.Module.Events.Jumps.Fly;
 import com.xg7network.xg7lobby.Module.Events.Jumps.FlyManager;
@@ -26,9 +23,7 @@ import com.xg7network.xg7lobby.Module.Events.Jumps.LaunchPad;
 import com.xg7network.xg7lobby.Module.Events.Ping;
 import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Interaction.DropPickup;
 import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Interaction.OnBuild;
-import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Other.DamageEvent;
-import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Other.Hunger;
-import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Other.Void;
+import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others.Void;
 import com.xg7network.xg7lobby.Module.Events.WorldEvents.Blocks;
 import com.xg7network.xg7lobby.Module.Events.WorldEvents.Cycles;
 import com.xg7network.xg7lobby.Module.ModuleManager;
@@ -38,6 +33,7 @@ import com.xg7network.xg7lobby.Module.Selectors.SelectorListener;
 import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
+import com.xg7network.xg7lobby.Utils.PlaceHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -46,21 +42,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Date;
 
 public final class XG7Lobby extends JavaPlugin {
-
-    /*
-
-
-     * Sistema simples de cooldown:
-
-     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(configManager.getConfig(ConfigType.SELECTORS).getInt("selectors.cooldown"), TimeUnit.SECONDS).build();
-
-     if (this.cooldown.asMap().containsKey(player.getUniqueId())) {
-        new Message(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-cooldown").replace("SECONDS", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(cooldown.asMap().get(p.getUniqueId()) - System.currentTimeMillis()))), player).sendMessage();
-     } else {
-        this.cooldown.put(p.getUniqueId(), System.currentTimeMillis() + configManager.getConfig(ConfigType.SELECTORS).getLong("selectors.cooldown") * 1000L);
-     }
-
-     */
 
 
 
@@ -100,16 +81,6 @@ public final class XG7Lobby extends JavaPlugin {
             this.getPluginLoader().disablePlugin(this);
             return;
         }
-        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
-
-            this.getServer().getConsoleSender().sendMessage(ChatColor.RED + "THIS PLUGIN NEEDS PROTOCOLLIB TO WORK FINE");
-            this.getServer().getConsoleSender().sendMessage(ChatColor.RED + "DOWNLOAD HERE: https://www.spigotmc.org/resources/protocollib.1997/");
-            this.getServer().getConsoleSender().sendMessage(ChatColor.RED + "THE PLUGIN WILL DISABLE!");
-
-            this.getPluginLoader().disablePlugin(this);
-            return;
-
-        }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
 
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "It's recommended to install PlaceholderAPI");
@@ -118,6 +89,11 @@ public final class XG7Lobby extends JavaPlugin {
         }
 
         placeholderapi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+
+        if (placeholderapi) new PlaceHolder().register();
+
+        System.out.println(placeholderapi);
+
 
         plugin = this;
 
@@ -177,6 +153,9 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new Warns(), this);
         this.getServer().getPluginManager().registerEvents(new WarnsGUIManager(), this);
         this.getServer().getPluginManager().registerEvents(new Cycles(), this);
+        this.getServer().getPluginManager().registerEvents(new LockChatCommand(), this);
+        this.getServer().getPluginManager().registerEvents(new Portal(), this);
+        this.getServer().getPluginManager().registerEvents(new HelpCommand(), this);
 
 
 
@@ -193,8 +172,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbybuild").setExecutor(new Build());
         this.getCommand("xg7lobbykick").setExecutor(new Kick());
         this.getCommand("xg7lobbyban").setExecutor(new Ban());
+        this.getCommand("xg7lobbytempban").setExecutor(new TempBan());
         this.getCommand("xg7lobbyunban").setExecutor(new Ban());
-        this.getCommand("xg7lobbyreloadconfig").setExecutor(new ReloadConfig());
         this.getCommand("xg7lobbygui").setExecutor(new GUI());
         this.getCommand("xg7lobbylockchat").setExecutor(new LockChatCommand());
         this.getCommand("xg7lobbygma").setExecutor(new Gamemode());
@@ -203,6 +182,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygmsp").setExecutor(new Gamemode());
         this.getCommand("xg7lobbywarn").setExecutor(new Warn());
         this.getCommand("xg7lobbywarns").setExecutor(new Warns());
+        this.getCommand("xg7lobbyhelp").setExecutor(new HelpCommand());
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());
@@ -221,6 +201,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
     }
+
 
     @Override
     public void onDisable() {

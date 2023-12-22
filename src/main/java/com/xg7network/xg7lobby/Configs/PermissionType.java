@@ -6,7 +6,6 @@ public enum PermissionType {
 
     BUILD("xg7lobby.build"),
     SETLOBBY_COMMAND("xg7lobby.command.setlobby"),
-    RELOAD_COMMAND("xg7lobby.command.reload"),
     FLY_COMMAND("xg7lobby.command.fly"),
     FLY_OTHER("xg7lobby.command.flyother"),
     GUI_COMMAND("xg7lobby.command.gui"),

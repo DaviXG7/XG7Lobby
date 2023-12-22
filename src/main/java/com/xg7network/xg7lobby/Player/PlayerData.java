@@ -8,6 +8,7 @@ import java.util.*;
 public class PlayerData {
 
     private String id;
+    private boolean playershide;
     private String playername;
     private boolean muted;
     private List<Warn> infractions = new ArrayList<>();
@@ -41,6 +42,14 @@ public class PlayerData {
 
     public List<Warn> getInfractions() {
         return infractions;
+    }
+
+    public boolean isPlayershide() {
+        return playershide;
+    }
+
+    public void setPlayershide(boolean playershide) {
+        this.playershide = playershide;
     }
 
     public void setInfractions(List<Warn> infractions) {

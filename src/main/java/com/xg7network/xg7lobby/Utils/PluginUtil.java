@@ -24,8 +24,7 @@ public class PluginUtil {
     }
 
     public static String setPlaceHolders(String s, Player p) {
-        if (placeholderapi) s = PlaceholderAPI.setPlaceholders(p, s);
-        return s;
+        return placeholderapi ? PlaceholderAPI.setPlaceholders(p, s) : s;
     }
 
     public static boolean hasPermission(Player player, PermissionType permissionType, String message) {

@@ -7,10 +7,6 @@ depend: [ProtocolLib]
 softdepend: [PlaceholderAPI, Multiverse-Core]
 
 commands:
-  xg7lobbyreloadconfig:
-    description: Recarrega o as configs do plugin
-    aliases: [7lreloadconfig, xg7lreloadconfig, 7lrlcg, xg7lrlcg]
-    usage: "/<command>"
   xg7lobbybuild:
     description: Faz o player construir no lobby
     aliases: [ 7lbuild, build, 7lb, xg7lb ]
@@ -131,7 +127,6 @@ permissions:
     children:
       xg7lobby.command.mute: true
       xg7lobby.command.setlobby: true
-      xg7lobby.command.reload: true
       xg7lobby.command.ban: true
       xg7lobby.command.unban: true
       xg7lobby.command.kick: true

@@ -41,7 +41,7 @@ public class Inventory {
 
                     this.fillItem = data.toItemStack(1);
                     ItemMeta meta = fillItem.getItemMeta();
-                    meta.setDisplayName("");
+                    meta.setDisplayName(" ");
                     meta.setLore(new ArrayList<>());
                     fillItem.setItemMeta(meta);
                     for (int i = 0; i < inv.getSize(); i++) {
@@ -51,7 +51,7 @@ public class Inventory {
                 } else {
                     this.fillItem = new ItemStack(Material.valueOf(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".items.fill-item").toUpperCase()));
                     ItemMeta meta = fillItem.getItemMeta();
-                    meta.setDisplayName("");
+                    meta.setDisplayName(" ");
                     meta.setLore(new ArrayList<>());
                     fillItem.setItemMeta(meta);
                     for (int i = 0; i < inv.getSize(); i++) {

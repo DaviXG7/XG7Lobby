@@ -5,10 +5,14 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.xg7network.xg7lobby.Utils.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+
+import static com.xg7network.xg7lobby.XG7Lobby.placeholderapi;
 
 public class TextUtil {
     private String text;

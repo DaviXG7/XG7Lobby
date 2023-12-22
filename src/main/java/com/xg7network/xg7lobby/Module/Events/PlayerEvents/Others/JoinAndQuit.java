@@ -1,8 +1,10 @@
-package com.xg7network.xg7lobby.Module.Events;
+package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others;
 
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
+import com.xg7network.xg7lobby.Player.PlayerData;
+import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.Action.Action;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
@@ -37,12 +39,20 @@ public class JoinAndQuit implements Listener {
                     message1.send(player);
                 }
             }
+
+            Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
+
+                PlayerData data = PlayersManager.getData(player.getUniqueId().toString());
+                new Action(player, data.isPlayershide() ? "HIDE" : "SHOW").execute();
+
+            }, 10l);
         }
 
         Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
             if (PluginUtil.isInWorld(player)) {
                 for (String s : configManager.getConfig(ConfigType.CONFIG).getStringList("join-events.actions"))
                     new Action(player, s).execute();
+
             }
         }, 10l);
 

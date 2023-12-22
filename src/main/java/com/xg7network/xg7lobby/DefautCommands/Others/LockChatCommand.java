@@ -42,7 +42,7 @@ public class LockChatCommand implements CommandExecutor, Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onChat(AsyncPlayerChatEvent event) {
         if (configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked")) {
-            event.setCancelled(event.getPlayer().hasPermission(PermissionType.LOCK_CHAT.getPerm()));
+            event.setCancelled(!event.getPlayer().hasPermission(PermissionType.LOCK_CHAT.getPerm()));
             new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-lock-chat")).send(event.getPlayer());
         }
     }

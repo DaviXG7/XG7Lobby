@@ -58,7 +58,7 @@ public class InventoryUtil {
         inventory.setItem(slot - 1, item.getItemStack());
     }
 
-    public void createItemStack(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, List<Action> actions) {
+    public void createItemStack(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, Action actions) {
 
         Item item = new Item(player, material, name, lore, glow, slot -1, ammount, actions);
         itemStacks.add(item);
@@ -66,7 +66,7 @@ public class InventoryUtil {
 
     }
 
-    public static Item getItemStack(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, List<Action> actions) {
+    public static Item getItemStack(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, Action actions) {
 
         return new Item(player, material, name, lore, glow, slot -1, ammount, actions);
 

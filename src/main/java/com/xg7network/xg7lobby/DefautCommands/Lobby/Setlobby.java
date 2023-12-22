@@ -1,7 +1,9 @@
 package com.xg7network.xg7lobby.DefautCommands.Lobby;
 
+import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Utils.PluginUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,6 +27,10 @@ public class Setlobby implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player) {
+
+            if (!PluginUtil.hasPermission(commandSender, PermissionType.SETLOBBY_COMMAND, ErrorMessages.NO_PEMISSION.getMessage()))
+                return true;
+
             Player player = (Player) commandSender;
             location = player.getLocation();
             save(commandSender);

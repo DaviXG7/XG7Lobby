@@ -23,21 +23,22 @@ public class InventoryListener implements Listener {
                 if (inv.getInv() != null) {
                     for (InventoryItem item : inv.getItems()) {
                         if (item.getInv().equals(e.getClickedInventory())) {
-                            if (e.getCurrentItem().equals(item.getItemStack())) {
-                                for (String s2 : item.getActions()) {
-                                    Action action = new Action(player, s2);
-                                    e.setCancelled(true);
-                                    action.execute();
+                            if (e.getCurrentItem() != null) {
+                                if (e.getCurrentItem().equals(item.getItemStack())) {
+                                    for (String s2 : item.getActions()) {
+                                        Action action = new Action(player, s2);
+                                        e.setCancelled(true);
+                                        action.execute();
 
+                                    }
                                 }
+
                             }
-                            e.setCancelled(true);
-                            return;
                         }
                     }
                 }
             }
-            e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()));
+            if (!e.isCancelled()) e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()));
         }
     }
 }

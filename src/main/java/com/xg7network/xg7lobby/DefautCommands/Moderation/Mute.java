@@ -69,6 +69,7 @@ public class Mute implements CommandExecutor, Listener {
                 }
 
                 data.setMuted(!target.getPlayer().hasPermission(PermissionType.WARN_COMMAND.getPerm()));
+                data.setLastDayToUnmute(null);
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", new Date());
                 Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
@@ -89,7 +90,6 @@ public class Mute implements CommandExecutor, Listener {
                 if (target.isOnline()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted")).send(target.getPlayer());
 
                 data.setLastDayToUnmute(null);
-                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", new Date());
                 Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
 

@@ -32,7 +32,7 @@ public class InventoryItem {
     private Player player;
 
     public InventoryItem(String path, Inventory inv, Player player) {
-        this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot");
+        this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1;
         this.inv = inv;
         this.path = path;
         this.player = player;

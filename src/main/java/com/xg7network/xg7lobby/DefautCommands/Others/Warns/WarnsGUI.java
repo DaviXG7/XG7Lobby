@@ -46,21 +46,21 @@ public class WarnsGUI {
                 warnsitems.remove(0);
             }
 
-            inventoryUtil.createItemStack(player, "REDSTONE", "&c&lGO BACK", " ", false, 46, 1, Collections.singletonList(() -> {
-                int index = inventoryUtils.indexOf(inventoryUtil);
-                if (index - 1 != -1) {
-                    player.closeInventory();
-                    inventoryUtils.get(index - 1).open();
-                }
-            }));
+            inventoryUtil.createItemStack(player, "REDSTONE", "&c&lGO BACK", " ", false, 46, 1, () -> {
+                        int index = inventoryUtils.indexOf(inventoryUtil);
+                        if (index - 1 != -1) {
+                            player.closeInventory();
+                            inventoryUtils.get(index - 1).open();
+                        }
+            });
 
-            inventoryUtil.createItemStack(player, "EMERALD", "&a&lGO NEXT", " ", false, 54, 1, Collections.singletonList(() -> {
+            inventoryUtil.createItemStack(player, "EMERALD", "&a&lGO NEXT", " ", false, 54, 1, () -> {
                 int index = inventoryUtils.indexOf(inventoryUtil);
                 if (index + 1 < inventoryUtils.size()) {
                     player.closeInventory();
                     inventoryUtils.get(index + 1).open();
                 }
-            }));
+            });
 
             inventoryUtils.add(inventoryUtil);
             page++;

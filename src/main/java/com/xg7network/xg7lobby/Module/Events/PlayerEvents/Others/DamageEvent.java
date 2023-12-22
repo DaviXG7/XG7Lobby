@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Other;
+package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;

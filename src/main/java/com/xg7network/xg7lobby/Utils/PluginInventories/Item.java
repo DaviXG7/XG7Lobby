@@ -22,13 +22,13 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Item {
 
-    private List<Action> actions;
+    private Action action;
     private ItemStack itemStack;
     private int slot;
 
-    public Item(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, List<Action> actions) {
+    public Item(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, Action action) {
 
-        this.actions = actions;
+        this.action = action;
 
         this.slot = slot;
 
@@ -72,60 +72,7 @@ public class Item {
 
         meta.setDisplayName(new TextUtil(name).get(player));
 
-        meta.setLore(Collections.singletonList(new TextUtil(lore).get(player)));
-        if (glow) meta.addEnchant(Enchantment.DURABILITY, 1, true);
-        itemStack.setItemMeta(meta);
-
-        this.itemStack.setItemMeta(meta);
-
-
-    }
-
-    public Item(Player player, String material, String name, String lore, boolean glow, int ammount, List<Action> actions) {
-
-        this.actions = actions;
-
-        String[] materialByte = material.split(", ");
-
-        ItemMeta meta;
-
-        if (material.contains(", ")) {
-
-            if (materialByte[0].equals("PLAYER_HEAD") && materialByte[1].startsWith("OWNER=")) {
-
-                String playername = materialByte[1].replace("OWNER=", "");
-
-                boolean skull = Arrays.stream(Material.values())
-                        .map(Material::name)
-                        .collect(Collectors.toList())
-                        .contains("PLAYER_HEAD");
-
-                Material cabecatype = Material.matchMaterial(skull ? "PLAYER_HEAD" : "SKULL_ITEM");
-                this.itemStack = new ItemStack(skull ? cabecatype : cabecatype, 1, (short) SkullType.PLAYER.ordinal());
-                SkullMeta skullMeta = (SkullMeta) this.itemStack.getItemMeta();
-
-                if (skull)
-                    skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
-                else skullMeta.setOwner(playername.equals("THIS_PLAYER") ? player.getName() : playername);
-
-                meta = skullMeta;
-
-                this.itemStack.setItemMeta(meta);
-
-
-            } else {
-                MaterialData data = new MaterialData(Material.valueOf(materialByte[0].toUpperCase()), Byte.parseByte(materialByte[1]));
-                this.itemStack = data.toItemStack(ammount);
-            }
-        } else {
-            this.itemStack = new ItemStack(Material.getMaterial(material), ammount);
-        }
-
-        meta = this.itemStack.getItemMeta();
-
-        meta.setDisplayName(new TextUtil(name).get(player));
-
-        meta.setLore(Collections.singletonList(new TextUtil(lore).get(player)));
+        meta.setLore(Arrays.stream(new TextUtil(lore).get(player).split(" /// ")).toList());
         if (glow) meta.addEnchant(Enchantment.DURABILITY, 1, true);
         itemStack.setItemMeta(meta);
 
@@ -140,11 +87,10 @@ public class Item {
 
     public void execute() {
 
-        if (actions == null) return;
+        if (action == null) return;
 
-        for (Action action : actions) {
-            action.execute();
-        }
+        action.execute();
+
 
     }
 
