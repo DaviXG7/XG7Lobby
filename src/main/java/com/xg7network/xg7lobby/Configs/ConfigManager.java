@@ -28,8 +28,6 @@ public class ConfigManager {
             case CONFIG:
                 if (Cfile == null) loadConfig(type);
 
-                config = null;
-
                 config = YamlConfiguration.loadConfiguration(Cfile);
 
                 return;
@@ -37,16 +35,12 @@ public class ConfigManager {
             case DATA:
                 if (Dfile == null) loadConfig(type);
 
-                data = null;
-
                 data = YamlConfiguration.loadConfiguration(Dfile);
 
                 return;
 
             case MESSAGES:
                 if (Mfile == null) loadConfig(type);
-
-                mensagem = null;
 
                 mensagem = YamlConfiguration.loadConfiguration(Mfile);
 
@@ -56,37 +50,38 @@ public class ConfigManager {
             case SELECTORS:
                 if (Sfile == null) loadConfig(type);
 
-                seletor = null;
-
                 seletor = YamlConfiguration.loadConfiguration(Sfile);
 
         }
     }
 
     public FileConfiguration getConfig(ConfigType type) {
-        switch (type) {
-            case CONFIG:
+        return switch (type) {
+            case CONFIG -> {
                 if (config == null) {
                     reloadConfig(type);
                 }
-                return config;
-            case DATA:
+                yield config;
+            }
+            case DATA -> {
                 if (data == null) {
                     reloadConfig(type);
                 }
-                return data;
-            case MESSAGES:
+                yield data;
+            }
+            case MESSAGES -> {
                 if (mensagem == null) {
                     reloadConfig(type);
                 }
-                return mensagem;
-            case SELECTORS:
+                yield mensagem;
+            }
+            case SELECTORS -> {
                 if (seletor == null) {
                     reloadConfig(type);
                 }
-                return seletor;
-        }
-        return null;
+                yield seletor;
+            }
+        };
     }
 
     public void saveConfig(ConfigType type) {
