@@ -3,6 +3,7 @@ package com.xg7network.xg7lobby.Module.Events;
 import java.io.File;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class Ping implements Listener {
     public void onPing(ServerListPingEvent e) {
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("motd.enabled")) {
             String motd = String.join("\n", configManager.getConfig(ConfigType.CONFIG).getStringList("motd.text"));
-            e.setMotd(motd.replace("&", "§"));
+            e.setMotd(new TextUtil(motd).get());
 
             try {
                 e.setServerIcon(Bukkit.loadServerIcon(new File("icon.png")));

@@ -16,6 +16,10 @@
 #&l - Bold     | &o - Italic
 #&m - Track     | &r - Reset
 
+#HEX to get hex color!
+#Only in 1.16+
+#HEX:#ffffff
+
 #All this will only work in the lobby world!
 
 #PLAYER returns the player (if you are not using PLACEHOLDER API)

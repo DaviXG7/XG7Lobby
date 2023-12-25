@@ -25,6 +25,10 @@
 #&l - Bold     | &o - Italic
 #&m - Track     | &r - Reset
 
+#HEX to get hex color!
+#Only in 1.16+
+#HEX:#ffffff
+
 #All this will only work in the lobby world!
 
 #Actions
@@ -337,7 +341,7 @@ scores:
     enabled: true
 
     #Scoreboard title
-    title: "&9X&3G7&bLobby"
+    title: "HEX:#0d00ffX&3G7HEX:#00fff2Lobby"
 
     #Lines of the score
     lines:

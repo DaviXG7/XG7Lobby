@@ -1,9 +1,10 @@
 package com.xg7network.xg7lobby.Module.Scores;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -17,42 +18,58 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 public class Score {
 
     private Player player;
-
     private Scoreboard scoreboard;
 
+    private static final String title = configManager.getConfig(ConfigType.CONFIG).getString("scores.scoreboard.title");
+
+    private static final List<String> lines = configManager.getConfig(ConfigType.CONFIG).getStringList("scores.scoreboard.lines");
 
     public Score(Player player) {
 
         this.player = player;
 
-    }
+        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(new TextUtil(title).get(player));
+        int size = lines.size() + 1;
 
-    public void createScore() {
-
-        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective obj = board.registerNewObjective("dummy", "dummy");
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("scores.scoreboard.title")).get(player));
-        List<String> linhas = configManager.getConfig(ConfigType.CONFIG).getStringList("scores.scoreboard.lines");
-        int size = linhas.size() + 1;
-
-        for (String s : linhas) {
+        for (String line : lines) {
             --size;
-            Team linha = board.registerNewTeam("linhas" + size);
-            s = s.replace("PLAYER", player.getName());
+            Team linha = scoreboard.registerNewTeam("linha " + size);
+            String text = new TextUtil(line.replace("PLAYER", player.getName())).get(player);
 
-            s = new TextUtil(s).get(player);
+            StringBuilder entry = new StringBuilder();
+            for (int i = 0; i < size; i++) {
+                entry.append("§r");
+            }
 
-            linha.addEntry(s);
-            obj.getScore(s).setScore(size);
+            linha.addEntry(entry.toString());
+            linha.setPrefix(text);
+            objective.getScore(entry.toString()).setScore(size);
+
         }
 
-        this.scoreboard = board;
-    }
-
-    public void setScoreboard() {
         player.setScoreboard(scoreboard);
+
     }
 
+
+    public void updateScore() {
+        int size = lines.size() + 1;
+        for (String line : lines) {
+            --size;
+            Team linha = scoreboard.getTeam("linha " + size);
+            String text = new TextUtil(line.replace("PLAYER", player.getName())).get(player);
+
+            linha.setPrefix(text);
+
+
+
+        }
+
+        this.player.setScoreboard(scoreboard);
+
+    }
 
 }
