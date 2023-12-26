@@ -51,9 +51,7 @@ public class Item {
                 this.itemStack = new ItemStack(skull ? cabecatype : cabecatype, 1, (short) SkullType.PLAYER.ordinal());
                 SkullMeta skullMeta = (SkullMeta) this.itemStack.getItemMeta();
 
-                if (skull)
-                    skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
-                else skullMeta.setOwner(playername.equals("THIS_PLAYER") ? player.getName() : playername);
+                skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
 
                 meta = skullMeta;
 

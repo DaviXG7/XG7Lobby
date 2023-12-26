@@ -1,6 +1,7 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class Inventory {
         if (configManager.getConfig(ConfigType.SELECTORS).getConfigurationSection("inventories") != null) {
 
             this.id = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".id");
-            this.inv = Bukkit.createInventory(player, configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".rows") * 9);
+            this.inv = Bukkit.createInventory(player, configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".rows") * 9, new TextUtil(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name")).get(player));
             this.player = player;
 
             if (configManager.getConfig(ConfigType.SELECTORS).getString(path + ".items.fill-item") != null && !(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".items.fill-item").equals("AIR"))) {

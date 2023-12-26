@@ -25,7 +25,6 @@ public class PlayersManager implements Listener {
 
         PlayerData playerData = new PlayerData(player);
         players.add(playerData);
-        System.out.println(players);
 
         save();
 

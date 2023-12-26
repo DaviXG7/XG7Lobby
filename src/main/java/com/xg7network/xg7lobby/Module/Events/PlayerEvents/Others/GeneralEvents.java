@@ -3,14 +3,13 @@ package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.PluginUtil;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
-public class Portal implements Listener {
+public class GeneralEvents implements Listener {
 
 
     @EventHandler

@@ -39,8 +39,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Date;
-
 public final class XG7Lobby extends JavaPlugin {
 
 
@@ -154,7 +152,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new WarnsGUIManager(), this);
         this.getServer().getPluginManager().registerEvents(new Cycles(), this);
         this.getServer().getPluginManager().registerEvents(new LockChatCommand(), this);
-        this.getServer().getPluginManager().registerEvents(new Portal(), this);
+        this.getServer().getPluginManager().registerEvents(new GeneralEvents(), this);
         this.getServer().getPluginManager().registerEvents(new HelpCommand(), this);
 
 

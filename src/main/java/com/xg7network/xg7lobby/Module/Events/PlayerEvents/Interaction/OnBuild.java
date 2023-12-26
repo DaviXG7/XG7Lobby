@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
+import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
 public class OnBuild implements Listener {
 
@@ -39,8 +40,10 @@ public class OnBuild implements Listener {
 
             } else if (!def) {
 
-                return !PluginUtil.hasPermission(player, permissionType, message);
-
+                if (PluginUtil.hasPermission(player, permissionType, message)) {
+                    new TextUtil(prefix + "&cYou need to have permission xg7lobby.build to build or interact!");
+                }
+                return true;
             }
         }
 

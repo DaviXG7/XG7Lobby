@@ -54,16 +54,14 @@ public class CenterText {
 
     int getCharSize(char c) {
         String[] chars = new String[]{"~@", "1234567890ABCDEFGHJKLMNOPQRSTUVWXYZabcedjhmnopqrsuvxwyz/\\+=-_^?&%$#", "{}fk*\"<>()", "It[] ", "'l`", "!|:;,.i", "¨´"};
-        if (c == 167) {
-            return 0;
-        } else {
-            for(int i = 0; i < chars.length; ++i) {
+        if (c != 167) {
+            for (int i = 0; i < chars.length; ++i) {
                 if (chars[i].contains(String.valueOf(c))) {
                     return 7 - i;
                 }
             }
 
-            return 0;
         }
+        return 0;
     }
 }

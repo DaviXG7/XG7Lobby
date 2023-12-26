@@ -1,5 +1,5 @@
 name: XG7Lobby
-version: '${project.version}'
+version: '1.0'
 main: com.xg7network.xg7lobby.XG7Lobby
 api-version: '1.16'
 loadbefore: [XG7RandomKits]
