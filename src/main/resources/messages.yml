@@ -20,7 +20,15 @@
 #Only in 1.16+
 #HEX:#ffffff
 
-#All this will only work in the lobby world!
+#Placeholders
+
+#%xg7lobby_warns%: returns the number of player warns;
+#%xg7lobby_chat_locked%: returns if chat is locked;
+#%xg7lobby_muted%: returns if the player is muted;
+#%xg7lobby_time_for_unmute%: returns when the player will be unmuted;
+#%xg7lobby_first_join%: returns the first join of the player on the server;
+#%xg7lobby_lobby_location%: returns the lobby location;
+#%xg7lobby_players_hide%: returns to if the player is hiding other players.
 
 #PLAYER returns the player (if you are not using PLACEHOLDER API)
 
