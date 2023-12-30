@@ -28,7 +28,7 @@ public class InventoryUtil {
 
     public InventoryUtil(Player player, int rows, String title) {
 
-        this.inventory = Bukkit.createInventory(player, rows * 9, new TextUtil(title).get(player));
+        this.inventory = Bukkit.createInventory(player, rows * 9, TextUtil.get(title, player));
         this.player = player;
 
     }

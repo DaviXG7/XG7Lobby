@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Module.Events.Jumps;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

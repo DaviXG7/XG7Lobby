@@ -1,7 +1,6 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
 
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
@@ -40,10 +39,10 @@ public class InventoryItem {
 
         this.itemStack = getItemAndMaterial();
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(new TextUtil(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name")).get(player));
+        meta.setDisplayName(TextUtil.get(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"), player));
         List<String> lore2 = new ArrayList<>();
         for (String l : configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore")) {
-            l = new TextUtil(l).get(player);
+            l = TextUtil.get(l, player);
             lore2.add(l);
         }
         meta.setLore(lore2);

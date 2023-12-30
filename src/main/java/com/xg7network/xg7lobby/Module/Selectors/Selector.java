@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Module.Selectors;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

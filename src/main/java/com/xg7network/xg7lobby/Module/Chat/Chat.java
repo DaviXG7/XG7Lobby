@@ -32,7 +32,7 @@ public class Chat implements Listener {
                 if (event.getMessage().contains(" " + s + " ") || event.getMessage().equalsIgnoreCase(s)) {
 
                     event.setCancelled(!player.hasPermission(PermissionType.CHAT_PALAVRAS.getPerm()));
-                    if (event.isCancelled()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("events.badword")).send(player);
+                    if (event.isCancelled()) TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("events.badword"), player);
 
                 }
             }
@@ -50,7 +50,7 @@ public class Chat implements Listener {
                 if (event.getMessage().startsWith(s)) {
 
                     event.setCancelled(!player.hasPermission(PermissionType.CHAT_COMANDOS.getPerm()));
-                    if (event.isCancelled()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("events.command-block")).send(player);
+                    if (event.isCancelled()) TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("events.command-block"), player);
 
                 }
             }

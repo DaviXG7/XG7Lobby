@@ -37,19 +37,18 @@ public class Broadcast extends Module {
 
 
                         for (String linhas : anuncio) {
-                            TextUtil message = new TextUtil(linhas);
                             if (configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.AOOL")) {
                                 if (configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(p.getWorld().getName())) {
                                     String s = configManager.getConfig(ConfigType.CONFIG).getString("announcements.sound");
                                     String[] s2 = s.split(", ");
                                     p.playSound(p.getLocation(), Sound.valueOf(s2[0]), Float.parseFloat(s2[1]), Float.parseFloat(s2[2]));
-                                    message.send(p);
+                                    TextUtil.send(linhas, p);
                                 }
                             } else {
                                 String s = configManager.getConfig(ConfigType.CONFIG).getString("announcements.sound");
                                 String[] s2 = s.split(", ");
                                 p.playSound(p.getLocation(), Sound.valueOf(s2[0]), Float.parseFloat(s2[1]), Float.parseFloat(s2[2]));
-                                message.send(p);
+                                TextUtil.send(linhas, p);
                             }
 
                         }

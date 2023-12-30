@@ -17,7 +17,7 @@ public class Ping implements Listener {
     public void onPing(ServerListPingEvent e) {
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("motd.enabled")) {
             String motd = String.join("\n", configManager.getConfig(ConfigType.CONFIG).getStringList("motd.text"));
-            e.setMotd(new TextUtil(motd).get());
+            e.setMotd(TextUtil.get(motd));
 
             try {
                 e.setServerIcon(Bukkit.loadServerIcon(new File("icon.png")));

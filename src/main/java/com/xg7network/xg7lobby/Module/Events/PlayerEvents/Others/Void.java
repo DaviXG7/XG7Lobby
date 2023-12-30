@@ -1,7 +1,7 @@
 package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others;
 
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

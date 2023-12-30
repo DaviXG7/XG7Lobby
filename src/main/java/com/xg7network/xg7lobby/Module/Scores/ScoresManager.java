@@ -3,6 +3,7 @@ package com.xg7network.xg7lobby.Module.Scores;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -104,8 +105,10 @@ public class ScoresManager extends Module implements Listener {
                                 .sendTabList();
                     }
 
-                    if (boss) if (!bossbar.containsBossBar(p)) bossbar.setBossBar(p);
-
+                    if (boss) {
+                        bossbar.updateTitle(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title")));
+                        if (!bossbar.containsBossBar(p)) bossbar.setBossBar(p);
+                    }
 
                 }
 

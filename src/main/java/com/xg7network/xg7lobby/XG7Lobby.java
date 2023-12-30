@@ -33,7 +33,7 @@ import com.xg7network.xg7lobby.Module.Selectors.SelectorListener;
 import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
-import com.xg7network.xg7lobby.Utils.PlaceHolder;
+import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

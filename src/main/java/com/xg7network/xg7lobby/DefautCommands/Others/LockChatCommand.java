@@ -3,7 +3,7 @@ package com.xg7network.xg7lobby.DefautCommands.Others;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -43,7 +43,7 @@ public class LockChatCommand implements CommandExecutor, Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         if (configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked")) {
             event.setCancelled(!event.getPlayer().hasPermission(PermissionType.LOCK_CHAT.getPerm()));
-            if (event.isCancelled()) new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-lock-chat")).send(event.getPlayer());
+            if (event.isCancelled()) TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-lock-chat"), event.getPlayer());
         }
     }
 

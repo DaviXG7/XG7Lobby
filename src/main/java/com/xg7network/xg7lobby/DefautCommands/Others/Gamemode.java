@@ -3,7 +3,7 @@ package com.xg7network.xg7lobby.DefautCommands.Others;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -41,7 +41,7 @@ public class Gamemode implements CommandExecutor {
 
                     player.setGameMode(GameMode.ADVENTURE);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", player.getGameMode().toString())).send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", player.getGameMode().toString()), player);
 
                 } else if (strings.length == 1) {
 
@@ -52,9 +52,9 @@ public class Gamemode implements CommandExecutor {
 
                     target.setGameMode(GameMode.ADVENTURE);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", target.getGameMode().toString())).send(target);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", target.getGameMode().toString()), target);
 
-                    commandSender.sendMessage(new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("GAMEMODE", target.getGameMode().toString()).replace("PLAYERT", target.getName())).get());
+                    commandSender.sendMessage(TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("[GAMEMODE]", target.getGameMode().toString()).replace("[TARGET]", target.getName())));
 
                 } else {
                     commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bgma (Player)");
@@ -78,7 +78,7 @@ public class Gamemode implements CommandExecutor {
 
                     player.setGameMode(GameMode.CREATIVE);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", player.getGameMode().toString())).send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", player.getGameMode().toString()), player);
 
                 } else if (strings.length == 1) {
 
@@ -89,9 +89,9 @@ public class Gamemode implements CommandExecutor {
 
                     target.setGameMode(GameMode.CREATIVE);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", target.getGameMode().toString())).send(target);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", target.getGameMode().toString()), target);
 
-                    commandSender.sendMessage(new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("GAMEMODE", target.getGameMode().toString()).replace("PLAYERT", target.getName())).get());
+                    commandSender.sendMessage(TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("[GAMEMODE]", target.getGameMode().toString()).replace("[TARGET]", target.getName())));
 
                 } else {
                     commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bgmc (Player)");
@@ -115,7 +115,7 @@ public class Gamemode implements CommandExecutor {
 
                     player.setGameMode(GameMode.SURVIVAL);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", player.getGameMode().toString())).send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", player.getGameMode().toString()), player);
 
                 } else if (strings.length == 1) {
 
@@ -126,9 +126,9 @@ public class Gamemode implements CommandExecutor {
 
                     target.setGameMode(GameMode.SURVIVAL);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", target.getGameMode().toString())).send(target);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", target.getGameMode().toString()), target);
 
-                    commandSender.sendMessage(new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("GAMEMODE", target.getGameMode().toString()).replace("PLAYERT", target.getName())).get());
+                    commandSender.sendMessage(TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("[GAMEMODE]", target.getGameMode().toString()).replace("[TARGET]", target.getName())));
 
                 } else {
                     commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bgmc (Player)");
@@ -152,7 +152,7 @@ public class Gamemode implements CommandExecutor {
 
                     player.setGameMode(GameMode.SPECTATOR);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", player.getGameMode().toString())).send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", player.getGameMode().toString()), player);
 
                 } else if (strings.length == 1) {
 
@@ -163,9 +163,9 @@ public class Gamemode implements CommandExecutor {
 
                     target.setGameMode(GameMode.SPECTATOR);
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("GAMEMODE", target.getGameMode().toString())).send(target);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-player").replace("[GAMEMODE]", target.getGameMode().toString()), target);
 
-                    commandSender.sendMessage(new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("GAMEMODE", target.getGameMode().toString()).replace("PLAYERT", target.getName())).get());
+                    commandSender.sendMessage(TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("commands.gamemode-target").replace("[GAMEMODE]", target.getGameMode().toString()).replace("[TARGET]", target.getName())));
 
                 } else {
                     commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bgmc (Player)");

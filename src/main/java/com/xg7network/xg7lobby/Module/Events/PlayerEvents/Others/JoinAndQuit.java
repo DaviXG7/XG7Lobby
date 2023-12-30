@@ -7,7 +7,7 @@ import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.Action.Action;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,8 +26,7 @@ public class JoinAndQuit implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        TextUtil message = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("join-message"));
-        event.setJoinMessage(message.get(player));
+        event.setJoinMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("join-message"), player));
 
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("tp-when-join")) {
             Location location = new LobbyLocation().getLocation();
@@ -35,8 +34,7 @@ public class JoinAndQuit implements Listener {
                 player.teleport(location);
             } else {
                 if (PluginUtil.hasPermission(player, PermissionType.SETLOBBY_COMMAND, configManager.getConfig(ConfigType.MESSAGES).getString("commands.lobby-warn"))) {
-                    TextUtil message1 = new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn"));
-                    message1.send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.adm-lobby-warn"), player);
                 }
             }
 
@@ -61,8 +59,7 @@ public class JoinAndQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        TextUtil message = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("leave-message"));
-        event.setQuitMessage(message.get(player));
+        event.setQuitMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("leave-message"), player));
     }
 
 

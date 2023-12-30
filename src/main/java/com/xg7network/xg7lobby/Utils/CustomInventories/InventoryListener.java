@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import static com.xg7network.xg7lobby.Utils.PluginUtil.isInWorld;
+import static com.xg7network.xg7lobby.Utils.Other.PluginUtil.isInWorld;
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 
@@ -40,7 +40,15 @@ public class InventoryListener implements Listener {
                     if (e.isCancelled()) return;
                 }
             }
-            if (!e.isCancelled()) e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()));
+            if (!e.isCancelled()) {
+
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-interact-with-inventory")) {
+                    e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()));
+                } else if (configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-hotbar")) {
+                    e.setCancelled(!player.hasPermission(PermissionType.INV.getPerm()) && (e.getClickedInventory().equals(player.getInventory()) && e.getRawSlot() <= 9));
+                }
+
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.xg7network.xg7lobby.Module.Events.WorldEvents;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;

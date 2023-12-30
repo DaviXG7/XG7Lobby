@@ -1,6 +1,6 @@
 package com.xg7network.xg7lobby.Utils.Text;
 
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.entity.Player;
 
 public class CenterText {

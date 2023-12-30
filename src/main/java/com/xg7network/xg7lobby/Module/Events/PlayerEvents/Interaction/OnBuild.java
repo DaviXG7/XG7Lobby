@@ -3,7 +3,7 @@ package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Interaction;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Build;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,9 +16,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
@@ -34,14 +31,14 @@ public class OnBuild implements Listener {
                 if (Build.canBuild(player)) return false;
                 else {
 
-                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn")).send(player);
+                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.build-warn"), player);
                     return true;
                 }
 
             } else if (!def) {
 
                 if (PluginUtil.hasPermission(player, permissionType, message)) {
-                    new TextUtil(prefix + "&cYou need to have permission xg7lobby.build to build or interact!");
+                    TextUtil.send(prefix + "&cYou need to have permission xg7lobby.build to build or interact!", player);
                 }
                 return true;
             }
@@ -76,15 +73,7 @@ public class OnBuild implements Listener {
 
                 if (PluginUtil.isInWorld(world)) {
 
-                    boolean crafiting_table = Arrays.stream(Material.values())
-                            .map(Material::name)
-                            .collect(Collectors.toList())
-                            .contains("CRAFITING_TABLE");
-
-                    if (blockType == Material.ANVIL || blockType == Material.HOPPER
-                            || blockType == Material.DISPENSER || blockType == Material.DROPPER || blockType == Material.CHEST
-                            || blockType == Material.FURNACE || blockType == Material.matchMaterial(crafiting_table ? "CRAFITING_TABLE" : "WORKBENCH")) {
-
+                    if (configManager.getConfig(ConfigType.CONFIG).getStringList("blocks-with-canceled-interaction").contains(blockType.name())) {
                         event.setCancelled(defaultCondition(configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks"), PermissionType.BLOCOS_INTERAGIR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-interact"), player));
                     }
                 }

@@ -1,16 +1,12 @@
 package com.xg7network.xg7lobby.Module.Events.Jumps;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
@@ -37,6 +33,8 @@ public class LaunchPad implements Listener {
             else {
                 this.block = Material.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("launch-pad.top-block"));
                 this.blockUnder = Material.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("launch-pad.bottom-block"));
+
+                this.launchpadtype = 2;
 
             }
         }

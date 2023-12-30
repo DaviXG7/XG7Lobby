@@ -392,10 +392,25 @@ break-blocks: false
 place-blocks: false
 interact-with-blocks: false
 
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+blocks-with-canceled-interaction:
+  - "ANVIL"
+  - "CHEST"
+  - "CRAFTING_TABLE"
+  - "HOPPER"
+  - "FURNACE"
+  - "OAK_TRAPDOOR"
+
 #Drop, pick up
 
 pickup-items: true
 drop-items: false
+
+#Inventory
+
+cancel-interact-with-inventory: true
+#Will cancel only the hotbar
+cancel-hotbar: true
 
 ###############################################
 #WORLD OPTIONS                                #

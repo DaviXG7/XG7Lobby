@@ -21,8 +21,7 @@ public class Bossbar implements Listener {
     }
 
     public void createBossBar() {
-        String bossTitulo = new TextUtil(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title")).get();
-        boss = Bukkit.createBossBar(bossTitulo,
+        boss = Bukkit.createBossBar(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title")),
                 BarColor.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.color")),
                 BarStyle.valueOf(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.style")));
 
@@ -37,6 +36,12 @@ public class Bossbar implements Listener {
         if (!boss.getPlayers().contains(player)) {
             boss.addPlayer(player);
         }
+    }
+
+    public void updateTitle(String title) {
+
+        boss.setTitle(title);
+
     }
 
     public void removeBossBar(Player player) {

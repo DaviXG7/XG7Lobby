@@ -1,24 +1,18 @@
 package com.xg7network.xg7lobby.Module.Events.Jumps;
 
-import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
-
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class FlyManager extends Module implements Listener {
     public static HashMap<UUID, Boolean> canfly = new HashMap<>();

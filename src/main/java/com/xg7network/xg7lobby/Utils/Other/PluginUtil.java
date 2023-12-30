@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils;
+package com.xg7network.xg7lobby.Utils.Other;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
@@ -30,7 +30,7 @@ public class PluginUtil {
     public static boolean hasPermission(Player player, PermissionType permissionType, String message) {
         if (player.hasPermission(permissionType.getPerm())) return true;
         else {
-            new TextUtil(message).send(player);
+            TextUtil.send(message, player);
             return false;
         }
     }
@@ -39,7 +39,7 @@ public class PluginUtil {
         if (sender instanceof Player) {
             if (sender.hasPermission(permissionType.getPerm())) return true;
             else {
-                new TextUtil(message).send((Player) sender);
+                TextUtil.send(message, (Player) sender);
                 return false;
             }
         }

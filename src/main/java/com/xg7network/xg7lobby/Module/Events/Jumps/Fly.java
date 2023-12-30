@@ -3,7 +3,7 @@ package com.xg7network.xg7lobby.Module.Events.Jumps;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,12 +44,12 @@ public class Fly implements CommandExecutor {
                                         player.sendMessage(ChatColor.RED + "You cannot change fly of §b" + target.getName() + " §cif the player's gamemode is creative or spectator!");
                                         return true;
                                     }
-                                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled-other").replace("[TARGET]", target.getName())).send(player);
-                                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled")).send(target);
+                                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled-other").replace("[TARGET]", target.getName()), player);
+                                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled"), target);
                                     FlyManager.canfly.put(target.getUniqueId(), true);
                                 } else {
-                                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled-other").replace("[TARGET]", target.getName())).send(player);
-                                    new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled")).send(target);
+                                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled-other").replace("TARGET", target.getName()), player);
+                                    TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled"), player);
                                     target.setFlying(target.getGameMode().equals(GameMode.CREATIVE) || target.getGameMode().equals(GameMode.SPECTATOR));
                                     FlyManager.canfly.put(target.getUniqueId(), false);
                                 }
@@ -71,10 +71,10 @@ public class Fly implements CommandExecutor {
                                 player.sendMessage(ChatColor.RED + "You cannot change to fly in creative or spectator modes!");
                                 return true;
                             }
-                            new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled")).send(player);
+                            TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled"), player);
                             FlyManager.canfly.put(player.getUniqueId(), true);
                         } else {
-                            new TextUtil(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled")).send(player);
+                            TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled"), player);
                             player.setFlying(player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR));
                             FlyManager.canfly.put(player.getUniqueId(), false);
                         }

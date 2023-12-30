@@ -20,8 +20,8 @@ public class Tablist {
     private Player player;
 
     public Tablist(Player player, List<String> header, List<String> footer) {
-        this.header = header == null ? "" : new TextUtil(header.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§")).get(player);
-        this.footer = footer == null ? "" : new TextUtil(footer.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§")).get(player);
+        this.header = header == null ? "" : TextUtil.get(header.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§"), player);
+        this.footer = footer == null ? "" : TextUtil.get(footer.stream().map(item -> item + "\n").collect(Collectors.joining()).replace("&", "§"), player);
         this.player = player;
     }
 

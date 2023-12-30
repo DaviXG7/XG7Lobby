@@ -1,9 +1,11 @@
 package com.xg7network.xg7lobby.Utils.PluginInventories;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -51,7 +53,9 @@ public class Item {
                 this.itemStack = new ItemStack(skull ? cabecatype : cabecatype, 1, (short) SkullType.PLAYER.ordinal());
                 SkullMeta skullMeta = (SkullMeta) this.itemStack.getItemMeta();
 
-                skullMeta.setOwningPlayer(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername));
+                OfflinePlayer player1 = playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername);
+
+                skullMeta.setOwningPlayer(player1);
 
                 meta = skullMeta;
 
@@ -68,9 +72,9 @@ public class Item {
 
         meta = this.itemStack.getItemMeta();
 
-        meta.setDisplayName(new TextUtil(name).get(player));
+        meta.setDisplayName(TextUtil.get(name, player));
 
-        meta.setLore(Arrays.stream(new TextUtil(lore).get(player).split(" /// ")).toList());
+        meta.setLore(Arrays.stream(TextUtil.get(lore, player).split(" /// ")).toList());
         if (glow) meta.addEnchant(Enchantment.DURABILITY, 1, true);
         itemStack.setItemMeta(meta);
 

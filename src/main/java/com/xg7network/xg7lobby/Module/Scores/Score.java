@@ -31,13 +31,13 @@ public class Score {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(new TextUtil(title).get(player));
+        objective.setDisplayName(TextUtil.get(title, player));
         int size = lines.size() + 1;
 
         for (String line : lines) {
             --size;
             Team linha = scoreboard.registerNewTeam("linha " + size);
-            String text = new TextUtil(line.replace("PLAYER", player.getName())).get(player);
+            String text = TextUtil.get(line.replace("PLAYER", player.getName()), player);
 
             StringBuilder entry = new StringBuilder();
             for (int i = 0; i < size; i++) {
@@ -60,7 +60,7 @@ public class Score {
         for (String line : lines) {
             --size;
             Team linha = scoreboard.getTeam("linha " + size);
-            String text = new TextUtil(line.replace("PLAYER", player.getName())).get(player);
+            String text = TextUtil.get(line.replace("PLAYER", player.getName()), player);
 
             linha.setPrefix(text);
 

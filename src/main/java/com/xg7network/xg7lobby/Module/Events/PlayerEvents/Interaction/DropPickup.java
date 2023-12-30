@@ -1,9 +1,9 @@
 package com.xg7network.xg7lobby.Module.Events.PlayerEvents.Interaction;
 
-import com.comphenix.protocol.PacketType;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +20,7 @@ public class DropPickup implements Listener {
 
         if (PluginUtil.isInWorld(player)) {
 
-            event.setCancelled(!PluginUtil.hasPermission(player, PermissionType.ITENS_JOGAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-drop")));
+            event.setCancelled(!PluginUtil.hasPermission(player, PermissionType.ITENS_JOGAR, TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-drop"), player)));
 
         }
 
@@ -33,7 +33,7 @@ public class DropPickup implements Listener {
 
         if (PluginUtil.isInWorld(player)) {
 
-            event.setCancelled(!PluginUtil.hasPermission(player, PermissionType.ITENS_PEGAR, configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-pickup")));
+            event.setCancelled(!PluginUtil.hasPermission(player, PermissionType.ITENS_PEGAR, TextUtil.get(configManager.getConfig(ConfigType.MESSAGES).getString("events.permission-pickup"), player)));
 
         }
 

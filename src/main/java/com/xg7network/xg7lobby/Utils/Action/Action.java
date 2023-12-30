@@ -5,7 +5,7 @@ import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Inventory;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
-import com.xg7network.xg7lobby.Utils.PluginUtil;
+import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -13,9 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
@@ -27,15 +24,13 @@ public class Action {
     private boolean valid;
     
     public Action(Player player, String action) {
-        if (action == null || action.equals("")) {
+        if (action == null || action.isEmpty()) {
             valid = false;
             return;
         }
         try {
             ActionType.valueOf(action);
-
             valid = true;
-
         } catch (Exception ignored) {
             valid = false;
         }
@@ -43,10 +38,7 @@ public class Action {
             if (!valid) ActionType.valueOf(action.substring(0, action.indexOf(":")));
         } catch (Exception ignored) {
             valid = false;
-            System.out.println("The action is not valid!");
-
             return;
-
         }
 
         valid = true;
@@ -56,7 +48,7 @@ public class Action {
                 if (actionType.equals(ActionType.valueOf(action.substring(0, action.indexOf(":"))))) {
                     this.type = actionType;
                     this.player = player;
-                    this.action = new TextUtil(action).get(player).replace(actionType + ": ", "");
+                    this.action = TextUtil.get(action, player).replace(actionType + ": ", "");
 
                     return;
                 }
@@ -71,7 +63,7 @@ public class Action {
 
     public void execute() {
         if (valid) {
-            String toUse = new TextUtil(action.replace("PLAYER", player.getName())).get(player);
+            String toUse = TextUtil.get(action.replace("PLAYER", player.getName()), player);
             if (permission()) {
 
                 switch (type) {
@@ -84,8 +76,7 @@ public class Action {
 
                     case MESSAGE:
 
-                        TextUtil message = new TextUtil(toUse);
-                        message.send(player);
+                        TextUtil.send(toUse, player);
 
                         return;
 
@@ -215,8 +206,7 @@ public class Action {
 
                     case ACTIONBAR:
 
-                        TextUtil actionbar = new TextUtil(toUse);
-                        actionbar.sendActionBar(player);
+                        TextUtil.sendActionBar(toUse, player);
 
                         return;
 

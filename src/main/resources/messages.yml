@@ -45,8 +45,8 @@ commands:
 
   #Gamemode messages
   #[PLAYERG] = target player
-  gamemode-player: "&7Your game mode has been changed to &bGAMEMODE"
-  gamemode-target: "&7You changed the game mode from &bPLAYERT &7to &bGAMEMODE"
+  gamemode-player: "&7Your game mode has been changed to &b[GAMEMODE]"
+  gamemode-target: "&7You changed the game mode from &b[TARGET] &7to &b[GAMEMODE]"
 
   #Mute messages
   when-muted: "&cYou have been muted by an admin! Please don't break the rules!"

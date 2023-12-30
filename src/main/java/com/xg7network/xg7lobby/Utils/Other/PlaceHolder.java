@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils;
+package com.xg7network.xg7lobby.Utils.Other;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;

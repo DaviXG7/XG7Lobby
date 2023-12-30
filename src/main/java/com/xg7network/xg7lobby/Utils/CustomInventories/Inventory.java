@@ -32,7 +32,7 @@ public class Inventory {
         if (configManager.getConfig(ConfigType.SELECTORS).getConfigurationSection("inventories") != null) {
 
             this.id = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".id");
-            this.inv = Bukkit.createInventory(player, configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".rows") * 9, new TextUtil(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name")).get(player));
+            this.inv = Bukkit.createInventory(player, configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".rows") * 9, TextUtil.get(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"),player));
             this.player = player;
 
             if (configManager.getConfig(ConfigType.SELECTORS).getString(path + ".items.fill-item") != null && !(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".items.fill-item").equals("AIR"))) {
