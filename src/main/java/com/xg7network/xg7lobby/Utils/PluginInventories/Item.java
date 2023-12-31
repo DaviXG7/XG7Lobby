@@ -1,11 +1,20 @@
 package com.xg7network.xg7lobby.Utils.PluginInventories;
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.xg7network.xg7lobby.Configs.ConfigType;
+/*
+
+    This class was made by DaviXG7 to facilitate
+    the creation of plugin items and inventories.
+
+    The class is free to use if this text is copied
+    into your plugin and your plugin is free.
+
+    Thanks for reading/using my code <3
+
+ */
+
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,13 +23,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Item {
 
