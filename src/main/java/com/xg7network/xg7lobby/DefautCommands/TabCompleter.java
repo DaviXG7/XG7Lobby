@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.DefautCommands;
 
+import com.xg7network.xg7lobby.Player.PlayersManager;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbytempban":
             case "xg7lobbywarn":
 
-                if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> results.add(player.getName()));
+                if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> PlayersManager.getData(player.getUniqueId().toString()).getPlayer().getName());
                 else if (strings.length >= 2) results.add("<REASON>");
 
                 break;
