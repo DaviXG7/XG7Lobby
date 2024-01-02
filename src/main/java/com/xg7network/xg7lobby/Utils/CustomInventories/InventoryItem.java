@@ -85,7 +85,7 @@ public class InventoryItem {
             }
 
         } else {
-            return new ItemStack(Material.valueOf(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").toUpperCase()), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"));
+            return new ItemStack(Material.valueOf(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material".toUpperCase())), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"));
         }
     }
 
