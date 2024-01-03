@@ -29,6 +29,10 @@ public class PlayerData {
         return Bukkit.getPlayer(UUID.fromString(id));
     }
 
+    public String getName() {
+        return this.playername;
+    }
+
     public void setPlayer(Player player) {
         this.playername = player.getName();
     }

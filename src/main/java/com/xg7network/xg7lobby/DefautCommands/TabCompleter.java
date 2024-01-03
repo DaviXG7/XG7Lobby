@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.DefautCommands;
 
+import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
@@ -24,7 +25,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbymute":
             case "xg7lobbyunmute":
 
-                if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> PlayersManager.getData(player.getUniqueId().toString()).getPlayer().getName());
+                if (strings.length == 1) PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
 
                 break;
 
@@ -43,7 +44,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbytempban":
             case "xg7lobbywarn":
 
-                if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> PlayersManager.getData(player.getUniqueId().toString()).getPlayer().getName());
+                if (strings.length == 1) PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
                 else if (strings.length >= 2) results.add("<REASON>");
 
                 break;
@@ -55,7 +56,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
             case "xg7lobbytempmute":
 
-                if (strings.length == 1) if (strings.length == 1) Bukkit.getOnlinePlayers().forEach(player -> PlayersManager.getData(player.getUniqueId().toString()).getPlayer().getName());
+                if (strings.length == 1) PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
 
                 else if (strings.length == 2) {
                     results.add("30min");

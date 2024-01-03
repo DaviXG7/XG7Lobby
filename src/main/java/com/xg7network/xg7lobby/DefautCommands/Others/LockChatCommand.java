@@ -5,10 +5,12 @@ import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -34,6 +36,10 @@ public class LockChatCommand implements CommandExecutor, Listener {
         commandSender.sendMessage(configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked") ?
                 prefix + ChatColor.GREEN + "The chat has been locked!" : prefix + ChatColor.GREEN + "The chat has been unlocked!"
         );
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-lock-chat"), player);
+        }
 
 
         return true;

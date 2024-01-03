@@ -60,6 +60,7 @@ commands:
   when-muted: "&cYou have been muted by an admin! Please don't break the rules!"
   on-mute: "&cYou cannot send messages. You are muted!"
   on-mute-with-time: "&cYou cannot send messages. You are muted for [DAYS]"
+  on-lock-chat: "&cThe chat has been locked by an adm!"
 
 events:
 

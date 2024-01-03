@@ -116,7 +116,7 @@ public final class XG7Lobby extends JavaPlugin {
         PlayersManager.load();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (PlayersManager.players.isEmpty()) PlayersManager.createData(player);
+            if (PlayersManager.getDatas().isEmpty()) PlayersManager.createData(player);
             else if (PlayersManager.getData(player.getUniqueId().toString()) == null) {
                     PlayersManager.createData(player).setFirstJoin(System.currentTimeMillis());
             }

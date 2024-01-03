@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.Module.Events.Jumps;
 
+import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
 import com.xg7network.xg7lobby.XG7Lobby;
@@ -33,7 +34,7 @@ public class FlyManager extends Module implements Listener {
 
             } else {
 
-                player.setAllowFlight(true);
+                if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) player.setAllowFlight(true);
 
             }
         }, 15);
@@ -45,7 +46,10 @@ public class FlyManager extends Module implements Listener {
         Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
             Bukkit.getOnlinePlayers().forEach(p -> {
                 if (Players.getPlayers().containsKey(p.getUniqueId()))
-                    p.setAllowFlight(true);
+                    if (p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())){
+                        p.sendMessage("a");
+                        p.setAllowFlight(true);
+                    }
             });
         }, 0, 5);
 
@@ -56,8 +60,11 @@ public class FlyManager extends Module implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (Players.getPlayers().containsKey(player.getUniqueId())) {
-            canfly.put(player.getUniqueId(), false);
-            player.setAllowFlight(true);
+            if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) {
+                player.sendMessage("b");
+                canfly.put(player.getUniqueId(), false);
+                player.setAllowFlight(true);
+            }
         }
 
 

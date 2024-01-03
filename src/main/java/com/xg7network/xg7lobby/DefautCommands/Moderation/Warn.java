@@ -31,9 +31,11 @@ public class Warn implements CommandExecutor {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(strings[0]);
 
-        if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
-            commandSender.sendMessage(prefix + "§cYou cannot warn a player with admin perms.");
-            return true;
+        if (target.isOnline()) {
+            if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
+                commandSender.sendMessage(prefix + "§cYou cannot warn a player with admin perms.");
+                return true;
+            }
         }
 
 

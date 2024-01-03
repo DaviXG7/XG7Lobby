@@ -344,6 +344,8 @@ scores:
       - "&9Visit our website: &bwww.site.com"
       - "&5&oPlugin made by DaviXG7"
 
+  #In older versions, the number of characters
+  #in a scoreboard line cannot exceed 16!
   scoreboard:
 
     enabled: true

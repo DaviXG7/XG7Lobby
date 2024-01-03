@@ -38,9 +38,11 @@ public class Ban implements CommandExecutor {
                 return true;
             }
 
-            if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
-                commandSender.sendMessage(prefix + "§cYou cannot ban a player with admin perms.");
-                return true;
+            if (target.getPlayer().isOnline()) {
+                if (target.getPlayer().hasPermission(PermissionType.ADMIN.getPerm())) {
+                    commandSender.sendMessage(prefix + "§cYou cannot ban a player with admin perms.");
+                    return true;
+                }
             }
 
             if (strings.length == 1) {

@@ -18,7 +18,7 @@ import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
 public class PlayersManager implements Listener {
 
-    public static List<PlayerData> players = new ArrayList<>();
+    private static List<PlayerData> players = new ArrayList<>();
 
     public static PlayerData createData(Player player) {
 
@@ -30,6 +30,10 @@ public class PlayersManager implements Listener {
 
         return playerData;
 
+    }
+
+    public static List<PlayerData> getDatas() {
+        return players;
     }
 
     public static PlayerData getData(String id) {
@@ -56,7 +60,6 @@ public class PlayersManager implements Listener {
         for (PlayerData data : players) {
             if (data.getId().equalsIgnoreCase(id)) {
 
-                data.setPlayer(playerData.getPlayer());
                 data.setMuted(playerData.isMuted());
                 data.setInfractions(playerData.getInfractions());
                 data.setLastDayToUnmute(playerData.getLastDayToUnmute());

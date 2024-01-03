@@ -18,10 +18,10 @@ public class Cycles implements Listener {
     public void onWorldLoad(WorldLoadEvent event) {
 
         if (PluginUtil.isInWorld(event.getWorld())) {
-            event.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle"));
-            event.getWorld().setGameRule(GameRule.DO_WEATHER_CYCLE, configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle"));
+            event.getWorld().setGameRuleValue("doDaylightCycle", "false");
+            event.getWorld().setGameRuleValue("doWeatherCycle", "false");
 
-            if (!event.getWorld().getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE)) Bukkit.getScheduler().runTaskLater(getPlugin(), () -> event.getWorld().setTime(configManager.getConfig(ConfigType.CONFIG).getLong("time")), 50l);
+            if (!Boolean.valueOf(event.getWorld().getGameRuleValue("doDaylightCycle"))) Bukkit.getScheduler().runTaskLater(getPlugin(), () -> event.getWorld().setTime(configManager.getConfig(ConfigType.CONFIG).getLong("time")), 50l);
         }
 
     }

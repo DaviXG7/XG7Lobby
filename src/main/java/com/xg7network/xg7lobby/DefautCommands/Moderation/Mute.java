@@ -54,11 +54,6 @@ public class Mute implements CommandExecutor, Listener {
             return true;
         }
 
-        if (!target.isOnline()) {
-            commandSender.sendMessage(ErrorMessages.PLAYER_IS_NOT_ONLINE.getMessage());
-            return true;
-        }
-
         PlayerData data = PlayersManager.getData(target.getUniqueId().toString());
 
         switch (command.getName()) {
@@ -71,12 +66,12 @@ public class Mute implements CommandExecutor, Listener {
                 data.setMuted(!target.getPlayer().hasPermission(PermissionType.WARN_COMMAND.getPerm()));
                 data.setLastDayToUnmute(0);
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
-                Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
+                Infractions.verify(target.getPlayer(), data.getInfractions().size());
 
                 commandSender.sendMessage(data.isMuted() ? prefix + "§aYou have successfully muted §b" + target.getName() : prefix + "§cYou cannot mute a player with admin perms.");
 
-                break;
+                return true;
 
             case "xg7lobbyunmute":
 
@@ -90,12 +85,11 @@ public class Mute implements CommandExecutor, Listener {
                 if (target.isOnline()) TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted"), target.getPlayer());
 
                 data.setLastDayToUnmute(0);
-                Infractions.verify(target.getPlayer(), data.getInfractions().size());
                 PlayersManager.update(target.getUniqueId().toString(), data);
 
                 commandSender.sendMessage(prefix + "§aYou have successfully unmuted §b" + target.getName());
 
-                break;
+                return true;
 
             case "xg7lobbytempmute":
 
@@ -142,8 +136,8 @@ public class Mute implements CommandExecutor, Listener {
                         }
 
                         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
-                        Infractions.verify(target.getPlayer(), data.getInfractions().size());
                         PlayersManager.update(target.getUniqueId().toString(), data);
+                        Infractions.verify(target.getPlayer(), data.getInfractions().size());
 
                         commandSender.sendMessage(prefix + "§aYou have successfully muted §b" + target.getName() + " §afor §e" + TimeUnit.MILLISECONDS.toDays((data.getLastDayToUnmute() - new Date().getTime())) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!");
                     } else {
@@ -167,8 +161,8 @@ public class Mute implements CommandExecutor, Listener {
 
                         if (target.isOnline()) TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.when-muted").replace("[DAYS]", TimeUnit.MILLISECONDS.toDays(data.getLastDayToUnmute() - new Date().getTime()) + " days, " + TimeUnit.MILLISECONDS.toHours((data.getLastDayToUnmute() - new Date().getTime())) % 24 + " hours and " + TimeUnit.MILLISECONDS.toMinutes((data.getLastDayToUnmute() - new Date().getTime())) % 60 + " minutes!"), target.getPlayer());
                         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
-                        Infractions.verify(target.getPlayer(), data.getInfractions().size());
                         PlayersManager.update(target.getUniqueId().toString(), data);
+                        Infractions.verify(target.getPlayer(), data.getInfractions().size());
 
                     } catch (Exception e) {
                         commandSender.sendMessage(ErrorMessages.SYNTAX_ERROR.getMessage());
@@ -178,7 +172,7 @@ public class Mute implements CommandExecutor, Listener {
                     commandSender.sendMessage(ErrorMessages.SYNTAX_ERROR.getMessage());
                 }
 
-                break;
+                return true;
         }
 
 
@@ -192,7 +186,7 @@ public class Mute implements CommandExecutor, Listener {
 
         PlayerData data = PlayersManager.getData(player.getUniqueId().toString());
 
-        if (data.getLastDayToUnmute() <= System.currentTimeMillis()) {
+        if (data.getLastDayToUnmute() <= System.currentTimeMillis() && data.getLastDayToUnmute() != 0) {
             data.setLastDayToUnmute(0);
             data.setMuted(false);
             PlayersManager.update(player.getUniqueId().toString(), data);
