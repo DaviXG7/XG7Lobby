@@ -85,12 +85,6 @@ public class Item {
 
     }
 
-    public Item(ItemStack stack, Action action) {
-        this.itemStack = stack;
-        this.action = action;
-
-    }
-
     public void setSlot(int slot) {
         this.slot = slot;
     }
