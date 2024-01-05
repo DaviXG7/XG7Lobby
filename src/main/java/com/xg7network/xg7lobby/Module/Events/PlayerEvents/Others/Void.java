@@ -16,8 +16,10 @@ public class Void implements Listener {
             String[] partes = Bukkit.getVersion().split("\\.");
             int vers = Integer.parseInt(partes[1]);
             if (vers >= 18)  {
-                if (event.getTo().getY() <= -70) event.getPlayer().teleport(new LobbyLocation().getLocation());
-            } else if (event.getTo().getY() <= -6) event.getPlayer().teleport(new LobbyLocation().getLocation());
+                if (event.getTo().getY() <= -70) if (new LobbyLocation().getLocation() != null) event.getPlayer().teleport(new LobbyLocation().getLocation());
+                else event.getPlayer().setHealth(0);
+            } else if (event.getTo().getY() <= -6) if (new LobbyLocation().getLocation() != null) event.getPlayer().teleport(new LobbyLocation().getLocation());
+            else event.getPlayer().setHealth(0);
         }
     }
 
