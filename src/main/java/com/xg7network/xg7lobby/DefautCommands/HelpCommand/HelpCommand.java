@@ -50,7 +50,7 @@ public class HelpCommand implements CommandExecutor, Listener {
             if (players.containsKey(player.getUniqueId())) {
                 if (players.get(player.getUniqueId()).equals(event.getClickedInventory())) {
 
-                    players.get(player.getUniqueId()).execute(event.getCurrentItem());
+                    players.get(player.getUniqueId()).execute(event.getCurrentItem(), event.getClickedInventory());
 
                     event.setCancelled(true);
 

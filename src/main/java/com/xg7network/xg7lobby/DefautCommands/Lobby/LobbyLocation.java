@@ -24,7 +24,7 @@ import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 public class LobbyLocation {
     private Location location;
     public Location getLocation() {
-        if (configManager.getConfig(ConfigType.DATA).getString("lobby.world") == null) return null;
+        if (configManager.getConfig(ConfigType.DATA).getString("lobby.world") == null) return new Location(Bukkit.getWorld(configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").get(0)),0 ,0 ,0);
 
             ConfigurationSection section = configManager.getConfig(ConfigType.DATA).getConfigurationSection("lobby");
             return location = new Location(

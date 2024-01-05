@@ -47,7 +47,7 @@ public class Warn implements CommandExecutor {
         PlayerData playerData = PlayersManager.getData(target.getUniqueId().toString());
         playerData.addInfraction(str.toString().trim().replace("&", "§"), System.currentTimeMillis());
 
-        commandSender.sendMessage(prefix + ChatColor.GREEN + "You muted " + target.getName() + " for " + str.toString().trim().replace("&", "§"));
+        commandSender.sendMessage(prefix + ChatColor.GREEN + "You warned " + target.getName() + " for " + str.toString().trim().replace("&", "§"));
 
         PlayersManager.update(target.getUniqueId().toString(), playerData);
 

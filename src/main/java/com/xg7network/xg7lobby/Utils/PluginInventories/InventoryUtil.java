@@ -17,8 +17,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InventoryUtil {
@@ -41,9 +43,13 @@ public class InventoryUtil {
 
     public void execute(ItemStack stack) {
         if (stack != null) {
+            Item itemChose = null;
             for (Item item : itemStacks) {
-                if (stack.equals(item.getItemStack())) item.execute();
+                if (stack.equals(item.getItemStack())) {
+                    itemChose = item;
+                }
             }
+            itemChose.execute();
         }
     }
 
@@ -58,6 +64,26 @@ public class InventoryUtil {
     public void setItem(int slot, Item item) {
         itemStacks.add(item);
         inventory.setItem(slot - 1, item.getItemStack());
+    }
+
+    public void updateItem(Item item, String newName, String newLore) {
+        int index = itemStacks.indexOf(item);
+        ItemMeta meta = item.getItemStack().getItemMeta();
+        meta.setDisplayName(TextUtil.get(newName, player));
+        meta.setLore(Arrays.stream(TextUtil.get(newLore, player).split(" /// ")).toList());
+        item.getItemStack().setItemMeta(meta);
+        itemStacks.remove(index);
+        itemStacks.add(index, item);
+        inventory.setItem(item.getSlot(), item.getItemStack());
+    }
+    public void updateItem(Item item, String newName) {
+        int index = itemStacks.indexOf(item);
+        ItemMeta meta = item.getItemStack().getItemMeta();
+        meta.setDisplayName(TextUtil.get(newName, player));
+        item.getItemStack().setItemMeta(meta);
+        itemStacks.remove(index);
+        itemStacks.add(index, item);
+        inventory.setItem(item.getSlot(), item.getItemStack());
     }
 
     public void createItemStack(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, Action actions) {

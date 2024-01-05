@@ -47,7 +47,6 @@ public class FlyManager extends Module implements Listener {
             Bukkit.getOnlinePlayers().forEach(p -> {
                 if (Players.getPlayers().containsKey(p.getUniqueId()))
                     if (p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())){
-                        p.sendMessage("a");
                         p.setAllowFlight(true);
                     }
             });
@@ -61,7 +60,6 @@ public class FlyManager extends Module implements Listener {
         Player player = event.getPlayer();
         if (Players.getPlayers().containsKey(player.getUniqueId())) {
             if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) {
-                player.sendMessage("b");
                 canfly.put(player.getUniqueId(), false);
                 player.setAllowFlight(true);
             }
