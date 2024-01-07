@@ -1,9 +1,11 @@
 package com.xg7network.xg7lobby.Configs;
 
+import com.xg7network.xg7lobby.Utils.PluginInventories.Item;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
