@@ -100,13 +100,6 @@ enabled-worlds:
 #When you join the game you go to the lobby
 tp-when-join: true
 
-#UNDER MAINTENANCE
-#WAIT UNTIL THE UPDATE!
-#When you die you give tp to the lobby
-tp-when-die: false
-
-#UNDER MAINTENANCE
-#WAIT UNTIL THE UPDATE!
 warning-image: true
 
 ###############################################
