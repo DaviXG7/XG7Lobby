@@ -1,9 +1,12 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -12,9 +15,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
@@ -29,7 +34,8 @@ public class SelectorItem {
     private Player player;
 
     public SelectorItem(String path, Player player) {
-        if (configManager.getConfig(ConfigType.SELECTORS).get(path + ".slot") != null) this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") -1;
+        if (configManager.getConfig(ConfigType.SELECTORS).get(path + ".slot") != null)
+            this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1;
 
         this.path = path;
         this.player = player;
@@ -44,7 +50,8 @@ public class SelectorItem {
             lore2.add(l);
         }
         meta.setLore(lore2);
-        if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow")) meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow"))
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
         itemStack.setItemMeta(meta);
 
     }
@@ -57,23 +64,60 @@ public class SelectorItem {
     private ItemStack getItemAndMaterial() {
         if (configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").contains(", ")) {
             String[] materialByte = configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").split(", ");
-            if (materialByte[0].equals("PLAYER_HEAD") && materialByte[1].startsWith("OWNER=")) {
-                String playername = materialByte[1].replace("OWNER=", "");
+            if (materialByte[0].equals("PLAYER_HEAD") && (materialByte[1].startsWith("OWNER=") || materialByte[1].startsWith("VALUE="))) {
+                if (materialByte[1].startsWith("OWNER=")) {
 
-                boolean skull = Arrays.stream(Material.values())
-                        .map(Material::name)
-                        .collect(Collectors.toList())
-                        .contains("PLAYER_HEAD");
+                    String playername = materialByte[1].replace("OWNER=", "");
 
-                Material cabecatype = Material.matchMaterial(skull ? "PLAYER_HEAD" : "SKULL_ITEM");
-                ItemStack cabeca = new ItemStack(skull ? cabecatype : cabecatype,1, (short) SkullType.PLAYER.ordinal());
-                SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+                    boolean skull = Arrays.asList(Material.values())
+                            .stream()
+                            .map(Material::name)
+                            .collect(Collectors.toList())
+                            .contains("PLAYER_HEAD");
 
-                skullMeta.setOwner(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()).getName() : playername);
+                    OfflinePlayer player1 = playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername);
 
 
-                cabeca.setItemMeta(skullMeta);
-                return cabeca;
+                    ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                    SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+
+                    skullMeta.setOwner(player1.getName());
+
+                    cabeca.setItemMeta(skullMeta);
+
+                    return cabeca;
+
+                } else {
+
+                    String texture = materialByte[1].replace("VALUE=", "");
+
+                    boolean skull = Arrays.asList(Material.values())
+                            .stream()
+                            .map(Material::name)
+                            .collect(Collectors.toList())
+                            .contains("PLAYER_HEAD");
+
+                    GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+                    gameProfile.getProperties().put("textures", new Property("textures", texture));
+
+                    ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                    SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+
+                    try {
+                        Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                        profileField.setAccessible(true);
+                        profileField.set(skullMeta, gameProfile);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+
+                    cabeca.setItemMeta(skullMeta);
+
+                    return cabeca;
+
+                }
 
             } else {
                 MaterialData data = new MaterialData(Material.valueOf(materialByte[0].toUpperCase()), Byte.parseByte(materialByte[1]));

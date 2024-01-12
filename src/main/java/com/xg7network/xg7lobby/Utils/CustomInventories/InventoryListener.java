@@ -24,7 +24,7 @@ public class InventoryListener implements Listener {
                     for (InventoryItem item : inv.getItems()) {
                         if (item.getInv().equals(e.getClickedInventory())) {
                             if (e.getCurrentItem() != null) {
-                                if (e.getCurrentItem().equals(item.getItemStack())) {
+                                if (e.getCurrentItem().getItemMeta().equals(item.getItemStack().getItemMeta())) {
                                     for (String s2 : item.getActions()) {
                                         Action action = new Action(player, s2);
                                         e.setCancelled(true);

@@ -31,21 +31,27 @@ public class Score {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(TextUtil.get(title, player));
+        String title2 = TextUtil.get(title, player);
+        objective.setDisplayName(title2);
         int size = lines.size() + 1;
+
 
         for (String line : lines) {
             --size;
-            Team linha = scoreboard.registerNewTeam("linha " + size);
-            String text = TextUtil.get(line.replace("PLAYER", player.getName()), player);
-
+            Team linha = this.scoreboard.registerNewTeam("linha: " + size);
+            String text = TextUtil.get(line, player);
             StringBuilder entry = new StringBuilder();
             for (int i = 0; i < size; i++) {
                 entry.append("§r");
             }
-
             linha.addEntry(entry.toString());
-            linha.setPrefix(text);
+
+            linha.setPrefix(text.split(" /// ")[0]);
+            try {
+                linha.setSuffix(text.split(" /// ")[1]);
+            } catch (Exception ignored) {
+            }
+
             objective.getScore(entry.toString()).setScore(size);
 
         }
@@ -58,11 +64,15 @@ public class Score {
     public void updateScore() {
         int size = lines.size() + 1;
         for (String line : lines) {
-            --size;
-            Team linha = scoreboard.getTeam("linha " + size);
-            String text = TextUtil.get(line.replace("PLAYER", player.getName()), player);
-
-            linha.setPrefix(text);
+            size--;
+            Team linha = this.scoreboard.getTeam("linha: " + size);
+            String text = TextUtil.get(line, player);
+            linha.setPrefix(text.split(" /// ")[0]);
+            try {
+                linha.setSuffix(text.split(" /// ")[1]);
+            } catch (Exception ignored) {
+                linha.setSuffix("");
+            }
 
 
 

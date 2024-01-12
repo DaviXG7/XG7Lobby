@@ -45,11 +45,13 @@ public class InventoryUtil {
         if (stack != null) {
             Item itemChose = null;
             for (Item item : itemStacks) {
-                if (stack.equals(item.getItemStack())) {
+                if (stack.getItemMeta().equals(item.getItemStack().getItemMeta())) {
                     itemChose = item;
                 }
             }
-            itemChose.execute();
+            if (itemChose != null) {
+                itemChose.execute();
+            }
         }
     }
 

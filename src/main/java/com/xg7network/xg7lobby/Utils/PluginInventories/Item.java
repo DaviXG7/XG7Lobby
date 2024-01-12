@@ -12,9 +12,14 @@ package com.xg7network.xg7lobby.Utils.PluginInventories;
 
  */
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -23,7 +28,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Item {
@@ -44,24 +51,57 @@ public class Item {
 
         if (material.contains(", ")) {
 
-            if (materialByte[0].equals("PLAYER_HEAD") && materialByte[1].startsWith("OWNER=")) {
+            if (materialByte[0].equals("PLAYER_HEAD") && (materialByte[1].startsWith("OWNER=") || materialByte[1].startsWith("VALUE="))) {
 
-                String playername = materialByte[1].replace("OWNER=", "");
+                if (materialByte[1].startsWith("OWNER=")) {
 
-                boolean skull = Arrays.stream(Material.values())
-                        .map(Material::name)
-                        .collect(Collectors.toList())
-                        .contains("PLAYER_HEAD");
+                    String playername = materialByte[1].replace("OWNER=", "");
 
-                Material cabecatype = Material.matchMaterial(skull ? "PLAYER_HEAD" : "SKULL_ITEM");
-                this.itemStack = new ItemStack(skull ? cabecatype : cabecatype, 1, (short) SkullType.PLAYER.ordinal());
-                SkullMeta skullMeta = (SkullMeta) this.itemStack.getItemMeta();
+                    boolean skull = Arrays.asList(Material.values())
+                            .stream()
+                            .map(Material::name)
+                            .collect(Collectors.toList())
+                            .contains("PLAYER_HEAD");
 
-                skullMeta.setOwner(playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()).getName() : playername);
+                    OfflinePlayer player1 = playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername);
 
-                meta = skullMeta;
 
-                this.itemStack.setItemMeta(meta);
+                    this.itemStack = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                    SkullMeta skullMeta = (SkullMeta) this.itemStack.getItemMeta();
+
+                    skullMeta.setOwner(player1.getName());
+
+                    this.itemStack.setItemMeta(skullMeta);
+
+                } else {
+
+                    String texture = materialByte[1].replace("VALUE=", "");
+
+                    boolean skull = Arrays.asList(Material.values())
+                            .stream()
+                            .map(Material::name)
+                            .collect(Collectors.toList())
+                            .contains("PLAYER_HEAD");
+
+                    GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+                    gameProfile.getProperties().put("textures", new Property("textures", texture));
+
+                    this.itemStack = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                    SkullMeta skullMeta = (SkullMeta) this.itemStack .getItemMeta();
+
+                    try {
+                        Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                        profileField.setAccessible(true);
+                        profileField.set(skullMeta, gameProfile);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+
+                    this.itemStack.setItemMeta(skullMeta);
+
+                }
 
 
             } else {

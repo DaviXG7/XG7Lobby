@@ -819,7 +819,7 @@ public class HelpGUI {
         InventoryUtil collaborators = new InventoryUtil(player, 3, "&8Collaborators");
 
         collaborators.createItemStack(player,
-                "PLAYER_HEAD, OWNER=DaviXG7",
+                "PLAYER_HEAD, VALUE=e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTY0OWZjZmFmNTU5OTA0ZWM4MzBiY2QyNGFjN2EyMzFkM2ViZTcxOGQ0MDdmNTczYmQzNGFkZjYyMjEwMWI0NCJ9fX0=",
                 "§bDaviXG7",
                 "&aCreator of all plugin!",
                 false,
@@ -830,7 +830,7 @@ public class HelpGUI {
 
 
         collaborators.createItemStack(player,
-                "PLAYER_HEAD, OWNER=pewtuck90",
+                "PLAYER_HEAD, VALUE=e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBjMDFjNGJjYWU3NjA2ZjJhZTcwOWZmNjU3YzFjZjRiNGEwNmMxZmZhN2NmYzI0ZWExZDBmYjhkMDRlNTY5YiJ9fX0=",
                 "§bBultzzXG7",
                 "&aVideo Helper and Beta tester!",
                 false,
@@ -840,12 +840,13 @@ public class HelpGUI {
         );
 
         collaborators.createItemStack(player,
-                "PLAYER_HEAD, OWNER=Enzo270622",
+                "PLAYER_HEAD, VALUE=e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg4ZjU5OWFkYjBlNmM4MjY1Nzg4ZTE1ZTk3NjU0NjI0ZTA5MjgxN2Y4MDU1ZjNkM2IxNjhkYzM2YWFhZTBhMiJ9fX0=",
                 "§bSadness",
                 "&aVideo Helper and Beta tester!",
                 false,
                 15, 1,
                 null
+
         );
 
         collaborators.createItemStack(player,

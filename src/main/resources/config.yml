@@ -337,13 +337,19 @@ scores:
       - "&9Visit our website: &bwww.site.com"
       - "&5&oPlugin made by DaviXG7"
 
-  #In older versions, the number of characters
-  #in a scoreboard line cannot exceed 16!
+  #In older versions, if your line has
+  #More than 16 characters, put " /// "
+  #To stop the bug, example:
+  #**placeholders not included
+  #- "&8www.examplelon /// &8g.com"
+  #- "&fRank: /// [%luckperms_prefix%]"
+  #From 1.13 onwards the limit is 32 characters!
   scoreboard:
 
     enabled: true
 
     #Scoreboard title
+    #In older versions, the max is 32 characters!
     title: "HEX:#0d00ffX&3G7HEX:#00fff2Lobby"
 
     #Lines of the score
