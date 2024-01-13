@@ -95,6 +95,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         plugin = this;
 
+        Metrics metrics = new Metrics(this, 20729);
+
         ///////////////////////////////////////////////////////////////////////////////////
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading files:");
