@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.Module.Events.Jumps;
 
+import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
@@ -14,6 +15,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
+
+import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class FlyManager extends Module implements Listener {
     public static HashMap<UUID, Boolean> canfly = new HashMap<>();
@@ -34,7 +37,15 @@ public class FlyManager extends Module implements Listener {
 
             } else {
 
-                if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) player.setAllowFlight(true);
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) {
+
+                    if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) player.setAllowFlight(true);
+
+                } else {
+                    player.setAllowFlight(canfly.get(player.getUniqueId()));
+                    player.setFlying(canfly.get(player.getUniqueId()));
+                }
+
 
             }
         }, 15);
@@ -43,14 +54,26 @@ public class FlyManager extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
-            Bukkit.getOnlinePlayers().forEach(p -> {
-                if (Players.getPlayers().containsKey(p.getUniqueId()))
-                    if (p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())){
-                        p.setAllowFlight(true);
-                    }
-            });
-        }, 0, 5);
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+                    Bukkit.getOnlinePlayers().forEach(p -> {
+                        if (Players.getPlayers().containsKey(p.getUniqueId()))
+                            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) {
+                                p.setAllowFlight(p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+                            } else {
+
+                                p.setAllowFlight(false);
+                                p.setFlying(false);
+                            }
+
+                    });
+                }, 10);
+        Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(p -> {
+        if (Players.getPlayers().containsKey(p.getUniqueId()))
+            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) {
+                p.setAllowFlight(p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+            }
+
+        }), 0, 10);
 
 
     }
@@ -59,10 +82,14 @@ public class FlyManager extends Module implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (Players.getPlayers().containsKey(player.getUniqueId())) {
-            if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) {
-                canfly.put(player.getUniqueId(), false);
-                player.setAllowFlight(true);
-            }
+            Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) {
+                    canfly.put(player.getUniqueId(), false);
+                    player.setAllowFlight(player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+                } else {
+                    canfly.put(player.getUniqueId(), false);
+                }
+            }, 10);
         }
 
 

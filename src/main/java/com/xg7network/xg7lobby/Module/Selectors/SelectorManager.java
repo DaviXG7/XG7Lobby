@@ -3,7 +3,7 @@ package com.xg7network.xg7lobby.Module.Selectors;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
-import com.xg7network.xg7lobby.Utils.Action.Action;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
@@ -53,7 +53,13 @@ public class SelectorManager extends Module implements Listener {
         Player player = event.getPlayer();
 
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
-            if (!Players.getPlayers().containsKey(player.getUniqueId())) players.remove(player);
+            if (!Players.getPlayers().containsKey(player.getUniqueId())) {
+                players.remove(player);
+                Selector selector = new Selector(player);
+                selector.removeItems();
+
+            }
+
         }, 15);
 
     }

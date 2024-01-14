@@ -24,17 +24,18 @@ public class DoubleJump implements Listener {
         Player player = event.getPlayer();
         if (player.getGameMode() != GameMode.SPECTATOR && player.getGameMode() != GameMode.CREATIVE) {
             if (PluginUtil.isInWorld(player)) {
-                if (!FlyManager.canfly.containsKey(player.getUniqueId())) FlyManager.canfly.put(player.getUniqueId(), false);
+                if (!FlyManager.canfly.containsKey(player.getUniqueId()))
+                    FlyManager.canfly.put(player.getUniqueId(), false);
 
                 if (!FlyManager.canfly.get(player.getUniqueId())) {
-                    if (!FlyManager.canfly.get(player.getUniqueId())) {
-                            player.setAllowFlight(false);
-                            String s = configManager.getConfig(ConfigType.CONFIG).getString("double-jump.sound");
-                            PluginUtil.playSound(player, s);
-                            player.setVelocity(player.getEyeLocation().getDirection().multiply(configManager.getConfig(ConfigType.CONFIG).getDouble("double-jump.strength")).setY(configManager.getConfig(ConfigType.CONFIG).getDouble("double-jump.jump")));
+                    event.setCancelled(true);
+                    if (configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) {
+                        player.setAllowFlight(false);
+                        String s = configManager.getConfig(ConfigType.CONFIG).getString("double-jump.sound");
+                        PluginUtil.playSound(player, s);
+                        player.setVelocity(player.getEyeLocation().getDirection().multiply(configManager.getConfig(ConfigType.CONFIG).getDouble("double-jump.strength")).setY(configManager.getConfig(ConfigType.CONFIG).getDouble("double-jump.jump")));
 
-                            isJumping.put(player.getUniqueId(), player);
-                            event.setCancelled(true);
+                        isJumping.put(player.getUniqueId(), player);
                     }
                 }
             }

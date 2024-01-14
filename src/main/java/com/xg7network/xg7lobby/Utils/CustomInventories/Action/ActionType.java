@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils.Action;
+package com.xg7network.xg7lobby.Utils.CustomInventories.Action;
 
 public enum ActionType {
 

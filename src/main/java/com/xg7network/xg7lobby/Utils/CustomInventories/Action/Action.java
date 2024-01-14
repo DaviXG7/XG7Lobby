@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils.Action;
+package com.xg7network.xg7lobby.Utils.CustomInventories.Action;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Player.PlayerData;

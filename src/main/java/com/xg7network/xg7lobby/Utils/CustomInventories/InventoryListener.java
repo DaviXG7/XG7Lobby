@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.Utils.CustomInventories;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
-import com.xg7network.xg7lobby.Utils.Action.Action;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

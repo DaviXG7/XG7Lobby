@@ -5,7 +5,7 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
-import com.xg7network.xg7lobby.Utils.Action.Action;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.XG7Lobby;

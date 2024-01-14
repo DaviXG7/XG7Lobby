@@ -47,11 +47,13 @@ public class Fly implements CommandExecutor {
                                     TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled-other").replace("[TARGET]", target.getName()), player);
                                     TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled"), target);
                                     FlyManager.canfly.put(target.getUniqueId(), true);
+                                    if (!configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) target.setAllowFlight(true);
                                 } else {
                                     TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled-other").replace("TARGET", target.getName()), player);
                                     TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled"), player);
                                     target.setFlying(target.getGameMode().equals(GameMode.CREATIVE) || target.getGameMode().equals(GameMode.SPECTATOR));
                                     FlyManager.canfly.put(target.getUniqueId(), false);
+                                    if (!configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) target.setAllowFlight(false);
                                 }
                             } else commandSender.sendMessage(prefix + ChatColor.RED + "You cannot execute this command because this player is not in an enabled world!");
 
@@ -73,10 +75,12 @@ public class Fly implements CommandExecutor {
                             }
                             TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-enabled"), player);
                             FlyManager.canfly.put(player.getUniqueId(), true);
+                            if (!configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) player.setAllowFlight(true);
                         } else {
                             TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.fly-disabled"), player);
                             player.setFlying(player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR));
                             FlyManager.canfly.put(player.getUniqueId(), false);
+                            if (!configManager.getConfig(ConfigType.CONFIG).getBoolean("double-jump.enabled")) player.setAllowFlight(false);
                         }
                     }
                 } else commandSender.sendMessage(ErrorMessages.NOT_IN_WORLD.getMessage());

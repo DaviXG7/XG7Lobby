@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.plugin.Plugin;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.getPlugin;
@@ -28,7 +29,7 @@ public class Cycles implements Listener {
 
     @EventHandler
     public void onSpawn(CreatureSpawnEvent event) {
-        event.setCancelled(!configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"));
+        event.setCancelled(!configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs") && PluginUtil.isInWorld(event.getLocation().getWorld()));
     }
 
 }

@@ -90,9 +90,6 @@ public final class XG7Lobby extends JavaPlugin {
 
         if (placeholderapi) new PlaceHolder().register();
 
-        System.out.println(placeholderapi);
-
-
         plugin = this;
 
         Metrics metrics = new Metrics(this, 20729);
