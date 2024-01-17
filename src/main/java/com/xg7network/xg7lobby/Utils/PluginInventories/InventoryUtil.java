@@ -72,7 +72,7 @@ public class InventoryUtil {
         int index = itemStacks.indexOf(item);
         ItemMeta meta = item.getItemStack().getItemMeta();
         meta.setDisplayName(TextUtil.get(newName, player));
-        meta.setLore(Arrays.stream(TextUtil.get(newLore, player).split(" /// ")).toList());
+        meta.setLore(Arrays.asList(TextUtil.get(newLore, player).split(" /// ")));
         item.getItemStack().setItemMeta(meta);
         itemStacks.remove(index);
         itemStacks.add(index, item);

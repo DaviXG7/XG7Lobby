@@ -116,7 +116,7 @@ public class Item {
 
         meta.setDisplayName(TextUtil.get(name, player));
 
-        meta.setLore(Arrays.stream(TextUtil.get(lore, player).split(" /// ")).toList());
+        meta.setLore(Arrays.asList(TextUtil.get(lore, player).split(" /// ")));
         if (glow) meta.addEnchant(Enchantment.DURABILITY, 1, true);
         itemStack.setItemMeta(meta);
 

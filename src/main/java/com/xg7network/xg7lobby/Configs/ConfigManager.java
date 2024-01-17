@@ -58,32 +58,30 @@ public class ConfigManager {
     }
 
     public FileConfiguration getConfig(ConfigType type) {
-        return switch (type) {
-            case CONFIG -> {
+        switch (type) {
+            case CONFIG:
                 if (config == null) {
                     reloadConfig(type);
                 }
-                yield config;
-            }
-            case DATA -> {
+                return config;
+            case DATA:
                 if (data == null) {
                     reloadConfig(type);
                 }
-                yield data;
-            }
-            case MESSAGES -> {
+                return data;
+            case MESSAGES:
                 if (mensagem == null) {
                     reloadConfig(type);
                 }
-                yield mensagem;
-            }
-            case SELECTORS -> {
+                return mensagem;
+            case SELECTORS:
                 if (seletor == null) {
                     reloadConfig(type);
                 }
-                yield seletor;
-            }
-        };
+                return seletor;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public void saveConfig(ConfigType type) {
