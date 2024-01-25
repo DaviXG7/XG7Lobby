@@ -140,6 +140,7 @@ selectors:
       slot: 9
       glow: true
       actions:
+        #SWAP: slot, new item;
         - "HIDE"
         - "SWAP: currentslot=hide_players_off, hide_players_on"
         - "ACTIONBAR: &aYou hide the players!"

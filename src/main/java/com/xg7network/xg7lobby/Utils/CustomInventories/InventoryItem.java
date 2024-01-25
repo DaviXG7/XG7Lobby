@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -17,10 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
@@ -34,6 +32,7 @@ public class InventoryItem {
     private ItemStack itemStack;
     private List<String> actions;
     private Player player;
+    private int id;
 
     public InventoryItem(String path, Inventory inv, Player player) {
         this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1;
@@ -42,7 +41,14 @@ public class InventoryItem {
         this.player = player;
         this.actions = configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".actions");
 
+        this.id = new Random().nextInt(1000);
+
         this.itemStack = getItemAndMaterial();
+
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setInteger("id", this.id);
+        this.itemStack = nbtItem.getItem();
+
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(TextUtil.get(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"), player));
         List<String> lore2 = new ArrayList<>();
@@ -141,5 +147,9 @@ public class InventoryItem {
 
     public List<String> getActions() {
         return actions;
+    }
+
+    public int getId() {
+        return id;
     }
 }

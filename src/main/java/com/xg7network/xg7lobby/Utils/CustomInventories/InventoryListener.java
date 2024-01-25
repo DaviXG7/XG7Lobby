@@ -3,6 +3,7 @@ package com.xg7network.xg7lobby.Utils.CustomInventories;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +25,8 @@ public class InventoryListener implements Listener {
                     for (InventoryItem item : inv.getItems()) {
                         if (item.getInv().equals(e.getClickedInventory())) {
                             if (e.getCurrentItem() != null) {
-                                if (e.getCurrentItem().getItemMeta().equals(item.getItemStack().getItemMeta())) {
+                                NBTItem nbtItem = new NBTItem(e.getCurrentItem());
+                                if (nbtItem.getInteger("id").equals(item.getId())) {
                                     for (String s2 : item.getActions()) {
                                         Action action = new Action(player, s2);
                                         e.setCancelled(true);

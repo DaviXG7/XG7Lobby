@@ -43,6 +43,8 @@ public class OnBuild implements Listener {
                     TextUtil.send(prefix + "&cYou need to have permission xg7lobby.build to build or interact!", player);
                 }
                 return true;
+            } else {
+                return !PluginUtil.hasPermission(player, permissionType, message);
             }
         }
 

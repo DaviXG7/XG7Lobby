@@ -4,10 +4,11 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import net.kyori.adventure.nbt.BinaryTagType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,10 +17,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
@@ -30,6 +28,9 @@ public class SelectorItem {
     private String path;
     private ItemStack itemStack;
     private List<String> actions;
+    private String id;
+
+    private String name;
 
     private Player player;
 
@@ -37,11 +38,20 @@ public class SelectorItem {
         if (configManager.getConfig(ConfigType.SELECTORS).get(path + ".slot") != null)
             this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1;
 
+        this.id = UUID.randomUUID().toString();
+        this.name = path.substring(16);
+
         this.path = path;
         this.player = player;
         this.actions = configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".actions");
 
+
         this.itemStack = getItemAndMaterial();
+
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setString("id", this.id);
+        this.itemStack = nbtItem.getItem();
+
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(TextUtil.get(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"), player));
         List<String> lore2 = new ArrayList<>();
@@ -53,6 +63,7 @@ public class SelectorItem {
         if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow"))
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
         itemStack.setItemMeta(meta);
+
 
     }
 
@@ -75,14 +86,12 @@ public class SelectorItem {
                             .collect(Collectors.toList())
                             .contains("PLAYER_HEAD");
 
-                    OfflinePlayer player1 = playername.equals("THIS_PLAYER") ? Bukkit.getOfflinePlayer(player.getUniqueId()) : Bukkit.getOfflinePlayer(playername);
 
-
-                    ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+                    ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 3);
 
                     SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
-                    skullMeta.setOwner(player1.getName());
+                    skullMeta.setOwner(playername.equals("THIS_PLAYER") ? player.getName() : playername);
 
                     cabeca.setItemMeta(skullMeta);
 
@@ -151,5 +160,11 @@ public class SelectorItem {
         return actions;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
 }

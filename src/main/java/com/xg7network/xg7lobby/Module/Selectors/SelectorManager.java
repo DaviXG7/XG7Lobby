@@ -6,6 +6,7 @@ import com.xg7network.xg7lobby.Module.Players;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.XG7Lobby;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SelectorManager extends Module implements Listener {
 
@@ -32,10 +34,9 @@ public class SelectorManager extends Module implements Listener {
 
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             if (Players.getPlayers().containsKey(player.getUniqueId())) {
-                if (player.hasPermission(PermissionType.INV.getPerm())) {
-                    Selector selector = new Selector(player);
-                    selector.giveItems();
-                }
+                players.put(player, new Selector(player));
+                players.get(player).giveItems();
+
             }
         }, 15);
     }
@@ -43,8 +44,10 @@ public class SelectorManager extends Module implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Selector selector = new Selector(player);
-        selector.removeItems();
+        if (players.containsKey(player)) {
+            players.get(player).removeItems();
+            players.remove(player);
+        }
 
     }
 
@@ -54,10 +57,16 @@ public class SelectorManager extends Module implements Listener {
 
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             if (!Players.getPlayers().containsKey(player.getUniqueId())) {
+                players.get(player).removeItems();
                 players.remove(player);
-                Selector selector = new Selector(player);
-                selector.removeItems();
 
+            } else {
+                players.put(player, new Selector(player));
+                if (!player.hasPermission(PermissionType.INV.getPerm())) {
+                    if (players.containsKey(player)) {
+                        players.get(player).removeItems();
+                    }
+                }
             }
 
         }, 15);
@@ -66,18 +75,14 @@ public class SelectorManager extends Module implements Listener {
 
     @Override
     public void onEnable() {
-        Bukkit.getScheduler().runTaskTimer(getPlugin(), () -> {
-            Bukkit.getOnlinePlayers().forEach(p -> {
-                if (Players.getPlayers().containsKey(p.getUniqueId())) players.put(p, new Selector(p));
-                if (players.containsKey(p)) {
-                    if (!p.hasPermission(PermissionType.INV.getPerm())) {
-                        Selector selector = new Selector(p);
-                        selector.giveItems();
-                    }
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(p -> {
+            if (Players.getPlayers().containsKey(p.getUniqueId())) players.put(p, new Selector(p));
+            if (players.containsKey(p)) {
+                players.get(p.getPlayer()).giveItems();
 
-                }
-            });
-        }, 0, 5);
+
+            }
+        }), 15);
 
 
     }
@@ -86,8 +91,10 @@ public class SelectorManager extends Module implements Listener {
     public void onDisable() {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Selector selector = new Selector(player);
-            selector.removeItems();
+            if (players.containsKey(player)) {
+                players.get(player).removeItems();
+                players.remove(player);
+            }
         }
 
     }
@@ -99,13 +106,12 @@ public class SelectorManager extends Module implements Listener {
 
             if (players.containsKey(player)) {
                 for (SelectorItem item : players.get(player).getItems())
-                    if (item.getItemStack().isSimilar(stack)) {
+                    if (Objects.equals(item.getId(), new NBTItem(stack).getString("id"))) {
 
                         for (String ac : item.getActions()) {
                             Action action = new Action(player, ac);
                             action.execute();
                         }
-
                     }
             }
         }
@@ -114,12 +120,20 @@ public class SelectorManager extends Module implements Listener {
 
     public static boolean containsItemInHand(Player player) {
         if (player.getItemInHand() != null)
-            if (players.containsKey(player))
-                for (SelectorItem item : players.get(player).getItems())
-                    if (item.getItemStack().isSimilar(player.getItemInHand())) return true;
+            if (players.containsKey(player)) {
+                for (SelectorItem item : players.get(player).getItems()) {
+                    if (Objects.equals(item.getId(), new NBTItem(player.getItemInHand()).getString("id"))) return true;
+                }
+            }
 
 
 
         return false;
+    }
+
+
+
+    public static Selector getSelector(Player player) {
+        return players.get(player);
     }
 }

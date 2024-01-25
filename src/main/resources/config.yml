@@ -102,6 +102,9 @@ tp-when-join: true
 
 warning-image: true
 
+#Plugin prefix
+prefix: "&9[XG7&3Lob&bby] &8| &r"
+
 ###############################################
 #JOIN AND QUIT                                #
 ###############################################

@@ -3,10 +3,13 @@ package com.xg7network.xg7lobby.Module.Selectors;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
@@ -17,6 +20,7 @@ public class Selector {
     private Player player;
 
     public Selector(Player player) {
+
         this.player = player;
         if (configManager.getConfig(ConfigType.SELECTORS).getBoolean("selectors.enabled")) {
             if (PluginUtil.isInWorld(player)) {
@@ -34,7 +38,8 @@ public class Selector {
         for (SelectorItem item : items) {
             for (int i = 0; i < player.getInventory().getSize(); i++) {
                 if (player.getInventory().getItem(i) != null) {
-                    if (player.getInventory().getItem(i).isSimilar(item.getItemStack())) return;
+
+                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("id"), item.getId())) return;
                 }
             }
         }
@@ -47,7 +52,7 @@ public class Selector {
         for (SelectorItem item : items) {
             for (int i = 0; i < player.getInventory().getSize(); i++) {
                 if (player.getInventory().getItem(i) != null) {
-                    if (player.getInventory().getItem(i).isSimilar(item.getItemStack())) player.getInventory().remove(item.getItemStack());
+                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("id"), item.getId())) player.getInventory().remove(item.getItemStack());
                 }
             }
         }
@@ -55,6 +60,16 @@ public class Selector {
 
     public List<SelectorItem> getItems() {
         return items;
+    }
+
+    public SelectorItem getItemByName(String name) {
+
+        for (SelectorItem selectorItem : items) {
+            if (selectorItem.getName().equals(name))
+                return selectorItem;
+        }
+        return null;
+
     }
 
 }

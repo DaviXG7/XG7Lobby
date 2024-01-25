@@ -12,8 +12,6 @@ package com.xg7network.xg7lobby.Utils.PluginInventories;
 
  */
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;

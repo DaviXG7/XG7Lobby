@@ -1,12 +1,15 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories.Action;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Module.Selectors.Selector;
+import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Inventory;
 import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -214,13 +217,15 @@ public class Action {
 
                         String[] item = toUse.split(", ");
 
-                        SelectorItem selectorItem = new SelectorItem("selectors.items." + item[1], player);
+                        Selector selector = SelectorManager.getSelector(player);
+
+                        SelectorItem selectorItem = selector.getItemByName(item[1]);
                         if (item[0].startsWith("currentslot=")) {
                             item[0] = item[0].replace("currentslot=", "");
                             for (int i = 0; i < 9; i++) {
-                                SelectorItem item2 = new SelectorItem("selectors.items." + item[0], player);
+                                SelectorItem item2 = selector.getItemByName(item[0]);
                                 if (player.getInventory().getItem(i) != null)
-                                    if (player.getInventory().getItem(i).isSimilar(item2.getItemStack()))
+                                    if (new NBTItem(player.getInventory().getItem(i)).getString("id").equals(item2.getId()))
                                         player.getInventory().setItem(i, selectorItem.getItemStack());
                             }
                         } else {

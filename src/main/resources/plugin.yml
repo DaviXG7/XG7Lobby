@@ -105,6 +105,10 @@ commands:
     description: Bloqueia o chat
     aliases: [7llockchat, llockchat, lockchat, xg7llockchat]
 
+  xg7lobbyreloadconfig:
+    description: Bloqueia o chat
+    aliases: [7lrlc, lrlc, xg7lrlc]
+
 
 permissions:
   xg7lobby.admin:

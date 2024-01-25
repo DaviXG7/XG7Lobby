@@ -35,7 +35,9 @@ public enum PermissionType {
     GAMEMODE_SURVIVAL("xg7lobby.gamemode.survival"),
     GAMEMODE_ADVENTURE("xg7lobby.gamemode.adventure"),
     GAMEMODE_SPECTATOR("xg7lobby.gamemode.spectator"),
-    GAMEMODE_OTHERS("xg7lobby.gamemode.others");
+    GAMEMODE_OTHERS("xg7lobby.gamemode.others"),
+
+    RELOAD_CONFIG("xg7lobby.command.reload");
 
 
 

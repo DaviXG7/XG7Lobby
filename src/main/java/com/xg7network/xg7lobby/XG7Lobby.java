@@ -8,6 +8,7 @@ import com.xg7network.xg7lobby.DefautCommands.Moderation.*;
 import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
 import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
 import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
+import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfigCommand;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.Warns;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
@@ -33,7 +34,9 @@ import com.xg7network.xg7lobby.Module.Selectors.SelectorListener;
 import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -49,11 +52,11 @@ public final class XG7Lobby extends JavaPlugin {
     public static boolean placeholderapi = false;
 
     private static XG7Lobby plugin;
-    
+
     private ModuleManager moduleManager;
 
 
-    public static String prefix = ChatColor.BLUE + "[XG7 " + ChatColor.DARK_AQUA + "Lob" + ChatColor.AQUA + "by] " + ChatColor.RESET;
+    public static String prefix;
 
     @Override
     public void onEnable() {
@@ -62,7 +65,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
-        this.getServer().getConsoleSender().sendMessage(prefix + "Loading...");
+        this.getServer().getConsoleSender().sendMessage("Loading...");
         this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "__   __  ___   ______     " + ChatColor.DARK_AQUA + "_       ____    ____ " + ChatColor.AQUA + "  ____ __   __");
         this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "\\ \\ / / / __| |___   /   " + ChatColor.DARK_AQUA + "| |     / __ \\  | __ ) " + ChatColor.AQUA + "| __ )\\ \\ / /");
         this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + " \\ v / | |  _     / /    " + ChatColor.DARK_AQUA + "| |    | | | |  | \\ \\\\" + ChatColor.AQUA + " | \\ \\\\ \\ V /");
@@ -103,9 +106,13 @@ public final class XG7Lobby extends JavaPlugin {
         configManager.loadConfig(ConfigType.MESSAGES);
         configManager.loadConfig(ConfigType.DATA);
         configManager.loadConfig(ConfigType.SELECTORS);
-        
+
         moduleManager = new ModuleManager(this);
         moduleManager.loadModules();
+
+        prefix = TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("prefix"));
+
+
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +124,7 @@ public final class XG7Lobby extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (PlayersManager.getDatas().isEmpty()) PlayersManager.createData(player);
             else if (PlayersManager.getData(player.getUniqueId().toString()) == null) {
-                    PlayersManager.createData(player).setFirstJoin(System.currentTimeMillis());
+                PlayersManager.createData(player).setFirstJoin(System.currentTimeMillis());
             }
         }
         WarnsGUIManager.load();
@@ -180,6 +187,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbywarn").setExecutor(new Warn());
         this.getCommand("xg7lobbywarns").setExecutor(new Warns());
         this.getCommand("xg7lobbyhelp").setExecutor(new HelpCommand());
+        this.getCommand("xg7lobbyreloadconfig").setExecutor(new ReloadConfigCommand());
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());
@@ -194,7 +202,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbyfly").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbysetlobby").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygui").setTabCompleter(new TabCompleter());
-
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
     }
