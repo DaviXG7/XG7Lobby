@@ -32,6 +32,8 @@ public class SelectorListener implements Listener {
                 if (SelectorManager.containsItemInHand(player)) {
 
 
+
+
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
                             event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
                         if (this.cooldown.asMap().containsKey(player.getUniqueId())) {

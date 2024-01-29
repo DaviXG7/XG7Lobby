@@ -49,7 +49,7 @@ public class SelectorItem {
         this.itemStack = getItemAndMaterial();
 
         NBTItem nbtItem = new NBTItem(itemStack);
-        nbtItem.setString("id", this.id);
+        nbtItem.setString("xg7lid", this.id);
         this.itemStack = nbtItem.getItem();
 
         ItemMeta meta = itemStack.getItemMeta();

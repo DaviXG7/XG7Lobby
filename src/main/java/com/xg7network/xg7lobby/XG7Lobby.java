@@ -99,7 +99,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         ///////////////////////////////////////////////////////////////////////////////////
 
-        this.getServer().getConsoleSender().sendMessage(prefix + "Loading files:");
+        this.getServer().getConsoleSender().sendMessage("Loading files:");
 
         configManager = new ConfigManager();
         configManager.loadConfig(ConfigType.CONFIG);
@@ -111,6 +111,8 @@ public final class XG7Lobby extends JavaPlugin {
         moduleManager.loadModules();
 
         prefix = TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("prefix"));
+
+        this.getServer().getConsoleSender().sendMessage("Plugin prefix: " + prefix);
 
 
 

@@ -19,14 +19,16 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public class SelectorManager extends Module implements Listener {
 
-    private static HashMap <Player, Selector> players = new HashMap<>();
+    private static HashMap <UUID, Selector> players = new HashMap<>();
 
     public SelectorManager(XG7Lobby plugin) {
         super(plugin);
     }
+
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -34,8 +36,8 @@ public class SelectorManager extends Module implements Listener {
 
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             if (Players.getPlayers().containsKey(player.getUniqueId())) {
-                players.put(player, new Selector(player));
-                players.get(player).giveItems();
+                players.put(player.getUniqueId(), new Selector(player));
+                players.get(player.getUniqueId()).giveItems();
 
             }
         }, 15);
@@ -44,9 +46,9 @@ public class SelectorManager extends Module implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (players.containsKey(player)) {
-            players.get(player).removeItems();
-            players.remove(player);
+        if (players.containsKey(player.getUniqueId())) {
+            players.get(player.getUniqueId()).removeItems();
+            players.remove(player.getUniqueId());
         }
 
     }
@@ -57,14 +59,16 @@ public class SelectorManager extends Module implements Listener {
 
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             if (!Players.getPlayers().containsKey(player.getUniqueId())) {
-                players.get(player).removeItems();
-                players.remove(player);
+                players.get(player.getUniqueId()).removeItems();
+                players.remove(player.getUniqueId());
 
             } else {
-                players.put(player, new Selector(player));
-                if (!player.hasPermission(PermissionType.INV.getPerm())) {
-                    if (players.containsKey(player)) {
-                        players.get(player).removeItems();
+                if (!players.containsKey(player.getUniqueId())) {
+                    players.put(player.getUniqueId(), new Selector(player));
+                    if (!player.hasPermission(PermissionType.INV.getPerm())) {
+                        if (players.containsKey(player.getUniqueId())) {
+                            players.get(player.getUniqueId()).removeItems();
+                        }
                     }
                 }
             }
@@ -76,9 +80,9 @@ public class SelectorManager extends Module implements Listener {
     @Override
     public void onEnable() {
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> Bukkit.getOnlinePlayers().forEach(p -> {
-            if (Players.getPlayers().containsKey(p.getUniqueId())) players.put(p, new Selector(p));
-            if (players.containsKey(p)) {
-                players.get(p.getPlayer()).giveItems();
+            if (Players.getPlayers().containsKey(p.getUniqueId())) players.put(p.getUniqueId(), new Selector(p));
+            if (players.containsKey(p.getUniqueId())) {
+                players.get(p.getUniqueId()).giveItems();
 
 
             }
@@ -91,9 +95,9 @@ public class SelectorManager extends Module implements Listener {
     public void onDisable() {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (players.containsKey(player)) {
-                players.get(player).removeItems();
-                players.remove(player);
+            if (players.containsKey(player.getUniqueId())) {
+                players.get(player.getUniqueId()).removeItems();
+                players.remove(player.getUniqueId());
             }
         }
 
@@ -104,9 +108,9 @@ public class SelectorManager extends Module implements Listener {
 
         if (stack != null) {
 
-            if (players.containsKey(player)) {
-                for (SelectorItem item : players.get(player).getItems())
-                    if (Objects.equals(item.getId(), new NBTItem(stack).getString("id"))) {
+            if (players.containsKey(player.getUniqueId())) {
+                for (SelectorItem item : players.get(player.getUniqueId()).getItems())
+                    if (Objects.equals(item.getId(), new NBTItem(stack).getString("xg7lid"))) {
 
                         for (String ac : item.getActions()) {
                             Action action = new Action(player, ac);
@@ -120,9 +124,9 @@ public class SelectorManager extends Module implements Listener {
 
     public static boolean containsItemInHand(Player player) {
         if (player.getItemInHand() != null)
-            if (players.containsKey(player)) {
-                for (SelectorItem item : players.get(player).getItems()) {
-                    if (Objects.equals(item.getId(), new NBTItem(player.getItemInHand()).getString("id"))) return true;
+            if (players.containsKey(player.getUniqueId())) {
+                for (SelectorItem item : players.get(player.getUniqueId()).getItems()) {
+                    if (Objects.equals(item.getId(), new NBTItem(player.getItemInHand()).getString("xg7lid"))) return true;
                 }
             }
 
@@ -134,6 +138,6 @@ public class SelectorManager extends Module implements Listener {
 
 
     public static Selector getSelector(Player player) {
-        return players.get(player);
+        return players.get(player.getUniqueId());
     }
 }

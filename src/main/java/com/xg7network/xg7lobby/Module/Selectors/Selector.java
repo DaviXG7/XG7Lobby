@@ -39,7 +39,7 @@ public class Selector {
             for (int i = 0; i < player.getInventory().getSize(); i++) {
                 if (player.getInventory().getItem(i) != null) {
 
-                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("id"), item.getId())) return;
+                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("xg7lid"), item.getId())) return;
                 }
             }
         }
@@ -52,7 +52,7 @@ public class Selector {
         for (SelectorItem item : items) {
             for (int i = 0; i < player.getInventory().getSize(); i++) {
                 if (player.getInventory().getItem(i) != null) {
-                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("id"), item.getId())) player.getInventory().remove(item.getItemStack());
+                    if (Objects.equals(new NBTItem(player.getInventory().getItem(i)).getString("xg7id"), item.getId())) player.getInventory().remove(item.getItemStack());
                 }
             }
         }

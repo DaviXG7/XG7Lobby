@@ -56,7 +56,7 @@ public class Ban implements CommandExecutor {
                 } else
                     commandSender.sendMessage(ChatColor.RED + "This player is already in the banlist!");
 
-            } else if (strings.length == 2) {
+            } else {
 
                 String str = "";
 
@@ -72,8 +72,6 @@ public class Ban implements CommandExecutor {
                 } else
                     commandSender.sendMessage(ChatColor.RED + "This player is already in the banlist!");
 
-            } else {
-                commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bban §2§i<Player> [Reason]");
             }
         } else {
 
