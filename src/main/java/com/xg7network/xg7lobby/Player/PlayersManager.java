@@ -1,45 +1,121 @@
 package com.xg7network.xg7lobby.Player;
 
-import com.google.gson.Gson;
+import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.XG7Lobby;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
+import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
-public class PlayersManager implements Listener {
+public class PlayersManager {
 
-    private static List<PlayerData> players = new ArrayList<>();
+    private static Connection connection;
+
+    public static void connect() {
+        XG7Lobby.getPlugin().getServer().getConsoleSender().sendMessage(prefix + ChatColor.GREEN + "Connecting to the database...");
+        try {
+
+            String HOST = configManager.getConfig(ConfigType.CONFIG).getString("sql.host");
+            int PORT = configManager.getConfig(ConfigType.CONFIG).getInt("sql.port");
+            String DATABASE = configManager.getConfig(ConfigType.CONFIG).getString("sql.database");
+            String USER = configManager.getConfig(ConfigType.CONFIG).getString("sql.user");
+            String PASS = configManager.getConfig(ConfigType.CONFIG).getString("sql.pass");
+
+            connection = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE, USER, PASS);
+
+            XG7Lobby.getPlugin().getServer().getConsoleSender().sendMessage(prefix + ChatColor.GREEN + "Connection to the database completed successfully");
+
+
+        } catch (SQLException ignored) {
+            XG7Lobby.getPlugin().getServer().getConsoleSender().sendMessage(prefix + ChatColor.RED + "Unable to connect to database! Using the plugin's generic default database");
+            File file = new File(XG7Lobby.getPlugin().getDataFolder(), "playerdata.db");
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlite:" + XG7Lobby.getPlugin().getDataFolder().getPath() + "/playerdata.db");
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try {
+            connection.prepareStatement("CREATE TABLE IF NOT EXISTS players (id VARCHAR(255) PRIMARY KEY, playershide BOOLEAN, muted BOOLEAN, lasttounmute BIGINT, firstJoin BIGINT)").execute();
+            connection.prepareStatement("CREATE TABLE IF NOT EXISTS warns (playerid VARCHAR(255), id VARCHAR(255) PRIMARY KEY, warn VARCHAR(255), whenw BIGINT)").execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void disconnect() throws SQLException {
+        if (connection != null) connection.close();
+    }
 
     public static PlayerData createData(Player player) {
 
 
         PlayerData playerData = new PlayerData(player);
-        players.add(playerData);
 
-        save();
+        try {
 
-        return playerData;
+            PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT * FROM players WHERE id = ?");
+            preparedStatement1.setString(1, playerData.getId());
 
-    }
+            ResultSet resultSet = preparedStatement1.executeQuery();
 
-    public static List<PlayerData> getDatas() {
-        return players;
+            if (!resultSet.next()) {
+
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT OR IGNORE INTO players (id, playershide, muted, lasttounmute, firstJoin) VALUES (?, ?, ?, ?, ?)");
+                preparedStatement.setString(1, playerData.getId());
+                preparedStatement.setBoolean(2, playerData.isPlayershide());
+                preparedStatement.setBoolean(3, playerData.isMuted());
+                preparedStatement.setLong(4, playerData.getLastDayToUnmute());
+                preparedStatement.setLong(5, playerData.getFirstJoinLong());
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return getData(playerData.getId());
+
     }
 
     public static PlayerData getData(String id) {
-        for (PlayerData data : players)
-            if (data.getId().equalsIgnoreCase(id))
-                return data;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM players WHERE id = ?");
+            PreparedStatement preparedStatement2 = connection.prepareStatement("SELECT * FROM warns WHERE playerid = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement2.setString(1, id);
+            ResultSet set = preparedStatement.executeQuery();
+            ResultSet set2 = preparedStatement2.executeQuery();
+
+            List<Warn> warns = new ArrayList<>();
+            while (set2.next()) {
+                warns.add(new Warn(set2.getString(1), set2.getString(2), set2.getString(3), set2.getLong(4)));
+            }
+
+            if (set.next()) {
+                return new PlayerData(set.getString("id"),set.getBoolean(2), set.getBoolean(3), warns, set.getLong(4), set.getLong(5));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
         return null;
@@ -47,82 +123,57 @@ public class PlayersManager implements Listener {
 
     public static void deleteData(String id) {
 
-        for (PlayerData data : players) {
-            if (data.getId().equalsIgnoreCase(id)) {
-                players.remove(data);
-                return;
-            }
-        }
-        save();
-    }
-
-    public static PlayerData update(String id, PlayerData playerData) {
-        for (PlayerData data : players) {
-            if (data.getId().equalsIgnoreCase(id)) {
-
-                data.setMuted(playerData.isMuted());
-                data.setInfractions(playerData.getInfractions());
-                data.setLastDayToUnmute(playerData.getLastDayToUnmute());
-
-                save();
-
-                return data;
-            }
-        }
-        return null;
-    }
-
-
-    public static void save() {
-
         try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM players WHERE id = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement.execute();
 
-            Gson gson = new Gson();
 
-            File file = new File(XG7Lobby.getPlugin().getDataFolder(), "data/playerdata.json");
-            file.getParentFile().mkdir();
-            file.createNewFile();
-
-            Writer writer = new FileWriter(file, false);
-            gson.toJson(players, writer);
-            writer.flush();
-            writer.close();
-
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void load() {
-
+    public static void update(String id, PlayerData playerData) {
         try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET playershide = ?, muted = ?, lasttounmute = ?, firstJoin = ? WHERE id = ?");
+            preparedStatement.setString(5, id);
+            preparedStatement.setBoolean(1, playerData.isPlayershide());
+            preparedStatement.setBoolean(2, playerData.isMuted());
+            preparedStatement.setLong(3, playerData.getLastDayToUnmute());
+            preparedStatement.setLong(4, playerData.getFirstJoinLong());
+            preparedStatement.execute();
 
-            Gson gson = new Gson();
-
-            File file = new File(XG7Lobby.getPlugin().getDataFolder(), "data/playerdata.json");
-            if (file.exists()) {
-                Reader reader = new FileReader(file);
-                PlayerData[] data = gson.fromJson(reader, PlayerData[].class);
-                if (data != null) players = new ArrayList<>(Arrays.asList(data));
-
-                Bukkit.getConsoleSender().sendMessage(prefix + "Player data loaded!");
+            for (Warn warn : playerData.getInfractions()) {
+                PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT OR REPLACE INTO warns (playerid, id, warn, whenw) VALUES (?, ?, ?, ?);");
+                preparedStatement2.setString(1, playerData.getId());
+                preparedStatement2.setString(2, warn.getId());
+                preparedStatement2.setString(3, warn.getWarn());
+                preparedStatement2.setLong(4, warn.getWhenInMills());
+                preparedStatement2.executeUpdate();
             }
-        } catch (FileNotFoundException e) {
+
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        if (players.isEmpty()) createData(player).setFirstJoin(System.currentTimeMillis());
-        else {
-            if (getData(player.getUniqueId().toString()) == null) {
-                createData(player).setFirstJoin(System.currentTimeMillis());
+    public static List<PlayerData> getDatas() {
+        try {
+            ResultSet set = connection.prepareStatement("SELECT * FROM players").executeQuery();
+
+            List<PlayerData> dataList = new ArrayList<>();
+            while (set.next()) {
+                dataList.add(new PlayerData(set.getString("id"),set.getBoolean(2), set.getBoolean(3), null, set.getLong(4), set.getLong(5)));
             }
-        }
 
+            return dataList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
 }

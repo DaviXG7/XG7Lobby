@@ -37,7 +37,7 @@
 commands:
 
   lobby-warn: "&cThe lobby is not available yet! Wait for an adm to put."
-  adm-lobby-warn: "&cLobby not placed! Type &7/&esetlobby &c to place!"
+  adm-lobby-warn: "&cLobby not placed! Send &7/&esetlobby &c to place!"
 
   #fly messages
   #[TARGET] = target player
@@ -61,6 +61,19 @@ commands:
   on-mute: "&cYou cannot send messages. You are muted!"
   on-mute-with-time: "&cYou cannot send messages. You are muted for [DAYS]"
   on-lock-chat: "&cThe chat has been locked by an adm!"
+
+  #Vanish
+  on-hide: "[PREFIX] &aPlayers are no longer visible in the lobby"
+  on-show: "[PREFIX] &7Players are visible in the lobby again!"
+
+  #Error messages
+  no-permission: "[PREFIX] &cYou don't have permission to use this command!"
+  missing-args: "[PREFIX] &cThe right way to use the command is: [COMMAND]"
+  not-player: "[PREFIX] &cOnly players can execute this command!"
+  out-world: "[PREFIX] &cYou cannot execute this command in a disabled world!"
+  player-doesnot-exist: "[PREFIX] &cThis player does not exist!"
+  player-not-online: "[PREFIX] &cThis player is not online!"
+  systax-error: "[PREFIX] &cThis command was written incorrectly!"
 
 events:
 
@@ -89,3 +102,9 @@ events:
   repeated-message: "&cYou cannot send the same message again!"
   quick-messages: "&cPlease send the messages slower!"
   on-lock-chat: "&cYou cannot send messages because the chat is locked"
+
+  #Lobby teleport
+
+  #Or send /lobby again to cancel
+  lobby-cooldown-message: "ACTION: &6Teleporting&7... &b[SECONDS] &cDon't move!"
+  teleport-cancelled: "&cTeleport cancelled!"

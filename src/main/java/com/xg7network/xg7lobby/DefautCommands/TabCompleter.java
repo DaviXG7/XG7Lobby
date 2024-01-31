@@ -42,10 +42,28 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbykick":
             case "xg7lobbyban":
             case "xg7lobbytempban":
-            case "xg7lobbywarn":
 
                 if (strings.length == 1) PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
                 else if (strings.length >= 2) results.add("<REASON>");
+
+                break;
+            case "xg7lobbywarn":
+
+                if (strings.length == 1) {
+                    results.add("remove");
+                    PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
+                }
+                else if (strings.length == 2) {
+                    results.add("<REASON>");
+                    PlayersManager.getDatas().forEach(playerData -> results.add(playerData.getName()));
+                }
+                else if (strings.length == 3) {
+                    results.add("<WARNID>");
+                    results.add("<REASON>");
+                }
+                else if (strings.length >= 4) {
+                    results.add("<REASON>");
+                }
 
                 break;
             case "xg7lobbyunban":
@@ -74,7 +92,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
             case "xg7lobbygui":
 
-                if (strings.length == 1) results.add("id");
+                if (strings.length == 1) results.add("<id>");
         }
         return results;
     }

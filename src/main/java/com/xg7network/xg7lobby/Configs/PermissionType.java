@@ -19,6 +19,9 @@ public enum PermissionType {
     HELP_COMMAND("xg7lobby.command.help"),
 
     LOCK_CHAT("xg7lobby.command.lockchat"),
+
+    VANISH("xg7lobby.command.vanish"),
+
     ITENS_JOGAR("xg7lobby.items.drop"),
     ITENS_PEGAR("xg7lobby.items.pickup"),
     BLOCOS_INTERAGIR("xg7lobby.blocks.interact"),

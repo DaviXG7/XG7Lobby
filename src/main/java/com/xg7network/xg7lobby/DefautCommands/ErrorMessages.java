@@ -1,18 +1,21 @@
 package com.xg7network.xg7lobby.DefautCommands;
 
+import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import org.bukkit.ChatColor;
 
+import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
 public enum ErrorMessages {
 
-    NO_PEMISSION("You don't have permission to use this command!"),
-    MISSING_ARGS("The right way to use the command is: "),
-    NOT_PLAYER("Only players can execute this command!"),
-    NOT_IN_WORLD("You cannot execute this command in a disabled world!"),
-    PLAYER_DOESNOT_EXIST("This player does not exist!"),
-    PLAYER_IS_NOT_ONLINE("This player is not online!"),
-    SYNTAX_ERROR("This command was written incorrectly!");
+    NO_PEMISSION(configManager.getConfig(ConfigType.MESSAGES).getString("commands.no-permission")),
+    MISSING_ARGS(configManager.getConfig(ConfigType.MESSAGES).getString("commands.missing-args")),
+    NOT_PLAYER(configManager.getConfig(ConfigType.MESSAGES).getString("commands.not-player")),
+    NOT_IN_WORLD(configManager.getConfig(ConfigType.MESSAGES).getString("commands.out-world")),
+    PLAYER_DOESNOT_EXIST(configManager.getConfig(ConfigType.MESSAGES).getString("commands.player-doesnot-exist")),
+    PLAYER_IS_NOT_ONLINE(configManager.getConfig(ConfigType.MESSAGES).getString("commands.player-not-online")),
+    SYNTAX_ERROR(configManager.getConfig(ConfigType.MESSAGES).getString("commands.systax-error"));
 
 
     private String s;
@@ -22,6 +25,6 @@ public enum ErrorMessages {
     }
 
     public String getMessage() {
-        return prefix + ChatColor.RED + s + " ";
+        return TextUtil.get(s);
     }
 }

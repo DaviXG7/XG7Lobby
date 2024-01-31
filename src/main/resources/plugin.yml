@@ -64,7 +64,12 @@ commands:
 
   xg7lobbylobby:
     description: Teletransporta para a localização do lobby
-    aliases: [lobby, 7llobby, xg7llobby, l, 7l]
+    aliases: [lobby, 7llobby, xg7llobby, l, 7l, hub]
+    usage: "/<command>"
+
+  xg7lobbyvanish:
+    description: Mostra ou Esconde os jogadores
+    aliases: [ vanish, 7lvanish, lvanish, vnsh, 7lvnsh, lvnsh ]
     usage: "/<command>"
 
   xg7lobbyfly:

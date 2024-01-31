@@ -10,14 +10,25 @@ public class PlayerData {
 
     private String id;
     private boolean playershide;
-    private String playername;
     private boolean muted;
     private List<Warn> infractions = new ArrayList<>();
     private long lastDayToUnmute;
     private long firstJoin;
 
+    private String playername;
+
     public String getId() {
         return id;
+    }
+
+    public PlayerData(String id, boolean playershide, boolean muted, List<Warn> infractions, long lastDayToUnmute, long firstJoin) {
+        this.id = id;
+        this.playershide = playershide;
+        this.muted = muted;
+        this.infractions = infractions;
+        this.lastDayToUnmute = lastDayToUnmute;
+        this.firstJoin = firstJoin;
+        this.playername = Bukkit.getOfflinePlayer(UUID.fromString(id)).getName();
     }
 
     public PlayerData(Player player) {
@@ -61,12 +72,17 @@ public class PlayerData {
         this.infractions = infractions;
     }
 
-    public void removeInfraction(int index) {
-        this.infractions.remove(index - 1);
+    public void removeInfraction(String id) {
+        for (Warn warn : this.infractions) {
+            if (warn.getId().equals(id)) {
+                this.infractions.remove(warn);
+                return;
+            }
+        }
     }
 
     public void addInfraction(String reason, long date) {
-        this.infractions.add(new Warn(reason, date));
+        this.infractions.add(new Warn(id, reason, date));
     }
 
     public long getLastDayToUnmute() {
@@ -79,6 +95,9 @@ public class PlayerData {
 
     public String getFirstJoin() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(firstJoin);
+    }
+    public long getFirstJoinLong() {
+        return firstJoin;
     }
     public void setFirstJoin(long firstJoin) {
         this.firstJoin = firstJoin;

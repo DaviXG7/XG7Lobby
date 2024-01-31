@@ -6,6 +6,7 @@ import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Module.Players;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,7 +33,7 @@ public class FlyManager extends Module implements Listener {
         Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
             if (!Players.getPlayers().containsKey(player.getUniqueId())) {
 
-                player.setAllowFlight(false);
+                player.setAllowFlight(player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR));
                 player.setFlying(false);
 
             } else {

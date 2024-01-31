@@ -23,8 +23,8 @@ public class Ban implements CommandExecutor {
             return true;
         if (strings.length == 0) {
             commandSender.sendMessage(command.getName().equalsIgnoreCase("xg7lobbyban") ?
-                    ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bban §2§i<Player> [Reason]" :
-                    ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bunban §2§i<Player>");
+                    ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bban §2§i<Player> [Reason]") :
+                    ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bunban §2§i<Player>"));
             return true;
         }
 

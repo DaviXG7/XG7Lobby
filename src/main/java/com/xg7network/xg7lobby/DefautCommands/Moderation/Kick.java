@@ -20,7 +20,7 @@ public class Kick implements CommandExecutor {
         if (!PluginUtil.hasPermission(commandSender, PermissionType.KICK_COMMAND, ErrorMessages.NO_PEMISSION.getMessage()))
             return true;
         if (strings.length == 0) {
-            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bkick §2§i<Player> [Reason]");
+            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bkick §2§i<Player> [Reason]"));
             return true;
         } else {
 

@@ -224,9 +224,10 @@ public class Action {
                             item[0] = item[0].replace("currentslot=", "");
                             for (int i = 0; i < 9; i++) {
                                 SelectorItem item2 = selector.getItemByName(item[0]);
-                                if (player.getInventory().getItem(i) != null)
-                                    if (new NBTItem(player.getInventory().getItem(i)).getString("id").equals(item2.getId()))
+                                if (player.getInventory().getItem(i) != null) {
+                                    if (new NBTItem(player.getInventory().getItem(i)).getString("xg7lid").equals(item2.getId()))
                                         player.getInventory().setItem(i, selectorItem.getItemStack());
+                                }
                             }
                         } else {
                             selectorItem.setSlot(Integer.parseInt(item[0]));

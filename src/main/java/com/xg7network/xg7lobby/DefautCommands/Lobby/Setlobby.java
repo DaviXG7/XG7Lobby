@@ -50,7 +50,7 @@ public class Setlobby implements CommandExecutor {
                 location = new Location(world, x, y, z, yaw, ptich);
                 save(commandSender);
 
-            } else commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "/setlobby §e(world, x, y, z) (world, x, y, z, yaw, pitch) §con console");
+            } else commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "/setlobby §e(world, x, y, z) (world, x, y, z, yaw, pitch) §con console"));
         }
 
         return true;

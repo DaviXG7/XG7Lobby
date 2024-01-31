@@ -36,13 +36,13 @@ public class Mute implements CommandExecutor, Listener {
         if (strings.length == 0) {
             commandSender.sendMessage(
                     command.getName().equalsIgnoreCase("xg7lobbymute") ?
-                            ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bmute §2§i<Player>" :
+                            ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bmute §2§i<Player>") :
 
                             command.getName().equalsIgnoreCase("xg7lobbyunmute") ?
-                                    ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bunmute §2§i<Player>" :
+                                    ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bunmute §2§i<Player>") :
 
                                     command.getName().equalsIgnoreCase("xg7lobbytempmute") ?
-                                            ErrorMessages.MISSING_ARGS.getMessage() + "§e/§btempmute §2§i<Player> <d/h/min, Date>" : ""
+                                            ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§btempmute §2§i<Player> <d/h/min, Date>") : ""
             );
             return true;
         }

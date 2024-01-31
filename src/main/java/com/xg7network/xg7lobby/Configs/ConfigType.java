@@ -4,7 +4,7 @@ public enum ConfigType {
 
     CONFIG("config"),
     MESSAGES("messages"),
-    DATA("data/data"),
+    DATA("data"),
     SELECTORS("selectors");
 
     private String config;

@@ -25,7 +25,7 @@ public class TempBan implements CommandExecutor {
         if (!PluginUtil.hasPermission(commandSender, PermissionType.BAN_COMMAND, ErrorMessages.NO_PEMISSION.getMessage()))
             return true;
         if (strings.length == 0) {
-            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§btempban §2§i<Player> <Time> [Reason]");
+            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§btempban §2§i<Player> <Time> [Reason]"));
             return true;
         } else {
 

@@ -23,11 +23,16 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import static com.xg7network.xg7lobby.XG7Lobby.prefix;
+
 public class TextUtil {
 
     public static void send(String text, Player player) {
         if (text == null || text.equals("")) return;
-        if (text.startsWith("ACTION: ")) sendActionBar(text, player);
+        if (text.startsWith("ACTION: ")) {
+            text = text.replace("ACTION: ", "");
+            sendActionBar(text, player);
+        }
         else player.sendMessage(get(text, player));
 
     }
@@ -45,7 +50,7 @@ public class TextUtil {
 
         }
 
-        return text.replace("&", "§");
+        return prefix != null ? text.replace("&", "§").replace("[PREFIX]", prefix) : text.replace("&", "§");
     }
 
     public static String get(String text) {
@@ -59,7 +64,7 @@ public class TextUtil {
 
         }
 
-        return text.replace("&", "§");
+        return prefix != null ? text.replace("&", "§").replace("[PREFIX]", prefix) : text.replace("&", "§");
 
     }
 
@@ -74,7 +79,7 @@ public class TextUtil {
                 ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
                 PacketContainer chat = new PacketContainer(PacketType.Play.Server.CHAT);
                 chat.getBytes().write(0, (byte) 2);
-                chat.getChatComponents().write(0, WrappedChatComponent.fromText(text.replace("&", "§")));
+                chat.getChatComponents().write(0, WrappedChatComponent.fromText(get(text, player)));
                 try {
                     protocolManager.sendServerPacket(player, chat);
                 } catch (Exception e) {

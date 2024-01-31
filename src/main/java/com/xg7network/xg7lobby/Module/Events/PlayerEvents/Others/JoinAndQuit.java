@@ -26,7 +26,37 @@ public class JoinAndQuit implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        event.setJoinMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("join-message"), player));
+        PlayerData data = PlayersManager.getData(player.getUniqueId().toString()) != null ? PlayersManager.getData(player.getUniqueId().toString()) : PlayersManager.createData(player);
+        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("first-join-message.enabled")) {
+
+            if (data.getFirstJoinLong() == 0) {
+                data.setFirstJoin(System.currentTimeMillis());
+
+                event.setJoinMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("first-join-message.join-message"), player));
+
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("first-join-message.for-everyone")) {
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        PluginUtil.playSound(players, configManager.getConfig(ConfigType.CONFIG).getString("first-join-message.especial-sound"));
+                    }
+                } else {
+                    PluginUtil.playSound(player, configManager.getConfig(ConfigType.CONFIG).getString("first-join-message.especial-sound"));
+                }
+
+                PlayersManager.update(data.getId(), data);
+            } else {
+                event.setJoinMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("join-message"), player));
+            }
+
+        } else {
+
+            event.setJoinMessage(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("join-message"), player));
+
+            if (data.getFirstJoinLong() == 0) {
+                data.setFirstJoin(System.currentTimeMillis());
+                PlayersManager.update(data.getId(), data);
+            }
+
+        }
 
         if (configManager.getConfig(ConfigType.CONFIG).getBoolean("tp-when-join")) {
             Location location = new LobbyLocation().getLocation();
@@ -38,12 +68,6 @@ public class JoinAndQuit implements Listener {
                 }
             }
 
-            Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
-
-                PlayerData data = PlayersManager.getData(player.getUniqueId().toString());
-                new Action(player, data.isPlayershide() ? "HIDE" : "SHOW").execute();
-
-            }, 10l);
         }
 
         Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
@@ -52,7 +76,7 @@ public class JoinAndQuit implements Listener {
                     new Action(player, s).execute();
 
             }
-        }, 10l);
+        }, 10);
 
     }
 

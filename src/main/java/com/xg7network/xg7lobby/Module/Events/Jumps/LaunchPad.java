@@ -16,7 +16,7 @@ public class LaunchPad implements Listener {
     private Material block;
     private Material blockUnder;
     private byte launchpadtype;
-    private boolean enabled;
+    private final boolean enabled;
 
     public LaunchPad() {
         this.enabled = configManager.getConfig(ConfigType.CONFIG).getBoolean("launch-pad.enabled");

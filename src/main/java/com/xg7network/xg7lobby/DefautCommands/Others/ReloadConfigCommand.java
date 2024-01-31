@@ -22,8 +22,6 @@ public class ReloadConfigCommand implements CommandExecutor {
             configManager.reloadConfig(ConfigType.SELECTORS);
             configManager.reloadConfig(ConfigType.MESSAGES);
             configManager.reloadConfig(ConfigType.DATA);
-            PlayersManager.save();
-            PlayersManager.load();
 
             commandSender.sendMessage(prefix + ChatColor.GREEN + "All files has been reloaded!");
         }

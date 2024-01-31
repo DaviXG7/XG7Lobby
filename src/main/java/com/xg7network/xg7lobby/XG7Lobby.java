@@ -5,10 +5,7 @@ import com.xg7network.xg7lobby.DefautCommands.Lobby.Build;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Lobby;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Setlobby;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.*;
-import com.xg7network.xg7lobby.DefautCommands.Others.GUI;
-import com.xg7network.xg7lobby.DefautCommands.Others.Gamemode;
-import com.xg7network.xg7lobby.DefautCommands.Others.LockChatCommand;
-import com.xg7network.xg7lobby.DefautCommands.Others.ReloadConfigCommand;
+import com.xg7network.xg7lobby.DefautCommands.Others.*;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.Warns;
 import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
@@ -41,6 +38,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.sql.SQLException;
 
 public final class XG7Lobby extends JavaPlugin {
 
@@ -121,7 +120,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading player data:");
 
-        PlayersManager.load();
+        PlayersManager.connect();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (PlayersManager.getDatas().isEmpty()) PlayersManager.createData(player);
@@ -129,6 +128,7 @@ public final class XG7Lobby extends JavaPlugin {
                 PlayersManager.createData(player).setFirstJoin(System.currentTimeMillis());
             }
         }
+
         WarnsGUIManager.load();
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,6 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading events:");
 
-        this.getServer().getPluginManager().registerEvents(new PlayersManager(), this);
         this.getServer().getPluginManager().registerEvents(new Players(this), this);
         this.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         this.getServer().getPluginManager().registerEvents(new JoinAndQuit(), this);
@@ -162,7 +161,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new LockChatCommand(), this);
         this.getServer().getPluginManager().registerEvents(new GeneralEvents(), this);
         this.getServer().getPluginManager().registerEvents(new HelpCommand(), this);
-
+        this.getServer().getPluginManager().registerEvents(new Lobby(), this);
+        this.getServer().getPluginManager().registerEvents(new Vanish(), this);
 
 
 
@@ -189,6 +189,7 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbywarn").setExecutor(new Warn());
         this.getCommand("xg7lobbywarns").setExecutor(new Warns());
         this.getCommand("xg7lobbyhelp").setExecutor(new HelpCommand());
+        this.getCommand("xg7lobbyvanish").setExecutor(new Vanish());
         this.getCommand("xg7lobbyreloadconfig").setExecutor(new ReloadConfigCommand());
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
@@ -212,6 +213,11 @@ public final class XG7Lobby extends JavaPlugin {
     @Override
     public void onDisable() {
         moduleManager.unloadModules();
+        try {
+            PlayersManager.disconnect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         // Plugin shutdown logic
     }
 

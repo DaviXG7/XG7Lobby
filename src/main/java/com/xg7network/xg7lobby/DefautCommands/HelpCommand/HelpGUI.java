@@ -28,12 +28,12 @@ public class HelpGUI {
 
     public HelpGUI(Player player) {
         this.player = player;
-        //#[01][02][03][04][05][06][07][08][09]
-        //#[10][11][12][13][14][15][16][17][18]
-        //#[19][20][21][22][23][24][25][26][27]
-        //#[28][29][30][31][32][33][34][35][36]
-        //#[37][38][39][40][41][42][43][44][45]
-        //#[46][47][48][49][50][51][52][53][54]
+        //[01][02][03][04][05][06][07][08][09]
+        //[10][11][12][13][14][15][16][17][18]
+        //[19][20][21][22][23][24][25][26][27]
+        //[28][29][30][31][32][33][34][35][36]
+        //[37][38][39][40][41][42][43][44][45]
+        //[46][47][48][49][50][51][52][53][54]
 
 
         //Initial Page
@@ -251,7 +251,7 @@ public class HelpGUI {
 
         commands.createItemStack(player,
                 Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("OAK_SIGN") ? "OAK_SIGN" : "SIGN",
-                "§e/§bwarn §2§i<Player> <Reason>",
+                "§e/§bwarn §2§i<Player> <Reason> §aor §e/§bwarn §2§i<remove> <Player> <warnId>",
                 "&f&iWarn a player /// &bPermission: &axg7lobby.command.warn",
                 false,
                 21,
@@ -352,9 +352,18 @@ public class HelpGUI {
         commands.createItemStack(player,
                 "BARRIER",
                 "§e/§blockchat",
-                "&f&iLocks the chat /// &bPermission: &axg7lobby.gamemode.spactator",
+                "&f&iLocks the chat /// &bPermission: &axg7lobby.command.lockchat",
                 false,
                 26,
+                1,
+                null
+        );
+        commands.createItemStack(player,
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("ENDER_EYE") ? "ENDER_EYE" : "EYE_OF_ENDER",
+                "§e/§bvanish",
+                "&f&iVanish the player on lobby world /// &bPermission: &axg7lobby.command.vanish",
+                false,
+                34,
                 1,
                 null
         );
