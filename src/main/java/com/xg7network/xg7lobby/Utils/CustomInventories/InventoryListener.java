@@ -26,7 +26,7 @@ public class InventoryListener implements Listener {
                         if (item.getInv().equals(e.getClickedInventory())) {
                             if (e.getCurrentItem() != null) {
                                 NBTItem nbtItem = new NBTItem(e.getCurrentItem());
-                                if (nbtItem.getInteger("id").equals(item.getId())) {
+                                if (nbtItem.getString("xg7linvid").equals(item.getId())) {
                                     for (String s2 : item.getActions()) {
                                         Action action = new Action(player, s2);
                                         e.setCancelled(true);

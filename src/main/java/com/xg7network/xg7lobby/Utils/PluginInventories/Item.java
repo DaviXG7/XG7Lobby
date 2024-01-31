@@ -15,6 +15,7 @@ package com.xg7network.xg7lobby.Utils.PluginInventories;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -36,12 +37,14 @@ public class Item {
     private Action action;
     private ItemStack itemStack;
     private int slot;
+    private String id;
 
     public Item(Player player, String material, String name, String lore, boolean glow, int slot, int ammount, Action action) {
 
         this.action = action;
 
         this.slot = slot;
+        this.id = UUID.randomUUID().toString();
 
         String[] materialByte = material.split(", ");
 
@@ -110,6 +113,10 @@ public class Item {
             this.itemStack = new ItemStack(Material.getMaterial(material), ammount);
         }
 
+        NBTItem nbtItem = new NBTItem(itemStack);
+        nbtItem.setString("xg7lhelpid", this.id);
+        this.itemStack = nbtItem.getItem();
+
         meta = this.itemStack.getItemMeta();
 
         meta.setDisplayName(TextUtil.get(name, player));
@@ -136,6 +143,9 @@ public class Item {
 
     }
 
+    public String getId() {
+        return id;
+    }
 
     public Action getAction() {
         return action;

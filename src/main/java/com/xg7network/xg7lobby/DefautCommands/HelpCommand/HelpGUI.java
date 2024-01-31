@@ -276,7 +276,7 @@ public class HelpGUI {
                 false,
                 23,
                 1,
-                () -> new LobbyLocation().setLocation(player, player.getLocation())
+                () -> player.performCommand("7lsetlobby")
         );
 
         commands.createItemStack(player,
@@ -286,7 +286,7 @@ public class HelpGUI {
                 false,
                 24,
                 1,
-                () -> player.teleport(new LobbyLocation().getLocation())
+                () -> player.performCommand("7llobby")
         );
 
         commands.createItemStack(player,
@@ -364,6 +364,15 @@ public class HelpGUI {
                 "&f&iVanish the player on lobby world /// &bPermission: &axg7lobby.command.vanish",
                 false,
                 34,
+                1,
+                null
+        );
+        commands.createItemStack(player,
+                "WATCH",
+                "§e/§b7lreloadconfig",
+                "&f&iReloads the config /// &bPermission: &axg7lobby.command.reload",
+                false,
+                35,
                 1,
                 null
         );

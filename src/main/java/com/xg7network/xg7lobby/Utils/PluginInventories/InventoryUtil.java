@@ -13,6 +13,7 @@ package com.xg7network.xg7lobby.Utils.PluginInventories;
  */
 
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -45,7 +46,8 @@ public class InventoryUtil {
         if (stack != null) {
             Item itemChose = null;
             for (Item item : itemStacks) {
-                if (stack.getItemMeta().equals(item.getItemStack().getItemMeta())) {
+                NBTItem nbtItem = new NBTItem(stack);
+                if (nbtItem.getString("xg7lhelpid").equals(item.getId())) {
                     itemChose = item;
                 }
             }

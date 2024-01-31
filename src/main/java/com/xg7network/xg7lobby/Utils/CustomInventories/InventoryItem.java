@@ -32,7 +32,7 @@ public class InventoryItem {
     private ItemStack itemStack;
     private List<String> actions;
     private Player player;
-    private int id;
+    private String id;
 
     public InventoryItem(String path, Inventory inv, Player player) {
         this.slot = configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1;
@@ -41,12 +41,12 @@ public class InventoryItem {
         this.player = player;
         this.actions = configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".actions");
 
-        this.id = new Random().nextInt(1000);
+        this.id = UUID.randomUUID().toString();
 
         this.itemStack = getItemAndMaterial();
 
         NBTItem nbtItem = new NBTItem(itemStack);
-        nbtItem.setInteger("id", this.id);
+        nbtItem.setString("xg7linvid", this.id);
         this.itemStack = nbtItem.getItem();
 
         ItemMeta meta = itemStack.getItemMeta();
@@ -149,7 +149,7 @@ public class InventoryItem {
         return actions;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }
