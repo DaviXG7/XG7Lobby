@@ -64,7 +64,7 @@ commands:
 
   #Vanish
   on-hide: "[PREFIX] &aPlayers are no longer visible in the lobby"
-  on-show: "[PREFIX] &7Players are visible in the lobby again!"
+  on-show: "[PREFIX] &cPlayers are visible in the lobby again!"
 
   #Error messages
   no-permission: "[PREFIX] &cYou don't have permission to use this command!"
@@ -106,5 +106,6 @@ events:
   #Lobby teleport
 
   #Or send /lobby again to cancel
+  on-lobby-teleport: "&aYou are being teleported to the lobby in [SECONDS] seconds &a&l(Type /lobby again to cancel the teleport)!"
   lobby-cooldown-message: "ACTION: &6Teleporting&7... &b[SECONDS] &cDon't move!"
   teleport-cancelled: "&cTeleport cancelled!"

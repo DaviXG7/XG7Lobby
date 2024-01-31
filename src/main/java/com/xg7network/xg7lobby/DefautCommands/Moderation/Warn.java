@@ -22,11 +22,16 @@ public class Warn implements CommandExecutor {
 
 
         if (strings.length <= 1) {
-            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage() + "§e/§bwarn §2§i<Player> <Reason> or §e/§bwarn §2§i<remove> <Player> <warnId>");
+            commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bwarn §2§i<Player> <Reason> or §e/§bwarn §2§i<remove> <Player> <warnId>"));
             return true;
         }
 
         if (strings[0].equals("remove")) {
+
+            if (strings.length == 2) {
+                commandSender.sendMessage(ErrorMessages.MISSING_ARGS.getMessage().replace("[COMMAND]", "§e/§bwarn §2§i<Player> <Reason> or §e/§bwarn §2§i<remove> <Player> <warnId>"));
+                return true;
+            }
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(strings[1]);
 
@@ -39,11 +44,12 @@ public class Warn implements CommandExecutor {
 
             PlayerData playerData = PlayersManager.getData(target.getUniqueId().toString());
 
-            playerData.removeInfraction(strings[2]);
+            if (!playerData.removeInfraction(strings[2])) {
+                commandSender.sendMessage(prefix + ChatColor.RED + "Either the player or the warn id was not entered correctly, check if the player id or name is correct.");
+            } else {
+                commandSender.sendMessage(prefix + ChatColor.GREEN + "You have successfully removed the warn from " + ChatColor.AQUA + target.getName());
+            }
 
-            PlayersManager.update(playerData.getId(), playerData);
-
-            commandSender.sendMessage(prefix + ChatColor.GREEN + "you have successfully removed warn from: " + ChatColor.AQUA + target.getName());
 
             return true;
         } else {

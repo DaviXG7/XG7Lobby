@@ -159,7 +159,8 @@ first-join-message:
 
   #Put nothing on so the sound doesn't play
   especial-sound: "ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
-  #It will only play for the player if this option is activated
+  #Sound will only play for the player
+  #who joined if this option is disabled
   for-everyone: true
 
 ###############################################
@@ -174,8 +175,7 @@ announcements:
   #Cooldown of ads in seconds
   cooldown: 180
 
-  #Announce only in the lobby
-  AOOL: false
+  broadcast-only-in-the-lobby: false
 
   sound: "ENTITY_EXPERIENCE_ORB_PICKUP, 5.0, 0.0"
 
@@ -264,7 +264,7 @@ anti-spam:
 #MODERATION OPTIONS                           #
 ###############################################
 
-infraction-on-warn: true
+#Warn on mute
 infraction-on-mute: true
 
 infractions-to-ban: -1
@@ -415,12 +415,13 @@ scores:
 #SQL                                          #
 ###############################################
 
+#Only supports MySQL or sqlite
 sql:
-  host:
-  port:
+  host: localhost
+  port: 3306
   database:
 
-  user:
+  user: root
   pass:
 
 

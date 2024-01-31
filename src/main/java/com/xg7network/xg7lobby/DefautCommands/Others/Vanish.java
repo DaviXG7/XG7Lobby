@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.DefautCommands.Others;
 
+import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Module.Players;
@@ -20,6 +21,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
+
+import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Vanish implements CommandExecutor, Listener {
 
@@ -44,15 +47,19 @@ public class Vanish implements CommandExecutor, Listener {
 
             if (data.isPlayershide()) {
 
+                for (Player target : Bukkit.getOnlinePlayers()) player.showPlayer(target);
+                data.setPlayershide(false);
+                PlayersManager.update(player.getUniqueId().toString(), data);
+
+                TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-show"), player);
+
+            } else {
+
                 for (Player target : Bukkit.getOnlinePlayers()) player.hidePlayer(target);
                 data.setPlayershide(true);
                 PlayersManager.update(player.getUniqueId().toString(), data);
 
-            } else {
-
-                for (Player target : Bukkit.getOnlinePlayers()) player.showPlayer(target);
-                data.setPlayershide(false);
-                PlayersManager.update(player.getUniqueId().toString(), data);
+                TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("commands.on-hide"), player);
 
             }
 

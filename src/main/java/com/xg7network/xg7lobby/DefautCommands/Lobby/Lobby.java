@@ -52,7 +52,7 @@ public class Lobby implements CommandExecutor, Listener {
 
                 cooldown.put(player.getUniqueId(), configManager.getConfig(ConfigType.CONFIG).getInt("lobby.tp-cooldown"));
 
-
+                TextUtil.send(configManager.getConfig(ConfigType.MESSAGES).getString("events.on-lobby-teleport").replace("[SECONDS]", cooldown.get(player.getUniqueId()) + ""), player);
 
                 tasks.put(player.getUniqueId(), new BukkitRunnable() {
 

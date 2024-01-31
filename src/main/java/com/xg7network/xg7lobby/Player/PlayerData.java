@@ -72,13 +72,15 @@ public class PlayerData {
         this.infractions = infractions;
     }
 
-    public void removeInfraction(String id) {
+    public boolean removeInfraction(String id) {
         for (Warn warn : this.infractions) {
             if (warn.getId().equals(id)) {
                 this.infractions.remove(warn);
-                return;
+
+                return PlayersManager.deleteWarn(this.id, warn.getId());
             }
         }
+        return false;
     }
 
     public void addInfraction(String reason, long date) {

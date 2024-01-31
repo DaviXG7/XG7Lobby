@@ -41,14 +41,14 @@ public class Effects extends Module {
                     for (PotionEffect effect : effects)
                         players.get(player.getUniqueId()).addPotionEffect(effect, false);
                 else
-                    for (PotionEffect effect :  effects)
+                    for (PotionEffect effect : effects)
                         if (player.getActivePotionEffects().contains(effect))
                             player.getActivePotionEffects().remove(effect);
 
             }
 
 
-        }, 0, 5);
+        }, 0, 2);
 
 
 

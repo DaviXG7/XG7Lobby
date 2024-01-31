@@ -21,6 +21,8 @@ public class PlayersManager {
         XG7Lobby.getPlugin().getServer().getConsoleSender().sendMessage(prefix + ChatColor.GREEN + "Connecting to the database...");
         try {
 
+            Class.forName("org.sqlite.JDBC");
+
             String HOST = configManager.getConfig(ConfigType.CONFIG).getString("sql.host");
             int PORT = configManager.getConfig(ConfigType.CONFIG).getInt("sql.port");
             String DATABASE = configManager.getConfig(ConfigType.CONFIG).getString("sql.database");
@@ -49,6 +51,8 @@ public class PlayersManager {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         try {
@@ -77,7 +81,7 @@ public class PlayersManager {
 
             if (!resultSet.next()) {
 
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT OR IGNORE INTO players (id, playershide, muted, lasttounmute, firstJoin) VALUES (?, ?, ?, ?, ?)");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO players (id, playershide, muted, lasttounmute, firstJoin) VALUES (?, ?, ?, ?, ?)");
                 preparedStatement.setString(1, playerData.getId());
                 preparedStatement.setBoolean(2, playerData.isPlayershide());
                 preparedStatement.setBoolean(3, playerData.isMuted());
@@ -134,6 +138,19 @@ public class PlayersManager {
         }
     }
 
+    public static boolean deleteWarn(String playerid, String id) {
+        try {
+            PreparedStatement preparedStatement1 = connection.prepareStatement("DELETE FROM warns WHERE id = ? AND playerid = ?");
+            preparedStatement1.setString(1, id);
+            preparedStatement1.setString(2, playerid);
+
+            return preparedStatement1.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void update(String id, PlayerData playerData) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET playershide = ?, muted = ?, lasttounmute = ?, firstJoin = ? WHERE id = ?");
@@ -145,12 +162,21 @@ public class PlayersManager {
             preparedStatement.execute();
 
             for (Warn warn : playerData.getInfractions()) {
-                PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT OR REPLACE INTO warns (playerid, id, warn, whenw) VALUES (?, ?, ?, ?);");
-                preparedStatement2.setString(1, playerData.getId());
-                preparedStatement2.setString(2, warn.getId());
-                preparedStatement2.setString(3, warn.getWarn());
-                preparedStatement2.setLong(4, warn.getWhenInMills());
-                preparedStatement2.executeUpdate();
+
+                PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT * FROM warns WHERE id = ?");
+                preparedStatement1.setString(1, warn.getId());
+
+                ResultSet resultSet = preparedStatement1.executeQuery();
+
+                if (!resultSet.next()) {
+                    PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO warns (playerid, id, warn, whenw) VALUES (?, ?, ?, ?);");
+                    preparedStatement2.setString(1, playerData.getId());
+                    preparedStatement2.setString(2, warn.getId());
+                    preparedStatement2.setString(3, warn.getWarn());
+                    preparedStatement2.setLong(4, warn.getWhenInMills());
+                    preparedStatement2.executeUpdate();
+                }
+
             }
 
 

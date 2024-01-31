@@ -52,7 +52,7 @@ public class PluginUtil {
 
         switch (effect.length) {
             case 2:
-                return new PotionEffect(PotionEffectType.getByName(effect[0]), 10, Integer.valueOf(effect[1]) - 1);
+                return new PotionEffect(PotionEffectType.getByName(effect[0]), 20, Integer.valueOf(effect[1]) - 1);
             case 3:
                 return new PotionEffect(PotionEffectType.getByName(effect[0]), Integer.valueOf(effect[1]), Integer.valueOf(effect[2]) - 1);
         }

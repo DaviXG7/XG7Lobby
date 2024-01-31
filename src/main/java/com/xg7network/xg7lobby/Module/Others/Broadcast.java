@@ -37,7 +37,7 @@ public class Broadcast extends Module {
 
 
                         for (String linhas : anuncio) {
-                            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.AOOL")) {
+                            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.broadcast-only-in-the-lobby")) {
                                 if (configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(p.getWorld().getName())) {
                                     String s = configManager.getConfig(ConfigType.CONFIG).getString("announcements.sound");
                                     String[] s2 = s.split(", ");
