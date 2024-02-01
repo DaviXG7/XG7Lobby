@@ -368,7 +368,7 @@ public class HelpGUI {
                 null
         );
         commands.createItemStack(player,
-                "WATCH",
+                Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("CLOCK") ? "CLOCK" : "WATCH",
                 "§e/§b7lreloadconfig",
                 "&f&iReloads the config /// &bPermission: &axg7lobby.command.reload",
                 false,
