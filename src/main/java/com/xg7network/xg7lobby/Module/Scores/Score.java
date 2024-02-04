@@ -56,7 +56,7 @@ public class Score {
 
         }
 
-        player.setScoreboard(scoreboard);
+        this.player.setScoreboard(scoreboard);
 
     }
 
@@ -75,11 +75,8 @@ public class Score {
             }
 
 
-
         }
-
         this.player.setScoreboard(scoreboard);
-
     }
 
 }

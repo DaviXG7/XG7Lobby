@@ -12,16 +12,14 @@ package com.xg7network.xg7lobby.Utils.Text;
 
  */
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.xg7network.xg7lobby.Utils.NMSUtil;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
 
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
@@ -76,14 +74,27 @@ public class TextUtil {
             if (vers >= 13) {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(get(text, player)));
             } else {
-                ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-                PacketContainer chat = new PacketContainer(PacketType.Play.Server.CHAT);
-                chat.getBytes().write(0, (byte) 2);
-                chat.getChatComponents().write(0, WrappedChatComponent.fromText(get(text, player)));
                 try {
-                    protocolManager.sendServerPacket(player, chat);
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+                    Class<?> craftPlayerClass = NMSUtil.getCraftBukkitClass("entity.CraftPlayer");
+                    Object craftPlayer = craftPlayerClass.cast(player);
+
+                    Class<?> packetPlayOutChatClass = NMSUtil.getNMSClass("PacketPlayOutChat");
+                    Class<?> iChatBaseComponentClass = NMSUtil.getNMSClass("IChatBaseComponent");
+                    Class<?> chatComponentTextClass = NMSUtil.getNMSClass("ChatComponentText");
+
+                    Object chatComponent = chatComponentTextClass.getConstructor(String.class).newInstance(get(text, player));
+                    Object packet = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, byte.class)
+                            .newInstance(chatComponent, (byte) 2);
+
+                    Object craftPlayerHandle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
+                    Object playerConnection = craftPlayerHandle.getClass().getField("playerConnection").get(craftPlayerHandle);
+
+                    playerConnection.getClass().getMethod("sendPacket", NMSUtil.getNMSClass("Packet")).invoke(playerConnection, packet);
+
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                         NoSuchFieldException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

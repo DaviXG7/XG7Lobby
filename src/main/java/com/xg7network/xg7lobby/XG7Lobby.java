@@ -207,6 +207,9 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygui").setTabCompleter(new TabCompleter());
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
+
+        System.out.println(Bukkit.getServer().getClass().getPackage().getName());
+        System.out.println(Bukkit.getServer().getClass().getPackage().getName().substring(Bukkit.getServer().getClass().getPackage().getName().lastIndexOf('.') + 1));
     }
 
 
