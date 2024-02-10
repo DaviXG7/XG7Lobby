@@ -1,15 +1,17 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories;
 
+import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.xg7network.xg7lobby.Configs.ConfigType;
 
+import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+
 import de.tr7zw.changeme.nbtapi.NBTItem;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +19,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
+import com.google.gson.JsonParser;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -72,7 +83,6 @@ public class InventoryItem {
             String[] materialByte = configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").split(", ");
             if (materialByte[0].equals("PLAYER_HEAD") && (materialByte[1].startsWith("OWNER=") || materialByte[1].startsWith("VALUE="))) {
                 if (materialByte[1].startsWith("OWNER=")) {
-
                     String playername = materialByte[1].replace("OWNER=", "");
 
                     boolean skull = Arrays.asList(Material.values())
@@ -92,37 +102,99 @@ public class InventoryItem {
 
                     cabeca.setItemMeta(skullMeta);
 
+
                     return cabeca;
 
                 } else {
 
                     String texture = materialByte[1].replace("VALUE=", "");
 
-                    boolean skull = Arrays.asList(Material.values())
-                            .stream()
-                            .map(Material::name)
-                            .collect(Collectors.toList())
-                            .contains("PLAYER_HEAD");
+                    if (texture.equals("THIS_PLAYER")) {
 
-                    GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
-                    gameProfile.getProperties().put("textures", new Property("textures", texture));
+                        boolean skull = Arrays.asList(Material.values())
+                                .stream()
+                                .map(Material::name)
+                                .collect(Collectors.toList())
+                                .contains("PLAYER_HEAD");
 
-                    ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+                        OfflinePlayer player1 = Bukkit.getOfflinePlayer(player.getUniqueId());
 
-                    SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
-                    try {
-                        Field profileField = skullMeta.getClass().getDeclaredField("profile");
-                        profileField.setAccessible(true);
-                        profileField.set(skullMeta, gameProfile);
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
+                        ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                        SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+
+                        try {
+
+                            System.out.println(player1.getUniqueId());
+
+                            HttpClient client = HttpClients.createDefault();
+                            String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + player1.getUniqueId();
+                            HttpGet request = new HttpGet(url);
+                            HttpResponse response = client.execute(request);
+
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                            StringBuilder result = new StringBuilder();
+                            String line;
+
+                            while ((line = reader.readLine()) != null) {
+                                result.append(line);
+                            }
+
+                            JsonObject profileData = new JsonParser().parse(result.toString()).getAsJsonObject();
+                            JsonObject properties = profileData.getAsJsonArray("properties").get(0).getAsJsonObject();
+
+
+                            GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+                            gameProfile.getProperties().put("textures", new Property("textures", properties.get("value").getAsString()));
+
+
+                            try {
+                                Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                                profileField.setAccessible(true);
+                                profileField.set(skullMeta, gameProfile);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                            cabeca.setItemMeta(skullMeta);
+
+                            skullMeta.setOwner(player1.getName());
+
+                            cabeca.setItemMeta(skullMeta);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        return cabeca;
+                    } else {
+
+                        boolean skull = Arrays.asList(Material.values())
+                                .stream()
+                                .map(Material::name)
+                                .collect(Collectors.toList())
+                                .contains("PLAYER_HEAD");
+
+                        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null);
+                        gameProfile.getProperties().put("textures", new Property("textures", texture));
+
+                        ItemStack cabeca = skull ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 0, (byte) 3);
+
+                        SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
+
+                        try {
+                            Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                            profileField.setAccessible(true);
+                            profileField.set(skullMeta, gameProfile);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+                        cabeca.setItemMeta(skullMeta);
+
+                        return cabeca;
+
                     }
-
-                    cabeca.setItemMeta(skullMeta);
-
-                    return cabeca;
-
                 }
 
             } else {
@@ -152,4 +224,5 @@ public class InventoryItem {
     public String getId() {
         return id;
     }
+
 }

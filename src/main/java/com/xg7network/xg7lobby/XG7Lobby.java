@@ -6,8 +6,7 @@ import com.xg7network.xg7lobby.DefautCommands.Lobby.Lobby;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.Setlobby;
 import com.xg7network.xg7lobby.DefautCommands.Moderation.*;
 import com.xg7network.xg7lobby.DefautCommands.Others.*;
-import com.xg7network.xg7lobby.DefautCommands.Others.Warns.Warns;
-import com.xg7network.xg7lobby.DefautCommands.Others.Warns.WarnsGUIManager;
+import com.xg7network.xg7lobby.DefautCommands.Others.Warns;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
 import com.xg7network.xg7lobby.Configs.ConfigManager;
 import com.xg7network.xg7lobby.Configs.ConfigType;
@@ -34,6 +33,7 @@ import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
 import com.xg7network.xg7lobby.Utils.CustomInventories.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.Manager.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -129,7 +129,7 @@ public final class XG7Lobby extends JavaPlugin {
             }
         }
 
-        WarnsGUIManager.load();
+        MenuManager.inicialize(this);
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

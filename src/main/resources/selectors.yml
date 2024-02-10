@@ -95,6 +95,35 @@
 #HotBar
 #[01][02][03][04][05][06][07][08][09]
 
+###############################################
+#WARN INVENTORY OPTIONS                       #
+###############################################
+
+warn-inventory:
+  title: ""
+
+  go-next-item:
+    name: "&aNext!"
+    lore:
+      - "&aClick to pass"
+    material: EMERALD
+    amount: 1
+    slot: 1
+    glow: false
+
+  go-back-item:
+    name: "&cBack!"
+    lore:
+      - "&aClick to back"
+    material: REDSTONE
+    amount: 1
+    slot: 1
+    glow: false
+
+###############################################
+#SELECTORS                                    #
+###############################################
+
 
 selectors:
 
@@ -158,11 +187,9 @@ selectors:
         - "SWAP: currentslot=hide_players_on, hide_players_off"
         - "ACTIONBAR: &cYou've shown the players again!"
 
-
-
-
-
-
+###############################################
+#INVENTORIES                                  #
+###############################################
 
 inventories:
 

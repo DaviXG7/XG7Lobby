@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 public class NMSUtil {
 
     static String packageName = Bukkit.getServer().getClass().getPackage().getName();
-    static String version = packageName.split("\\.")[3];
+    static String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
 
     public static Class<?> getNMSClass(String className) throws ClassNotFoundException {
@@ -22,5 +22,4 @@ public class NMSUtil {
     public static String getVersion() {
         return version;
     }
-
 }

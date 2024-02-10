@@ -4,17 +4,15 @@ import java.util.*;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7lobby.Utils.PluginInventories.InventoryUtil;
-import com.xg7network.xg7lobby.Utils.PluginInventories.Item;
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.BasicMenu;
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.SkullInventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Method;
 import java.util.stream.Collectors;
@@ -24,7 +22,7 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 public class HelpGUI {
 
     private Player player;
-    private static HashMap<String, InventoryUtil> inventoryUtils = new HashMap<>();
+    private static HashMap<String, BasicMenu> inventoryUtils = new HashMap<>();
 
     public HelpGUI(Player player) {
         this.player = player;
@@ -38,18 +36,22 @@ public class HelpGUI {
 
         //Initial Page
 
-        InventoryUtil inicialPage = new InventoryUtil(player, 6, "&6Help");
+        BasicMenu inicialPage = new BasicMenu("&6Help", 54, player);
 
-        inicialPage.createItemStack(player,
-                "PLAYER_HEAD, OWNER=THIS_PLAYER",
-                "&a" + player.getName(),
-                "&bWelcome to the help!",
-                false,
-                14,
-                1,
-                null
+        inicialPage.addItems(
 
-        );
+                new SkullInventoryItem(
+                        "&a" + player.getName(),
+                        Collections.singletonList("&bWelcome to the help!"),
+                        1,
+                        13,
+                        null,
+                        player
+                ),
+
+
+
+        )
 
         inicialPage.createItemStack(player,
                 Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("COMMAND_BLOCK") ? "COMMAND_BLOCK" : "COMMAND",
