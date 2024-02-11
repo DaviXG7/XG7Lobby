@@ -30,7 +30,7 @@ import com.xg7network.xg7lobby.Module.Selectors.SelectorListener;
 import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
-import com.xg7network.xg7lobby.Utils.CustomInventories.Metrics;
+import com.xg7network.xg7lobby.Utils.PrivateInforations.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.Manager.MenuManager;
@@ -94,7 +94,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         plugin = this;
 
-        Metrics metrics = new Metrics(this, 20729);
+        Metrics metrics = Metrics.getMetrics(this);
 
         ///////////////////////////////////////////////////////////////////////////////////
 
@@ -156,11 +156,9 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new Chat(), this);
         this.getServer().getPluginManager().registerEvents(new Blocks(), this);
         this.getServer().getPluginManager().registerEvents(new Warns(), this);
-        this.getServer().getPluginManager().registerEvents(new WarnsGUIManager(), this);
         this.getServer().getPluginManager().registerEvents(new Cycles(), this);
         this.getServer().getPluginManager().registerEvents(new LockChatCommand(), this);
         this.getServer().getPluginManager().registerEvents(new GeneralEvents(), this);
-        this.getServer().getPluginManager().registerEvents(new HelpCommand(), this);
         this.getServer().getPluginManager().registerEvents(new Lobby(), this);
         this.getServer().getPluginManager().registerEvents(new Vanish(), this);
 
@@ -207,9 +205,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygui").setTabCompleter(new TabCompleter());
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
-
-        System.out.println(Bukkit.getServer().getClass().getPackage().getName());
-        System.out.println(Bukkit.getServer().getClass().getPackage().getName().substring(Bukkit.getServer().getClass().getPackage().getName().lastIndexOf('.') + 1));
     }
 
 

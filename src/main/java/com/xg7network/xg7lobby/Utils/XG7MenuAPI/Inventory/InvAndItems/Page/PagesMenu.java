@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class PagesMenu {
-    private List<Page> pages = new ArrayList<>();
+    private static List<Page> pages = new ArrayList<>();
 
     public PagesMenu(List<ItemStack> itemStacks, String title) {
 
@@ -23,10 +23,13 @@ public class PagesMenu {
             Page page = new Page(title,this,index);
             stackList = page.addItems(itemStacks);
             pages.add(page);
+            System.out.println(index);
         }
         for (Page page : pages) {
             MenuManager.register(page);
         }
+
+        if (pages.isEmpty()) pages.add(new Page(title, this, 0));
 
     }
 
@@ -34,7 +37,8 @@ public class PagesMenu {
         for (InventoryItem item : items) {
             if (item.getSlot() <= 8) {
                 for (Page page : pages) {
-                    page.addItems(item.setSlot(item.getSlot() + 44));
+                    page.addItems(item.setSlot(item.getSlot() + 45));
+                    System.out.println(item.getSlot());
                 }
             } else {
                 Bukkit.getLogger().log(Level.SEVERE, "Page inventories only support items at the bottom of the inventory, at the top are page items. Slots are from 0 to 8");

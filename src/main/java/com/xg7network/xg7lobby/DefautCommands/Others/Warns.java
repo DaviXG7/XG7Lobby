@@ -4,6 +4,7 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.Page.Page;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.Page.PagesMenu;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.InventoryItem;
 import org.bukkit.Material;
@@ -40,6 +41,8 @@ public class Warns implements CommandExecutor, Listener {
             warnsitems.add(new InventoryItem(Material.PAPER, "§f" + data.getInfractions().get(i).getWarn(), Collections.singletonList(data.getInfractions().get(i).getWhen()), 1, i + 1, null).getItemStack());
         }
         PagesMenu pagesMenu = new PagesMenu(warnsitems, configManager.getConfig(ConfigType.SELECTORS).getString("warn-inventory.title"));
+
+        pagesMenu.addItems(InventoryItem.getWarnItem("warn-inventory.go-next-item"), InventoryItem.getWarnItem("warn-inventory.go-back-item"));
 
         pagesMenu.getPages().get(0).open(player);
 

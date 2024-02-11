@@ -17,6 +17,18 @@ public class MenuManager {
 
             if (!inventories.contains(menu)) inventories.add(menu);
 
+            System.out.println(inventories.size() + " size of inventories now");
+
+        }
+
+    }
+    public static void unregister(Menu... menus) {
+
+        for (Menu menu : menus) {
+
+            if (inventories.contains(menu)) inventories.remove(menu);
+            System.out.println(inventories.size() + " size of inventories now");
+
         }
 
     }

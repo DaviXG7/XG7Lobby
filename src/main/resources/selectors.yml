@@ -100,19 +100,21 @@
 ###############################################
 
 warn-inventory:
-  title: ""
+  title: "You have &b%xg7lobby_warns% &rwarns. &7Page: &6%page%"
+
+  #Support slot 1 to 9
 
   go-next-item:
-    name: "&aNext!"
+    name: "&aNext"
     lore:
       - "&aClick to pass"
     material: EMERALD
     amount: 1
-    slot: 1
+    slot: 9
     glow: false
 
   go-back-item:
-    name: "&cBack!"
+    name: "&cBack"
     lore:
       - "&aClick to back"
     material: REDSTONE
@@ -135,7 +137,7 @@ selectors:
 
     game:
 
-      name: "&fGame Selector!"
+      name: "&8Game Selector"
       lore:
         - "&aClick to Chose a game!"
       material: COMPASS
@@ -219,7 +221,7 @@ inventories:
 
       item2:
 
-        name: "&fGame Selector!"
+        name: "&7Game Selector"
         lore:
           - "&aClick to Chose a game!"
         material: COMPASS

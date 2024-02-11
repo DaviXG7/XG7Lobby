@@ -19,7 +19,7 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class InventoryItem {
 
-    protected int id;
+    protected String id;
     protected Player player;
     protected Menu inventory;
     protected Runnable runnable;
@@ -31,13 +31,15 @@ public class InventoryItem {
         ItemStack itemStack = new ItemStack(material, amount);
         this.slot = slot;
         this.runnable = runnable;
+        this.id = UUID.randomUUID().toString();
 
-        ItemMeta meta = this.itemStack.getItemMeta();
+        ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(TextUtil.get(name));
         meta.setLore(lore.stream().map(TextUtil::get).collect(Collectors.toList()));
+        itemStack.setItemMeta(meta);
 
         NBTItem item = new NBTItem(itemStack);
-        item.setString("xg7mid", UUID.randomUUID().toString());
+        item.setString("xg7mid", this.id);
         this.itemStack = item.getItem();
 
 
@@ -48,23 +50,28 @@ public class InventoryItem {
         ItemStack itemStack = materialData.toItemStack(amount);
         this.slot = slot;
         this.runnable = runnable;
+        this.id = UUID.randomUUID().toString();
 
-        ItemMeta meta = this.itemStack.getItemMeta();
+        ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(TextUtil.get(name));
         meta.setLore(lore.stream().map(TextUtil::get).collect(Collectors.toList()));
+        itemStack.setItemMeta(meta);
 
         NBTItem item = new NBTItem(itemStack);
-        item.setString("xg7mid", UUID.randomUUID().toString());
+        item.setString("xg7mid", this.id);
         this.itemStack = item.getItem();
 
 
     }
 
-    public void addEnchant(Enchantment enchantment, int level) {
-        this.itemStack.addEnchantment(enchantment, level);
+    public InventoryItem addEnchant(Enchantment enchantment, int level) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.addEnchant(enchantment, level, true);
+        this.itemStack.setItemMeta(meta);
+        return this;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -81,7 +88,7 @@ public class InventoryItem {
     }
 
     public void execute() {
-        this.runnable.run();
+        if (this.runnable != null) this.runnable.run();
     }
     public void update(InventoryItem item) {
         this.itemStack = item.itemStack;
@@ -94,6 +101,29 @@ public class InventoryItem {
     public void update(Material newMaterial, String newName, List<String> newLore, Runnable newRunable) {
         this.itemStack.setType(newMaterial);
         this.runnable = newRunable;
+
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.setDisplayName(TextUtil.get(newName));
+        meta.setLore(newLore.stream().map(TextUtil::get).collect(Collectors.toList()));
+        this.itemStack.setItemMeta(meta);
+    }
+    public void updateName(String newName) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.setDisplayName(TextUtil.get(newName));
+        this.itemStack.setItemMeta(meta);
+    }
+    public void updateMaterial(Material newMaterial) {
+        this.itemStack.setType(newMaterial);
+    }
+    public void updateLore(List<String> newLore) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.setLore(newLore.stream().map(TextUtil::get).collect(Collectors.toList()));
+        this.itemStack.setItemMeta(meta);
+    }
+    public void setRunnable(Runnable newRunable) {
+        this.runnable = newRunable;
+    }
+    public void updateNameAndLore(String newName, List<String> newLore) {
 
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setDisplayName(TextUtil.get(newName));
@@ -118,14 +148,15 @@ public class InventoryItem {
         return new InventoryItem(material, name, lore, amount, 0, null).getItemStack();
     }
 
-    public static InventoryItem getItem(String path) {
+    //Modificado para o plugin!!!!
+    public static InventoryItem getWarnItem(String path) {
 
         return new InventoryItem(Material.getMaterial(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material")),
-                configManager.getConfig(ConfigType.SELECTORS).getString(path + ".title"),
+                configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"),
                 configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1,
-                null);
+                null).addEnchant(Enchantment.DURABILITY, 1);
     }
 
 }

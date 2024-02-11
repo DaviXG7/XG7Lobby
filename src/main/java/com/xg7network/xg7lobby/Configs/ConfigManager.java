@@ -1,6 +1,6 @@
 package com.xg7network.xg7lobby.Configs;
 
-import com.xg7network.xg7lobby.Utils.PluginInventories.Item;
+
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

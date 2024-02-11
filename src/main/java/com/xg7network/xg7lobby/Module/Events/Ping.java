@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
+import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
 public class Ping implements Listener {
 
@@ -22,7 +23,7 @@ public class Ping implements Listener {
             try {
                 e.setServerIcon(Bukkit.loadServerIcon(new File("icon.png")));
             } catch (Exception var4) {
-                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("warning-image")) Bukkit.getConsoleSender().sendMessage("Cuidado! Seu servidor não tem imagem, tente colocar um arquivo com o nome icon.png");
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("warning-image")) Bukkit.getConsoleSender().sendMessage(prefix + "Warning! Your server doesn't have image!\n\nIf you want an image on your server, put an image file named icon.png on server directory!");
             }
         }
 

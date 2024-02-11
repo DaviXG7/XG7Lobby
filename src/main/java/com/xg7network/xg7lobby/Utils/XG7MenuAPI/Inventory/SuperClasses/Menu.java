@@ -1,5 +1,6 @@
 package com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses;
 
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.Manager.MenuManager;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.MenuType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import de.tr7zw.changeme.nbtapi.NBTItem;
@@ -9,11 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Menu {
 
-    protected List<InventoryItem> items;
+    protected List<InventoryItem> items = new ArrayList<>();
     protected Inventory inventory;
     protected MenuType type;
 
@@ -64,6 +67,7 @@ public class Menu {
     }
 
     public void open(Player player) {
+        MenuManager.register(this);
         player.openInventory(inventory);
     }
 

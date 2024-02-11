@@ -16,9 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class HelpCommand implements CommandExecutor, Listener {
-
-    private static HashMap<UUID, HelpGUI> players = new HashMap<>();
+public class HelpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -31,11 +29,7 @@ public class HelpCommand implements CommandExecutor, Listener {
 
         Player player = (Player) commandSender;
 
-        HelpGUI helpGUI = new HelpGUI(player);
-
-        players.put(player.getUniqueId(), helpGUI);
-
-        players.get(player.getUniqueId()).open();
+        HelpGUI.openInventory(player);
 
 
 
@@ -43,20 +37,5 @@ public class HelpCommand implements CommandExecutor, Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-
-            if (players.containsKey(player.getUniqueId())) {
-                if (players.get(player.getUniqueId()).equals(event.getClickedInventory())) {
-
-                    players.get(player.getUniqueId()).execute(event.getCurrentItem(), event.getClickedInventory());
-
-                    event.setCancelled(true);
-
-                }
-            }
-
-    }
 
 }

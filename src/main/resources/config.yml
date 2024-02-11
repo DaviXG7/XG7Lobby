@@ -112,7 +112,7 @@ prefix: "&9[XG7&3Lob&bby] &8| &r"
 lobby:
 
   #In seconds
-  tp-cooldown: 0
+  tp-cooldown: 5
 
   #Player cannot move while on lobby cooldown
   dont-move: true

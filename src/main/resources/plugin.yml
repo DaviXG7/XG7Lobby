@@ -114,6 +114,17 @@ commands:
     description: Bloqueia o chat
     aliases: [7lrlc, lrlc, xg7lrlc]
 
+  xg7lobbyreportbug:
+    description: Reporta um bug do plugin
+    aliases:
+      - 7lreportbug
+      - 7lbug
+
+  xg7lobbysugest:
+    description: Mandar sugestão do plugin
+    aliases:
+      - 7lsugest
+
 
 permissions:
   xg7lobby.admin:
