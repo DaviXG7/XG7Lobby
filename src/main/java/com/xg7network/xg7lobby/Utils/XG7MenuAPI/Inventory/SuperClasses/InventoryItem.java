@@ -151,12 +151,16 @@ public class InventoryItem {
     //Modificado para o plugin!!!!
     public static InventoryItem getWarnItem(String path) {
 
-        return new InventoryItem(Material.getMaterial(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material")),
+        InventoryItem item = new InventoryItem(Material.getMaterial(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material")),
                 configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"),
                 configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1,
-                null).addEnchant(Enchantment.DURABILITY, 1);
+                null);
+
+        if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow")) item.addEnchant(Enchantment.DURABILITY, 1);
+
+        return item;
     }
 
 }

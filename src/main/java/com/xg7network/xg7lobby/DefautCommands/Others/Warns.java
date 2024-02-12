@@ -38,11 +38,12 @@ public class Warns implements CommandExecutor, Listener {
         List<ItemStack> warnsitems = new ArrayList<>();
 
         for (int i = 0; i < data.getInfractions().size(); i++) {
-            warnsitems.add(new InventoryItem(Material.PAPER, "§f" + data.getInfractions().get(i).getWarn(), Collections.singletonList(data.getInfractions().get(i).getWhen()), 1, i + 1, null).getItemStack());
+            warnsitems.add(new InventoryItem(Material.PAPER, "§f" + data.getInfractions().get(i).getWarn(), Collections.singletonList(data.getInfractions().get(i).getWhen()), 1, i, null).getItemStack());
         }
         PagesMenu pagesMenu = new PagesMenu(warnsitems, configManager.getConfig(ConfigType.SELECTORS).getString("warn-inventory.title"));
 
-        pagesMenu.addItems(InventoryItem.getWarnItem("warn-inventory.go-next-item"), InventoryItem.getWarnItem("warn-inventory.go-back-item"));
+        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-next-item"));
+        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-back-item"));
 
         pagesMenu.getPages().get(0).open(player);
 

@@ -26,6 +26,7 @@ public class ModuleManager {
         modules.add(new Broadcast(plugin));
         modules.add(new FlyManager(plugin));
         modules.add(new SelectorManager(plugin));
+        modules.add(new WarnVersion(plugin));
 
         for (Module module : modules) {
             module.onEnable();

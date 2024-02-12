@@ -221,7 +221,7 @@ inventories:
 
       item2:
 
-        name: "&7Game Selector"
+        name: "&dGame Selector"
         lore:
           - "&aClick to Chose a game!"
         material: COMPASS
@@ -257,7 +257,7 @@ inventories:
 
   games:
 
-    name: "&fProfile"
+    name: "&aGame selector!"
     rows: 3
     id: 2
 

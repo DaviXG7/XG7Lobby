@@ -120,10 +120,10 @@ commands:
       - 7lreportbug
       - 7lbug
 
-  xg7lobbysugest:
-    description: Mandar sugestão do plugin
+  xg7lobbysuggest:
+    description: Manda uma sugestão do plugin
     aliases:
-      - 7lsugest
+      - 7lsuggest
 
 
 permissions:

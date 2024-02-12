@@ -21,29 +21,21 @@ public class PagesMenu {
         while (!stackList.isEmpty()) {
             index++;
             Page page = new Page(title,this,index);
-            stackList = page.addItems(itemStacks);
+            stackList = page.addListOfItems(itemStacks);
             pages.add(page);
-            System.out.println(index);
-        }
-        for (Page page : pages) {
-            MenuManager.register(page);
         }
 
         if (pages.isEmpty()) pages.add(new Page(title, this, 0));
 
     }
 
-    public void addItems(InventoryItem... items) {
-        for (InventoryItem item : items) {
-            if (item.getSlot() <= 8) {
-                for (Page page : pages) {
-                    page.addItems(item.setSlot(item.getSlot() + 45));
-                    System.out.println(item.getSlot());
-                }
-            } else {
-                Bukkit.getLogger().log(Level.SEVERE, "Page inventories only support items at the bottom of the inventory, at the top are page items. Slots are from 0 to 8");
-                return;
+    public void addItem(InventoryItem item) {
+        if (-1 < item.getSlot() && item.getSlot() <= 8) {
+            for (Page page : pages) {
+                page.addItems(item.setSlot(item.getSlot() + 45));
             }
+        } else {
+            Bukkit.getLogger().log(Level.SEVERE, "Page inventories only support items at the bottom of the inventory, at the top are page items. Slots are from 0 to 8");
         }
     }
 

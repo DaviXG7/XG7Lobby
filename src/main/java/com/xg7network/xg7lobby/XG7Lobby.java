@@ -10,6 +10,7 @@ import com.xg7network.xg7lobby.DefautCommands.Others.Warns;
 import com.xg7network.xg7lobby.DefautCommands.TabCompleter;
 import com.xg7network.xg7lobby.Configs.ConfigManager;
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.DefautCommands.ToCreator;
 import com.xg7network.xg7lobby.Module.Chat.AntiSpam;
 import com.xg7network.xg7lobby.Module.Chat.Chat;
 import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others.*;
@@ -32,6 +33,7 @@ import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
+import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.Manager.MenuManager;
 import org.bukkit.Bukkit;
@@ -113,7 +115,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         this.getServer().getConsoleSender().sendMessage("Plugin prefix: " + prefix);
 
-
+        VerfVersion.verifyUpdate();
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +191,9 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbyhelp").setExecutor(new HelpCommand());
         this.getCommand("xg7lobbyvanish").setExecutor(new Vanish());
         this.getCommand("xg7lobbyreloadconfig").setExecutor(new ReloadConfigCommand());
+        this.getCommand("xg7lobbyreportbug").setExecutor(new ToCreator());
+        this.getCommand("xg7lobbysuggest").setExecutor(new ToCreator());
+
 
         this.getCommand("xg7lobbygma").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygmc").setTabCompleter(new TabCompleter());
@@ -203,6 +208,8 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbyfly").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbysetlobby").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbygui").setTabCompleter(new TabCompleter());
+        this.getCommand("xg7lobbyreportbug").setTabCompleter(new TabCompleter());
+        this.getCommand("xg7lobbysuggest").setTabCompleter(new TabCompleter());
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
     }

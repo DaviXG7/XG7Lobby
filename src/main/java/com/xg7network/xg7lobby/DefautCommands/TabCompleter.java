@@ -93,6 +93,12 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             case "xg7lobbygui":
 
                 if (strings.length == 1) results.add("<id>");
+
+            case "xg7lobbysugest":
+            case "xg7lobbyreportbug":
+                if (strings.length < 1) {
+                    results.add("<message>");
+                }
         }
         return results;
     }

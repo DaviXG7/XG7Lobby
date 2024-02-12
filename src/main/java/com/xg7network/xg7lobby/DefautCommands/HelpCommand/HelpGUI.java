@@ -349,6 +349,23 @@ public class HelpGUI {
                         null
                 ),
                 new InventoryItem(
+                        Material.GOLDEN_AXE,
+                        "§e/§b7lreportbug <Bug>",
+                        Arrays.asList("&f&iSend a bug report to the plugin creator /// &bPermission: &axg7lobby.admin".split(" /// ")),
+                        1,
+                        37,
+                        null
+                ),
+                new InventoryItem(
+                        Material.BOOK,
+                        "§e/§b7lsuggest <Suggestion>",
+                        Arrays.asList("&f&iSend a plugin suggestion to the plugin creator /// &bPermission: &axg7lobby.admin".split(" /// ")),
+                        1,
+                        38,
+                        null
+                ),
+
+                new InventoryItem(
                         Material.BARRIER,
                         "§cBack",
                         new ArrayList<>(),

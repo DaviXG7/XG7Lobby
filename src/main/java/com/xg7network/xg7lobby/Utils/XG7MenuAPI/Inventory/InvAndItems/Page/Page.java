@@ -5,7 +5,6 @@ import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Page extends Menu {
@@ -25,16 +24,15 @@ public class Page extends Menu {
         this.index = index;
     }
 
-    public List<ItemStack> addItems(List<ItemStack> items) {
+    public List<ItemStack> addListOfItems(List<ItemStack> items) {
 
         List<ItemStack> itemStackList = items;
 
         for (int i = 0; i < 45; i++) {
             if (!itemStackList.isEmpty()) {
-                System.out.println("a");
                 this.inventory.setItem(i, itemStackList.get(0));
                 itemStackList.remove(0);
-            } else return new ArrayList<>();
+            } else break;
 
         }
         return itemStackList;
