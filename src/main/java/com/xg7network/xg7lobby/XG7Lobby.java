@@ -13,6 +13,7 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.ToCreator;
 import com.xg7network.xg7lobby.Module.Chat.AntiSpam;
 import com.xg7network.xg7lobby.Module.Chat.Chat;
+import com.xg7network.xg7lobby.Module.Chat.CustomCommands.CommandManager;
 import com.xg7network.xg7lobby.Module.Events.PlayerEvents.Others.*;
 import com.xg7network.xg7lobby.Module.Events.Jumps.DoubleJump;
 import com.xg7network.xg7lobby.Module.Events.Jumps.Fly;
@@ -210,6 +211,9 @@ public final class XG7Lobby extends JavaPlugin {
         this.getCommand("xg7lobbygui").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbyreportbug").setTabCompleter(new TabCompleter());
         this.getCommand("xg7lobbysuggest").setTabCompleter(new TabCompleter());
+
+        this.getServer().getConsoleSender().sendMessage(prefix + "Loading custom commands:");
+        CommandManager.registerCommands();
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loaded!");
     }

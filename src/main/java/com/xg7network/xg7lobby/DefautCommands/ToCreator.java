@@ -28,8 +28,6 @@ public class ToCreator implements CommandExecutor {
             SendToCreator.bugReport(str.toString().trim(), commandSender);
         }
 
-        commandSender.sendMessage(command.getName().equalsIgnoreCase("xg7lobbysuggest") ? prefix + ChatColor.GREEN + "Your suggest has been sent to Creator!" : ChatColor.GREEN + "Your bug report has been sent to Creator!");
-
 
         return true;
     }

@@ -13,6 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,8 +43,9 @@ public class Warns implements CommandExecutor, Listener {
         }
         PagesMenu pagesMenu = new PagesMenu(warnsitems, configManager.getConfig(ConfigType.SELECTORS).getString("warn-inventory.title"));
 
-        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-next-item"));
-        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-back-item"));
+        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-back-item",  () -> pagesMenu.goBack(player, player.getOpenInventory().getTopInventory())));
+        pagesMenu.addItem(InventoryItem.getWarnItem("warn-inventory.go-next-item", () -> pagesMenu.goNext(player, player.getOpenInventory().getTopInventory())));
+
 
         pagesMenu.getPages().get(0).open(player);
 

@@ -26,6 +26,20 @@ public class InventoryItem {
     protected int slot;
     protected ItemStack itemStack;
 
+    public InventoryItem(ItemStack itemStack, int slot, Runnable runnable) {
+
+        this.itemStack = itemStack;
+        this.slot = slot;
+        this.runnable = runnable;
+        this.id = UUID.randomUUID().toString();
+
+        NBTItem item = new NBTItem(this.itemStack);
+        item.setString("xg7mid", this.id);
+        this.itemStack = item.getItem();
+
+
+    }
+
     public InventoryItem(Material material, String name, List<String> lore, int amount, int slot, Runnable runnable) {
 
         ItemStack itemStack = new ItemStack(material, amount);
@@ -82,9 +96,8 @@ public class InventoryItem {
     public int getSlot() {
         return slot;
     }
-    public InventoryItem setSlot(int slot) {
+    public void setSlot(int slot) {
         this.slot = slot;
-        return this;
     }
 
     public void execute() {
@@ -149,16 +162,17 @@ public class InventoryItem {
     }
 
     //Modificado para o plugin!!!!
-    public static InventoryItem getWarnItem(String path) {
+    public static InventoryItem getWarnItem(String path, Runnable runnable) {
 
         InventoryItem item = new InventoryItem(Material.getMaterial(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".material")),
                 configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"),
                 configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"),
                 configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") - 1,
-                null);
+                runnable);
 
         if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow")) item.addEnchant(Enchantment.DURABILITY, 1);
+
 
         return item;
     }

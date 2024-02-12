@@ -26,7 +26,7 @@ public class Menu {
     }
     public Menu(MenuType type, String title, int size, Player player) {
         this.type = type;
-        this.inventory = Bukkit.createInventory(player, size, TextUtil.get(title));
+        this.inventory = Bukkit.createInventory(player, size, TextUtil.get(title, player));
     }
 
     public Inventory getInventory() {

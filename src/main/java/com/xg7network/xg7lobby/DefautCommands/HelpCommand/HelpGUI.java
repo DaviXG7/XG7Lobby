@@ -115,13 +115,49 @@ public class HelpGUI {
                                     player.sendMessage(ChatColor.GREEN+ "Selector guide!");
                                     player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
                                     player.sendMessage(ChatColor.WHITE + "Guide on how to use Selectors\n");
-                                    player.sendMessage(ChatColor.WHITE + "Selectors are the items on the hotbar that when you click, do something\n\nTo create the items you need to go to the file selectors.yml");
+                                    player.sendMessage(ChatColor.WHITE + "Selectors are the items on the hotbar that when you click, do something\n\nTo create the items you need to go to the file §bselectors.yml");
                                     player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
                                     player.sendMessage(ChatColor.WHITE + "In the part selectors -> Items -> and there where you create your items\n\nIn the Items part you can create another part with any name and should put the following things on the next message");
                                     player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
                                     player.sendMessage(ChatColor.WHITE + "Item description\n\nmaterial -> Where to place the Item's material\n\nname -> Item name\n\nlore -> Item Description\n\ngrow -> Enchantment or not\n\namount -> amount of the item\n\nslot -> Inventory slot where the item is\n\nactions -> All actions will be performed when the player clicks");
                                     player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
                                     player.sendMessage(ChatColor.WHITE + "In the cooldown part is the item refresh time to be given to the player at all times");
+                                    player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+
+
+                                }
+                            }
+
+                        }
+                ),
+
+                new InventoryItem(
+                        Material.BLAZE_ROD,
+                        "&bCreate Commands Guide",
+                        Collections.singletonList("&aClick to see the create commands guide"),
+                        1,
+                        40,
+                        () -> {
+                            player.closeInventory();
+                            String[] partes = Bukkit.getVersion().split("\\.");
+                            if (partes.length >= 2) {
+                                int vers = Integer.parseInt(partes[1]);
+                                if (vers >= 15) {
+                                    player.openBook(getCommandsGuide());
+                                } else {
+
+                                    player.sendMessage(ChatColor.GREEN+ "Selector guide!");
+                                    player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
+                                    player.sendMessage(ChatColor.WHITE + "Guide on how to Create Commands\n\n");
+                                    player.sendMessage(ChatColor.RED + "You Cannot put an argument in the command like: test arg1/arg3 arg2\n\n");
+                                    player.sendMessage(ChatColor.WHITE + "In §bconfig.yml §rthe part custom-commands you can create your items\n\nWithin this section, you can create another section where the name of the command will be and to create one is very simple, just put the following items in the section:\n\n");
+                                    player.sendMessage(ChatColor.WHITE + "description -> The description of the command\n" +
+                                            "\n" +
+                                            "aliases -> Other Ways in Which You Can Use the\n" +
+                                            "\n" +
+                                            "permission -> The permission you need to use the\n" +
+                                            "\n" +
+                                            "actions -> The actions of the command");
                                     player.sendMessage(ChatColor.DARK_GRAY + "----------------------------");
 
 
@@ -861,7 +897,7 @@ public class HelpGUI {
 
         BookMeta meta = (BookMeta) stack.getItemMeta();
 
-        meta.addPage("Guide on how to use Selectors\n\nSelectors are the items on the hotbar that when you click, do something\n\nTo create the items you need to go to the file §aselectors.yml§r\n\n->");
+        meta.addPage("Guide on how to use Selectors\n\nSelectors are the items on the hotbar that when you click, do something\n\nTo create the items you need to go to the file §bselectors.yml§r\n\n->");
         meta.addPage("In the part selectors -> Items -> and there where you create your items\n\nIn the Items part you can create another part with any name and should put the following things on the next page");
         meta.addPage("Item description\n\nitem: Where to place the Item's material\n\nname: Item name\n\nlore: Item Description\n\ngrow: Enchantment or not\n\n->");
         meta.addPage("amount: amount of the item\n\nslot: Inventory slot where the item is in inventory\n\nactions: All actions will be performed when the player clicks");
@@ -871,6 +907,32 @@ public class HelpGUI {
         meta.setAuthor("DaviXG7");
 
         meta.setDisplayName("§aSelectors Guide");
+
+        stack.setItemMeta(meta);
+
+        return stack;
+    }
+
+    private static ItemStack getCommandsGuide() {
+
+        ItemStack stack = new ItemStack(Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("WRITTEN_BOOK") ? Material.valueOf("WRITTEN_BOOK") : Material.valueOf("BOOK_AND_QUILL"));
+
+        BookMeta meta = (BookMeta) stack.getItemMeta();
+
+        meta.addPage("Guide on how to Create Commands\n\nYou Cannot put an argument in the command like: test arg1/arg3 arg2 ->");
+        meta.addPage("In §bconfig.yml §rthe part custom-commands you can create your items\n\nWithin this section, you can create another section where the name of the command will be and to create one is very simple, just put the following items in the section ->");
+        meta.addPage("description -> The description of the command\n" +
+                "\n" +
+                "aliases -> Other Ways in Which You Can Use the\n" +
+                "\n" +
+                "permission -> The permission you need to use the\n" +
+                "\n" +
+                "actions -> The actions of the command");
+
+        meta.setTitle("§aSelectors Guide");
+        meta.setAuthor("DaviXG7");
+
+        meta.setDisplayName("§aCreate commands Guide");
 
         stack.setItemMeta(meta);
 

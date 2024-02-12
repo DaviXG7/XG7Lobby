@@ -203,12 +203,17 @@ announcements:
 #CUSTOM COMMANDS                              #
 ###############################################
 
+#Cannot put an argument in the
+#command like: test arg1/arg3 arg2
+
 custom-commands:
 
   test:
-    usage:
-    description:
+    aliases: ["te", "testttt"]
+    description: "A normal command"
+    permission: ""
     actions:
+      - "TITLE: A normal command!!!"
 
 ###############################################
 #CHAT                                         #
@@ -408,7 +413,7 @@ scores:
     enabled: true
 
     #Placeholders don't work here
-    title: "&9&lWelcome to the server"
+    title: "&9&lWelcome to the server %player_name%"
 
     #See all colors here
     #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarColor.html

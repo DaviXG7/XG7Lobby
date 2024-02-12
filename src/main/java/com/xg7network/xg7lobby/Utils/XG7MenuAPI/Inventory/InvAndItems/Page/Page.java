@@ -1,6 +1,7 @@
 package com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.Page;
 
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.MenuType;
+import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.InventoryItem;
 import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +31,7 @@ public class Page extends Menu {
 
         for (int i = 0; i < 45; i++) {
             if (!itemStackList.isEmpty()) {
-                this.inventory.setItem(i, itemStackList.get(0));
+                addItems(new InventoryItem(itemStackList.get(0), i, null));
                 itemStackList.remove(0);
             } else break;
 

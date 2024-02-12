@@ -20,9 +20,8 @@ import java.util.UUID;
 import static com.xg7network.xg7lobby.XG7Lobby.*;
 
 public class ScoresManager extends Module implements Listener {
-    private static Bossbar bossbar;
-
     private static HashMap<UUID, Score> scores = new HashMap<>();
+    private static HashMap<UUID, Bossbar> bossbars = new HashMap<>();
 
     private static boolean boss = configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.bossbar.enabled");
 
@@ -40,13 +39,18 @@ public class ScoresManager extends Module implements Listener {
                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                 scores.remove(player.getUniqueId());
                 new Tablist(player, null, null).sendTabList();
-                if (boss && bossbar != null) bossbar.removeBossBar(player);
+                bossbars.get(player.getUniqueId()).removeBossBar();
+                bossbars.remove(player.getUniqueId());
 
             } else {
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
                     Score scoreBoard = new Score(event.getPlayer());
 
                     scores.put(event.getPlayer().getUniqueId(), scoreBoard);
+
+                    Bossbar bossbar = new Bossbar(player);
+                    bossbar.createBossBar();
+                    bossbars.put(player.getUniqueId(), bossbar);
                 }
             }
         }, 15);
@@ -55,41 +59,68 @@ public class ScoresManager extends Module implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+            if (Players.getPlayers().containsKey(event.getPlayer().getUniqueId())) {
+                if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
 
-        if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
+                    Score scoreBoard = new Score(event.getPlayer());
+                    scores.put(event.getPlayer().getUniqueId(), scoreBoard);
 
-            Score scoreBoard = new Score(event.getPlayer());
-            scores.put(event.getPlayer().getUniqueId(), scoreBoard);
+                }
 
-        }
+                if (boss) {
+                    try {
+                        Class.forName("org.bukkit.boss.BarColor");
+
+                        Bossbar bossbar = new Bossbar(event.getPlayer());
+                        bossbar.createBossBar();
+                        bossbars.put(event.getPlayer().getUniqueId(), bossbar);
+                    } catch (ClassNotFoundException e) {
+                        boss = false;
+                        System.out.println(prefix + ChatColor.RED + "Your version do not suports BossBars! Maybe in the future it will be supported so wait until the next update");
+                    }
+                }
+            }
+        },10);
 
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        if (boss && bossbar != null) bossbar.removeBossBar(event.getPlayer());
+        if (bossbars.containsKey(event.getPlayer().getUniqueId())) {
+            bossbars.get(event.getPlayer().getUniqueId()).removeBossBar();
+            bossbars.remove(event.getPlayer().getUniqueId());
+        }
     }
 
     @Override
     public void onEnable() {
-        bossbar = new Bossbar();
-        if (boss) {
-            try {
-                Class.forName("org.bukkit.boss.BarColor");
-                bossbar.createBossBar();
-            } catch (ClassNotFoundException e) {
-                boss = false;
-                System.out.println(prefix + ChatColor.RED + "Your version do not suports BossBars! Maybe in the future it will be supported so wait until the next update");
-            }
-        }
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
+        Bukkit.getScheduler().runTaskLater(getPlugin(), () -> {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (Players.getPlayers().containsKey(p)) {
+                            if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
 
-                Score scoreBoard = new Score(p);
-                scores.put(p.getUniqueId(), scoreBoard);
+                                Score scoreBoard = new Score(p);
+                                scores.put(p.getUniqueId(), scoreBoard);
 
-            }
-        }
+                            }
+
+                            if (boss) {
+                                try {
+                                    Class.forName("org.bukkit.boss.BarColor");
+
+                                    Bossbar bossbar = new Bossbar(p);
+                                    bossbar.createBossBar();
+                                    bossbars.put(p.getUniqueId(), bossbar);
+                                } catch (ClassNotFoundException e) {
+                                    boss = false;
+                                    System.out.println(prefix + ChatColor.RED + "Your version do not suports BossBars! Maybe in the future it will be supported so wait until the next update");
+                                }
+                            }
+
+                        }
+                    }
+                },10);
         Bukkit.getScheduler().runTaskTimer(this.getPlugin(), () -> {
 
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -106,8 +137,9 @@ public class ScoresManager extends Module implements Listener {
                     }
 
                     if (boss) {
-                        bossbar.updateTitle(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title")));
-                        if (!bossbar.containsBossBar(p)) bossbar.setBossBar(p);
+                        if (bossbars.containsKey(p.getUniqueId())) {
+                            bossbars.get(p.getUniqueId()).updateTitle(TextUtil.get(configManager.getConfig(ConfigType.CONFIG).getString("scores.bossbar.title"), p));
+                        }
                     }
 
                 }
@@ -122,7 +154,11 @@ public class ScoresManager extends Module implements Listener {
     public void onDisable() {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (boss) bossbar.removeBossBar(p);
+            if (boss) {
+                bossbars.values().forEach(Bossbar::removeBossBar);
+                bossbars.clear();
+            }
+
             scores.remove(p.getUniqueId());
         }
 
