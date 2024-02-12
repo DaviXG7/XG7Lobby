@@ -48,9 +48,19 @@ public class ScoresManager extends Module implements Listener {
 
                     scores.put(event.getPlayer().getUniqueId(), scoreBoard);
 
-                    Bossbar bossbar = new Bossbar(player);
-                    bossbar.createBossBar();
-                    bossbars.put(player.getUniqueId(), bossbar);
+                }
+
+                if (boss) {
+                    try {
+                        Class.forName("org.bukkit.boss.BarColor");
+
+                        Bossbar bossbar = new Bossbar(event.getPlayer());
+                        bossbar.createBossBar();
+                        bossbars.put(event.getPlayer().getUniqueId(), bossbar);
+                    } catch (ClassNotFoundException e) {
+                        boss = false;
+                        System.out.println(prefix + ChatColor.RED + "Your version do not suports BossBars! Maybe in the future it will be supported so wait until the next update");
+                    }
                 }
             }
         }, 15);

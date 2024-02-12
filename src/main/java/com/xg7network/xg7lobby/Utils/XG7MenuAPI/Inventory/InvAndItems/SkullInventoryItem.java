@@ -61,11 +61,7 @@ public class SkullInventoryItem extends InventoryItem {
 
         SkullMeta skullMeta = (SkullMeta) cabeca.getItemMeta();
 
-        try {
-            skullMeta.setOwningPlayer(owner);
-        } catch (Exception ignored) {
-            skullMeta.setOwner(owner.getDisplayName());
-        }
+        skullMeta.setOwner(owner.getDisplayName());
 
         cabeca.setItemMeta(skullMeta);
 
