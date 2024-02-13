@@ -118,6 +118,8 @@ lobby:
   #Player cannot move while on lobby cooldown
   dont-move: true
 
+  ignore-admin: true
+
 
 ###############################################
 #JOIN AND QUIT                                #

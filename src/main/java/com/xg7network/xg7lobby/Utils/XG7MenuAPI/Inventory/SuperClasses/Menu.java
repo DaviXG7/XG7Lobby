@@ -60,7 +60,14 @@ public class Menu {
     }
 
     public InventoryItem getItem(ItemStack itemStack) {
-        return items.stream().filter(item -> new NBTItem(itemStack).getString("xg7mid").equals(item.getId())).findFirst().orElse(null);
+        if (itemStack != null) {
+            for (InventoryItem item : items) {
+                if (new NBTItem(itemStack).getString("xg7mid").equals(item.getId())) {
+                    return item;
+                }
+            }
+        }
+        return null;
     }
     public InventoryItem getItem(int slot) {
         return items.stream().filter(item -> item.getSlot() == slot).findFirst().orElse(null);

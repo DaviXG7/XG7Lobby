@@ -385,7 +385,7 @@ public class HelpGUI {
                         null
                 ),
                 new InventoryItem(
-                        Material.GOLDEN_AXE,
+                        Arrays.stream(Material.values()).map(Material::name).collect(Collectors.toList()).contains("GOLDEN_AXE") ? Material.getMaterial("GOLDEN_AXE") : Material.getMaterial("GOLD_AXE"),
                         "§e/§b7lreportbug <Bug>",
                         Arrays.asList("&f&iSend a bug report to the plugin creator /// &bPermission: &axg7lobby.admin".split(" /// ")),
                         1,

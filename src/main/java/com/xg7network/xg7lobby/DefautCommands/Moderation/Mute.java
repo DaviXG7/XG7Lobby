@@ -63,13 +63,18 @@ public class Mute implements CommandExecutor, Listener {
                     return true;
                 }
 
-                data.setMuted(!target.getPlayer().hasPermission(PermissionType.WARN_COMMAND.getPerm()));
+                if (data.getPlayer().hasPermission(PermissionType.MUTE_COMMAND.getPerm())) {
+                    commandSender.sendMessage(prefix + "§cYou cannot mute a player with admin perms.");
+                    return true;
+                }
+
+                data.setMuted(true);
                 data.setLastDayToUnmute(0);
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute")) data.addInfraction(ChatColor.RED + "Muted by adm!", System.currentTimeMillis());
                 PlayersManager.update(target.getUniqueId().toString(), data);
                 Infractions.verify(target.getPlayer(), data.getInfractions().size());
 
-                commandSender.sendMessage(data.isMuted() ? prefix + "§aYou have successfully muted §b" + target.getName() : prefix + "§cYou cannot mute a player with admin perms.");
+                commandSender.sendMessage(prefix + "§aYou have successfully muted §b" + target.getName());
 
                 return true;
 
@@ -105,7 +110,7 @@ public class Mute implements CommandExecutor, Listener {
 
                 if (strings.length == 2) {
 
-                    if (!target.getPlayer().hasPermission(PermissionType.WARN_COMMAND.getPerm())) {
+                    if (!target.getPlayer().hasPermission(PermissionType.MUTE_COMMAND.getPerm())) {
 
                         if (strings[1].contains("min")) {
                             String time = strings[1].replace("min", "");

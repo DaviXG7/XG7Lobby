@@ -48,6 +48,11 @@ public class Lobby implements CommandExecutor, Listener {
                 return true;
             }
 
+            if (player.hasPermission(PermissionType.SETLOBBY_COMMAND.getPerm())) {
+                player.teleport(location.getLocation());
+                return true;
+            }
+
             if (!cooldown.containsKey(player.getUniqueId())) {
 
                 cooldown.put(player.getUniqueId(), configManager.getConfig(ConfigType.CONFIG).getInt("lobby.tp-cooldown"));

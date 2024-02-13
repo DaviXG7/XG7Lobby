@@ -44,9 +44,11 @@ public class ScoresManager extends Module implements Listener {
 
             } else {
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {
-                    Score scoreBoard = new Score(event.getPlayer());
+                    if (!scores.containsKey(player.getUniqueId())) {
+                        Score scoreBoard = new Score(event.getPlayer());
 
-                    scores.put(event.getPlayer().getUniqueId(), scoreBoard);
+                        scores.put(event.getPlayer().getUniqueId(), scoreBoard);
+                    }
 
                 }
 
@@ -54,9 +56,11 @@ public class ScoresManager extends Module implements Listener {
                     try {
                         Class.forName("org.bukkit.boss.BarColor");
 
-                        Bossbar bossbar = new Bossbar(event.getPlayer());
-                        bossbar.createBossBar();
-                        bossbars.put(event.getPlayer().getUniqueId(), bossbar);
+                        if (!bossbars.containsKey(player.getUniqueId())) {
+                            Bossbar bossbar = new Bossbar(event.getPlayer());
+                            bossbar.createBossBar();
+                            bossbars.put(event.getPlayer().getUniqueId(), bossbar);
+                        }
                     } catch (ClassNotFoundException e) {
                         boss = false;
                         System.out.println(prefix + ChatColor.RED + "Your version do not suports BossBars! Maybe in the future it will be supported so wait until the next update");

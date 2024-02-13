@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils.CustomInventories;
+package com.xg7network.xg7lobby.Utils.PrivateInforations;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +34,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Metrics {
+
+    public static Metrics getMetrics(JavaPlugin pl) {
+        return new Metrics(pl, 20981);
+    }
 
     private final Plugin plugin;
 
