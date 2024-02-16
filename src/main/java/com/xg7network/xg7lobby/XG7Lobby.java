@@ -36,7 +36,7 @@ import com.xg7network.xg7lobby.Utils.PrivateInforations.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
-import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.Manager.MenuManager;
+import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

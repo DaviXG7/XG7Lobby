@@ -6,8 +6,6 @@ import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;

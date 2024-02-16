@@ -4,20 +4,18 @@ import java.util.*;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.BasicMenu;
-import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.InvAndItems.SkullInventoryItem;
-import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.InventoryItem;
-import com.xg7network.xg7lobby.Utils.XG7MenuAPI.Inventory.SuperClasses.Menu;
+import com.xg7network.xg7menus.API.Inventory.InvAndItems.Menus.BasicMenu;
+import com.xg7network.xg7menus.API.Inventory.InvAndItems.Items.SkullInventoryItem;
+import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.SuperClasses.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.material.MaterialData;
 
-import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
