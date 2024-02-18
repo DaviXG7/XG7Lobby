@@ -621,7 +621,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("announcements.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(10).updateName("§cAuto Broadcast: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"));
+                            options.getItem(10).updateName("§cAuto Broadcast: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -635,7 +635,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("anti-spam.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(11).updateName("§cAntiSpam: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"));
+                            options.getItem(11).updateName("§cAntiSpam: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -649,7 +649,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("infraction-on-warn", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(19).updateName("§cInfraction on warn: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"));
+                            options.getItem(19).updateName("§cInfraction on warn: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -663,7 +663,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("infraction-on-mute", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(20).updateName("§cInfraction on mute: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"));
+                            options.getItem(20).updateName("§cInfraction on mute: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -680,7 +680,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-death-by-void", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(28).updateName("§cVoid: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"));
+                            options.getItem(28).updateName("§cVoid: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -697,7 +697,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-portal", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(29).updateName("§cEnter portal: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"));
+                            options.getItem(29).updateName("§cEnter portal: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -715,7 +715,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("pickup-items", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(30).updateName("§cAll with Items: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")));
+                            options.getItem(30).updateName("§cAll with Items: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -734,7 +734,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("interact-with-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(31).updateName("§cAll with Blocks: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")));
+                            options.getItem(31).updateName("§cAll with Blocks: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -751,7 +751,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("spawn-mobs", !configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(37).updateName("§cSpawn mobs: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"));
+                            options.getItem(37).updateName("§cSpawn mobs: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -769,7 +769,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("weather-cycle", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(38).updateName("§cWeather and Day cycles: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")));
+                            options.getItem(38).updateName("§cWeather and Day cycles: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -786,7 +786,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("leaves-decay", !configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(39).updateName("§cLeaves decay: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"));
+                            options.getItem(39).updateName("§cLeaves decay: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -804,7 +804,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("block-spread", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(40).updateName("§cBurn: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")));
+                            options.getItem(40).updateName("§cBurn: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -821,7 +821,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-explosions", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(41).updateName("§cExplosions: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"));
+                            options.getItem(41).updateName("§cExplosions: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"), options);
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),

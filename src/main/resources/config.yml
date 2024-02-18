@@ -141,6 +141,7 @@ join-events:
     - "SOUND: ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
     - "SUMMON: FIREWORK"
     - "OPEN: 1 !PERMISSION: xg7lobby.admin"
+    - "COMMAND: 7lhelp PERMISSION: xg7lobby.command.help"
 
 # Effects that will be given to the player over time
 # integer on server in lobby world
