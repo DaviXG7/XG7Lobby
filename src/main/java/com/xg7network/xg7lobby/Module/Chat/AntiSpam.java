@@ -5,7 +5,6 @@ import com.google.common.cache.CacheBuilder;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.Module.Module;
-import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
@@ -19,7 +18,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;

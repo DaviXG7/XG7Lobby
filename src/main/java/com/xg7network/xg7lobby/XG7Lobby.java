@@ -28,10 +28,9 @@ import com.xg7network.xg7lobby.Module.Events.WorldEvents.Cycles;
 import com.xg7network.xg7lobby.Module.ModuleManager;
 import com.xg7network.xg7lobby.Module.Players;
 import com.xg7network.xg7lobby.Module.Scores.ScoresManager;
-import com.xg7network.xg7lobby.Module.Selectors.SelectorListener;
-import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
+import com.xg7network.xg7lobby.Module.Inventories.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayersManager;
-import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryListener;
+import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryLoader;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.Metrics;
 import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
@@ -42,6 +41,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public final class XG7Lobby extends JavaPlugin {
@@ -98,6 +98,11 @@ public final class XG7Lobby extends JavaPlugin {
         plugin = this;
 
         Metrics metrics = Metrics.getMetrics(this);
+        try {
+            InventoryLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////
 
@@ -140,7 +145,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading events:");
 
         this.getServer().getPluginManager().registerEvents(new Players(this), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         this.getServer().getPluginManager().registerEvents(new JoinAndQuit(), this);
         this.getServer().getPluginManager().registerEvents(new ScoresManager(this), this);
         this.getServer().getPluginManager().registerEvents(new FlyManager(this), this);
@@ -149,7 +153,6 @@ public final class XG7Lobby extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new Ping(), this);
         this.getServer().getPluginManager().registerEvents(new OnBuild(), this);
         this.getServer().getPluginManager().registerEvents(new SelectorManager(this), this);
-        this.getServer().getPluginManager().registerEvents(new SelectorListener(), this);
         this.getServer().getPluginManager().registerEvents(new Mute(), this);
         this.getServer().getPluginManager().registerEvents(new DropPickup(), this);
         this.getServer().getPluginManager().registerEvents(new DamageEvent(), this);

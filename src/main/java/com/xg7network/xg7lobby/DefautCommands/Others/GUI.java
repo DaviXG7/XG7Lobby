@@ -2,7 +2,7 @@ package com.xg7network.xg7lobby.DefautCommands.Others;
 
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
+import com.xg7network.xg7lobby.Module.Inventories.Actions.Action;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

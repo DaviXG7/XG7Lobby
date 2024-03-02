@@ -4,7 +4,6 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.Configs.PermissionType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Module.Players;
-import com.xg7network.xg7lobby.Module.Selectors.Selector;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;

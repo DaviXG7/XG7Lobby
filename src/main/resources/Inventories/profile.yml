@@ -1,3 +1,6 @@
+#You can create a new file to make other inventory
+#Just copy this template for other files!
+
 #Use %player_name% to replace player name
 #You need the PlaceHolderAPI for that!
 
@@ -84,101 +87,70 @@
 #Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
 #Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
 
-#HotBar
+#Inventory help
 #[01][02][03][04][05][06][07][08][09]
+#[10][11][12][13][14][15][16][17][18]
+#[19][20][21][22][23][24][25][26][27]
+#[28][29][30][31][32][33][34][35][36]
+#[37][38][39][40][41][42][43][44][45]
+#[46][47][48][49][50][51][52][53][54]
 
-###############################################
-#WARN INVENTORY OPTIONS                       #
-###############################################
 
-warn-inventory:
-  title: "You have &b%xg7lobby_warns% &rwarns. &7Page: &6%page%"
 
-  #Support slot 1 to 9
+name: "&fProfile"
+rows: 5
+id: 1
 
-  go-next-item:
-    name: "&aNext"
+items:
+
+  fill-item: GRAY_STAINED_GLASS_PANE
+
+  item1:
+
+    name: "&9Your profile"
     lore:
-      - "&aClick to pass"
-    material: EMERALD
+      - "&bFirst Join: &f%xg7lobby_first_join%"
+      - "&aYou have: &b%xg7lobby_warns% &awarns"
+      - "&aMuted: &b%xg7lobby_muted%"
+    material: "PLAYER_HEAD, OWNER=THIS_PLAYER"
     amount: 1
-    slot: 9
     glow: false
+    slot: 14
+    actions:
+      - ""
 
-  go-back-item:
-    name: "&cBack"
+  item2:
+
+    name: "&dGame Selector"
     lore:
-      - "&aClick to back"
-    material: REDSTONE
+      - "&aClick to Chose a game!"
+    material: COMPASS
     amount: 1
-    slot: 1
+    slot: 34
     glow: false
+    actions:
+      - "OPEN: 2"
+  item3:
 
-###############################################
-#SELECTORS                                    #
-###############################################
+    name: "&fWarns!"
+    lore:
+      - "&aClick to see you warns!"
+    material: PAPER
+    amount: 1
+    slot: 30
+    glow: false
+    actions:
+      - "CLOSE"
+      - "COMMAND: warns"
 
+  close:
 
-selectors:
-
-  enabled: true
-
-  cooldown: 3
-
-  items:
-
-    game:
-
-      name: "&8Game Selector"
-      lore:
-        - "&aClick to Chose a game!"
-      material: COMPASS
-      amount: 1
-      slot: 1
-      glow: false
-      actions:
-        - "OPEN: 2"
-
-    profile:
-
-      name: "&bProfile"
-      lore:
-        - "&aClick to open profile!"
-      #SKULLS ONLY WORKS IF SERVER IS ON ONLINE MODE!
-      #OR PLAYER HAS WITH A SKIN!
-      material: "PLAYER_HEAD, OWNER=THIS_PLAYER"
-      amount: 1
-      slot: 2
-      glow: false
-      actions:
-        - "OPEN: 1"
-
-    hide_players_off:
-
-      name: "&7Hide Players &6- &cOFF!"
-      lore:
-        - "&aClick to hide!"
-      material: GRAY_DYE
-      amount: 1
-      slot: 9
-      glow: true
-      actions:
-        #SWAP: slot, new item;
-        - "HIDE"
-        - "SWAP: currentslot=hide_players_off, hide_players_on"
-        - "ACTIONBAR: &aYou hide the players!"
-
-    hide_players_on:
-
-      name: "&7Hide Players &6- &aON!"
-      lore:
-        - "&aClick to show!"
-      material: LIME_DYE
-      amount: 1
-      glow: true
-      actions:
-        - "SHOW"
-        - "SWAP: currentslot=hide_players_on, hide_players_off"
-        - "ACTIONBAR: &cYou've shown the players again!"
-
-
+    name: "&cClose"
+    lore:
+      - ""
+    material: BARRIER
+    amount: 1
+    glow: false
+    slot: 37
+    actions:
+      - "CLOSE"

@@ -1,7 +1,7 @@
 package com.xg7network.xg7lobby.Module.Chat.CustomCommands;
 
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
-import com.xg7network.xg7lobby.Utils.CustomInventories.Action.Action;
+import com.xg7network.xg7lobby.Module.Inventories.Actions.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;

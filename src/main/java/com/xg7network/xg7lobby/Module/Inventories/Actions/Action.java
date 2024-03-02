@@ -1,23 +1,20 @@
-package com.xg7network.xg7lobby.Utils.CustomInventories.Action;
+package com.xg7network.xg7lobby.Module.Inventories.Actions;
 
-import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Module.Selectors.Selector;
-import com.xg7network.xg7lobby.Module.Selectors.SelectorManager;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
-import com.xg7network.xg7lobby.Utils.CustomInventories.Inventory;
-import com.xg7network.xg7lobby.Utils.CustomInventories.SelectorItem;
+import com.xg7network.xg7lobby.Utils.CustomInventories.Config.ConfigSelectorInventoryItem;
+import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryLoader;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import com.xg7network.xg7menus.API.Inventory.InvAndItems.Menus.PlayerSelector;
+import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
+import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class Action {
 
@@ -125,11 +122,10 @@ public class Action {
 
                         player.closeInventory();
 
-                        for (String s : configManager.getConfig(ConfigType.SELECTORS).getConfigurationSection("inventories").getKeys(false)) {
-                            if (configManager.getConfig(ConfigType.SELECTORS).getInt("inventories." + s + ".id") == Integer.valueOf(action)) {
-                                Inventory inv = new Inventory("inventories." + s, player);
-                                if (inv.getInv() != null) inv.open();
-                            }
+                        try {
+                            InventoryLoader.get(Integer.valueOf(toUse), player).open(player);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
 
                         return;
@@ -217,21 +213,24 @@ public class Action {
 
                         String[] item = toUse.split(", ");
 
-                        Selector selector = SelectorManager.getSelector(player);
+                        PlayerSelector selector = (PlayerSelector) MenuManager.getMenuByInventory(player.getInventory());
 
-                        SelectorItem selectorItem = selector.getItemByName(item[1]);
+                        ConfigSelectorInventoryItem targetInventoryItem = getItemByName(selector, item[1]);
+
+                        if (targetInventoryItem != null) return;
+
                         if (item[0].startsWith("currentslot=")) {
                             item[0] = item[0].replace("currentslot=", "");
-                            for (int i = 0; i < 9; i++) {
-                                SelectorItem item2 = selector.getItemByName(item[0]);
-                                if (player.getInventory().getItem(i) != null) {
-                                    if (new NBTItem(player.getInventory().getItem(i)).getString("xg7lid").equals(item2.getId()))
-                                        player.getInventory().setItem(i, selectorItem.getItemStack());
-                                }
-                            }
+                            ConfigSelectorInventoryItem thisItem = getItemByName(selector, targetInventoryItem.getPath());
+                            targetInventoryItem.setSlot(thisItem.getSlot());
+                            selector.updateItem(targetInventoryItem);
+                            thisItem.setSlot(-1);
+                            selector.addItems(thisItem);
+
+                            System.out.println("a");
                         } else {
-                            selectorItem.setSlot(Integer.parseInt(item[0]));
-                            player.getInventory().setItem(selectorItem.getSlot(), selectorItem.getItemStack());
+                            targetInventoryItem.setSlot(Integer.parseInt(item[0]));
+                            selector.updateItem(targetInventoryItem);
                         }
 
                         return;
@@ -279,6 +278,17 @@ public class Action {
 
         return true;
 
+    }
+
+
+    ConfigSelectorInventoryItem getItemByName(PlayerSelector playerSelector, String path) {
+        for (InventoryItem inventoryItem : playerSelector.getItems()) {
+            ConfigSelectorInventoryItem selectorInventoryItem = (ConfigSelectorInventoryItem) inventoryItem;
+            if (selectorInventoryItem.getPath().equals(path)) {
+                return  selectorInventoryItem;
+            }
+        }
+        return null;
     }
 
 

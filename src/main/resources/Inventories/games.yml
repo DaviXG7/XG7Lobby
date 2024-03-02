@@ -1,0 +1,43 @@
+name: "&aGame selector!"
+rows: 3
+id: 2
+
+items:
+
+  fill-item: GRAY_STAINED_GLASS_PANE
+
+  item1:
+
+    name: "&bSURVIVAL"
+    lore:
+      - "&7- &aClick to play SURVIVAL"
+    material: GRASS_BLOCK
+    amount: 1
+    glow: true
+    slot: 13
+    actions:
+      - "CONSOLE: mvtp DaviXG7 survival"
+  item2:
+
+    name: "&cBEDWARS"
+    lore:
+      - "&7- &aClick to play BEDWARS"
+    material: RED_BED
+    amount: 1
+    glow: true
+    slot: 15
+    actions:
+      - "CONSOLE: mvtp DaviXG7 BEDWARS"
+
+
+  close:
+
+    name: "&cClose"
+    lore:
+      - ""
+    material: BARRIER
+    amount: 1
+    glow: false
+    slot: 19
+    actions:
+      - "CLOSE"
