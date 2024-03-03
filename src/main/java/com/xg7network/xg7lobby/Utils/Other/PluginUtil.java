@@ -17,10 +17,10 @@ import static com.xg7network.xg7lobby.XG7Lobby.placeholderapi;
 public class PluginUtil {
 
     public static boolean isInWorld(World world) {
-        return configManager.getConfig(ConfigType.CONFIG).getString("enabled-worlds").contains(world.getName());
+        return configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(world.getName());
     }
     public static boolean isInWorld(Player player) {
-        return configManager.getConfig(ConfigType.CONFIG).getString("enabled-worlds").contains(player.getWorld().getName());
+        return configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(player.getWorld().getName());
     }
 
     public static String setPlaceHolders(String s, Player p) {
