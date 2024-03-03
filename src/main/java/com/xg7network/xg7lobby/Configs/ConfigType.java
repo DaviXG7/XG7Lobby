@@ -14,7 +14,7 @@ public enum ConfigType {
     }
 
     public String getConfig() {
-        return this.config + ".yml";
+        return this.config + ".ymnl";
     }
 
 
