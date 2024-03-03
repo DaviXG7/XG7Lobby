@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,11 +27,21 @@ public class ConfigInventory extends Menu {
     public static ConfigInventory fromConfig(FileConfiguration configuration, Player player) {
         ConfigInventory configInventory = new ConfigInventory(configuration.getString("name"), configuration.getInt("rows") * 9, configuration.getInt("id"), player);
 
-        if (!Objects.equals(configuration.getString("items.fill-item"), "") || !Objects.equals(configuration.getString("items.fill-item"), "AIR")) {
+        if (!configuration.getString("items.fill-item").equals("") && !configuration.getString("items.fill-item").equals("AIR")) {
 
-            ItemStack fillItem = new ConfigInventoryItem(new ItemStack(Material.getMaterial(configuration.getString("items.fill-item"))), 0, new ArrayList<>(), player).getItemStack();
+            if (configuration.getString("items.fill-item").contains(", ")) {
+                MaterialData data = new MaterialData(
+                        Material.getMaterial(configuration.getString("items.fill-item").split(", ")[0]),
+                        Byte.parseByte(configuration.getString("items.fill-item").split(", ")[1])
+                );
+                ItemStack fillItem = new ConfigInventoryItem(data.toItemStack(1), 0, new ArrayList<>(), player).getItemStack();
 
-            configInventory.setFillItem(fillItem);
+                configInventory.setFillItem(fillItem);
+            } else {
+                ItemStack fillItem = new ConfigInventoryItem(new ItemStack(Material.getMaterial(configuration.getString("items.fill-item"))), 0, new ArrayList<>(), player).getItemStack();
+
+                configInventory.setFillItem(fillItem);
+            }
 
         }
 

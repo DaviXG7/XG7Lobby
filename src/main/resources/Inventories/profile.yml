@@ -103,7 +103,7 @@ id: 1
 
 items:
 
-  fill-item: GRAY_STAINED_GLASS_PANE
+  fill-item: AIR
 
   item1:
 
@@ -126,7 +126,7 @@ items:
       - "&aClick to Chose a game!"
     material: COMPASS
     amount: 1
-    slot: 34
+    slot: 31
     glow: false
     actions:
       - "OPEN: 2"
@@ -137,7 +137,7 @@ items:
       - "&aClick to see you warns!"
     material: PAPER
     amount: 1
-    slot: 30
+    slot: 33
     glow: false
     actions:
       - "CLOSE"

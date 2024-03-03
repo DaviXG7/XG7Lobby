@@ -56,6 +56,14 @@ public class ConfigSelectorInventoryItem extends ActionInventoryItem {
 
     @Override
     public void execute(Location location) {
+        if (currentCooldown > System.currentTimeMillis()) {
+            if (cooldownMessage != null) com.xg7network.xg7menus.API.Utils.Text.TextUtil.send(cooldownMessage.replace("SECONDS", (currentCooldown - System.currentTimeMillis()) / 1000 + ""), player);
+            return;
+        }
+
+        if (cooldown != 0L) {
+            this.currentCooldown = System.currentTimeMillis() + cooldown;
+        }
         for (String action : actions) new Action(player, action).execute();
     }
 

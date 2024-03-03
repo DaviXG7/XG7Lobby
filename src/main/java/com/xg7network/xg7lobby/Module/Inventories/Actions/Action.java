@@ -63,9 +63,8 @@ public class Action {
 
     public void execute() {
         if (valid) {
-            String toUse = TextUtil.get(action.replace("PLAYER", player.getName()), player);
             if (permission()) {
-
+                String toUse = TextUtil.get(action.replace("PLAYER", player.getName()), player);
                 switch (type) {
 
                     case SOUND:
@@ -217,17 +216,20 @@ public class Action {
 
                         ConfigSelectorInventoryItem targetInventoryItem = getItemByName(selector, item[1]);
 
-                        if (targetInventoryItem != null) return;
+                        if (targetInventoryItem == null) {
+                            Bukkit.getLogger().severe("The inventory path doesn't exists!");
+                            return;
+                        }
 
                         if (item[0].startsWith("currentslot=")) {
                             item[0] = item[0].replace("currentslot=", "");
-                            ConfigSelectorInventoryItem thisItem = getItemByName(selector, targetInventoryItem.getPath());
+                            ConfigSelectorInventoryItem thisItem = getItemByName(selector, item[0]);
                             targetInventoryItem.setSlot(thisItem.getSlot());
+                            targetInventoryItem.setCurrentCooldown(thisItem.getCurrentCooldown());
                             selector.updateItem(targetInventoryItem);
                             thisItem.setSlot(-1);
                             selector.addItems(thisItem);
 
-                            System.out.println("a");
                         } else {
                             targetInventoryItem.setSlot(Integer.parseInt(item[0]));
                             selector.updateItem(targetInventoryItem);
@@ -285,7 +287,7 @@ public class Action {
         for (InventoryItem inventoryItem : playerSelector.getItems()) {
             ConfigSelectorInventoryItem selectorInventoryItem = (ConfigSelectorInventoryItem) inventoryItem;
             if (selectorInventoryItem.getPath().equals(path)) {
-                return  selectorInventoryItem;
+                return selectorInventoryItem;
             }
         }
         return null;
