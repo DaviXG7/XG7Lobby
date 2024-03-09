@@ -42,9 +42,6 @@ public class FlyManager extends Module implements Listener {
 
                     if (player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm())) player.setAllowFlight(true);
 
-                } else {
-                    player.setAllowFlight(canfly.get(player.getUniqueId()));
-                    player.setFlying(canfly.get(player.getUniqueId()));
                 }
 
 

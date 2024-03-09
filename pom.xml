@@ -6,7 +6,7 @@
 
     <groupId>com.xg7network</groupId>
     <artifactId>XG7Lobby</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3_02</version>
     <packaging>jar</packaging>
 
     <name>XG7Lobby</name>

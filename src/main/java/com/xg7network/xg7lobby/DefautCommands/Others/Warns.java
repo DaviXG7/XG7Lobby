@@ -4,9 +4,9 @@ import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.ErrorMessages;
 import com.xg7network.xg7lobby.Player.PlayerData;
 import com.xg7network.xg7lobby.Player.PlayersManager;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Items.SkullInventoryItem;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Menus.Page.PagesMenu;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Items.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Items.Others.SkullInventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.Page.PagesMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -42,7 +42,7 @@ public class Warns implements CommandExecutor, Listener {
         List<ItemStack> warnsitems = new ArrayList<>();
 
         for (int i = 0; i < data.getInfractions().size(); i++) {
-            warnsitems.add(new com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem(Material.PAPER, "§f" + data.getInfractions().get(i).getWarn(), Collections.singletonList(data.getInfractions().get(i).getWhen()), 1, i, null).getItemStack());
+            warnsitems.add(new InventoryItem(Material.PAPER, "§f" + data.getInfractions().get(i).getWarn(), Collections.singletonList(data.getInfractions().get(i).getWhen()), 1, i, null).getItemStack());
         }
         PagesMenu pagesMenu = new PagesMenu(warnsitems, configManager.getConfig(ConfigType.SELECTORS).getString("warn-inventory.title"));
 
@@ -75,7 +75,7 @@ public class Warns implements CommandExecutor, Listener {
                     return skullInventoryItem;
                 } else {
                     String value = materialByte[1].replace("VALUE=", "");
-                    SkullInventoryItem skullInventoryItem = new SkullInventoryItem(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"), configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore"), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") -1, runnable, value);
+                                  SkullInventoryItem skullInventoryItem = new SkullInventoryItem(configManager.getConfig(ConfigType.SELECTORS).getString(path + ".name"), configManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore"), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".amount"), configManager.getConfig(ConfigType.SELECTORS).getInt(path + ".slot") -1, runnable, value);
                     if (configManager.getConfig(ConfigType.SELECTORS).getBoolean(path + ".glow")) skullInventoryItem.addEnchant(Enchantment.DURABILITY, 1);
                     return skullInventoryItem;
                 }

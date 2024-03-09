@@ -36,8 +36,6 @@ import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

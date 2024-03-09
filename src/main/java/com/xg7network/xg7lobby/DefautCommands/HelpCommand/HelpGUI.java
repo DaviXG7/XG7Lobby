@@ -4,10 +4,10 @@ import java.util.*;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Menus.BasicMenu;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Items.SkullInventoryItem;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.Menu;
+import com.xg7network.xg7menus.API.Inventory.Items.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Items.Others.SkullInventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.BasicMenu;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.Page.InventoryPages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,8 +22,6 @@ import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 
 public class HelpGUI {
 
-    private static HashMap<String, Menu> menus = new HashMap<>();
-
     public static void openInventory(Player player) {
         //[00][01][02][03][04][05][06][07][08]
         //[09][10][11][12][13][14][15][16][17]
@@ -32,12 +30,10 @@ public class HelpGUI {
         //[36][37][38][39][40][41][42][43][44]
         //[45][46][47][48][49][50][51][52][53]
 
-
+        InventoryPages pages = new InventoryPages("&6Help", 54, player);
         //Initial Page
 
-        BasicMenu inicialPage = new BasicMenu("&6Help", 54, player);
-
-        menus.put("Initial Page", inicialPage.addItems(
+        pages.getInicialMenu().addItems(
 
                 new SkullInventoryItem(
                         "&a" + player.getName(),
@@ -56,7 +52,7 @@ public class HelpGUI {
                         29,
                         () -> {
                             player.closeInventory();
-                            menus.get("Commands").open(player);
+                            pages.getPageByName("Commands").open(player);
                         }
                 ),
 
@@ -68,7 +64,7 @@ public class HelpGUI {
                         30,
                         () -> {
                             player.closeInventory();
-                            menus.get("Actions").open(player);
+                            pages.getPageByName("Actions").open(player);
                         }
                 ),
 
@@ -91,7 +87,7 @@ public class HelpGUI {
                         32,
                         () -> {
                             player.closeInventory();
-                            menus.get("Options").open(player);
+                            pages.getPageByName("Options").open(player);
                         }
                 ),
 
@@ -183,19 +179,16 @@ public class HelpGUI {
                         53,
                         () -> {
                             player.closeInventory();
-                            menus.get("Collaborators").open(player);
+                            pages.getPageByName("Collaborators").open(player);
                         }
                 )
 
-        ));
+        );
 
 
         //Commands
 
-
-        BasicMenu commands = new BasicMenu("&8Commands", 54, player);
-
-        menus.put("Commands", commands.addItems(
+        pages.addPage("Commands", (BasicMenu) new BasicMenu("&8Commands", 54, player).addItems(
 
                 new InventoryItem(
                         Material.IRON_PICKAXE,
@@ -407,7 +400,7 @@ public class HelpGUI {
                         53,
                         () -> {
                             player.closeInventory();
-                            menus.get("Initial Page").open(player);
+                            pages.getInicialMenu().open(player);
                         }
                 )
         ));
@@ -415,9 +408,7 @@ public class HelpGUI {
 
         //ACTIONS
 
-        BasicMenu actions = new BasicMenu("&8Actions", 54, player);
-
-        menus.put("Actions", actions.addItems(
+        pages.addPage("Actions", (BasicMenu) new BasicMenu("&8Actions", 54, player).addItems(
                 new InventoryItem(
                         Arrays.stream(Material.values())
                                 .map(Material::name)
@@ -599,7 +590,7 @@ public class HelpGUI {
                         53,
                         () -> {
                             player.closeInventory();
-                            menus.get("Initial Page").open(player);
+                            pages.getInicialMenu().open(player);
                         }
                 )
         ));
@@ -607,9 +598,7 @@ public class HelpGUI {
 
         //OPTIONS
 
-        BasicMenu options = new BasicMenu("&8Actions", 54, player);
-
-        menus.put("Options", options.addItems(
+        pages.addPage("Options", (BasicMenu) new BasicMenu("&8Options", 54, player).addItems(
 
                 new InventoryItem(
                         Material.PAPER,
@@ -621,7 +610,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("announcements.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(10).updateName("§cAuto Broadcast: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"), options);
+                            pages.getPageByName("Options").getItem(10).updateName("§cAuto Broadcast: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("announcements.enabled"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -635,7 +624,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("anti-spam.enabled", !configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(11).updateName("§cAntiSpam: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"), options);
+                            pages.getPageByName("Options").getItem(11).updateName("§cAntiSpam: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("anti-spam.enabled"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -649,7 +638,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("infraction-on-warn", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(19).updateName("§cInfraction on warn: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"), options);
+                            pages.getPageByName("Options").getItem(19).updateName("§cInfraction on warn: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-warn"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -663,7 +652,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("infraction-on-mute", !configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(20).updateName("§cInfraction on mute: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"), options);
+                            pages.getPageByName("Options").getItem(20).updateName("§cInfraction on mute: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("infraction-on-mute"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -680,7 +669,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-death-by-void", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(28).updateName("§cVoid: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"), options);
+                            pages.getPageByName("Options").getItem(28).updateName("§cVoid: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-death-by-void"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -697,7 +686,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-portal", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(29).updateName("§cEnter portal: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"), options);
+                            pages.getPageByName("Options").getItem(29).updateName("§cEnter portal: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-portal"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -715,7 +704,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("pickup-items", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(30).updateName("§cAll with Items: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")), options);
+                            pages.getPageByName("Options").getItem(30).updateName("§cAll with Items: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("pickup-items") && configManager.getConfig(ConfigType.CONFIG).getBoolean("drop-items")), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -734,7 +723,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("interact-with-blocks", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(31).updateName("§cAll with Blocks: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")), options);
+                            pages.getPageByName("Options").getItem(31).updateName("§cAll with Blocks: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("break-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("place-blocks") && configManager.getConfig(ConfigType.CONFIG).getBoolean("interact-with-blocks")), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -751,7 +740,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("spawn-mobs", !configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(37).updateName("§cSpawn mobs: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"), options);
+                            pages.getPageByName("Options").getItem(37).updateName("§cSpawn mobs: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("spawn-mobs"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -769,7 +758,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("weather-cycle", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(38).updateName("§cWeather and Day cycles: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")), options);
+                            pages.getPageByName("Options").getItem(38).updateName("§cWeather and Day cycles: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("weather-cycle") && configManager.getConfig(ConfigType.CONFIG).getBoolean("day-cycle")), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -786,7 +775,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("leaves-decay", !configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(39).updateName("§cLeaves decay: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"), options);
+                            pages.getPageByName("Options").getItem(39).updateName("§cLeaves decay: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("leaves-decay"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -804,7 +793,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("block-spread", !(configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(40).updateName("§cBurn: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")), options);
+                            pages.getPageByName("Options").getItem(40).updateName("§cBurn: " + (configManager.getConfig(ConfigType.CONFIG).getBoolean("block-spread") && configManager.getConfig(ConfigType.CONFIG).getBoolean("burn-blocks")), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -821,7 +810,7 @@ public class HelpGUI {
                             configManager.getConfig(ConfigType.CONFIG).set("cancel-explosions", !configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"));
                             configManager.saveConfig(ConfigType.CONFIG);
                             configManager.reloadConfig(ConfigType.CONFIG);
-                            options.getItem(41).updateName("§cExplosions: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"), options);
+                            pages.getPageByName("Options").getItem(41).updateName("§cExplosions: " + configManager.getConfig(ConfigType.CONFIG).getBoolean("cancel-explosions"), pages.getPageByName("Options"));
                             player.sendMessage(ChatColor.GREEN + "Changed!");
                         }
                 ),
@@ -833,7 +822,7 @@ public class HelpGUI {
                         53,
                         () -> {
                             player.closeInventory();
-                            menus.get("Initial Page").open(player);
+                            pages.getInicialMenu().open(player);
                         }
                 )
 
@@ -842,9 +831,7 @@ public class HelpGUI {
 
         // Helpers
 
-        BasicMenu collaborators = new BasicMenu("&8Collaborators", 27, player);
-
-        menus.put("Collaborators", collaborators.addItems(
+        pages.addPage("Collaborators", (BasicMenu) new BasicMenu("&8Collaborators", 27, player).addItems(
                 new SkullInventoryItem(
                         "§bDaviXG7",
                         Collections.singletonList("&aCreator of all plugin!"),
@@ -878,13 +865,13 @@ public class HelpGUI {
                         18,
                         () -> {
                             player.closeInventory();
-                            menus.get("Initial Page").open(player);
+                            pages.getInicialMenu().open(player);
                         }
                 )
         ));
 
 
-        menus.get("Initial Page").open(player);
+        pages.getInicialMenu().open(player);
 
     }
 

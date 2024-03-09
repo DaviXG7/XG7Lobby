@@ -1,8 +1,8 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories.Config;
 
 import com.xg7network.xg7menus.API.Inventory.MenuType;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.Menu;
+import com.xg7network.xg7menus.API.Inventory.Items.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Menu;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

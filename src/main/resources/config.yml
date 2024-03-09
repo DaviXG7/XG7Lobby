@@ -217,6 +217,15 @@ custom-commands:
     permission: ""
     actions:
       - "TITLE: A normal command!!!"
+  discord:
+    aliases: []
+    description: "Send discord link"
+    permission: ""
+    actions:
+      - "MESSAGE: "
+      - "MESSAGE: &7Join on our discord server!"
+      - "MESSAGE: &1Discord: &bhttps://discord.gg/MGn9bbsRkw"
+      - "MESSAGE: "
 
 ###############################################
 #CHAT                                         #

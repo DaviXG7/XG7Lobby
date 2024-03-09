@@ -6,9 +6,9 @@ import com.xg7network.xg7lobby.Utils.CustomInventories.Config.ConfigSelectorInve
 import com.xg7network.xg7lobby.Utils.CustomInventories.InventoryLoader;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Menus.PlayerSelector;
+import com.xg7network.xg7menus.API.Inventory.Items.InventoryItem;
 import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

@@ -1,8 +1,8 @@
 package com.xg7network.xg7lobby.Utils.CustomInventories.Config;
 
 import com.xg7network.xg7lobby.Module.Inventories.Actions.Action;
-import com.xg7network.xg7menus.API.Inventory.InvAndItems.Items.SkullInventoryItem;
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Items.Others.SkullInventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Items.InventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

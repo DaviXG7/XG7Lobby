@@ -1,7 +1,5 @@
 package com.xg7network.xg7lobby.Module.Inventories.Actions;
 
-import com.xg7network.xg7menus.API.Inventory.SuperClasses.InventoryItem;
-
 public enum ActionType {
 
     TITLE,

@@ -75,6 +75,10 @@ commands:
   player-not-online: "[PREFIX] &cThis player is not online!"
   systax-error: "[PREFIX] &cThis command was written incorrectly!"
 
+  #Warn
+  on-warn: "&cYou have been warned for: [WARN]"
+  on-warn-remove: "&aYour warn: [WARN] has been removed!"
+
 events:
 
   #NOT permission messages
