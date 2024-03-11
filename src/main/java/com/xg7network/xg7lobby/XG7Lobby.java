@@ -95,10 +95,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         if (placeholderapi) {
             new PlaceHolder().register();
-            Bukkit.dispatchCommand(this.getServer().getConsoleSender(), "papi ecloud download Player");
-            Bukkit.dispatchCommand(this.getServer().getConsoleSender(), "papi ecloud download Server");
-            Bukkit.dispatchCommand(this.getServer().getConsoleSender(), "papi reload");
         }
+
 
         plugin = this;
 
@@ -237,6 +235,8 @@ public final class XG7Lobby extends JavaPlugin {
         }
         // Plugin shutdown logic
     }
+
+
 
     public static XG7Lobby getPlugin() {
         return plugin;

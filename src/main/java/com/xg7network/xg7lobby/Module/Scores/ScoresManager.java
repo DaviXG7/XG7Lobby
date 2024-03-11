@@ -39,8 +39,10 @@ public class ScoresManager extends Module implements Listener {
                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                 scores.remove(player.getUniqueId());
                 new Tablist(player, null, null).sendTabList();
-                bossbars.get(player.getUniqueId()).removeBossBar();
-                bossbars.remove(player.getUniqueId());
+                if (bossbars.containsKey(player.getUniqueId())) {
+                    bossbars.get(player.getUniqueId()).removeBossBar();
+                    bossbars.remove(player.getUniqueId());
+                }
 
             } else {
                 if (configManager.getConfig(ConfigType.CONFIG).getBoolean("scores.scoreboard.enabled")) {

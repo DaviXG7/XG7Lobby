@@ -3,6 +3,7 @@ package com.xg7network.xg7lobby.Module;
 import com.xg7network.xg7lobby.Module.Events.Jumps.FlyManager;
 import com.xg7network.xg7lobby.Module.Others.Broadcast;
 import com.xg7network.xg7lobby.Module.Others.Effects;
+import com.xg7network.xg7lobby.Module.Others.WarnVersion;
 import com.xg7network.xg7lobby.Module.Scores.ScoresManager;
 import com.xg7network.xg7lobby.Module.Inventories.SelectorManager;
 import com.xg7network.xg7lobby.XG7Lobby;

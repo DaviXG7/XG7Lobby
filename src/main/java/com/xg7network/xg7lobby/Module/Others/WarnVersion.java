@@ -1,6 +1,7 @@
-package com.xg7network.xg7lobby.Module;
+package com.xg7network.xg7lobby.Module.Others;
 
 import com.xg7network.xg7lobby.Configs.ConfigType;
+import com.xg7network.xg7lobby.Module.Module;
 import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 import static com.xg7network.xg7lobby.XG7Lobby.configManager;
 import static com.xg7network.xg7lobby.XG7Lobby.prefix;
 
-public class WarnVersion extends Module{
+public class WarnVersion extends Module {
 
     public WarnVersion(XG7Lobby plugin) {
         super(plugin);
