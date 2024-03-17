@@ -96,6 +96,15 @@ warn-inventory:
 
   #Support slot 1 to 9
 
+  warn:
+    name: "&5&i[WARN]"
+    lore:
+      - "&b[WARNDATE]"
+    material: PAPER
+    amount: 1
+    slot: 9
+    glow: false
+
   go-next-item:
     name: "&aNext"
     lore:

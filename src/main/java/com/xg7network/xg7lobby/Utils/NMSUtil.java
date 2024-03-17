@@ -6,8 +6,6 @@ public class NMSUtil {
 
     static String packageName = Bukkit.getServer().getClass().getPackage().getName();
     static String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-
-
     public static Class<?> getNMSClass(String className) throws ClassNotFoundException {
         String fullName = "net.minecraft.server." + version + "." + className;
         return Class.forName(fullName);

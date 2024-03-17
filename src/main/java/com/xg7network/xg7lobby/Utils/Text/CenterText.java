@@ -1,56 +1,42 @@
 package com.xg7network.xg7lobby.Utils.Text;
 
-/*
-
-    This class was made by DaviXG7 to make it
-    easier to handle the plugin texts.
-
-    The class is free to use if this text is
-    copied into your plugin and your plugin is free.
-
-    Thanks for reading/using my code <3
-
- */
-
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
 import org.bukkit.entity.Player;
 
 public class CenterText {
-    private String text;
-    int chatPXS = 320;
+    private static final int chatPXS = 320;
 
-    public CenterText(String text, Player player) {
-        this.text = PluginUtil.setPlaceHolders(text, player);
-        Color color = new Color();
-        this.text = color.translateHexColor(text);
+    public static String getCentralizedText(String text, Player player) {
+        text = PluginUtil.setPlaceHolders(text, player);
+        text = Color.translateHexColor(text);
+        return centralize(text);
+    }
+    public static String getCentralizedText(String text) {
+        text = Color.translateHexColor(text);
+        return centralize(text);
     }
 
-    public CenterText(String text) {
-        Color color = new Color();
-        this.text = color.translateHexColor(text);
-    }
-
-    public String getCentralizedText() {
+    private static String centralize(String text) {
         int size = 0;
         int pararetirar = 0;
 
         int espacosExtras;
-        for(espacosExtras = 0; espacosExtras < this.text.length() - 1; ++espacosExtras) {
-            if (this.text.charAt(espacosExtras) == '&' && Character.isLetterOrDigit(this.text.charAt(espacosExtras + 1)) && this.text.charAt(espacosExtras + 1) != ' ') {
-                pararetirar += 6 + this.getCharSize(this.text.charAt(espacosExtras + 1));
+        for(espacosExtras = 0; espacosExtras < text.length() - 1; ++espacosExtras) {
+            if (text.charAt(espacosExtras) == '&' && Character.isLetterOrDigit(text.charAt(espacosExtras + 1)) && text.charAt(espacosExtras + 1) != ' ') {
+                pararetirar += 6 + getCharSize(text.charAt(espacosExtras + 1));
             }
         }
 
         int espacosAEsquerda;
-        for(espacosExtras = 0; espacosExtras < this.text.length(); ++espacosExtras) {
-            espacosAEsquerda = this.text.charAt(espacosExtras);
-            size += this.getCharSize((char)espacosAEsquerda);
+        for(espacosExtras = 0; espacosExtras < text.length(); ++espacosExtras) {
+            espacosAEsquerda = text.charAt(espacosExtras);
+            size += getCharSize((char)espacosAEsquerda);
         }
 
         size -= pararetirar;
-        espacosExtras = (this.chatPXS - size) / 4;
+        espacosExtras = (chatPXS - size) / 4;
         if (espacosExtras <= 0) {
-            return this.text;
+            return text;
         } else {
             espacosAEsquerda = espacosExtras / 2;
             StringBuilder builder = new StringBuilder();
@@ -59,12 +45,12 @@ public class CenterText {
                 builder.append(' ');
             }
 
-            builder.append(this.text);
+            builder.append(text);
             return builder.toString().replace("&", "§");
         }
     }
 
-    int getCharSize(char c) {
+    private static int getCharSize(char c) {
         String[] chars = new String[]{"~@", "1234567890ABCDEFGHJKLMNOPQRSTUVWXYZabcedjhmnopqrsuvxwyz/\\+=-_^?&%$#", "{}fk*\"<>()", "It[] ", "'l`", "!|:;,.i", "¨´"};
         if (c != 167) {
             for (int i = 0; i < chars.length; ++i) {

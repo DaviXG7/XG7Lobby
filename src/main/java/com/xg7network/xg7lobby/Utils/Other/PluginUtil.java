@@ -1,9 +1,11 @@
 package com.xg7network.xg7lobby.Utils.Other;
 
-import com.xg7network.xg7lobby.Configs.ConfigType;
-import com.xg7network.xg7lobby.Configs.PermissionType;
+import com.xg7network.xg7lobby.Config.ConfigManager;
+import com.xg7network.xg7lobby.Config.ConfigType;
+import com.xg7network.xg7lobby.Config.PermissionType;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -11,37 +13,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
-import static com.xg7network.xg7lobby.XG7Lobby.placeholderapi;
-
 public class PluginUtil {
 
+    public static boolean placeholderapi() {
+        return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+    }
+
     public static boolean isInWorld(World world) {
-        return configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(world.getName());
+        return ConfigManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(world.getName());
     }
     public static boolean isInWorld(Player player) {
-        return configManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(player.getWorld().getName());
+        return ConfigManager.getConfig(ConfigType.CONFIG).getStringList("enabled-worlds").contains(player.getWorld().getName());
     }
 
     public static String setPlaceHolders(String s, Player p) {
-        return placeholderapi ? PlaceholderAPI.setPlaceholders(p, s) : s;
+        return placeholderapi() ? PlaceholderAPI.setPlaceholders(p, s) : s;
     }
 
-    public static boolean hasPermission(Player player, PermissionType permissionType, String message) {
+    public static boolean hasPermission(Player player, PermissionType permissionType) {
         if (player.hasPermission(permissionType.getPerm())) return true;
-        else {
-            TextUtil.send(message, player);
-            return false;
-        }
+        TextUtil.send(ConfigManager.getConfig(ConfigType.MESSAGES).getString("error-messages.no-permission"), player);
+        return false;
+
     }
 
-    public static boolean hasPermission(CommandSender sender, PermissionType permissionType, String message) {
+    public static boolean hasPermission(CommandSender sender, PermissionType permissionType) {
         if (sender instanceof Player) {
             if (sender.hasPermission(permissionType.getPerm())) return true;
-            else {
-                TextUtil.send(message, (Player) sender);
-                return false;
-            }
+
+            TextUtil.send(ConfigManager.getConfig(ConfigType.MESSAGES).getString("error-messages.no-permission"), (Player) sender);
+            return false;
         }
         return true;
     }

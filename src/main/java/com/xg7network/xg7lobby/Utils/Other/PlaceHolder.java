@@ -1,8 +1,10 @@
 package com.xg7network.xg7lobby.Utils.Other;
 
+import com.xg7network.xg7lobby.Config.ConfigManager;
+import com.xg7network.xg7lobby.Config.ConfigType;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7lobby.Player.PlayersManager;
+import com.xg7network.xg7lobby.Data.PlayersManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +44,7 @@ public class PlaceHolder extends PlaceholderExpansion {
             case "warns":
                 return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).getInfractions().size());
             case "chat_locked":
-                return String.valueOf(configManager.getConfig(ConfigType.DATA).getBoolean("chat-locked"));
+                return String.valueOf(ConfigManager.getConfig(ConfigType.DATA).getBoolean("chat-locked"));
             case "muted":
                 return String.valueOf(PlayersManager.getData(player.getUniqueId().toString()).isMuted());
             case "time_for_unmute":

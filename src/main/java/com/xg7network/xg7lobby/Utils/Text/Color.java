@@ -20,21 +20,12 @@ import java.util.regex.Pattern;
 
 public class Color {
 
-    static boolean have1_16 = false;
-
-    public Color() {
+    public static String translateHexColor(String text) {
 
         String[] partes = Bukkit.getVersion().split("\\.");
-        if (partes.length >= 2) {
-            int vers = Integer.parseInt(partes[1]);
-            have1_16 = vers >= 16;
-        }
+        int vers = Integer.parseInt(partes[1]);
 
-    }
-
-    public String translateHexColor(String text) {
-
-        if (have1_16) {
+        if (vers >= 16) {
 
             if (text.contains("HEX:")) {
                 Pattern pattern = Pattern.compile("HEX:#([a-fA-F0-9]{6})");

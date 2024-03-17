@@ -27,8 +27,8 @@ public class TextUtil {
 
     public static void send(String text, Player player) {
         if (text == null || text.equals("")) return;
-        if (text.startsWith("ACTION: ")) {
-            text = text.replace("ACTION: ", "");
+        if (text.startsWith("[ACTION] ")) {
+            text = text.replace("[ACTION] ", "");
             sendActionBar(text, player);
         }
         else player.sendMessage(get(text, player));
@@ -44,7 +44,7 @@ public class TextUtil {
         if (text.startsWith("CENTER: ")) {
             text = text.replace("CENTER: ", "");
 
-            text = new CenterText(text,player).getCentralizedText();
+            text = CenterText.getCentralizedText(text,player);
 
         }
 
@@ -58,7 +58,7 @@ public class TextUtil {
         if (text.startsWith("CENTER: ")) {
             text = text.replace("CENTER: ", "");
 
-            text = new CenterText(text).getCentralizedText();
+            text = CenterText.getCentralizedText(text);
 
         }
 
