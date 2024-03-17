@@ -32,14 +32,14 @@
 
 #PLAYER returns the player (if you are not using PLACEHOLDER API)
 
-#Put ACTION: at the beginning to send messages in action bar!
+#Put [ACTION] at the beginning to send messages in action bar!
 
 join:
 
-  join-message: "&8[&a+&8] &f%player_name% joined the server."
-  leave-message: "&8[&c-&8] &f%player_name% has left the server."
+  join-message: "&8[&a+&8] &f%player% joined the server."
+  leave-message: "&8[&c-&8] &f%player% has left the server."
 
-  first-join-message: "&8[&f+&b1&8] &f%player_name% joined the server for the first time!"
+  first-join-message: "&8[&f+&b1&8] &f%player% joined the server for the first time!"
 
 
 commands:
@@ -48,9 +48,9 @@ commands:
   adm-lobby-warn: "&cLobby not placed! Send &7/&esetlobby &c to place!"
 
   #fly messages
-  #[TARGET] = target player
-  fly-enabled-other: "&aYou enabled fly to &b[TARGET]!"
-  fly-disabled-other: "&cYou disabled fly to &b[TARGET]!"
+  #%target% = target player
+  fly-enabled-other: "&aYou enabled fly to &b%target%!"
+  fly-disabled-other: "&cYou disabled fly to &b%target%!"
   fly-enabled: "&aYour fly has been enabled!"
   fly-disabled: "&cYour fly has been disabled!"
 
@@ -60,61 +60,61 @@ commands:
   build-warn: "&cYour build is not enabled! Use &e/&bbuild &cto enable!"
 
   #Gamemode messages
-  #[PLAYERG] = target player
-  gamemode-player: "&7Your game mode has been changed to &b[GAMEMODE]"
-  gamemode-target: "&7You changed the game mode from &b[TARGET] &7to &b[GAMEMODE]"
+  #%target% = target player
+  gamemode-player: "&7Your game mode has been changed to &b%gamemode%"
+  gamemode-target: "&7You changed the game mode from &b%target% &7to &b%gamemode%"
 
   #Mute messages
   when-muted: "&cYou have been muted by an admin! Please don't break the rules!"
   on-mute: "&cYou cannot send messages. You are muted!"
-  on-mute-with-time: "&cYou cannot send messages. You are muted for [DAYS]"
+  on-mute-with-time: "&cYou cannot send messages. You are muted for %days%"
 
   #Vanish
-  on-hide: "[PREFIX] &aPlayers are no longer visible in the lobby"
-  on-show: "[PREFIX] &cPlayers are visible in the lobby again!"
+  on-hide: "%prefix% &aPlayers are no longer visible in the lobby"
+  on-show: "%prefix% &cPlayers are visible in the lobby again!"
 
   #Warn
-  on-warn: "&cYou have been warned for: [WARN]"
-  on-warn-remove: "&aYour warn: [WARN] has been removed!"
-
+  on-warn: "&cYou have been warned for: %warn%"
+  on-warn-remove: "&aYour warn: %warn% has been removed!"
 
   on-lock-chat: "&cThe chat has been locked by an adm!"
+
+no-perm-messages:
+
+  permission-command: "%prefix% &cYou don't have permission to use this command!"
+  permission-drop: "%prefix% &cYou don't have permission to drop items!"
+  permission-pickup: "%prefix% &cYou don't have permission to pick up items!"
+  permission-interact: "%prefix% &cYou don't have permission to interact with blocks!"
+  permission-place: "%prefix% &cYou don't have permission to place blocks!"
+  permission-break: "%prefix% &cYou don't have permission to break blocks!"
+  permission-attack: "%prefix% &cYou don't have permission to attack!"
 
 
 error-messages:
 
-  no-permission: "[PREFIX] &cYou don't have permission to use this command!"
-  missing-args: "[PREFIX] &cThe right way to use the command is: [COMMAND]"
-  not-player: "[PREFIX] &cOnly players can execute this command!"
-  out-world: "[PREFIX] &cYou cannot execute this command in a disabled world!"
-  player-doesnot-exist: "[PREFIX] &cThis player does not exist!"
-  player-not-online: "[PREFIX] &cThis player is not online!"
-  systax-error: "[PREFIX] &cThis command was written incorrectly!"
+  missing-args: "%prefix% &cThe right way to use the command is: %command%"
+  not-player: "%prefix% &cOnly players can execute this command!"
+  out-world: "%prefix% &cYou cannot execute this command in a disabled world!"
+  player-doesnot-exist: "%prefix% &cThis player does not exist!"
+  player-not-online: "%prefix% &cThis player is not online!"
+  systax-error: "%prefix% &cThis command was written incorrectly!"
 
 events:
 
-  #NOT permission messages
-  permission-drop: "&cYou don't have permission to drop items!"
-  permission-pickup: "&cYou don't have permission to pick up items!"
-  permission-interact: "&cYou don't have permission to interact with blocks!"
-  permission-place: "&cYou don't have permission to place blocks!"
-  permission-break: "&cYou don't have permission to break blocks!"
-  permission-attack: "&cYou don't have permission to attack!"
-
   #Cooldown message
-  #Use SECONDS to return cooldown
-  on-cooldown: "&cYou must wait [SECONDS] seconds to you can use it again."
+  #Use %seconds% to return cooldown
+  on-cooldown: "&cYou must wait %seconds% seconds to you can use it again."
 
   #Hide Player itens message
-  HD-hide: "&aYou hide the players!"
-  HD-show: "&cYou've shown the players again!"
+  on-hide: "&aYou hide the players!"
+  on-show: "&cYou've shown the players again!"
 
   #Chat messages
   badword: "&cYou cannot type this word in chat!"
   command-block: "&cYou cannot type this command!"
   spam: "&cYou are sending messages too fast. Send slower."
-  on-spam-mute: "&cYou have been muted by spam for [TIME]"
-  message-cooldown: "&cYou must wait [SECONDS] seconds to send other message!"
+  on-spam-mute: "&cYou have been muted by spam for %time%"
+  message-cooldown: "&cYou must wait %seconds% seconds to send other message!"
   repeated-message: "&cYou cannot send the same message again!"
   quick-messages: "&cPlease send the messages slower!"
   chat-locked: "&cYou cannot send messages because the chat is locked"
@@ -122,6 +122,6 @@ events:
   #Lobby teleport
 
   #Or send /lobby again to cancel
-  on-lobby-teleport: "&aYou are being teleported to the lobby in [SECONDS] seconds &a&l(Type /lobby again to cancel the teleport)!"
-  lobby-cooldown-message: "[ACTION] &6Teleporting&7... &b[SECONDS] &cDon't move!"
+  on-lobby-teleport: "&aYou are being teleported to the lobby in %seconds% seconds &a&l(Type /lobby again to cancel the teleport)!"
+  lobby-cooldown-message: "[ACTION] &6Teleporting&7... &b%seconds% &cDon't move!"
   teleport-cancelled: "&cTeleport cancelled!"

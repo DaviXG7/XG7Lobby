@@ -196,6 +196,8 @@ lobby:
   #Player cannot move while on lobby cooldown
   dont-move: true
 
+  teleport-cancelable: true
+
   ignore-admin: true
 
 ###############################################

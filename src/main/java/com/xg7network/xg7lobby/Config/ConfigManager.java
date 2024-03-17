@@ -30,8 +30,10 @@ public class ConfigManager {
         configs.put(ConfigType.DATA, YamlConfiguration.loadConfiguration(data));
         configs.put(ConfigType.SELECTORS, YamlConfiguration.loadConfiguration(selectors));
 
-        File messages = new File(XG7Lobby.getPlugin().getDataFolder(), "langs/" + configs.get(ConfigType.CONFIG).getString("messages-lang") + ".yml");
-        configs.put(ConfigType.SELECTORS, YamlConfiguration.loadConfiguration(messages));
+        ConfigType.MESSAGES.setMessageFilePath("langs/" + configs.get(ConfigType.CONFIG).getString("messages-lang"));
+
+        File messages = new File(XG7Lobby.getPlugin().getDataFolder(), "langs/" + ConfigType.MESSAGES.getFilePath());
+        configs.put(ConfigType.MESSAGES, YamlConfiguration.loadConfiguration(messages));
 
     }
     public static void save(ConfigType type) throws IOException {

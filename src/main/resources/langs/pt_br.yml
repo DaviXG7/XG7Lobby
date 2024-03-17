@@ -32,95 +32,96 @@
 
 # PLAYER retorna o jogador (se você não estiver usando PLACEHOLDER API)
 
-# Coloque ACTION: no início para enviar mensagens na barra de ação!
+# Coloque [ACTION] no início para enviar mensagens na barra de ação!
 
 join:
 
-  join-message: "&8[&a+&8] &f%player_name% entrou no servidor."
-  leave-message: "&8[&c-&8] &f%player_name% saiu do servidor."
+  join-message: "&8[&a+&8] &f%player% entrou no servidor."
+  leave-message: "&8[&c-&8] &f%player% saiu do servidor."
 
-  first-join-message: "&8[&f+&b1&8] &f%player_name% entrou no servidor pela primeira vez!"
+  first-join-message: "&8[&f+&b1&8] &f%player% entrou no servidor pela primeira vez!"
 
 
 commands:
 
-  lobby-warn: "&cO lobby ainda não está disponível! Espere um administrador colocá-lo."
-  adm-lobby-warn: "&cLobby não colocado! Envie &7/&esetlobby &cpare colocar!"
+  lobby-warn: "&cO lobby ainda não está disponível! Aguarde um administrador colocá-lo."
+  adm-lobby-warn: "&cLobby não definido! Envie &7/&esetlobby &cpara definir!"
 
   # Mensagens de voo
-  #[TARGET] = jogador alvo
-  fly-enabled-other: "&aVocê habilitou o voo para &b[TARGET]!"
-  fly-disabled-other: "&cVocê desabilitou o voo para &b[TARGET]!"
+  #%target% = jogador alvo
+  fly-enabled-other: "&aVocê habilitou o voo para &b%target%!"
+  fly-disabled-other: "&cVocê desabilitou o voo para &b%target%!"
   fly-enabled: "&aSeu voo foi habilitado!"
   fly-disabled: "&cSeu voo foi desabilitado!"
 
-  # Comando Build
-  build-enabled: "&aSeu build foi habilitado"
-  build-disabled: "&cSeu build foi desabilitado"
-  build-warn: "&cSua build não está habilitado! Use &e/&bbuild &cpa habilitar!"
+  # Comando de Construir
+  build-enabled: "&aSeu build foi ativado"
+  build-disabled: "&Seu build foi desativado"
+  build-warn: "&cSeu build não está ativado! Use &e/&bbuild &cpara ativar!"
 
-  # Mensagens do Modo de Jogo
-  #[PLAYERG] = jogador alvo
-  gamemode-player: "&7Seu modo de jogo foi alterado para &b[GAMEMODE]"
-  gamemode-target: "&7Você alterou o modo de jogo de &b[TARGET] &7para &b[GAMEMODE]"
+  # Mensagens de Modo de Jogo
+  # %target% = jogador alvo
+  gamemode-player: "&7Seu modo de jogo foi alterado para &b%gamemode%"
+  gamemode-target: "&7Você alterou o modo de jogo de &b%target% &7para &b%gamemode%"
 
-  # mensagens de Silenciamento
+  # Mensagens de Mudo
   when-muted: "&cVocê foi silenciado por um administrador! Por favor, não quebre as regras!"
   on-mute: "&cVocê não pode enviar mensagens. Você está silenciado!"
-  on-mute-with-time: "&cVocê não pode enviar mensagens. Você está silenciado por [DAYS]"
+  on-mute-with-time: "&cVocê não pode enviar mensagens. Você está silenciado por %days%"
 
-  # Vanish
-  on-hide: "[PREFIX] &aOs jogadores não estão mais visíveis no lobby"
-  on-show: "[PREFIX] &cOs jogadores estão visíveis no lobby novamente!"
+  # Desaparecer
+  on-hide: "%prefix% &aOs jogadores não estão mais visíveis no lobby"
+  on-show: "%prefix% &cOs jogadores estão visíveis no lobby novamente!"
 
-  # Aviso
-  on-warn: "&cVocê foi avisado por: [WARN]"
-  on-warn-remove: "&aSeu aviso: [WARN] foi removido!"
+  # Advertência
+  on-warn: "&cVocê foi advertido por: %warn%"
+  on-warn-remove: "&aSua advertência: %warn% foi removida!"
 
   on-lock-chat: "&cO chat foi bloqueado por um administrador!"
+
+no-perm-messages:
+
+  permission-command: "%prefix% &cVocê não tem permissão para usar este comando!"
+  permission-drop: "%prefix% &cVocê não tem permissão para soltar itens!"
+  permission-pickup: "%prefix% &cVocê não tem permissão para pegar itens!"
+  permission-interact: "%prefix% &cVocê não tem permissão para interagir com blocos!"
+  permission-place: "%prefix% &cVocê não tem permissão para colocar blocos!"
+  permission-break: "%prefix% &cVocê não tem permissão para quebrar blocos!"
+  permission-attack: "%prefix% &cVocê não tem permissão para atacar!"
 
 
 error-messages:
 
-  no-permission: "[PREFIX] &cVocê não tem permissão para usar este comando!"
-  missing-args: "[PREFIX] &cA maneira correta de usar o comando é: [COMMAND]"
-  not-player: "[PREFIX] &cApenas jogadores podem executar este comando!"
-  out-world: "[PREFIX] &cVocê não pode executar este comando em um mundo desativado!"
-  player-doesnot-exist: "[PREFIX] &cEste jogador não existe!"
-  player-not-online: "[PREFIX] &cEste jogador não está online!"
-  erro-de-sintaxe: "[PREFIX] &cEste comando foi escrito incorretamente!"
+  missing-args: "%prefix% &cA maneira correta de usar o comando é: %command%"
+  not-player: "%prefix% &cApenas jogadores podem executar este comando!"
+  out-world: "%prefix% &cVocê não pode executar este comando em um mundo desativado!"
+  player-doesnot-exist: "%prefix% &cEste jogador não existe!"
+  player-not-online: "%prefix% &cEste jogador não está online!"
+  systax-error: "%prefix% &cEste comando foi escrito incorretamente!"
 
 events:
 
-  # mensagens de sem permissão
-  permission-drop: "&cVocê não tem permissão para dropar itens!"
-  permission-pickup: "&cVocê não tem permissão para pegar itens!"
-  permission-interact: "&cVocê não tem permissão para interagir com blocos!"
-  permission-place: "&cVocê não tem permissão para colocar blocos!"
-  permission-break: "&cVocê não tem permissão para quebrar blocos!"
-  permission-attack: "&cVocê não tem permissão para atacar!"
+  # Mensagem de Cooldown
+  # Use %seconds% para retornar o tempo de espera
+  on-cooldown: "&cVocê deve esperar %seconds% segundos para poder usá-lo novamente."
 
-  # mensagem de cooldown
-  # Use SECONDS para retornar cooldown
-  on-cooldown: "&cVocê deve esperar [SECONDS] segundos para usá-lo novamente."
+  # Mensagem de Ocultar Itens de Jogadores
+  on-hide: "&aVocê ocultou os jogadores!"
+  on-show: "&cVocê mostrou os jogadores novamente!"
 
-  # mensagem de ocultar itens do jogador
-  HD-hide: "&aVocê ocultou os jogadores!"
-  HD-show: "&cVocê mostrou os jogadores novamente!"
-
-  # mensagens do chat
-  palavra-proibida: "&cVocê não pode digitar esta palavra no chat!"
-  comando-bloqueado: "&cVocê não pode digitar este comando!"
-  spam: "&cVocê está enviando mensagens muito rapidamente. Envie mais devagar."
-  on-spam-mute: "&cVocê foi silenciado por spam por [TIME]"
-  mensagem-cooldown: "&cVocê deve esperar [SECONDS] segundos para enviar outra mensagem!"
-  mensagem-repetida: "&cVocê não pode enviar a mesma mensagem novamente!"
-  mensagens-rápidas: "&cPor favor, envie as mensagens mais devagar!"
-  chat-locked: "&cVocê não pode enviar mensagens porque o chat está bloqueado"
+  # Mensagens de Bate-Papo
+  badword: "&cVocê não pode digitar essa palavra no bate-papo!"
+  command-block: "&cVocê não pode digitar esse comando!"
+  spam: "&cVocê está enviando mensagens muito rápido. Envie mais devagar."
+  on-spam-mute: "&cVocê foi silenciado por spam por %time%"
+  message-cooldown: "&cVocê deve esperar %seconds% segundos para enviar outra mensagem!"
+  repeated-message: "&cVocê não pode enviar a mesma mensagem novamente!"
+  quick-messages: "&cPor favor, envie as mensagens mais devagar!"
+  chat-locked: "&cVocê não pode enviar mensagens porque o bate-papo está bloqueado"
 
   # Teleporte do Lobby
 
   # Ou envie /lobby novamente para cancelar
-  on-lobby-teleport: "&aVocê está sendo teleportado para o lobby em [SECONDS] segundos &a&l(Tipo /lobby novamente para cancelar o teleporte)!"
-  lobby-cooldown-message: "[ACTION] &6Teleporting&7... &b[SECONDS] &cDon't move!"
-  teleport-cancelled: "&cTeleport cancelled!"
+  on-lobby-teleport: "&aVocê está sendo teleportado para o lobby em %seconds% segundos &a&l(Digite /lobby novamente para cancelar o teleporte)!"
+  lobby-cooldown-message: "[ACTION] &6Teleportando&7... &b%seconds% &cNão se mova!"
+  teleport-cancelled: "&cTeleporte cancelado!"
