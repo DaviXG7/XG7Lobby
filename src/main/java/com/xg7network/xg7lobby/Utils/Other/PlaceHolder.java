@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.xg7network.xg7lobby.XG7Lobby.configManager;
-
 public class PlaceHolder extends PlaceholderExpansion {
     @Override
     public @NotNull String getIdentifier() {

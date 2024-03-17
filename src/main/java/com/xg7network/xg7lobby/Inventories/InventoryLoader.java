@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Config;
+package com.xg7network.xg7lobby.Inventories;
 
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.configuration.file.FileConfiguration;

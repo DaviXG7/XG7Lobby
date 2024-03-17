@@ -3,6 +3,8 @@ package com.xg7network.xg7lobby.Utils.Other;
 import com.xg7network.xg7lobby.Config.ConfigManager;
 import com.xg7network.xg7lobby.Config.ConfigType;
 import com.xg7network.xg7lobby.Config.PermissionType;
+import com.xg7network.xg7lobby.Data.PlayerData;
+import com.xg7network.xg7lobby.Data.PlayersManager;
 import com.xg7network.xg7lobby.Utils.Text.TextUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -12,6 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.text.SimpleDateFormat;
 
 public class PluginUtil {
 
@@ -27,7 +31,7 @@ public class PluginUtil {
     }
 
     public static String setPlaceHolders(String s, Player p) {
-        return placeholderapi() ? PlaceholderAPI.setPlaceholders(p, s) : s;
+        return placeholderapi() ? PlaceholderAPI.setPlaceholders(p, s) : setPluginPlaceholders(s, p);
     }
 
     public static boolean hasPermission(Player player, PermissionType permissionType) {
@@ -68,5 +72,16 @@ public class PluginUtil {
         } catch (Exception ignored) {}
 
 
+    }
+
+    private static String setPluginPlaceholders(String s, Player player) {
+        PlayerData data = PlayersManager.getData(player.getUniqueId().toString());
+        return s.replace("%xg7lobby_warns%", data.getInfractions().size() + "")
+                .replace("%xg7lobby_chat_locked%", data.isMuted() + "")
+                .replace("%xg7lobby_muted%", data.isMuted() + "")
+                .replace("%xg7lobby_time_for_unmute%", new SimpleDateFormat("dd/MM/yyyy HH:mm").format(data.getLastDayToUnmute()))
+                .replace("%xg7lobby_first_join%", data.getFirstJoin())
+                .replace("%xg7lobby_lobby_location%", data.isMuted() + "")
+                .replace("%xg7lobby_players_hide%", data.isPlayershide() + "");
     }
 }

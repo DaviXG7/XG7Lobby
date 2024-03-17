@@ -37,7 +37,7 @@ public class Color {
             }
         }
 
-        return text.replace("HEX:", "").replace("INITHEX:", "").replace("ENDHEX:", "");
+        return text.replace("HEX:", "");
     }
 
 }
