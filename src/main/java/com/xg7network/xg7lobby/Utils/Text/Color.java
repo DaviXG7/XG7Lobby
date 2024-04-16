@@ -22,22 +22,20 @@ public class Color {
 
     public static String translateHexColor(String text) {
 
-        String[] partes = Bukkit.getVersion().split("\\.");
-        int vers = Integer.parseInt(partes[1]);
 
-        if (vers >= 16) {
+        if (Integer.parseInt(Bukkit.getVersion().split("\\.")[1]) >= 16) {
 
-            if (text.contains("HEX:")) {
-                Pattern pattern = Pattern.compile("HEX:#([a-fA-F0-9]{6})");
 
-                for(Matcher matcher = pattern.matcher(text); matcher.find(); matcher = pattern.matcher(text)) {
-                    String cor = text.substring(matcher.start(), matcher.end()).replace("HEX:", "");
-                    text = text.replace(cor, ChatColor.of(cor) + "");
-                }
+            Pattern pattern = Pattern.compile("&#([a-fA-F0-9]{6})");
+
+            for(Matcher matcher = pattern.matcher(text); matcher.find(); matcher = pattern.matcher(text)) {
+                String cor = text.substring(matcher.start(), matcher.end()).replace("HEX:", "");
+                text = text.replace(cor, ChatColor.of(cor) + "");
             }
         }
 
-        return text.replace("HEX:", "");
+
+        return text;
     }
 
 }

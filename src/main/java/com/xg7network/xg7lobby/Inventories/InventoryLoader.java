@@ -12,11 +12,11 @@ import java.util.List;
 
 public class InventoryLoader {
 
-    private static List<FileConfiguration> configs = new ArrayList<>();
+    private static List<ConfigInventoryBuilder> inventories = new ArrayList<>();
 
     public static void load() throws IOException {
 
-        configs.clear();
+        inventories.clear();
 
         File file = new File(XG7Lobby.getPlugin().getDataFolder(), "inventories");
         if (!file.exists()) {
@@ -36,26 +36,22 @@ public class InventoryLoader {
                 }
 
                 FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
-                configs.add(configuration);
+
+                inventories.add(
+                        new ConfigInventoryBuilder(
+                                configuration, null
+                        )
+                )
 
             }
         }
     }
 
-    public static FileConfiguration getInventoryConfig(int id) throws Exception {
+    public static ConfigInventoryBuilder get(int id, Player player) throws Exception {
 
         if (configs.isEmpty()) return null;
 
-        for (FileConfiguration configuration : configs) if (configuration.getInt("id") == id) return configuration;
-
-        throw new Exception("Inventory with this id doesn't exits!");
-    }
-
-    public static ConfigInventory get(int id, Player player) throws Exception {
-
-        if (configs.isEmpty()) return null;
-
-        for (FileConfiguration configuration : configs) if (configuration.getInt("id") == id) return ConfigInventory.fromConfig(configuration, player);
+        for (FileConfiguration configuration : configs) if (configuration.getInt("id") == id) return new ConfigInventoryBuilder(configuration, player);
 
         throw new Exception("[XG7LOBBY] MENU ID ERROR! Inventory with this id doesn't exits!");
     }

@@ -12,8 +12,10 @@ package com.xg7network.xg7lobby.Utils.Text;
 
  */
 
-import com.xg7network.xg7lobby.Utils.NMSUtil;
 import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
+import com.xg7network.xg7menus.API.Utils.NMSUtil;
+import com.xg7network.xg7menus.API.Utils.Text.Color;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -21,14 +23,12 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static com.xg7network.xg7lobby.XG7Lobby.prefix;
-
 public class TextUtil {
 
     public static void send(String text, Player player) {
         if (text == null || text.equals("")) return;
-        if (text.startsWith("[ACTION] ")) {
-            text = text.replace("[ACTION] ", "");
+        if (text.startsWith("ACTION: ")) {
+            text = text.replace("ACTION: ", "");
             sendActionBar(text, player);
         }
         else player.sendMessage(get(text, player));
@@ -37,32 +37,20 @@ public class TextUtil {
 
     public static String get(String text, Player player) {
 
-        text = PluginUtil.setPlaceHolders(text, player);
+        if (PluginUtil.placeholderapi()) {
+            text = PlaceholderAPI.setPlaceholders(player, text);
 
-        text = new Color().translateHexColor(text);
-
-        if (text.startsWith("CENTER: ")) {
-            text = text.replace("CENTER: ", "");
-
-            text = CenterText.getCentralizedText(text,player);
-
+            text = Color.translateHexColor(text);
         }
+        return text.replace("&", "§");
 
-        return prefix != null ? text.replace("&", "§").replace("[PREFIX]", prefix) : text.replace("&", "§");
     }
 
     public static String get(String text) {
 
-        text = new Color().translateHexColor(text);
+        text = Color.translateHexColor(text);
 
-        if (text.startsWith("CENTER: ")) {
-            text = text.replace("CENTER: ", "");
-
-            text = CenterText.getCentralizedText(text);
-
-        }
-
-        return prefix != null ? text.replace("&", "§").replace("[PREFIX]", prefix) : text.replace("&", "§");
+        return text.replace("&", "§");
 
     }
 
@@ -76,12 +64,12 @@ public class TextUtil {
             } else {
                 try {
 
-                    Class<?> craftPlayerClass = NMSUtil.getCraftBukkitClass("entity.CraftPlayer");
+                    Class<?> craftPlayerClass = com.xg7network.xg7menus.API.Utils.NMSUtil.getCraftBukkitClass("entity.CraftPlayer");
                     Object craftPlayer = craftPlayerClass.cast(player);
 
-                    Class<?> packetPlayOutChatClass = NMSUtil.getNMSClass("PacketPlayOutChat");
-                    Class<?> iChatBaseComponentClass = NMSUtil.getNMSClass("IChatBaseComponent");
-                    Class<?> chatComponentTextClass = NMSUtil.getNMSClass("ChatComponentText");
+                    Class<?> packetPlayOutChatClass = com.xg7network.xg7menus.API.Utils.NMSUtil.getNMSClass("PacketPlayOutChat");
+                    Class<?> iChatBaseComponentClass = com.xg7network.xg7menus.API.Utils.NMSUtil.getNMSClass("IChatBaseComponent");
+                    Class<?> chatComponentTextClass = com.xg7network.xg7menus.API.Utils.NMSUtil.getNMSClass("ChatComponentText");
 
                     Object chatComponent = chatComponentTextClass.getConstructor(String.class).newInstance(get(text, player));
                     Object packet = packetPlayOutChatClass.getConstructor(iChatBaseComponentClass, byte.class)
