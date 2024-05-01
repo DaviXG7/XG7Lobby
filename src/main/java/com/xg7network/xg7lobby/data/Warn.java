@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Data;
+package com.xg7network.xg7lobby.data;
 
 import java.text.SimpleDateFormat;
 import java.util.UUID;

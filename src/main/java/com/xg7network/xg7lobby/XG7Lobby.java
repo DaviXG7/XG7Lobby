@@ -1,18 +1,18 @@
 package com.xg7network.xg7lobby;
 
-import com.xg7network.xg7lobby.Config.ConfigManager;
-import com.xg7network.xg7lobby.Config.ConfigType;
-import com.xg7network.xg7lobby.Data.PlayersManager;
-import com.xg7network.xg7lobby.Utils.PrivateInforations.Metrics;
-import com.xg7network.xg7lobby.Utils.Other.PlaceHolder;
-import com.xg7network.xg7lobby.Utils.PrivateInforations.VerfVersion;
-import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.config.ConfigType;
+import com.xg7network.xg7lobby.data.PlayersManager;
+import com.xg7network.xg7lobby.inventories.inventory.InventoryManager;
+import com.xg7network.xg7lobby.utils.PrivateInforations.Metrics;
+import com.xg7network.xg7lobby.utils.Other.PlaceHolder;
+import com.xg7network.xg7lobby.utils.PrivateInforations.VerfVersion;
+import com.xg7network.xg7lobby.utils.Text.TextUtil;
 import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public final class XG7Lobby extends JavaPlugin {
@@ -60,7 +60,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         try {
             ConfigManager.load();
-        } catch (IOException e) {
+            InventoryManager.load();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

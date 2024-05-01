@@ -1,11 +1,11 @@
-package com.xg7network.xg7lobby.Utils.Other;
+package com.xg7network.xg7lobby.utils.Other;
 
-import com.xg7network.xg7lobby.Config.ConfigManager;
-import com.xg7network.xg7lobby.Config.ConfigType;
-import com.xg7network.xg7lobby.Config.PermissionType;
-import com.xg7network.xg7lobby.Data.PlayerData;
-import com.xg7network.xg7lobby.Data.PlayersManager;
-import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.config.ConfigType;
+import com.xg7network.xg7lobby.config.PermissionType;
+import com.xg7network.xg7lobby.data.PlayerData;
+import com.xg7network.xg7lobby.data.PlayersManager;
+import com.xg7network.xg7lobby.utils.Text.TextUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

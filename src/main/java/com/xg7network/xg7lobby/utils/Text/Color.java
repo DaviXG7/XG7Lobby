@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils.Text;
+package com.xg7network.xg7lobby.utils.Text;
 
 /*
 
@@ -23,7 +23,7 @@ public class Color {
     public static String translateHexColor(String text) {
 
 
-        if (Integer.parseInt(Bukkit.getVersion().split("\\.")[1]) >= 16) {
+        if (Integer.parseInt(Bukkit.getVersion().split("\\.")[1].replace(")", "")) >= 16) {
 
 
             Pattern pattern = Pattern.compile("&#([a-fA-F0-9]{6})");
@@ -32,6 +32,7 @@ public class Color {
                 String cor = text.substring(matcher.start(), matcher.end()).replace("HEX:", "");
                 text = text.replace(cor, ChatColor.of(cor) + "");
             }
+
         }
 
 

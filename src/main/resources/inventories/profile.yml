@@ -1,109 +1,14 @@
-#You can create a new file to make other inventory
-#Just copy this template for other files!
-
-#Use %player_name% to replace player name
-#You need the PlaceHolderAPI for that!
-
-#Colors:
-#&0 - Black           | &8 - Dark Gray
-#&1 - Dark blue       | &9 - Blue
-#&2 - Dark green      | &a - Green
-#&3 - Dark cyan       | &b - Cyan
-#&4 - Dark red        | &c - Red
-#&5 - Purple          | &d - Pink
-#&6 - Orange          | &e - Yellow
-#&7 - Gray            | &f - White
-
-#Lettering options:
-#&k - Random    | &n - Underlined
-#&l - Bold     | &o - Italic
-#&m - Track     | &r - Reset
-
-#HEX to get hex color!
-#Only in 1.16+
-#HEX:#ffffff
-
-#Placeholders
-
-#%xg7lobby_warns%: returns the number of player warns;
-#%xg7lobby_chat_locked%: returns if chat is locked;
-#%xg7lobby_muted%: returns if the player is muted;
-#%xg7lobby_time_for_unmute%: returns when the player will be unmuted;
-#%xg7lobby_first_join%: returns the first join of the player on the server;
-#%xg7lobby_lobby_location%: returns the lobby location;
-#%xg7lobby_players_hide%: returns to if the player is hiding other players.
-
-#Actions
-
-#You can use actions in the "actions:"
-#The right way to use your action is: ACTION: content
-
-#MESSAGE Send a message
-#ACTION Send an action
-#TITLE Send a title
-#SUBTITLE Send a subtitle
-#TITSUBTIT Send a title and a subtitle (Use " // " to separate one from the other)
-
-#Ex.: TITLE: &bWelcome!, {fade in sec, stay in sec, fade out  in sec} -> OPTIONAL
-#IN SOME VERSIONS OF MINECRAFT, OPTIONALS DO NOT WORK!
-
-#BROADCAST Advertise to everyone.
-
-#COMMAND Make the player execute a command
-#CONSOLE Make console execute a command
-
-#SOUND send a sound
-#SOUND: ENTITY_EXPERIENCE_ORB_PICKUP, (Volume) 10.0, (Pitch) 10.0"
-
-#SUMMON Summons an entity
-
-#EFFECT give an effect to the player
-#EFFECT: effect, duration, amplifier
-
-#FLY Makes the player fly
-
-#TP teleport player for an exact location
-#TP: world, x, y, z (yaw, pictch)
-
-#OPEN Opens an inventory
-#CLOSE Closes an inventory
-#There in the selectors.yml file you can create an inventory
-#Mode of use: OPEN: (id), CLOSE
-
-#PLAYER returns the player's name (if you are not using PLACEHOLDER API)
-
-#GAMEMODE change the game mode of the player
-
-#CENTER Centers your text according to Minecraft's default chat size
-#It is an approximate centering according to the pixels of each letter in the game
-
-#PERMISSION Only do the action if you have permission
-#OPEN: 1 PERMISSION: your.permission
-#OPEN: 1 !PERMISSION: your.permission (If you don't have permission)
-
-#Links:
-
-#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-#Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
-#Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
-
-#Inventory help
-#[01][02][03][04][05][06][07][08][09]
-#[10][11][12][13][14][15][16][17][18]
-#[19][20][21][22][23][24][25][26][27]
-#[28][29][30][31][32][33][34][35][36]
-#[37][38][39][40][41][42][43][44][45]
-#[46][47][48][49][50][51][52][53][54]
-
-
-
 name: "&fProfile"
 rows: 5
 id: 1
 
+stored-items:
+
 items:
 
-  fill-item: AIR
+  filler-item:
+    material: AIR
+    slots: -1
 
   item1:
 

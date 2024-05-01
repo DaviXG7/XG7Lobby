@@ -94,14 +94,12 @@
 #Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
 
 #See it on langs folder
+#If the folder don't have your language, you can create one!
 message-lang: en_us
 
 enabled-worlds:
   - "lobby"
   - "world"
-
-#When you join the game you go to the lobby
-tp-when-join: true
 
 warning-image: true
 warning-version: true
@@ -117,6 +115,10 @@ prefix: "&9[XG7&3Lob&bby] &8| &r"
 # When the player enters everything in
 #"actions" will be executed
 join-events:
+
+  #When you join the game you go to the lobby
+  tp-when-join: true
+
   actions:
     - "TITSUBTIT: &bWelcome // &f%player_name%"
     - "MESSAGE: CENTER: &8-------------------&7**&8-------------------"
