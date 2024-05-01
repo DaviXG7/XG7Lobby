@@ -1,7 +1,7 @@
-package com.xg7network.xg7lobby.Data;
+package com.xg7network.xg7lobby.data;
 
-import com.xg7network.xg7lobby.Config.ConfigManager;
-import com.xg7network.xg7lobby.Config.ConfigType;
+import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.config.ConfigType;
 import com.xg7network.xg7lobby.XG7Lobby;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -123,19 +123,6 @@ public class PlayersManager {
 
 
         return null;
-    }
-
-    public static void deleteData(String id) {
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM players WHERE id = ?");
-            preparedStatement.setString(1, id);
-            preparedStatement.execute();
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static boolean deleteWarn(String playerid, String id) {

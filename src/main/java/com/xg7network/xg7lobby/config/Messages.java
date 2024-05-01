@@ -1,6 +1,6 @@
-package com.xg7network.xg7lobby.Config;
+package com.xg7network.xg7lobby.config;
 
-import com.xg7network.xg7lobby.Utils.Text.TextUtil;
+import com.xg7network.xg7lobby.utils.Text.TextUtil;
 
 public enum Messages {
 

@@ -134,6 +134,34 @@ selectors:
 
   cooldown: 3
 
+  stored-items:
+    hide_players_off:
+
+      name: "&7Hide Players &6- &cOFF!"
+      lore:
+        - "&aClick to hide!"
+      material: GRAY_DYE
+      amount: 1
+      glow: true
+      actions:
+        #SWAP: slot, new item;
+        - "HIDE"
+        - "SWAP: currentslot=hide_players_off, hide_players_on"
+        - "ACTIONBAR: &aYou hide the players!"
+
+    hide_players_on:
+
+      name: "&7Hide Players &6- &aON!"
+      lore:
+        - "&aClick to show!"
+      material: LIME_DYE
+      amount: 1
+      glow: true
+      actions:
+        - "SHOW"
+        - "SWAP: currentslot=hide_players_on, hide_players_off"
+        - "ACTIONBAR: &cYou've shown the players again!"
+
   items:
 
     game:
@@ -162,32 +190,8 @@ selectors:
       actions:
         - "OPEN: 1"
 
-    hide_players_off:
-
-      name: "&7Hide Players &6- &cOFF!"
-      lore:
-        - "&aClick to hide!"
-      material: GRAY_DYE
-      amount: 1
+    hide:
+      stored-item: "hide-players-off"
       slot: 9
-      glow: true
-      actions:
-        #SWAP: slot, new item;
-        - "HIDE"
-        - "SWAP: currentslot=hide_players_off, hide_players_on"
-        - "ACTIONBAR: &aYou hide the players!"
-
-    hide_players_on:
-
-      name: "&7Hide Players &6- &aON!"
-      lore:
-        - "&aClick to show!"
-      material: LIME_DYE
-      amount: 1
-      glow: true
-      actions:
-        - "SHOW"
-        - "SWAP: currentslot=hide_players_on, hide_players_off"
-        - "ACTIONBAR: &cYou've shown the players again!"
 
 

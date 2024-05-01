@@ -1,16 +1,8 @@
-package com.xg7network.xg7lobby.Utils.Text;
-
-import com.xg7network.xg7lobby.Utils.Other.PluginUtil;
-import org.bukkit.entity.Player;
+package com.xg7network.xg7lobby.utils.Text;
 
 public class CenterText {
     private static final int chatPXS = 320;
 
-    public static String getCentralizedText(String text, Player player) {
-        text = PluginUtil.setPlaceHolders(text, player);
-        text = Color.translateHexColor(text);
-        return centralize(text);
-    }
     public static String getCentralizedText(String text) {
         text = Color.translateHexColor(text);
         return centralize(text);

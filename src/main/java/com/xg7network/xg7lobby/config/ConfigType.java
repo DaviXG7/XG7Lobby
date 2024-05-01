@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Config;
+package com.xg7network.xg7lobby.config;
 
 public enum ConfigType {
     CONFIG("config"),

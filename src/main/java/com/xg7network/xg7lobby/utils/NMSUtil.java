@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.Utils;
+package com.xg7network.xg7lobby.utils;
 
 import org.bukkit.Bukkit;
 

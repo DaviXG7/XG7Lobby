@@ -1,10 +1,10 @@
-package com.xg7network.xg7lobby.Utils.Other;
+package com.xg7network.xg7lobby.utils.Other;
 
-import com.xg7network.xg7lobby.Config.ConfigManager;
-import com.xg7network.xg7lobby.Config.ConfigType;
+import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.config.ConfigType;
 import com.xg7network.xg7lobby.Configs.ConfigType;
 import com.xg7network.xg7lobby.DefautCommands.Lobby.LobbyLocation;
-import com.xg7network.xg7lobby.Data.PlayersManager;
+import com.xg7network.xg7lobby.data.PlayersManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
