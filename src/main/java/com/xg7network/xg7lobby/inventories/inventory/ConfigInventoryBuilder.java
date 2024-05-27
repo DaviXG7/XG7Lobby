@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 import java.util.stream.Collectors;

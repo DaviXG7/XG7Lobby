@@ -4,7 +4,6 @@ import com.xg7network.xg7lobby.config.ConfigManager;
 import com.xg7network.xg7lobby.config.ConfigType;
 import com.xg7network.xg7lobby.inventories.Action;
 import com.xg7network.xg7lobby.inventories.inventory.ConfigInventoryBuilder;
-import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
 import com.xg7network.xg7menus.API.Inventory.Menus.InventoryItem;
 import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
 import org.bukkit.entity.Player;
@@ -28,6 +27,7 @@ public class SelectorManager {
         selectors = new HashMap<>();
         actions = new HashMap<>();
         storedItems = new HashMap<>();
+        items = new ArrayList<>();
 
         for (String path : ConfigManager.getConfig(ConfigType.SELECTORS).getConfigurationSection("stored-items").getKeys(false)) {
             path = "stored-items." + path;
@@ -70,6 +70,8 @@ public class SelectorManager {
                     actionsS.stream().map(Action::new).collect(Collectors.toList())
             );
 
+            items.add(new InventoryItem())
+
 
 
         }
@@ -78,7 +80,22 @@ public class SelectorManager {
 
     public PlayerSelector giveToPlayer(Player player) {
         PlayerSelector selector = new PlayerSelector("xg7playerselector");
-        selector.addItems();
+
+        items.forEach(item -> selector.addItems(player, item));
+
+        selector.open(player);
+
+        selectors.put(player.getUniqueId(), selector);
+
+        return selector;
+
     }
 
+    public static HashMap<String, InventoryItem> getStoredItems() {
+        return storedItems;
+    }
+
+    public static HashMap<UUID, PlayerSelector> getSelectors() {
+        return selectors;
+    }
 }
