@@ -6,8 +6,6 @@ import com.xg7network.xg7menus.API.Inventory.Menus.Others.StandardMenu;
 import org.bukkit.entity.Player;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 

@@ -1,8 +1,11 @@
 package com.xg7network.xg7lobby.inventories;
 
 import com.xg7network.xg7lobby.inventories.inventory.InventoryManager;
+import com.xg7network.xg7lobby.inventories.selectors.SelectorManager;
 import com.xg7network.xg7lobby.utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.utils.Text.TextUtil;
+import com.xg7network.xg7menus.API.Inventory.Menus.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -173,18 +176,18 @@ public class Action {
 
                 String[] item = args.split(", ");
 
-                PlayerSelector selector = (PlayerSelector) MenuManager.getMenuByInventory(player.getInventory());
+                PlayerSelector selector = SelectorManager.getSelectors().get(player.getUniqueId());
 
-                ConfigSelectorInventoryItem targetInventoryItem = getItemByName(selector, item[1]);
+                InventoryItem targetStoredItem = SelectorManager.getStoredItems().get(item[1]);
 
-                if (targetInventoryItem == null) {
+                if (targetStoredItem == null) {
                     Bukkit.getLogger().severe("The inventory path doesn't exists!");
                     return;
                 }
 
                 if (item[0].startsWith("currentslot=")) {
                     item[0] = item[0].replace("currentslot=", "");
-                    ConfigSelectorInventoryItem thisItem = getItemByName(selector, item[0]);
+                    InventoryItem currentItem =
                     targetInventoryItem.setSlot(thisItem.getSlot());
                     targetInventoryItem.setCurrentCooldown(thisItem.getCurrentCooldown());
                     selector.updateItem(targetInventoryItem);
