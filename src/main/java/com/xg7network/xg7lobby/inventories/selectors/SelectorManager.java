@@ -33,7 +33,6 @@ public class SelectorManager {
             path = "stored-items." + path;
 
             String[] materialName = ConfigManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").split(", ");
-            MaterialData data;
 
             String name = ConfigManager.getConfig(ConfigType.SELECTORS).getString(path + ".name");
             List<String> lore = ConfigManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore");
@@ -57,7 +56,6 @@ public class SelectorManager {
 
 
             String[] materialName = ConfigManager.getConfig(ConfigType.SELECTORS).getString(path + ".material").split(", ");
-            MaterialData data;
 
             String name = ConfigManager.getConfig(ConfigType.SELECTORS).getString(path + ".name");
             List<String> lore = ConfigManager.getConfig(ConfigType.SELECTORS).getStringList(path + ".lore");
@@ -70,7 +68,7 @@ public class SelectorManager {
                     actionsS.stream().map(Action::new).collect(Collectors.toList())
             );
 
-            items.add(new InventoryItem())
+            items.add(ConfigInventoryBuilder.getItem(materialName,name,lore,ammount,slot,glow));
 
 
 
@@ -78,7 +76,7 @@ public class SelectorManager {
 
     }
 
-    public PlayerSelector giveToPlayer(Player player) {
+    public PlayerSelector addPlayer(Player player) {
         PlayerSelector selector = new PlayerSelector("xg7playerselector");
 
         items.forEach(item -> selector.addItems(player, item));
@@ -89,6 +87,10 @@ public class SelectorManager {
 
         return selector;
 
+    }
+    public void removePlayer(Player player) {
+        selectors.get(player.getUniqueId()).removeItems(player);
+        selectors.remove(player.getUniqueId());
     }
 
     public static HashMap<String, InventoryItem> getStoredItems() {
