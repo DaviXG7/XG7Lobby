@@ -184,19 +184,20 @@ public class Action {
                     Bukkit.getLogger().severe("The inventory path doesn't exists!");
                     return;
                 }
+                
+                targetStoredItem.setPlaceholders(player);
 
                 if (item[0].startsWith("currentslot=")) {
                     item[0] = item[0].replace("currentslot=", "");
-                    InventoryItem currentItem =
-                    targetInventoryItem.setSlot(thisItem.getSlot());
-                    targetInventoryItem.setCurrentCooldown(thisItem.getCurrentCooldown());
-                    selector.updateItem(targetInventoryItem);
-                    thisItem.setSlot(-1);
-                    selector.addItems(thisItem);
+                    InventoryItem currentItem = SelectorManager.getStoredItems().get(item[0]);
+
+                    targetStoredItem.setSlot(currentItem.getSlot());
+
+                    selector.updateItem(targetStoredItem);
 
                 } else {
-                    targetInventoryItem.setSlot(Integer.parseInt(item[0]));
-                    selector.updateItem(targetInventoryItem);
+                    targetStoredItem.setSlot(Integer.parseInt(item[0]));
+                    selector.updateItem(targetStoredItem);
                 }
 
                 return;

@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby.events.Menus;
+package com.xg7network.xg7lobby.events.playerevents.Menus;
 
 import com.xg7network.xg7lobby.events.playerevents.Handler.PlayersHandler;
 import org.bukkit.entity.Player;
