@@ -1,6 +1,8 @@
 package com.xg7network.xg7lobby.inventories.action;
 
 import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.data.PlayerData;
+import com.xg7network.xg7lobby.data.PlayersManager;
 import com.xg7network.xg7lobby.inventories.inventory.ConfigInventory;
 import com.xg7network.xg7lobby.inventories.managers.InventoryManager;
 import com.xg7network.xg7lobby.inventories.managers.SelectorManager;
