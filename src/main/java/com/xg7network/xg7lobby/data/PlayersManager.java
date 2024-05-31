@@ -160,7 +160,7 @@ public class PlayersManager {
                     preparedStatement2.setString(1, playerData.getId());
                     preparedStatement2.setString(2, warn.getId());
                     preparedStatement2.setString(3, warn.getWarn());
-                    preparedStatement2.setLong(4, warn.getWhenInMills());
+                    preparedStatement2.setLong(4, warn.getWhen());
                     preparedStatement2.executeUpdate();
                 }
 

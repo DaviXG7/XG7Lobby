@@ -1,7 +1,8 @@
 package com.xg7network.xg7lobby.inventories.inventory;
 
-import com.xg7network.xg7lobby.inventories.Action;
+import com.xg7network.xg7lobby.inventories.action.Action;
 import com.xg7network.xg7menus.API.Inventory.Menus.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
 import com.xg7network.xg7menus.API.Inventory.Menus.Others.StandardMenu;
 import org.bukkit.entity.Player;
 
@@ -37,4 +38,5 @@ public class ConfigInventory extends StandardMenu {
     public InventoryItem getStoredItem(String path) {
         return storedItems.get(path);
     }
+
 }

@@ -1,8 +1,10 @@
 package com.xg7network.xg7lobby.inventories.inventory;
 
-import com.xg7network.xg7lobby.inventories.Action;
+import com.xg7network.xg7lobby.inventories.action.Action;
 import com.xg7network.xg7lobby.utils.Other.PluginUtil;
 import com.xg7network.xg7menus.API.Inventory.Menus.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,27 +19,30 @@ public class ConfigInventoryBuilder {
 
     private String title;
     private int slots;
+    @Getter
     private String id;
     private List<InventoryItem> items;
+    @Getter
     private HashMap<Integer, List<Action>> actions;
     private InventoryItem fillerItem;
     private List<Integer> fillerItemSlots;
+    @Getter
     private HashMap<String, InventoryItem> storedItems;
 
 
 
-    public ConfigInventoryBuilder(FileConfiguration configuration) throws Exception {
+    public ConfigInventoryBuilder(FileConfiguration configuration, String mainPath) throws Exception {
 
-        this.title = configuration.getString("title");
-        this.id = configuration.getInt("id") + "";
-        this.slots = configuration.getInt("rows") * 9;
+        this.title = configuration.getString(mainPath + "title");
+        this.id = configuration.getInt(mainPath +"id") + "";
+        this.slots = configuration.getInt(mainPath +"rows") * 9;
 
         this.items = new ArrayList<>();
         this.actions = new HashMap<>();
         this.storedItems = new HashMap<>();
 
         for (String path : configuration.getConfigurationSection("stored-items").getKeys(false)) {
-            path = "stored-items." + path;
+            path = mainPath + "stored-items." + path;
 
             String[] materialName = configuration.getString(path + ".material").split(", ");
             MaterialData data;
@@ -56,8 +61,8 @@ public class ConfigInventoryBuilder {
 
 
         for (String path : configuration.getConfigurationSection("items").getKeys(false)) {
-            path = "items." + path;
-            if (path.equals("filler-item")) {
+            path = mainPath + "items." + path;
+            if (path.equals("items.filler-item")) {
                 String[] materialName = configuration.getString("items.filler-item.material").split(", ");
                 if (materialName[0] == null && materialName[0].equals("AIR")) continue;
                 fillerItem = getItem(materialName,"",null,1,1,false);
@@ -67,7 +72,7 @@ public class ConfigInventoryBuilder {
 
             int slot = configuration.getInt(path + ".slot") -1;
 
-            if (configuration.getString(path + ".stored-item") != null) path = "stored-items." + configuration.getString(path + ".stored-item");
+            if (configuration.getString(path + ".stored-item") != null) path = mainPath + "stored-items." + configuration.getString(path + ".stored-item");
 
 
             String[] materialName = configuration.getString(path + ".material").split(", ");
@@ -138,9 +143,16 @@ public class ConfigInventoryBuilder {
         return new InventoryItem(data,name,lore,ammount,slot);
 
     }
-    public String getId() {
-        return id;
+
+    public PlayerSelector buildPlayerSelector(Player player) {
+        PlayerSelector selector = new PlayerSelector("xg7playerselector");
+        items.forEach(item -> {
+            if (PluginUtil.placeholderapi()) item.setPlaceholders(player);
+            selector.addItems(item);
+        });
+        return selector;
     }
+
     public ConfigInventory build(Player player) {
 
         ConfigInventory menu = new ConfigInventory(title,slots,id);

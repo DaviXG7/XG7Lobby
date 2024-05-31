@@ -1,6 +1,8 @@
-package com.xg7network.xg7lobby.inventories.inventory;
+package com.xg7network.xg7lobby.inventories.managers;
 
 import com.xg7network.xg7lobby.XG7Lobby;
+import com.xg7network.xg7lobby.inventories.inventory.ConfigInventory;
+import com.xg7network.xg7lobby.inventories.inventory.ConfigInventoryBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -36,7 +38,7 @@ public class InventoryManager {
 
                 FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
 
-                inventories.add(new ConfigInventoryBuilder(configuration));
+                inventories.add(new ConfigInventoryBuilder(configuration, ""));
 
             }
         }

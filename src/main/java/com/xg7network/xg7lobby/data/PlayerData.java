@@ -1,11 +1,15 @@
 package com.xg7network.xg7lobby.data;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Getter
+@Setter
 public class PlayerData {
 
     private String id;
@@ -48,30 +52,6 @@ public class PlayerData {
         this.playername = player.getName();
     }
 
-    public boolean isMuted() {
-        return muted;
-    }
-
-    public void setMuted(boolean muted) {
-        this.muted = muted;
-    }
-
-    public List<Warn> getInfractions() {
-        return infractions;
-    }
-
-    public boolean isPlayershide() {
-        return playershide;
-    }
-
-    public void setPlayershide(boolean playershide) {
-        this.playershide = playershide;
-    }
-
-    public void setInfractions(List<Warn> infractions) {
-        this.infractions = infractions;
-    }
-
     public boolean removeInfraction(String id) {
         for (Warn warn : this.infractions) {
             if (warn.getId().equals(id)) {
@@ -87,10 +67,6 @@ public class PlayerData {
         this.infractions.add(new Warn(id, reason, date));
     }
 
-    public long getLastDayToUnmute() {
-        return lastDayToUnmute;
-    }
-
     public void setLastDayToUnmute(long lastDayToUnmute) {
         this.lastDayToUnmute = lastDayToUnmute;
     }
@@ -98,10 +74,8 @@ public class PlayerData {
     public String getFirstJoin() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(firstJoin);
     }
+
     public long getFirstJoinLong() {
         return firstJoin;
-    }
-    public void setFirstJoin(long firstJoin) {
-        this.firstJoin = firstJoin;
     }
 }
