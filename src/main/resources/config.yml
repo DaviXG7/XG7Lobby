@@ -505,6 +505,11 @@ cancel-interact-with-inventory: true
 #Will cancel only the hotbar
 cancel-hotbar: true
 
+#It´s will keep the inventories of other worlds
+#When you come back to lobby, the plugin will save
+#your inventory
+keep-other-world-inventories: true
+
 ###############################################
 #WORLD OPTIONS                                #
 ###############################################

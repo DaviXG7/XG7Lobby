@@ -3,12 +3,15 @@ package com.xg7network.xg7lobby;
 import com.xg7network.xg7lobby.config.ConfigManager;
 import com.xg7network.xg7lobby.config.ConfigType;
 import com.xg7network.xg7lobby.data.PlayersManager;
-import com.xg7network.xg7lobby.inventories.inventory.InventoryManager;
+import com.xg7network.xg7lobby.events.playerevents.Handler.PlayerManager;
+import com.xg7network.xg7lobby.inventories.managers.InventoryManager;
 import com.xg7network.xg7lobby.utils.PrivateInforations.Metrics;
 import com.xg7network.xg7lobby.utils.Other.PlaceHolder;
 import com.xg7network.xg7lobby.utils.PrivateInforations.VerfVersion;
 import com.xg7network.xg7lobby.utils.Text.TextUtil;
+import com.xg7network.xg7menus.API.Inventory.Manager.Managers.MenuManager;
 import com.xg7network.xg7menus.API.Inventory.Manager.MenuManager;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +21,7 @@ import java.sql.SQLException;
 public final class XG7Lobby extends JavaPlugin {
 
 
+    @Getter
     private static XG7Lobby plugin;
     public static String prefix;
 
@@ -77,6 +81,8 @@ public final class XG7Lobby extends JavaPlugin {
 
         MenuManager.inicialize(this);
 
+        PlayerManager.init();
+
 
 
         this.getServer().getConsoleSender().sendMessage(prefix + "Loading events:");
@@ -100,8 +106,4 @@ public final class XG7Lobby extends JavaPlugin {
     }
 
 
-
-    public static XG7Lobby getPlugin() {
-        return plugin;
-    }
 }

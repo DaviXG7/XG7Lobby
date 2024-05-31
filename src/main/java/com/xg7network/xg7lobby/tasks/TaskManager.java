@@ -1,4 +1,4 @@
-package com.xg7network.xg7lobby;
+package com.xg7network.xg7lobby.tasks;
 
 import org.bukkit.scheduler.BukkitTask;
 

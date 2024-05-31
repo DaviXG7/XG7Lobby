@@ -1,10 +1,14 @@
-package com.xg7network.xg7lobby.inventories;
+package com.xg7network.xg7lobby.inventories.action;
 
-import com.xg7network.xg7lobby.inventories.inventory.InventoryManager;
-import com.xg7network.xg7lobby.inventories.selectors.SelectorManager;
+import com.xg7network.xg7lobby.config.ConfigManager;
+import com.xg7network.xg7lobby.inventories.inventory.ConfigInventory;
+import com.xg7network.xg7lobby.inventories.managers.InventoryManager;
+import com.xg7network.xg7lobby.inventories.managers.SelectorManager;
 import com.xg7network.xg7lobby.utils.Other.PluginUtil;
 import com.xg7network.xg7lobby.utils.Text.TextUtil;
+import com.xg7network.xg7menus.API.Inventory.Manager.Managers.MenuManager;
 import com.xg7network.xg7menus.API.Inventory.Menus.InventoryItem;
+import com.xg7network.xg7menus.API.Inventory.Menus.Menu;
 import com.xg7network.xg7menus.API.Inventory.Menus.Others.PlayerSelector;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -176,9 +180,10 @@ public class Action {
 
                 String[] item = args.split(", ");
 
-                PlayerSelector selector = SelectorManager.getSelectors().get(player.getUniqueId());
+                Menu menu = MenuManager.getMenu(player.getUniqueId());
 
-                InventoryItem targetStoredItem = SelectorManager.getStoredItems().get(item[1]);
+                InventoryItem targetStoredItem = SelectorManager.getBuilder().getStoredItems().get(item[1]);
+                if (targetStoredItem == null) ((ConfigInventory) menu).getStoredItem(item[1]);
 
                 if (targetStoredItem == null) {
                     Bukkit.getLogger().severe("The inventory path doesn't exists!");
@@ -189,15 +194,18 @@ public class Action {
 
                 if (item[0].startsWith("currentslot=")) {
                     item[0] = item[0].replace("currentslot=", "");
-                    InventoryItem currentItem = SelectorManager.getStoredItems().get(item[0]);
+                    InventoryItem currentItem = SelectorManager.getBuilder().getStoredItems().get(item[0]);
+                    if (currentItem == null) ((ConfigInventory) menu).getStoredItem(item[0]);
+
+                    if (currentItem == null) throw new NullPointerException("Current item equals null??");
 
                     targetStoredItem.setSlot(currentItem.getSlot());
 
-                    selector.updateItem(targetStoredItem);
+                    menu.updateItem(targetStoredItem);
 
                 } else {
                     targetStoredItem.setSlot(Integer.parseInt(item[0]));
-                    selector.updateItem(targetStoredItem);
+                    menu.updateItem(targetStoredItem);
                 }
 
                 return;

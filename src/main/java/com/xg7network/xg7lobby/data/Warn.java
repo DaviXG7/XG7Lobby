@@ -1,10 +1,15 @@
 package com.xg7network.xg7lobby.data;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.text.SimpleDateFormat;
 import java.util.UUID;
 
+@Getter
 public class Warn {
 
+    @Setter
     private String warn;
     private String id;
     private String playerid;
@@ -24,22 +29,8 @@ public class Warn {
         this.id = id;
     }
 
-    public String getWarn() {
-        return warn;
-    }
-
-    public void setWarn(String warn) {
-        this.warn = warn;
-    }
-
-    public String getWhen() {
+    public String getWhenFormatted() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(when);
     }
-    public long getWhenInMills() {
-        return this.when;
-    }
 
-    public String getId() {
-        return id;
-    }
 }
