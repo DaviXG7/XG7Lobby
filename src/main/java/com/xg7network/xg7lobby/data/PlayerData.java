@@ -67,10 +67,6 @@ public class PlayerData {
         this.infractions.add(new Warn(id, reason, date));
     }
 
-    public void setLastDayToUnmute(long lastDayToUnmute) {
-        this.lastDayToUnmute = lastDayToUnmute;
-    }
-
     public String getFirstJoin() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(firstJoin);
     }
