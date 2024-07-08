@@ -1,0 +1,6 @@
+anti-tab: true
+
+commands:
+  xg7lobbysetlobby:
+    enabled: true
+    args: [ "7lsetlobby", "xg7lsetlobby", "7lsetl", "setlobby", "setl" ]

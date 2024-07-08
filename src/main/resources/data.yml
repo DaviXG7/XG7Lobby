@@ -1,10 +1,2 @@
-
-lobby:
-  world:
-  x:
-  y:
-  z:
-  yaw:
-  pitch:
-
-chat-locked: false
+spawn-location:
+chat-locked:

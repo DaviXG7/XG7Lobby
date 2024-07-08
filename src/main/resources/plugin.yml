@@ -1,73 +1,8 @@
 name: XG7Lobby
 version: '${project.version}'
-main: com.xg7network.xg7lobby.XG7Lobby
+main: com.xg7plugins.xg7lobby.XG7Lobby
 api-version: '1.13'
 load: STARTUP
-loadbefore: [XG7RandomKits]
-softdepend: [PlaceholderAPI, Multiverse-Core]
+loadbefore: [ XG7RandomKits ]
+softdepend: [ PlaceholderAPI, Multiverse-Core ]
 
-permissions:
-  xg7lobby.admin:
-    default: op
-    description: Administradores do plugin
-    children:
-      xg7lobby.build: true
-      xg7lobby.command.*: true
-      xg7lobby.items.*: true
-      xg7lobby.blocks.*: true
-      xg7lobby.attack: true
-      xg7lobby.doublejump: true
-      xg7lobby.chat.*: true
-      xg7lobby.gamemode.*: true
-      xg7lobby.inv: true
-
-  xg7lobby.command.*:
-    default: op
-    description: Pode usar todos os comandos do plugin
-    children:
-      xg7lobby.command.mute: true
-      xg7lobby.command.setlobby: true
-      xg7lobby.command.ban: true
-      xg7lobby.command.unban: true
-      xg7lobby.command.kick: true
-      xg7lobby.command.unmute: true
-      xg7lobby.command.tempban: true
-      xg7lobby.command.warn: true
-      xg7lobby.command.fly: true
-      xg7lobby.command.flyother: true
-      xg7lobby.command.gui: true
-      xg7lobby.command.vanish: true
-      xg7lobby.command.help: true
-      xg7lobby.command.lockchat: true
-
-  xg7lobby.items.*:
-    default: op
-    description: Pode fazer de tudo com itens
-    children:
-      xg7lobby.items.pickup: true
-      xg7lobby.items.drop: true
-
-  xg7lobby.blocks.*:
-    default: op
-    description: Pode fazer de tudo com Blocos
-    children:
-      xg7lobby.blocos.colocar: true
-      xg7lobby.blocos.quebrar: true
-      xg7lobby.blocos.interagir: true
-
-  xg7lobby.chat.*:
-    default: op
-    description: Permissões de chat
-    children:
-      xg7lobby.chat.badwords: true
-      xg7lobby.chat.commands: true
-
-  xg7lobby.gamemode.*:
-    default: op
-    description: Altera o modo de jogo
-    children:
-      xg7lobby.gamemode.creative: true
-      xg7lobby.gamemode.survival: true
-      xg7lobby.gamemode.adventure: true
-      xg7lobby.gamemode.spectator: true
-      xg7lobby.gamemode.others: true
