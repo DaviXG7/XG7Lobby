@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 public enum PermissionType {
 
+    DEFAULT(""),
+
+    ANTITAB_COMMAND_BYPASS("antitab.bypass"),
+
     LOBBY("lobby.*"),
     SET_LOBBY("lobby.set");
 

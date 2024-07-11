@@ -3,26 +3,33 @@ package com.xg7plugins.xg7lobby.commands;
 import com.xg7plugins.xg7lobby.Enums.ConfigType;
 import com.xg7plugins.xg7lobby.Enums.PermissionType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.commands.implcommands.LobbyCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.SetLobbyCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Log;
+import com.xg7plugins.xg7lobby.utils.Text;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.TabCompleteEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class CommandManager implements CommandExecutor, TabCompleter, Listener {
 
+    @Getter
     private static final List<com.xg7plugins.xg7lobby.commands.Command> commands = new ArrayList<>();
 
     @SneakyThrows
@@ -30,18 +37,20 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         Log.info("Loading commands...");
         PermissionType.register();
 
-        commands.
+        commands.add(new SetLobbyCommand());
+        commands.add(new LobbyCommand());
 
         Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
         commandMapField.setAccessible(true);
         CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
 
         for (com.xg7plugins.xg7lobby.commands.Command command : commands) {
-            Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, JavaPlugin.class);
+            Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             constructor.setAccessible(true);
             PluginCommand pluginCommand = constructor.newInstance(command.getName(), XG7Lobby.getPlugin());
             pluginCommand.setExecutor(this);
             pluginCommand.setTabCompleter(this);
+            pluginCommand.setAliases(command.getAliasses());
             commandMap.register(command.getName(), pluginCommand);
         }
 
@@ -54,8 +63,14 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         com.xg7plugins.xg7lobby.commands.Command command1 = commands.stream().filter(cmd -> cmd.getName().equals(command.getName())).findFirst().get();
 
         if (!commandSender.hasPermission(command1.getPermission().getPerm())) {
-            commandSender.sendMessage(Config.getString(ConfigType.MESSAGES, "commands.no-permission"));
+            Text.send(Config.getString(ConfigType.MESSAGES, "commands.no-permission"), commandSender);
             return true;
+        }
+        if (!(commandSender instanceof Player)) {
+            if (command1.isOnlyPlayer()) {
+                Text.send(Config.getString(ConfigType.MESSAGES, "commands.not-a-player"), commandSender);
+                return true;
+            }
         }
         return command1.onCommand(commandSender,command,s,strings);
     }
@@ -78,7 +93,7 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
 
             com.xg7plugins.xg7lobby.commands.Command command1 = commands.stream().filter(cmd -> ("/" + cmd.getName()).equals(completion)).findFirst().get();
 
-            if (!event.getSender().hasPermission(command1.getPermission().getPerm())) {
+            if (!event.getSender().hasPermission(command1.getPermission().getPerm()) || !event.getSender().hasPermission(PermissionType.ANTITAB_COMMAND_BYPASS.getPerm())) {
                 it.remove();
             }
             break;

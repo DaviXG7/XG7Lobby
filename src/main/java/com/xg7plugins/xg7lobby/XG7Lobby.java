@@ -1,7 +1,10 @@
 package com.xg7plugins.xg7lobby;
 
-
+import com.xg7plugins.xg7lobby.commands.CommandManager;
+import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.utils.Log;
+import com.xg7plugins.xg7menus.api.XG7Menus;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +17,7 @@ public final class XG7Lobby extends JavaPlugin {
 
 
     public void onEnable() {
-
+        plugin = this;
 
         this.getServer().getConsoleSender().sendMessage("Loading...");
         this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "__   __  ___   ______     " + ChatColor.DARK_AQUA + "_       ____    ____ " + ChatColor.AQUA + "  ____ __   __");
@@ -37,11 +40,23 @@ public final class XG7Lobby extends JavaPlugin {
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "It's recommended to install PlaceholderAPI");
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "to get more resourses!");
         }
-
-        plugin = this;
+        Log.setEnabled(XG7Lobby.getPlugin().getConfig().getBoolean("debug"));
 
         Log.warn("DEBUG is enabled, to disable go on config.yml");
 
+        Log.loading("Loading the plugin..");
+
+        XG7Menus.inicialize(this);
+
+        Log.loading("Loading configuration and data...");
+        Config.load();
+        SQLHandler.connect();
+
+
+        Log.loading("Loading commands...");
+        new CommandManager().init();
+
+        Log.loading("Loaded!");
 
     }
 

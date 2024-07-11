@@ -97,10 +97,6 @@ public class Config {
         return configs.get(type).getStringList(path);
     }
 
-    public static Location getLocation(ConfigType type, String path) {
-        return configs.get(type).getLocation(path);
-    }
-
     public static ConfigurationSection getConfigurationSections(ConfigType type, String path) {
         return configs.get(type).getConfigurationSection(path);
     }

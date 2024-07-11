@@ -3,6 +3,8 @@
 debug: true
 plugin-prefix: "&9[XG7&3Lob&bby] &8| &r"
 
+warn-for-version: true
+
 # SQL
 
 sql:
@@ -12,3 +14,17 @@ sql:
 
   user: "root"
   pass: "root"
+
+# LOBBY
+
+lobby:
+
+  defaults:
+    effects:
+
+  on-tp:
+    cooldown-for-tp: 5
+
+
+  on-join:
+    tp-to-lobby: true
