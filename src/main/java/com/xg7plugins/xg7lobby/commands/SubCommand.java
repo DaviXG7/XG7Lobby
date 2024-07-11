@@ -9,10 +9,18 @@ import java.util.List;
 public interface SubCommand {
 
     String getName();
-    PermissionType getPermission();
+    default PermissionType getPermission() {
+        return PermissionType.DEFAULT;
+    }
     default List<SubCommand> getSubCommands() {
         return new ArrayList<>();
     }
-    void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args);
+    default void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        SubCommand subcommand = getSubCommands().stream().filter(subCommand -> subCommand.getName().equals(args[0])).findFirst().orElse(null);
+        if (subcommand != null) {
+            subcommand.onCommand(sender,command,label,args);
+            return;
+        }
+    }
 
 }

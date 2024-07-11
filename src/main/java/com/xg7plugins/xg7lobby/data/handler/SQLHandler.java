@@ -38,6 +38,8 @@ public class SQLHandler {
         } catch (SQLException e) {
             Log.severe("Unable to connect to the database using the default sqllite database!");
 
+            Class.forName("org.sqlite.JDBC");
+
             File file = new File(XG7Lobby.getPlugin().getDataFolder(), "playerdata.db");
 
             if (!file.exists()) file.createNewFile();

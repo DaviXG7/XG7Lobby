@@ -1,2 +1,8 @@
 commands:
+  syntax-error: "&cThe right way to use this command is: &r[SYNTAX]"
   no-permission: "&cYou don't have permission to use this command!"
+  not-a-player: "&cOnly players can execute this command!"
+
+
+lobby:
+  no-location: "&cThe lobby was not placed, wait for an adm to put!"

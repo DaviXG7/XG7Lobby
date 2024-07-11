@@ -1,12 +1,14 @@
 package com.xg7plugins.xg7lobby.utils;
 
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
 public class Log {
-    public static final boolean isEnabled = XG7Lobby.getPlugin().getConfig().getBoolean("debug");
+    @Setter
+    public static boolean isEnabled = false;
 
     public static void severe(String message) {
         Bukkit.getLogger().severe("[XG7Lobby ERROR] " + message);
