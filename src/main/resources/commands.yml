@@ -4,3 +4,9 @@ commands:
   xg7lobbysetlobby:
     enabled: true
     args: [ "7lsetlobby", "xg7lsetlobby", "7lsetl", "setlobby", "setl" ]
+  xg7lobbylobby:
+    enabled: true
+    args: [ "7llobby", "xg7llobby", "7ll", "lobby", "l" ]
+  xg7lobbyreload:
+    enabled: true
+    args: [ "7lreload", "xg7lreload", "7lrl", "lrl" ]

@@ -1,14 +1,13 @@
 package com.xg7plugins.xg7lobby.commands.implcommands;
 
-import com.xg7plugins.xg7lobby.Enums.ConfigType;
-import com.xg7plugins.xg7lobby.Enums.PermissionType;
+import com.xg7plugins.xg7lobby.data.ConfigType;
+import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.SubCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -60,9 +59,8 @@ public class SetLobbyCommand implements Command {
             Config.set(ConfigType.DATA, "spawn-location.z", location.getZ());
             Config.set(ConfigType.DATA, "spawn-location.yaw", location.getYaw());
             Config.set(ConfigType.DATA, "spawn-location.pitch", location.getPitch());
-            Config.save(ConfigType.DATA);
             Config.reload(ConfigType.DATA);
-            Text.send("&aLobby successfully placed at &bworld: &r" + location.getWorld().getName() + "&b, x: &r" + location.getX() + "&b, y: &r" + location.getY() + "&b, z: &r" + location.getZ() + "&b, yaw: &r" + location.getYaw() + "&b, pitch: &r" + location.getPitch(), sender);
+            Text.send("&aLobby successfully placed at &bworld: &r" + location.getWorld().getName() + "&b, x: &r" + (int) location.getX() + "&b, y: &r" + (int) location.getY() + "&b, z: &r" + (int) location.getZ() + "&b, yaw: &r" + (int) location.getYaw() + "&b, pitch: &r" + (int) location.getPitch(), sender);
             return true;
         }
 
@@ -96,7 +94,7 @@ public class SetLobbyCommand implements Command {
             Config.set(ConfigType.DATA, "spawn-location.pitch", pitch);
 
             Config.save(ConfigType.DATA);
-            Text.send("&aLobby successfully placed at &bworld: &r" + args[0] + "&b, x: &r" + x + "&b, y: &r" + y + "&b, z: &r" + z + "&b, yaw: &r" + y + "&b, pitch: &r" + pitch, sender);
+            Text.send("&aLobby successfully placed at &bworld: &r" + args[0] + "&b, x: &r" + (int) x + "&b, y: &r" + (int) y + "&b, z: &r" + (int) z + "&b, yaw: &r" + (int) yaw + "&b, pitch: &r" + (int) pitch, sender);
             return true;
         } catch (Exception e) {
             Text.send(Config.getString(ConfigType.MESSAGES, "commands.syntax-error").replace("[SYNTAX]", getSyntax()), sender);

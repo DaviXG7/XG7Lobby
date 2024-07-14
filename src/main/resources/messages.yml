@@ -6,3 +6,11 @@ commands:
 
 lobby:
   no-location: "&cThe lobby was not placed, wait for an adm to put!"
+
+  on-cmd: "You will teleport in few seconds, please wait!"
+  on-tp: "[ACTION] &6You will teleport in [SECONDS]... Don't move!"
+  on-tp-cancel: "[ACTION] &cTeleport canceled"
+
+  on-join: "&8[&a+&8] &f%player_name% joined the server."
+  on-quit: "&8[&c-&8] &f%player_name% has left the server."
+  on-first-join: "&8[&f+&b1&8] &f%player_name% joined the server for the first time"

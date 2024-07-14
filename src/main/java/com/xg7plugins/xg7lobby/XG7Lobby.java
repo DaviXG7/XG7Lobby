@@ -1,8 +1,11 @@
 package com.xg7plugins.xg7lobby;
 
+import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.commands.CommandManager;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
+import com.xg7plugins.xg7lobby.events.EventManager;
+import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7menus.api.XG7Menus;
 import lombok.Getter;
@@ -52,9 +55,17 @@ public final class XG7Lobby extends JavaPlugin {
         Config.load();
         SQLHandler.connect();
 
+        Log.loading("Loading cache...");
+        CacheManager.init();
 
         Log.loading("Loading commands...");
         new CommandManager().init();
+
+        Log.loading("Loading events...");
+        new EventManager().init();
+
+        Log.loading("Loading Tasks...");
+        TaskManager.initTimerTasks();
 
         Log.loading("Loaded!");
 
