@@ -21,11 +21,11 @@ public class Text {
     public static void send(String text, CommandSender sender) {
         if (text == null || text.isEmpty()) return;
         if (sender instanceof Player) {
-            if (text.startsWith("ACTION: ")) {
-                sendActionBar(text.substring(7), ((Player) sender));
+            if (text.startsWith("[ACTION] ")) {
+                sendActionBar(text.substring(9), ((Player) sender));
                 return;
             }
-            if (text.startsWith("CENTER: ")) text = getCentralizedText(PixelsSize.CHAT.getPixels(), text);
+            if (text.startsWith("[CENTER] ")) text = getCentralizedText(PixelsSize.CHAT.getPixels(), text.substring(9));
 
             sender.sendMessage(getFormatedText(((Player) sender), text));
             return;
@@ -54,6 +54,7 @@ public class Text {
     }
 
     public static String getFormatedText(Player player, String text) {
+        if (text.startsWith("[CENTER] ")) return translateColorCodes(setPlaceholders(getCentralizedText(PixelsSize.CHAT.getPixels(), text.substring(9)), player));
         return translateColorCodes(setPlaceholders(text, player));
     }
     public static String setPlaceholders(String text, Player player) {

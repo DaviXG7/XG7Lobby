@@ -1,7 +1,7 @@
 package com.xg7plugins.xg7lobby.commands;
 
-import com.xg7plugins.xg7lobby.Enums.ConfigType;
-import com.xg7plugins.xg7lobby.Enums.PermissionType;
+import com.xg7plugins.xg7lobby.commands.implcommands.ReloadCommand;
+import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.commands.implcommands.LobbyCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.SetLobbyCommand;
@@ -16,6 +16,8 @@ import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +41,7 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
 
         commands.add(new SetLobbyCommand());
         commands.add(new LobbyCommand());
+        commands.add(new ReloadCommand());
 
         Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
         commandMapField.setAccessible(true);
@@ -53,6 +56,8 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
             pluginCommand.setAliases(command.getAliasses());
             commandMap.register(command.getName(), pluginCommand);
         }
+
+        XG7Lobby.getPlugin().getServer().getPluginManager().registerEvents(this, XG7Lobby.getPlugin());
 
         Log.fine("Commands loaded!");
     }
@@ -80,23 +85,5 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         com.xg7plugins.xg7lobby.commands.Command command1 = commands.stream().filter(cmd -> cmd.getName().equals(command.getName())).findFirst().get();
         return command1.onTabComplete(commandSender,command,s,strings);
-    }
-
-    @EventHandler
-    public void onTabComplete(TabCompleteEvent event) {
-
-        if (!Config.getBoolean(ConfigType.COMMANDS, "anti-tab")) return;
-
-        Iterator<String> it = event.getCompletions().iterator();
-        while (it.hasNext()) {
-            String completion = it.next();
-
-            com.xg7plugins.xg7lobby.commands.Command command1 = commands.stream().filter(cmd -> ("/" + cmd.getName()).equals(completion)).findFirst().get();
-
-            if (!event.getSender().hasPermission(command1.getPermission().getPerm()) || !event.getSender().hasPermission(PermissionType.ANTITAB_COMMAND_BYPASS.getPerm())) {
-                it.remove();
-            }
-            break;
-        }
     }
 }

@@ -1,8 +1,8 @@
 package com.xg7plugins.xg7lobby.commands;
 
-import com.xg7plugins.xg7lobby.Enums.ConfigType;
-import com.xg7plugins.xg7lobby.Enums.PermissionType;
+import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -24,6 +24,10 @@ public interface Command {
     boolean isOnlyPlayer();
     List<SubCommand> getSubCommands();
     default boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        if (args.length == 0) {
+            Text.send(Config.getString(ConfigType.MESSAGES, "commands.syntax-error").replace("[SYNTAX]", getSyntax()), sender);
+            return true;
+        }
         SubCommand subcommand = getSubCommands().stream().filter(subCommand -> subCommand.getName().equals(args[0])).findFirst().orElse(null);
         if (subcommand != null) {
             subcommand.onCommand(sender,command,label,args);

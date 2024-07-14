@@ -5,7 +5,12 @@ plugin-prefix: "&9[XG7&3Lob&bby] &8| &r"
 
 warn-for-version: true
 
+enabled-worlds:
+  - world
+
 # SQL
+
+sql-cache-expires: 30
 
 sql:
   host: "localhost"
@@ -17,14 +22,77 @@ sql:
 
 # LOBBY
 
-lobby:
 
-  defaults:
-    effects:
+before-tp:
+  cooldown-for-tp: 5
+  dont-move: true
 
-  on-tp:
-    cooldown-for-tp: 5
+on-first-join:
+  enabled: true
+  events:
+    - "[TITLE] &bOXIIIIIi, &f%player_name%"
+
+on-join:
+  tp-to-lobby: true
+
+  heal: true
+  clear-inventory: true
+
+  events:
+    - "[TITLE] &bWelcome, &f%player_name%"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] [CENTER] &bWelcome &f%player_name%"
+    - "[MESSAGE]  "
+    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
+    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE]  "
+    - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[SOUND] ORB_PICKUP, 10.0, 0.0"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 2"
+    - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
 
-  on-join:
-    tp-to-lobby: true
+#MODERATION
+
+min-warns-to-kick: 10
+warns-to-ban: 20
+
+#Player
+
+player-task-cooldown: 5
+
+effects:
+  - "JUMP, 1"
+  - "SPEED, 2"
+
+max-hearths: 2
+cancel-death-by-void: true
+hunger-loss: false
+take-damage: false
+cancel-portal: true
+pvp: false
+
+#Interaction
+
+# Only players who have the permission
+# Will break blocks and place
+break-blocks: false
+place-blocks: false
+interact-with-blocks: false
+
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+blocks-with-canceled-interaction:
+  - "ANVIL"
+  - "CHEST"
+  - "CRAFTING_TABLE"
+  - "HOPPER"
+  - "FURNACE"
+  - "OAK_TRAPDOOR"
+
+#Drop, pick up
+
+pickup-items: true
+drop-items: false
+

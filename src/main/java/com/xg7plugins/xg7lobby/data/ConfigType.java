@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.Enums;
+package com.xg7plugins.xg7lobby.data;
 
 public enum ConfigType {
 

@@ -1,0 +1,155 @@
+package com.xg7plugins.xg7lobby.commands.implcommands;
+
+import com.xg7plugins.xg7lobby.cache.CacheManager;
+import com.xg7plugins.xg7lobby.commands.Command;
+import com.xg7plugins.xg7lobby.commands.PermissionType;
+import com.xg7plugins.xg7lobby.commands.SubCommand;
+import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
+import com.xg7plugins.xg7lobby.tasks.TaskManager;
+import com.xg7plugins.xg7lobby.utils.Text;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ReloadCommand implements Command {
+    @Override
+    public String getName() {
+        return "xg7lobbyreload";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Reloads teh plugin";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/xg7lobbyreload [config, db, all, cache, tasks]";
+    }
+
+    @Override
+    public PermissionType getPermission() {
+        return PermissionType.RELOAD;
+    }
+
+    @Override
+    public boolean isOnlyPlayer() {
+        return false;
+    }
+
+    @Override
+    public List<SubCommand> getSubCommands() {
+        return Arrays.asList(new ReloadAll(), new ReloadDB(), new ReloadCache(), new ReloadTask(), new ReloadConfig());
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        return args.length == 1 ? Arrays.asList("config", "db", "all", "cache", "tasks") : new ArrayList<>();
+    }
+
+    static class ReloadAll implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "all";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading...", sender);
+            Config.reload();
+            Config.reloadMenus();
+            CacheManager.reloadAll();
+            TaskManager.cancelAll();
+            TaskManager.initTimerTasks();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+    static class ReloadDB implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "db";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD_DB;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading database...", sender);
+            SQLHandler.closeConnection();
+            SQLHandler.connect();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+    static class ReloadCache implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "cache";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD_CACHE;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading cache...", sender);
+            CacheManager.reloadAll();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+    static class ReloadTask implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "tasks";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD_TASK;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading tasks...", sender);
+            TaskManager.cancelAll();
+            TaskManager.initTimerTasks();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+    static class ReloadConfig implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "config";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD_CONFIG;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading configs...", sender);
+            Config.load();
+            Config.reloadMenus();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+}

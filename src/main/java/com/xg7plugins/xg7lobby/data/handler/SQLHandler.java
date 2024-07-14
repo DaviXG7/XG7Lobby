@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.data.handler;
 
-import com.xg7plugins.xg7lobby.Enums.ConfigType;
+import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.utils.Log;
 import lombok.SneakyThrows;
@@ -11,15 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class SQLHandler {
 
     private static Connection connection;
-
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     private static final String HOST = Config.getString(ConfigType.CONFIG, "sql.host");
     private static final int PORT = Config.getInt(ConfigType.CONFIG, "sql.port");
@@ -50,9 +46,12 @@ public class SQLHandler {
 
         }
 
+        Log.loading("Loading tables...");
 
+        connection.prepareStatement("CREATE TABLE IF NOT EXISTS players(id TEXT PRIMARY KEY, isplayershide BOOLEAN, ismuted BOOLEAN, isbuildenabled BOOLEAN, isflying BOOLEAN, ispvpenabled BOOLEAN, timeforunmute BIGINT, firstJoin BIGINT)").executeUpdate();
+        connection.prepareStatement("CREATE TABLE IF NOT EXISTS warns(playerid TEXT, level INT, warnid TEXT PRIMARY KEY, warn TEXT, whenw BIGINT)").executeUpdate();
 
-
+        Log.loading("Loaded!");
     }
 
     @SneakyThrows
@@ -62,8 +61,7 @@ public class SQLHandler {
     }
 
     @SneakyThrows
-    public static Future<List<Map<String, Object>>> select(String sql, Object... args) {
-        return executorService.submit(() -> {
+    public synchronized static List<Map<String, Object>> select(String sql, Object... args) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
                 for (int i = 0; i < args.length; i++) {
@@ -83,12 +81,11 @@ public class SQLHandler {
                 }
 
             }
-        });
 
     }
 
     @SneakyThrows
-    public static int update(String sql, Object... args) {
+    public synchronized static int update(String sql, Object... args) {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
@@ -98,7 +95,7 @@ public class SQLHandler {
     }
 
     @SneakyThrows
-    public static int delete(String sql, Object... args) {
+    public synchronized static int delete(String sql, Object... args) {
         return update(sql, args);
     }
 

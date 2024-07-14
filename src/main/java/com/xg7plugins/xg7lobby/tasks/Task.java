@@ -1,11 +1,15 @@
 package com.xg7plugins.xg7lobby.tasks;
 
-public interface Task {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-    boolean isEnabled();
+@AllArgsConstructor
+@Getter
+public abstract class Task {
+    @Setter
+    private String name;
+    private long delay;
 
-    long getDelay();
-
-    void run();
-
+    public abstract void run();
 }

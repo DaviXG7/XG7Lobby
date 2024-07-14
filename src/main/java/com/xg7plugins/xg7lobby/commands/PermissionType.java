@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.Enums;
+package com.xg7plugins.xg7lobby.commands;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -9,16 +9,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Getter
 public enum PermissionType {
 
     DEFAULT(""),
 
     ANTITAB_COMMAND_BYPASS("antitab.bypass"),
 
-    LOBBY("lobby.*"),
-    SET_LOBBY("lobby.set");
+    RELOAD("command.reload.*"),
+    RELOAD_DB("command.reload.db"),
+    RELOAD_CONFIG("command.reload.config"),
+    RELOAD_CACHE("command.reload.cache"),
+    RELOAD_TASK("command.reload.task"),
 
-    @Getter
+    LOBBY("command.lobby.*"),
+    SET_LOBBY("command.lobby.set");
+
     final String perm;
 
     PermissionType(String perm) {

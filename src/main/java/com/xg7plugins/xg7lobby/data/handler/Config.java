@@ -1,13 +1,13 @@
 package com.xg7plugins.xg7lobby.data.handler;
 
-import com.xg7plugins.xg7lobby.Enums.ConfigType;
+import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.utils.Log;
 import lombok.SneakyThrows;
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.HashMap;
