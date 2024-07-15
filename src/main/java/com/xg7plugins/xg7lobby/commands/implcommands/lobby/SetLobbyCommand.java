@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.commands.implcommands;
+package com.xg7plugins.xg7lobby.commands.implcommands.lobby;
 
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
@@ -28,7 +28,12 @@ public class SetLobbyCommand implements Command {
 
     @Override
     public String getSyntax() {
-        return "/xg7lobbysetlobby (On console [x,y,z] or [x,y,z,yaw,pitch])";
+        return "/xg7lobbysetlobby (On console [world,x,y,z] or [world,x,y,z,yaw,pitch])";
+    }
+
+    @Override
+    public boolean isOnlyInLobbyWorld() {
+        return true;
     }
 
     @Override

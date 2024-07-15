@@ -1,11 +1,15 @@
 package com.xg7plugins.xg7lobby.commands;
 
+import com.xg7plugins.xg7lobby.commands.implcommands.FlyCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.PVPCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.ReloadCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.lobby.BuildCommand;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.commands.implcommands.LobbyCommand;
-import com.xg7plugins.xg7lobby.commands.implcommands.SetLobbyCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.lobby.LobbyCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.lobby.SetLobbyCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7lobby.utils.Text;
 import lombok.Getter;
@@ -14,11 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
-import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CommandManager implements CommandExecutor, TabCompleter, Listener {
@@ -42,6 +41,9 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commands.add(new SetLobbyCommand());
         commands.add(new LobbyCommand());
         commands.add(new ReloadCommand());
+        commands.add(new BuildCommand());
+        commands.add(new PVPCommand());
+        commands.add(new FlyCommand());
 
         Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
         commandMapField.setAccessible(true);
@@ -67,13 +69,19 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
 
         com.xg7plugins.xg7lobby.commands.Command command1 = commands.stream().filter(cmd -> cmd.getName().equals(command.getName())).findFirst().get();
 
-        if (!commandSender.hasPermission(command1.getPermission().getPerm())) {
+        if (!commandSender.hasPermission(command1.getPermission().getPerm()) && !command1.getPermission().equals(PermissionType.DEFAULT)) {
             Text.send(Config.getString(ConfigType.MESSAGES, "commands.no-permission"), commandSender);
             return true;
         }
         if (!(commandSender instanceof Player)) {
             if (command1.isOnlyPlayer()) {
                 Text.send(Config.getString(ConfigType.MESSAGES, "commands.not-a-player"), commandSender);
+                return true;
+            }
+        }
+        if (commandSender instanceof Player) {
+            if (command1.isOnlyInLobbyWorld() && !EventManager.getWorlds().contains(((Player) commandSender).getWorld().getName())) {
+                Text.send(Config.getString(ConfigType.MESSAGES, "commands.not-in-world"), commandSender);
                 return true;
             }
         }

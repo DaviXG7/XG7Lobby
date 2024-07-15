@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class LobbyCommandEvent implements Event {
     @Override
     public boolean isEnabled() {
-        return Config.getBoolean(ConfigType.CONFIG, "lobby.before-tp.dont-move");
+        return Config.getBoolean(ConfigType.CONFIG, "before-tp.dont-move");
     }
     @EventHandler
     public void onMove(PlayerMoveEvent event) {

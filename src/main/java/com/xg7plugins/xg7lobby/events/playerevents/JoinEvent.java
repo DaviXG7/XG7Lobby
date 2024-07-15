@@ -9,6 +9,7 @@ import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import com.xg7plugins.xg7lobby.events.actions.Action;
+import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,7 +25,7 @@ public class JoinEvent implements JoinQuitEvent {
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
-        if (Config.getBoolean(ConfigType.CONFIG, "on-join.heal")) event.getPlayer().setHealth(20);
+        if (Config.getBoolean(ConfigType.CONFIG, "on-join.heal")) event.getPlayer().setHealth(event.getPlayer().getMaxHealth());
         if (Config.getBoolean(ConfigType.CONFIG, "on-join.clear-inventory")) event.getPlayer().getInventory().clear();
         if (Config.getBoolean(ConfigType.CONFIG, "on-join.tp-to-lobby")) {
             if (Config.getString(ConfigType.DATA, "spawn-location.world") != null) {
@@ -60,6 +61,9 @@ public class JoinEvent implements JoinQuitEvent {
     public void onQuit(PlayerQuitEvent event) {
 
         CacheManager.remove(event.getPlayer().getUniqueId(), CacheType.SQL_QUERY);
+
+        TaskManager.cancelTask("cooldown:lobby=" + event.getPlayer().getUniqueId());
+        TaskManager.cancelTask("cooldown:pvp=" + event.getPlayer().getUniqueId());
 
         event.setQuitMessage(Text.getFormatedText(event.getPlayer(), Config.getString(ConfigType.MESSAGES, "lobby.on-quit")));
     }
