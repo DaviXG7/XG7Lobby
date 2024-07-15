@@ -10,3 +10,15 @@ commands:
   xg7lobbyreload:
     enabled: true
     args: [ "7lreload", "xg7lreload", "7lrl", "lrl" ]
+  xg7lobbybuild:
+    enabled: true
+    args: [ "7lbuild", "xg7lbuild", "lbuild", "build" ]
+  xg7lobbypvp:
+    enabled: true
+    args: [ "7lpvp", "xg7lpvp", "lpvp", "pvp" ]
+  xg7lobbyfly:
+    enabled: true
+    args: [ "7lfly", "xg7lfly", "lfly", "fly" ]
+  xg7lobbyvanish:
+    enabled: true
+    args: [ "7lvanish", "xg7lvanish", "lvanish", "vanish" ]

@@ -2,6 +2,7 @@ package com.xg7plugins.xg7lobby.events.playerevents;
 
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.events.Event;
 import com.xg7plugins.xg7lobby.events.EventManager;
 import org.bukkit.Bukkit;
@@ -23,6 +24,7 @@ public class PlayerEvents implements Event {
     public void onPortal(PlayerTeleportEvent event) {
 
         if (!Config.getBoolean(ConfigType.CONFIG, "cancel-portal")) return;
+        if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
 
         if (!EventManager.getWorlds().contains(event.getFrom().getWorld().getName())) return;
         event.setCancelled(event.getTo().getWorld().getEnvironment().equals(World.Environment.NETHER) || event.getTo().getWorld().getEnvironment().equals(World.Environment.THE_END));
@@ -32,6 +34,7 @@ public class PlayerEvents implements Event {
     @EventHandler
     public void onCancelVoid(PlayerMoveEvent event) {
         if (!Config.getBoolean(ConfigType.CONFIG, "cancel-death-by-void")) return;
+        if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
 
         int level = Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 18 ? -79 : -6;
 
@@ -57,7 +60,15 @@ public class PlayerEvents implements Event {
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
         if (Config.getBoolean(ConfigType.CONFIG, "take-damage")) return;
-        event.setCancelled(event.getEntity() instanceof  Player && EventManager.getWorlds().contains(event.getEntity().getWorld().getName()));
+        if (event.getEntity() instanceof Player) {
+            if (PlayerManager.getPlayerData(event.getEntity().getUniqueId()).isPVPEnabled()) {
+                event.setCancelled(!Config.getBoolean(ConfigType.CONFIG, "pvp.take-damage") && !event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK));
+                return;
+            }
+
+            event.setCancelled(EventManager.getWorlds().contains(event.getEntity().getWorld().getName()));
+
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Command {
@@ -15,6 +16,7 @@ public interface Command {
     }
     String getDescription();
     String getSyntax();
+    boolean isOnlyInLobbyWorld();
     default PermissionType getPermission() {
         return PermissionType.DEFAULT;
     }
@@ -22,7 +24,9 @@ public interface Command {
         return Config.getBoolean(ConfigType.COMMANDS, "commands." + getName() + ".enabled");
     }
     boolean isOnlyPlayer();
-    List<SubCommand> getSubCommands();
+    default List<SubCommand> getSubCommands() {
+        return new ArrayList<>();
+    }
     default boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (args.length == 0) {
             Text.send(Config.getString(ConfigType.MESSAGES, "commands.syntax-error").replace("[SYNTAX]", getSyntax()), sender);

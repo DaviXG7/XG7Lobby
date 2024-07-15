@@ -24,7 +24,6 @@ public class Action {
             }
         }
         if (type == null) return;
-        System.out.println(text);
         if (text.startsWith("[PERMISSION: ")) {
             String perm = text.substring(13, text.indexOf("] "));
             if (!player.hasPermission(perm)) return;
@@ -35,6 +34,8 @@ public class Action {
             if (player.hasPermission(perm)) return;
             text = text.replace("[!PERMISSION: " + perm + "] ", "");
         }
+
+        text = text.replace("[PLAYER]", player.getName());
 
         String[] textSplited = text.split(", ");
 

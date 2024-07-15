@@ -31,6 +31,11 @@ public class ReloadCommand implements Command {
     }
 
     @Override
+    public boolean isOnlyInLobbyWorld() {
+        return false;
+    }
+
+    @Override
     public PermissionType getPermission() {
         return PermissionType.RELOAD;
     }

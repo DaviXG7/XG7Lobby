@@ -58,11 +58,11 @@ public final class XG7Lobby extends JavaPlugin {
         Log.loading("Loading cache...");
         CacheManager.init();
 
-        Log.loading("Loading commands...");
-        new CommandManager().init();
-
         Log.loading("Loading events...");
         new EventManager().init();
+
+        Log.loading("Loading commands...");
+        new CommandManager().init();
 
         Log.loading("Loading Tasks...");
         TaskManager.initTimerTasks();

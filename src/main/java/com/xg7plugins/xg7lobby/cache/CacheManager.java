@@ -17,11 +17,14 @@ public class CacheManager {
     @Getter
     private static Cache<UUID, Long> lobbyCache;
     @Getter
+    private static Cache<UUID, Long> pvpCache;
+    @Getter
     private static Cache<UUID, PlayerData> sqlCache;
 
     public static void init() {
         selectorCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.SELECTORS, "cooldown"), TimeUnit.SECONDS).build();
-        lobbyCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "lobby.before-tp.cooldown-for-tp"), TimeUnit.SECONDS).build();
+        lobbyCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "before-tp.cooldown-for-tp"), TimeUnit.SECONDS).build();
+        pvpCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "pvp.cooldown-to-toggle"), TimeUnit.SECONDS).build();
         sqlCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "sql-cache-expires"), TimeUnit.MINUTES).build();
         Log.loading("Loaded!");
     }
@@ -29,10 +32,13 @@ public class CacheManager {
     public static void put(UUID id, CacheType type, PlayerData data) {
         switch (type) {
             case LOBBY_COOLDOWN:
-                lobbyCache.put(id, System.currentTimeMillis() + 5000);
+                lobbyCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.CONFIG, "before-tp.cooldown-for-tp") * 1000);
                 return;
             case SELECTOR_COOLDOWN:
-                selectorCache.put(id, System.currentTimeMillis() + 5000);
+                selectorCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.SELECTORS, "cooldown") * 1000);
+                return;
+            case PVP_COOLDOWN:
+                pvpCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.CONFIG, "pvp.cooldown-to-toggle") * 1000);
                 return;
             case SQL_QUERY:
                 sqlCache.put(data.getId(), data);
@@ -48,6 +54,10 @@ public class CacheManager {
             case SELECTOR_COOLDOWN:
                 selectorCache.invalidate(id);
                 selectorCache.cleanUp();
+                return;
+            case PVP_COOLDOWN:
+                pvpCache.invalidate(id);
+                pvpCache.cleanUp();
                 return;
             case SQL_QUERY:
                 sqlCache.invalidate(id);

@@ -31,9 +31,6 @@ public class PlayerManager {
                 continue;
             }
 
-            System.out.println(data);
-
-
             if (row.get("warnid") != null) {
                 Warn warn = new Warn((Integer) row.get("level"), (String) row.get("warn"), (long) row.get("whenw"), UUID.fromString((String) row.get("warnid")));
                 warns.add(warn);

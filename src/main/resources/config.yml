@@ -49,19 +49,44 @@ on-join:
     - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[SOUND] ORB_PICKUP, 10.0, 0.0"
-    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 2"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
     - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
+
+#JUMPS
+
+launchpad:
+
+  enabled: true
+
+  top-block: STONE_PLATE
+  bottom-block: AIR
+
+  strength: 2
+  jump: 1
+
+  sound: "BAT_TAKEOFF, 1.0, 2.0"
+
+double-jump:
+
+  enabled: true
+
+  strength: 2
+  jump: 1
+
+  sound: "BAT_TAKEOFF, 1.0, 2.0"
 
 #MODERATION
 
 min-warns-to-kick: 10
 warns-to-ban: 20
 
-#Player
+#PLAYER
 
-player-task-cooldown: 5
+player-task-delay: 5
 
 effects:
   - "JUMP, 1"
@@ -72,7 +97,40 @@ cancel-death-by-void: true
 hunger-loss: false
 take-damage: false
 cancel-portal: true
-pvp: false
+attack-entities: false
+
+pvp:
+  enabled: false
+
+  auto-respawn: true
+  max-hearts: 10
+
+  disable-launchpad: true
+  disable-double-jump: true
+  disable-fly: true
+
+  take-damage: true
+
+  cooldown-to-toggle: 5
+
+  dont-move-on-cmd: true
+
+  drop-items: false
+
+  blocked-commands-in-pvp:
+    - "lobby"
+
+  events-enable:
+    - "[CONSOLE] clear [PLAYER]"
+    - "[CONSOLE] give [PLAYER] diamond_sword"
+  events-disable:
+    - "[CONSOLE] clear [PLAYER]"
+  events-on-kill:
+    - "[CONSOLE] give [KILLER] apple"
+  events-on-respawn:
+    - "[CONSOLE] clear [PLAYER]"
+    - "[CONSOLE] give [PLAYER] diamond_sword"
+
 
 #Interaction
 

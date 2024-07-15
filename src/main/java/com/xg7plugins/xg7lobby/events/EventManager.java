@@ -3,7 +3,12 @@ package com.xg7plugins.xg7lobby.events;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.events.commandevents.BuildCommandEvent;
 import com.xg7plugins.xg7lobby.events.commandevents.LobbyCommandEvent;
+import com.xg7plugins.xg7lobby.events.commandevents.PVPCommandEvent;
+import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
+import com.xg7plugins.xg7lobby.events.jumpevents.LaunchpadEvent;
+import com.xg7plugins.xg7lobby.events.playerevents.PlayerEvents;
 import com.xg7plugins.xg7lobby.events.playerevents.WorldLeaveEvent;
 import com.xg7plugins.xg7lobby.events.playerevents.JoinEvent;
 import com.xg7plugins.xg7lobby.utils.Log;
@@ -29,6 +34,11 @@ public class EventManager implements Listener {
         events.add(new LobbyCommandEvent());
         events.add(new JoinEvent());
         events.add(new WorldLeaveEvent());
+        events.add(new PlayerEvents());
+        events.add(new BuildCommandEvent());
+        events.add(new PVPCommandEvent());
+        events.add(new LaunchpadEvent());
+        events.add(new DoubleJumpEvent());
 
         worlds = Config.getList(ConfigType.CONFIG, "enabled-worlds");
 

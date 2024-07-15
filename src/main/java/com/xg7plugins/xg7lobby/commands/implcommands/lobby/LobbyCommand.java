@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.commands.implcommands;
+package com.xg7plugins.xg7lobby.commands.implcommands.lobby;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
@@ -34,6 +34,11 @@ public class LobbyCommand implements Command {
     @Override
     public String getSyntax() {
         return "/xg7lobbylobby";
+    }
+
+    @Override
+    public boolean isOnlyInLobbyWorld() {
+        return false;
     }
 
     @Override
