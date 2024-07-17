@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.commands.implcommands;
+package com.xg7plugins.xg7lobby.commands.implcommands.togglecommands;
 
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
@@ -11,6 +11,7 @@ import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.events.actions.Action;
+import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.tasks.CooldownTask;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Text;
@@ -97,9 +98,12 @@ public class PVPCommand implements Command {
                             SQLHandler.update("UPDATE players SET ispvpenabled = ? WHERE id = ?", data.isPVPEnabled(), data.getId());
 
                                         if (data.isPVPEnabled()) {
+                                            SelectorManager.getMenu().close(target);
                                             target.setMaxHealth(Config.getDouble(ConfigType.CONFIG, "pvp.max-hearts") * 2);
                                             target.setHealth(target.getMaxHealth());
                                             target.getActivePotionEffects().clear();
+                                        } else {
+                                            SelectorManager.getMenu().open(target);
                                         }
 
                             Config.getList(ConfigType.CONFIG, data.isPVPEnabled() ? "pvp.events-enable" : "pvp.events-disable").forEach(action -> Action.execute(action, target));
@@ -161,9 +165,12 @@ public class PVPCommand implements Command {
                         SQLHandler.update("UPDATE players SET ispvpenabled = ? WHERE id = ?", data.isPVPEnabled(), data.getId());
 
                             if (data.isPVPEnabled()) {
+                                SelectorManager.getMenu().close(player);
                                 player.setMaxHealth(Config.getDouble(ConfigType.CONFIG, "pvp.max-hearts") * 2);
                                 player.setHealth(player.getMaxHealth());
                                 player.getActivePotionEffects().clear();
+                            } else {
+                                SelectorManager.getMenu().open(player);
                             }
 
 

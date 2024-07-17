@@ -22,3 +22,9 @@ commands:
   xg7lobbyvanish:
     enabled: true
     args: [ "7lvanish", "xg7lvanish", "lvanish", "vanish" ]
+  xg7lobbyaction:
+    enabled: true
+    args: [ "7laction", "xg7laction", "laction", "action" ]
+  xg7lobbygui:
+    enabled: true
+    args: [ "7lgui", "xg7lgui", "lgui", "gui" ]

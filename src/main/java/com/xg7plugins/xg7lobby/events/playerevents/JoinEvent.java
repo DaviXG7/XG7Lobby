@@ -7,6 +7,7 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
+import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import com.xg7plugins.xg7lobby.events.actions.Action;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
@@ -14,6 +15,7 @@ import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -25,8 +27,7 @@ public class JoinEvent implements JoinQuitEvent {
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
-        if (Config.getBoolean(ConfigType.CONFIG, "on-join.heal")) event.getPlayer().setHealth(event.getPlayer().getMaxHealth());
-        if (Config.getBoolean(ConfigType.CONFIG, "on-join.clear-inventory")) event.getPlayer().getInventory().clear();
+        event.setJoinMessage(Text.getFormatedText(event.getPlayer(), Config.getString(ConfigType.MESSAGES, "lobby.on-join")));
         if (Config.getBoolean(ConfigType.CONFIG, "on-join.tp-to-lobby")) {
             if (Config.getString(ConfigType.DATA, "spawn-location.world") != null) {
                 World world = Bukkit.getWorld(Config.getString(ConfigType.DATA, "spawn-location.world"));
@@ -39,7 +40,15 @@ public class JoinEvent implements JoinQuitEvent {
                 event.getPlayer().teleport(new Location(world,x,y,z,yaw,pitch));
             }
         }
+
+        if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
+
         PlayerData data = PlayerManager.createPlayerData(event.getPlayer().getUniqueId());
+        if (!data.isPVPEnabled() && !data.isBuildEnabled()) {
+            if (Config.getBoolean(ConfigType.CONFIG, "on-join.clear-inventory")) event.getPlayer().getInventory().clear();
+            if (Config.getBoolean(ConfigType.CONFIG, "on-join.heal")) event.getPlayer().setHealth(event.getPlayer().getMaxHealth());
+        }
+
         if (Config.getBoolean(ConfigType.CONFIG, "on-first-join.enabled")) {
             if (data.getFirstJoin() == 0) {
                 data.setFirstJoin(System.currentTimeMillis());
@@ -52,8 +61,6 @@ public class JoinEvent implements JoinQuitEvent {
         }
 
         Config.getList(ConfigType.CONFIG, "on-join.events").forEach(action -> Action.execute(action, event.getPlayer()));
-
-        event.setJoinMessage(Text.getFormatedText(event.getPlayer(), Config.getString(ConfigType.MESSAGES, "lobby.on-join")));
 
     }
 

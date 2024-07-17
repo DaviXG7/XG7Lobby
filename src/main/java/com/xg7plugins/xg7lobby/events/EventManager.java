@@ -6,9 +6,14 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.events.commandevents.BuildCommandEvent;
 import com.xg7plugins.xg7lobby.events.commandevents.LobbyCommandEvent;
 import com.xg7plugins.xg7lobby.events.commandevents.PVPCommandEvent;
+import com.xg7plugins.xg7lobby.events.commandevents.VanishCommandEvent;
 import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.events.jumpevents.LaunchpadEvent;
+import com.xg7plugins.xg7lobby.events.menuevents.MenuClickEvent;
+import com.xg7plugins.xg7lobby.events.menuevents.SelectorClickEvent;
+import com.xg7plugins.xg7lobby.events.menuevents.SelectorEvent;
 import com.xg7plugins.xg7lobby.events.playerevents.PlayerEvents;
+import com.xg7plugins.xg7lobby.events.playerevents.ScoreEvents;
 import com.xg7plugins.xg7lobby.events.playerevents.WorldLeaveEvent;
 import com.xg7plugins.xg7lobby.events.playerevents.JoinEvent;
 import com.xg7plugins.xg7lobby.utils.Log;
@@ -19,6 +24,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +45,11 @@ public class EventManager implements Listener {
         events.add(new PVPCommandEvent());
         events.add(new LaunchpadEvent());
         events.add(new DoubleJumpEvent());
+        events.add(new VanishCommandEvent());
+        events.add(new ScoreEvents());
+        events.add(new MenuClickEvent());
+        events.add(new SelectorEvent());
+        events.add(new SelectorClickEvent());
 
         worlds = Config.getList(ConfigType.CONFIG, "enabled-worlds");
 

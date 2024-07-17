@@ -1,0 +1,61 @@
+id: 1
+
+title: "&aProfile &b%player_name%"
+rows: 5
+
+fill-item: AIR
+
+actions:
+  slot-31:
+    - "[OPEN] 2"
+
+  slot-33:
+    - "[CLOSE] "
+    - "[COMMAND] warns"
+
+  slot-37:
+    - "[CLOSE] "
+
+items:
+
+  item1:
+
+    name: "&9Your profile"
+    lore:
+      - "&bFirst Join: &f%xg7lobby_first_join%"
+      - "&aYou have: &b%xg7lobby_warns% &awarns"
+      - "&aMuted: &b%xg7lobby_muted%"
+    material: "PAPER"
+    amount: 1
+    glow: false
+    slot: 14
+
+  item2:
+
+    name: "&dGame Selector"
+    lore:
+      - "&aClick to Chose a game!"
+    material: COMPASS
+    amount: 1
+    slot: 31
+    glow: false
+
+  item3:
+
+    name: "&fWarns!"
+    lore:
+      - "&aClick to see you warns!"
+    material: PAPER
+    amount: 1
+    slot: 33
+    glow: false
+
+  close:
+
+    name: "&cClose"
+    lore:
+      - ""
+    material: BARRIER
+    amount: 1
+    glow: false
+    slot: 37

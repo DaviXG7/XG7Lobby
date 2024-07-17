@@ -1,8 +1,11 @@
 package com.xg7plugins.xg7lobby.commands;
 
-import com.xg7plugins.xg7lobby.commands.implcommands.FlyCommand;
-import com.xg7plugins.xg7lobby.commands.implcommands.PVPCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.ActionCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.GuiCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.FlyCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.PVPCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.ReloadCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.VanishCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.lobby.BuildCommand;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -44,6 +47,9 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commands.add(new BuildCommand());
         commands.add(new PVPCommand());
         commands.add(new FlyCommand());
+        commands.add(new VanishCommand());
+        commands.add(new GuiCommand());
+        commands.add(new ActionCommand());
 
         Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
         commandMapField.setAccessible(true);

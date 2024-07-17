@@ -30,7 +30,23 @@ before-tp:
 on-first-join:
   enabled: true
   events:
-    - "[TITLE] &bOXIIIIIi, &f%player_name%"
+    - "[TITLE] &bWelcome, &f%player_name%"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] [CENTER] &bWelcome &f%player_name%"
+    - "[MESSAGE]  "
+    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
+    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE]  "
+    - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[SOUND] ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #FF00FF, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
+    - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
 on-join:
   tp-to-lobby: true
@@ -48,7 +64,7 @@ on-join:
     - "[MESSAGE]  "
     - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
-    - "[SOUND] ORB_PICKUP, 10.0, 0.0"
+    - "[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
@@ -68,7 +84,7 @@ launchpad:
   strength: 2
   jump: 1
 
-  sound: "BAT_TAKEOFF, 1.0, 2.0"
+  sound: "ENTITY_BAT_TAKEOFF, 1.0, 2.0"
 
 double-jump:
 
@@ -77,7 +93,7 @@ double-jump:
   strength: 2
   jump: 1
 
-  sound: "BAT_TAKEOFF, 1.0, 2.0"
+  sound: "ENTITY_BAT_TAKEOFF, 1.0, 2.0"
 
 #MODERATION
 
@@ -89,7 +105,7 @@ warns-to-ban: 20
 player-task-delay: 5
 
 effects:
-  - "JUMP, 1"
+  - "JUMP_BOOST, 1"
   - "SPEED, 2"
 
 max-hearths: 2
@@ -154,3 +170,85 @@ blocks-with-canceled-interaction:
 pickup-items: true
 drop-items: false
 
+#ScoreEvents
+
+scores-update: 5
+
+tablist:
+
+  enabled: true
+
+  #Header of the tablist
+  header:
+    - "&9X&3G7&bLobby"
+    - "&7Your rank: %luckperms_prefix%"
+    - ""
+
+  #Footer of the tablist
+  footer:
+    - ""
+    - "&9Visit our website: &bwww.site.com"
+    - "&5&oPlugin made by DaviXG7"
+
+scoreboard:
+
+  enabled: true
+
+  #Scoreboard title
+  #In older versions, the max is 32 characters!
+  title: "[g#0000ff]XG7Lobby[/g#00ffff]"
+
+  #Lines of the score
+  lines:
+    - ""
+    - "&e&lPlayer&f:"
+    - "&fName: &9%player_name%"
+    - "&fRank: &r[%prefix%]"
+    - ""
+    - "&fPlayers online: &a%server_online%"
+    - ""
+    - "&8www.example.com"
+
+
+# ONLY WORKS +1.9
+bossbar:
+
+  enabled: true
+
+  #Placeholders don't work here
+  title: "&9&lWelcome to the server %player_name%"
+
+  #See all colors here
+  #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarColor.html
+  color: BLUE
+
+  #See all styles here
+  #https://helpch.at/docs/1.16.5/org/bukkit/boss/BarStyle.html
+  style: SOLID
+
+  #Goes from 0 to 1. For example: 0.5
+  progress: 1
+
+
+
+warns-gui:
+
+  fill-item: AIR
+
+  inv-pos-1: [2,2]
+  inv-pos-2: [5,8]
+
+  warn-item-material: PAPER
+
+  go-next-page:
+    name: "&aGo next"
+    lore:
+      - "&bUse this to go next"
+    material: EMERALD
+    slot: 54
+  go-back-page:
+    name: "&bGo back"
+    lore:
+      - "&bUse this to go back"
+    material: REDSTONE
+    slot: 46

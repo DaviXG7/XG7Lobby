@@ -2,9 +2,12 @@ package com.xg7plugins.xg7lobby;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.commands.CommandManager;
+import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.events.EventManager;
+import com.xg7plugins.xg7lobby.menus.SelectorManager;
+import com.xg7plugins.xg7lobby.scores.Bossbar;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7menus.api.XG7Menus;
@@ -75,7 +78,8 @@ public final class XG7Lobby extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        // Plugin shutdown logic
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bukkit.getOnlinePlayers().forEach(Bossbar::removePlayer);
+        if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) Bukkit.getOnlinePlayers().forEach(SelectorManager.getMenu()::close);
     }
 
 

@@ -2,42 +2,43 @@ package com.xg7plugins.xg7lobby.data.handler;
 
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.events.EventManager;
+import com.xg7plugins.xg7lobby.menus.MenuManager;
+import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.utils.Log;
+import lombok.Getter;
 import lombok.SneakyThrows;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Config {
 
     private static final HashMap<ConfigType, FileConfiguration> configs = new HashMap<>();
-    private static final HashMap<String, FileConfiguration> menus = new HashMap<>();
+    @Getter
+    private static final List<FileConfiguration> menus = new ArrayList<>();
 
     public static void load() {
 
         Log.info("Loading config files...");
         File config = new File(XG7Lobby.getPlugin().getDataFolder(), "config.yml");
         File commands = new File(XG7Lobby.getPlugin().getDataFolder(), "commands.yml");
-        File selectors = new File(XG7Lobby.getPlugin().getDataFolder(), "selectors.yml");
+        File selector = new File(XG7Lobby.getPlugin().getDataFolder(), "selector.yml");
         File data = new File(XG7Lobby.getPlugin().getDataFolder(), "data.yml");
         File messages = new File(XG7Lobby.getPlugin().getDataFolder(), "messages.yml");
 
         if (!config.exists()) XG7Lobby.getPlugin().saveResource("config.yml", false);
         if (!commands.exists()) XG7Lobby.getPlugin().saveResource("commands.yml", false);
-        if (!selectors.exists()) XG7Lobby.getPlugin().saveResource("selectors.yml", false);
+        if (!selector.exists()) XG7Lobby.getPlugin().saveResource("selector.yml", false);
         if (!data.exists()) XG7Lobby.getPlugin().saveResource("data.yml", false);
         if (!messages.exists()) XG7Lobby.getPlugin().saveResource("messages.yml", false);
 
         configs.put(ConfigType.CONFIG, YamlConfiguration.loadConfiguration(config));
         configs.put(ConfigType.COMMANDS, YamlConfiguration.loadConfiguration(commands));
-        configs.put(ConfigType.SELECTORS, YamlConfiguration.loadConfiguration(selectors));
+        configs.put(ConfigType.SELECTOR, YamlConfiguration.loadConfiguration(selector));
         configs.put(ConfigType.DATA, YamlConfiguration.loadConfiguration(data));
         configs.put(ConfigType.MESSAGES, YamlConfiguration.loadConfiguration(messages));
 
@@ -52,11 +53,14 @@ public class Config {
 
         if (!menuFolder.exists()) {
             menuFolder.mkdirs();
+            XG7Lobby.getPlugin().saveResource("menus/profile.yml", false);
         }
-        for (File file : Objects.requireNonNull(menuFolder.getAbsoluteFile().listFiles())) {
+        for (File file : Objects.requireNonNull(menuFolder.listFiles())) {
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-            menus.put(configuration.getString("id"), configuration);
+            menus.add(configuration);
         }
+        MenuManager.load();
+        SelectorManager.load();
         Log.fine("Menus loaded!");
     }
 
@@ -69,6 +73,13 @@ public class Config {
 
     }
 
+    public static FileConfiguration getMenuFileById(String id) {
+        return menus.stream().filter(file -> file.getString("id").equals(id)).findFirst().orElse(null);
+    }
+
+    public static FileConfiguration getConfig(ConfigType configType) {
+        return configs.get(configType);
+    }
     public static Object get(ConfigType type, String path) {
         return configs.get(type).get(path);
     }
@@ -97,8 +108,8 @@ public class Config {
         return configs.get(type).getStringList(path);
     }
 
-    public static ConfigurationSection getConfigurationSections(ConfigType type, String path) {
-        return configs.get(type).getConfigurationSection(path);
+    public static Set<String> getConfigurationSections(ConfigType type, String path) {
+        return configs.get(type).getConfigurationSection(path).getKeys(false);
     }
 
     public static void set(ConfigType type, String path, Object value) {
@@ -108,20 +119,22 @@ public class Config {
 
     public static void reload() {
         Log.info("Reloading configs...");
-        save();
         load();
         Log.fine("Successful reloaded!");
     }
 
     public static void reload(ConfigType type) {
         Log.info("Reloading config " + type.getConfig() + "...");
-        save(type);
         load(type);
         Log.fine("Loaded!");
     }
 
     public static void reloadMenus() {
+        Log.info("Reloading menus...");
+        menus.clear();
+        reload(ConfigType.SELECTOR);
         loadMenu();
+        Log.fine("Successful reloaded!");
     }
 
     @SneakyThrows

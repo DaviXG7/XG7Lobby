@@ -74,3 +74,5 @@ lobby:
   on-join: "&8[&a+&8] &f%player_name% joined the server."
   on-quit: "&8[&c-&8] &f%player_name% has left the server."
   on-first-join: "&8[&f+&b1&8] &f%player_name% joined the server for the first time"
+
+selector-cooldown: "&cYou must wait [SECONDS] seconds to use it again!"
