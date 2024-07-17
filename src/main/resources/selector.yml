@@ -1,0 +1,68 @@
+cooldown: 5
+
+enabled: true
+
+actions:
+
+  slot-1:
+    - "[OPEN] 2"
+
+  slot-2:
+    - "[OPEN] 1"
+  slot-9:
+    - "[TOGGLE_HIDE] "
+    - "[SWAP] [IF: %xg7lobby_isplayerhiding%] 9, hide-players-on"
+    - "[SWAP] [!IF: %xg7lobby_isplayerhiding%] 9, hide-players-off"
+
+stored-items:
+  hide-players-off:
+
+    name: "&7Hide Players &6- &cOFF!"
+    lore:
+      - "&aClick to hide!"
+      - "&9Hiding: &f%xg7lobby_isplayerhiding%"
+    material: GRAY_DYE
+    amount: 1
+    slot: 9
+    glow: true
+
+  hide-players-on:
+
+    name: "&7Hide Players &6- &aON!"
+    lore:
+      - "&aClick to show!"
+      - "&9Hiding: %f%xg7lobby_isplayerhiding%"
+    material: LIME_DYE
+    amount: 1
+    glow: true
+
+items:
+
+  game:
+    name: "&8Game Selector"
+    lore:
+      - "&aClick to open!"
+    material: COMPASS
+    amount: 1
+    slot: 1
+    glow: false
+
+  profile:
+
+    name: "&bProfile"
+    lore:
+      - "&aClick to open profile!"
+    material: "PAPER"
+    amount: 1
+    slot: 2
+    glow: false
+
+  hide_players:
+    name: "&7Hide players &6- &Click to toggle!"
+    lore:
+      - "&aClick to toggle!"
+      - "&9Hiding: &f%xg7lobby_isplayerhiding%"
+    material: "YELLOW_DYE"
+    amount: 1
+    slot: 9
+    glow: false

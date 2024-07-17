@@ -17,5 +17,6 @@ public enum ActionType {
     SWAP,
     HIDE,
     SHOW,
-    FIREWORK;
+    FIREWORK,
+    TOGGLE_HIDE
 }

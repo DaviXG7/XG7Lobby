@@ -22,7 +22,7 @@ public class CacheManager {
     private static Cache<UUID, PlayerData> sqlCache;
 
     public static void init() {
-        selectorCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.SELECTORS, "cooldown"), TimeUnit.SECONDS).build();
+        selectorCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.SELECTOR, "cooldown"), TimeUnit.SECONDS).build();
         lobbyCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "before-tp.cooldown-for-tp"), TimeUnit.SECONDS).build();
         pvpCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "pvp.cooldown-to-toggle"), TimeUnit.SECONDS).build();
         sqlCache = CacheBuilder.newBuilder().expireAfterWrite(Config.getLong(ConfigType.CONFIG, "sql-cache-expires"), TimeUnit.MINUTES).build();
@@ -35,7 +35,7 @@ public class CacheManager {
                 lobbyCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.CONFIG, "before-tp.cooldown-for-tp") * 1000);
                 return;
             case SELECTOR_COOLDOWN:
-                selectorCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.SELECTORS, "cooldown") * 1000);
+                selectorCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.SELECTOR, "cooldown") * 1000);
                 return;
             case PVP_COOLDOWN:
                 pvpCache.put(id, System.currentTimeMillis() + Config.getLong(ConfigType.CONFIG, "pvp.cooldown-to-toggle") * 1000);

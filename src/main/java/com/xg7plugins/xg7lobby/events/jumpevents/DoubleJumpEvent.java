@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.events.jumpevents;
 
+import com.cryptomorin.xseries.XSound;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
@@ -26,13 +27,17 @@ public class DoubleJumpEvent implements JoinQuitEvent {
 
     @Override
     public void onWorldLeave(Player player) {
-        player.setAllowFlight(!player.getGameMode().equals(GameMode.CREATIVE) || !player.getGameMode().equals(GameMode.SPECTATOR));
+        player.setAllowFlight(player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR));
+    }
+    @Override
+    public void onWorldJoin(Player player) {
+        player.setAllowFlight(player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
     }
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
         if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
-        event.getPlayer().setAllowFlight(!event.getPlayer().getGameMode().equals(GameMode.CREATIVE) || !event.getPlayer().getGameMode().equals(GameMode.SPECTATOR));
+        event.getPlayer().setAllowFlight(event.getPlayer().hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
     }
 
     @EventHandler
@@ -64,7 +69,7 @@ public class DoubleJumpEvent implements JoinQuitEvent {
             isJumping.add(player.getUniqueId());
             player.setVelocity(player.getEyeLocation().getDirection().multiply(Config.getDouble(ConfigType.CONFIG, "double-jump.strength")).setY(Config.getDouble(ConfigType.CONFIG, "double-jump.jump")));
             String[] sound = Config.getString(ConfigType.CONFIG, "double-jump.sound").split(", ");
-            player.playSound(player.getLocation(), Sound.valueOf(sound[0]), Float.parseFloat(sound[1]), Float.parseFloat(sound[2]));
+            player.playSound(player.getLocation(), Objects.requireNonNull(XSound.valueOf(sound[0].toUpperCase()).parseSound()), Float.parseFloat(sound[1]), Float.parseFloat(sound[2]));
         }
 
     }

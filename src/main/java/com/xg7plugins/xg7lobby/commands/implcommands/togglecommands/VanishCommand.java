@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.commands.implcommands;
+package com.xg7plugins.xg7lobby.commands.implcommands.togglecommands;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
@@ -9,7 +9,6 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
-import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -69,6 +68,10 @@ public class VanishCommand implements Command {
 
             PlayerData data = PlayerManager.getPlayerData(target.getUniqueId());
             data.setPlayerHiding(!data.isPlayerHiding());
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (data.isPlayerHiding()) target.hidePlayer(player);
+                else target.showPlayer(player);
+            });
             CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
             SQLHandler.update("UPDATE players SET isplayershide = ? WHERE id = ?", data.isPlayerHiding(), data.getId());
 
@@ -85,6 +88,10 @@ public class VanishCommand implements Command {
 
         PlayerData data = PlayerManager.getPlayerData(player.getUniqueId());
         data.setPlayerHiding(!data.isPlayerHiding());
+        Bukkit.getOnlinePlayers().forEach(player1 -> {
+            if (data.isPlayerHiding()) player.hidePlayer(player1);
+            else player.showPlayer(player1);
+        });
         CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
         SQLHandler.update("UPDATE players SET isplayershide = ? WHERE id = ?", data.isPlayerHiding(), data.getId());
 

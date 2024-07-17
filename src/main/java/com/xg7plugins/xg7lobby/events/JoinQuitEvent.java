@@ -8,5 +8,5 @@ public interface JoinQuitEvent extends Event {
     default void onWorldJoin(Player player) {}
     default void onWorldLeave(Player player) {}
     default void onJoin(PlayerJoinEvent event) {}
-    default void onQuit(PlayerQuitEvent player) {}
+    default void onQuit(PlayerQuitEvent event) {}
 }

@@ -21,6 +21,11 @@ public enum PermissionType {
     RELOAD_CONFIG("command.reload.config"),
     RELOAD_CACHE("command.reload.cache"),
     RELOAD_TASK("command.reload.task"),
+    RELOAD_MENUS("command.reload.menus"),
+
+    ACTION("command.action"),
+
+    GUI("command.gui"),
 
     LOBBY("command.lobby.*"),
     SET_LOBBY("command.lobby.set"),

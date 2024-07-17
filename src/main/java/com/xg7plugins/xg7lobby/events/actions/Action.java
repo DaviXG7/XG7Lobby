@@ -1,15 +1,29 @@
 package com.xg7plugins.xg7lobby.events.actions;
 
+import com.cryptomorin.xseries.XEntityType;
+import com.cryptomorin.xseries.XPotion;
+import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.cache.CacheManager;
+import com.xg7plugins.xg7lobby.cache.CacheType;
+import com.xg7plugins.xg7lobby.data.ConfigType;
+import com.xg7plugins.xg7lobby.data.handler.Config;
+import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
+import com.xg7plugins.xg7lobby.data.player.PlayerManager;
+import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
+import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
+import com.xg7plugins.xg7lobby.menus.MenuManager;
+import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
+import com.xg7plugins.xg7menus.api.menus.Menu;
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Action {
@@ -34,10 +48,25 @@ public class Action {
             if (player.hasPermission(perm)) return;
             text = text.replace("[!PERMISSION: " + perm + "] ", "");
         }
+        if (text.startsWith("[IF: ")) {
+            String condition = text.substring(5, text.indexOf("] "));
+            try {
+                if (!Boolean.parseBoolean(Text.setPlaceholders(condition, player))) return;
+            } catch (Exception ignored) {}
+            text = text.replace("[IF: " + condition + "] ", "");
+        }
+        if (text.startsWith("[!IF: ")) {
+            String condition = text.substring(6, text.indexOf("] "));
+            try {
+                if (Boolean.parseBoolean(Text.setPlaceholders(condition, player))) return;
+            } catch (Exception ignored) {}
+            text = text.replace("[!IF: " + condition + "] ", "");
+        }
 
         text = text.replace("[PLAYER]", player.getName());
 
         String[] textSplited = text.split(", ");
+        PlayerData data = PlayerManager.getPlayerData(player.getUniqueId());
 
         switch (type) {
             case TITLE:
@@ -55,9 +84,20 @@ public class Action {
 
                 return;
             case OPEN:
-                break;
+
+                if (MenuManager.getById(text) == null) {
+                    Log.severe("The menu with gui " + text + " doesn't exist!");
+                    return;
+                }
+
+                MenuManager.getById(text).open(player);
+
+                return;
             case CLOSE:
-                break;
+
+                player.closeInventory();
+
+                return;
 
             case GAMEMODE:
 
@@ -80,7 +120,7 @@ public class Action {
                 return;
             case SUMMON:
 
-                player.getWorld().spawnEntity(player.getLocation(), EntityType.valueOf(text.toUpperCase()));
+                player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(text.toUpperCase()).get());
 
                 return;
             case EFFECT:
@@ -90,7 +130,7 @@ public class Action {
                     return;
                 }
 
-                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(textSplited[0])), Integer.parseInt(textSplited[1]), Integer.parseInt(textSplited[2]) - 1));
+                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(XPotion.valueOf(textSplited[0].toUpperCase()).getPotionEffectType()), Integer.parseInt(textSplited[1]), Integer.parseInt(textSplited[2]) - 1));
 
                 return;
             case COMMAND:
@@ -104,7 +144,29 @@ public class Action {
 
                 return;
             case FLY:
-                break;
+
+                if (data.isPVPEnabled() && !data.isFlying() && Config.getBoolean(ConfigType.CONFIG, "pvp.disable-fly")) return;
+
+                if (text.equals("on")) {
+                    player.setAllowFlight(true);
+                    player.setFlying(true);
+                    data.setFlying(true);
+                    DoubleJumpEvent.isJumping.remove(player.getUniqueId());
+                }
+                if (text.equals("off")) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    data.setFlying(false);
+                    DoubleJumpEvent.isJumping.add(player.getUniqueId());
+                }
+
+                CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
+
+                SQLHandler.update("UPDATE players SET isflying = ? WHERE id = ?", data.isFlying(), data.getId());
+
+                Text.send(data.isFlying() ? Config.getString(ConfigType.MESSAGES, "fly.on-enable") : Config.getString(ConfigType.MESSAGES, "fly.on-disable"), player);
+
+                return;
             case MESSAGE:
 
                 Text.send(text, player);
@@ -117,15 +179,74 @@ public class Action {
                     return;
                 }
 
-                player.playSound(player.getLocation(), Sound.valueOf(textSplited[0]), Float.parseFloat(textSplited[1]), Float.parseFloat(textSplited[2]));
+                player.playSound(player.getLocation(), Objects.requireNonNull(XSound.valueOf(textSplited[0].toUpperCase()).parseSound()), Float.parseFloat(textSplited[1]), Float.parseFloat(textSplited[2]));
 
                 return;
             case SWAP:
-                break;
+
+                Menu menu = null;
+
+                if (textSplited[2].equals("menuclickevent")) {
+                    menu = com.xg7plugins.xg7menus.api.manager.MenuManager.getMenuByPlayer(player);
+                }
+                if (textSplited[2].equals("selectorclickevent")) {
+                    menu = com.xg7plugins.xg7menus.api.manager.MenuManager.getPlayerMenuByPlayer(player);
+                }
+
+                if (menu == null) return;
+
+                InventoryItem item = null;
+
+                if (textSplited[2].equals("menuclickevent")) {
+                    item = MenuManager.getStoredItems().get(menu.getId()).get(textSplited[1]);
+                }
+                if (textSplited[2].equals("selectorclickevent")) {
+                    item = SelectorManager.getStoredItems().get(textSplited[1]);
+                }
+                if (item == null) return;
+
+                item.setSlot(Integer.parseInt(textSplited[0]) - 1);
+
+                menu.updateInventory(item);
+
+                return;
+
+            case TOGGLE_HIDE:
+
+                data.setPlayerHiding(!data.isPlayerHiding());
+                Bukkit.getOnlinePlayers().forEach(player1 -> {
+                    if (data.isPlayerHiding()) player.hidePlayer(player1);
+                    else player.showPlayer(player1);
+                });
+                CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
+                SQLHandler.update("UPDATE players SET isplayershide = ? WHERE id = ?", data.isPlayerHiding(), data.getId());
+
+                Text.send(data.isPlayerHiding() ? Config.getString(ConfigType.MESSAGES, "vanish.on-enable") : Config.getString(ConfigType.MESSAGES, "vanish.on-disable"), player);
+
+                return;
+
             case HIDE:
-                break;
+
+                data.setPlayerHiding(true);
+                Bukkit.getOnlinePlayers().forEach(player::hidePlayer);
+                CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
+                SQLHandler.update("UPDATE players SET isplayershide = ? WHERE id = ?", true, data.getId());
+
+                Text.send(Config.getString(ConfigType.MESSAGES, "vanish.on-enable"), player);
+
+                return;
+
             case SHOW:
-                break;
+
+                data.setPlayerHiding(false);
+                Bukkit.getOnlinePlayers().forEach(player::showPlayer);
+                CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
+                SQLHandler.update("UPDATE players SET isplayershide = ? WHERE id = ?", false, data.getId());
+
+                Text.send(Config.getString(ConfigType.MESSAGES, "vanish.on-disable"), player);
+
+                return;
+
             case FIREWORK:
 
                 if (textSplited.length != 6) {
@@ -133,7 +254,7 @@ public class Action {
                     return;
                 }
 
-                Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+                Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), XEntityType.FIREWORK_ROCKET.get());
 
                 FireworkMeta fireworkMeta = firework.getFireworkMeta();
 

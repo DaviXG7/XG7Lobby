@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.commands.implcommands;
+package com.xg7plugins.xg7lobby.commands.implcommands.togglecommands;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;

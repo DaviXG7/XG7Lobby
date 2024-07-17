@@ -10,6 +10,7 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
+import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -77,6 +78,10 @@ public class BuildCommand implements Command {
             CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
             SQLHandler.update("UPDATE players SET isbuildenabled = ? WHERE id = ?", data.isBuildEnabled(), data.getId());
 
+            if (data.isBuildEnabled()) SelectorManager.getMenu().close(target);
+            else SelectorManager.getMenu().open(target);
+
+
             Text.send(data.isBuildEnabled() ? Config.getString(ConfigType.MESSAGES, "build.on-enable") : Config.getString(ConfigType.MESSAGES, "build.on-disable"), target);
             Text.send(data.isBuildEnabled() ? Config.getString(ConfigType.MESSAGES, "build.on-enable-other").replace("[PLAYER]", target.getName()) : Config.getString(ConfigType.MESSAGES, "build.on-disable-other").replace("[PLAYER]", target.getName()), sender);
             return true;
@@ -92,6 +97,9 @@ public class BuildCommand implements Command {
         data.setBuildEnabled(!data.isBuildEnabled());
         CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
         SQLHandler.update("UPDATE players SET isbuildenabled = ? WHERE id = ?", data.isBuildEnabled(), data.getId());
+
+        if (data.isBuildEnabled()) SelectorManager.getMenu().close(player);
+        else SelectorManager.getMenu().open(player);
 
         Text.send(data.isBuildEnabled() ? Config.getString(ConfigType.MESSAGES, "build.on-enable") : Config.getString(ConfigType.MESSAGES, "build.on-disable"), player);
 

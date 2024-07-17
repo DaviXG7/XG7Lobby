@@ -47,12 +47,12 @@ public class ReloadCommand implements Command {
 
     @Override
     public List<SubCommand> getSubCommands() {
-        return Arrays.asList(new ReloadAll(), new ReloadDB(), new ReloadCache(), new ReloadTask(), new ReloadConfig());
+        return Arrays.asList(new ReloadAll(), new ReloadDB(), new ReloadCache(), new ReloadTask(), new ReloadConfig(), new ReloadMenus());
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        return args.length == 1 ? Arrays.asList("config", "db", "all", "cache", "tasks") : new ArrayList<>();
+        return args.length == 1 ? Arrays.asList("config", "db", "all", "cache", "tasks", "menus") : new ArrayList<>();
     }
 
     static class ReloadAll implements SubCommand {
@@ -152,7 +152,26 @@ public class ReloadCommand implements Command {
         @Override
         public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
             Text.send("&bReloading configs...", sender);
-            Config.load();
+            Config.reload();
+            Config.reloadMenus();
+            Text.send("&aReloaded!", sender);
+        }
+    }
+    static class ReloadMenus implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "menus";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD_MENUS;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading menus...", sender);
             Config.reloadMenus();
             Text.send("&aReloaded!", sender);
         }

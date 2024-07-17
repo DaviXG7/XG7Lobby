@@ -3,6 +3,8 @@ package com.xg7plugins.xg7lobby.utils;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -35,6 +37,10 @@ public class Text {
 
     @SneakyThrows
     public static void sendActionBar(String text, Player player) {
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(getFormatedText(player, text)));
+            return;
+        }
 
         Class<?> craftPlayerClass = NMSUtil.getCraftBukkitClass("entity.CraftPlayer");
         Object craftPlayer = craftPlayerClass.cast(player);
@@ -67,9 +73,9 @@ public class Text {
             text = applyGradients(text);
             Matcher matcher = HEX_PATTERN.matcher(text);
             while (matcher.find()) {
-                String color = text.substring(matcher.start() + 1, matcher.end());
-                text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
-                text = new StringBuilder(text).deleteCharAt(matcher.start()).toString();
+                String color = text.substring(matcher.start(), matcher.end());
+                text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color.substring(1)) + "");
+                matcher = HEX_PATTERN.matcher(text);
             }
         }
 
@@ -191,7 +197,7 @@ public class Text {
     }
 
     @Getter
-    enum PixelsSize {
+    public enum PixelsSize {
 
         CHAT(157),
         MOTD(127),
