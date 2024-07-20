@@ -6,4 +6,4 @@ spawn-location:
   yaw:
   pitch:
 
-chat-locked:
+chat-locked: false

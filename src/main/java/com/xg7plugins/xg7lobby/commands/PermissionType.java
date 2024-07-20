@@ -14,7 +14,12 @@ public enum PermissionType {
 
     ADMIN("*"),
 
-    ANTITAB_COMMAND_BYPASS("antitab.bypass"),
+    ANTITAB_BYPASS("antitab.bypass"),
+    ANTITAB_PLUGIN_BYPASS("antitab.plugin.bypass"),
+
+    HELP("help"),
+
+    COMMAND("command.*"),
 
     RELOAD("command.reload.*"),
     RELOAD_DB("command.reload.db"),
@@ -26,6 +31,34 @@ public enum PermissionType {
     ACTION("command.action"),
 
     GUI("command.gui"),
+
+    MOD("command.mod.*"),
+
+    WARN("command.mod.warn"),
+    WARN_REMOVE("command.mod.warn.remove"),
+    WARNS_OTHER("command.mod.warns.other"),
+    KICK("command.mod.kick"),
+
+    LOCKCHAT("command.lockchat"),
+    CHAT("command.chat.*"),
+    CHAT_SWEAR("command.chat.swear"),
+    CHAT_COMMANDS("command.chat.commands"),
+
+    BAN("command.mod.ban"),
+    TEMPBAN("command.mod.tempban"),
+    BANIP("command.mod.banip"),
+    UNBAN("command.mod.unban"),
+
+    GAMEMODE("command.gamemode.*"),
+    GAMEMODE_OTHERS("command.gamemode.others"),
+    GAMEMODE_SURVIVAL("command.gamemode.survival"),
+    GAMEMODE_CREATIVE("command.gamemode.creative"),
+    GAMEMODE_SPECTATOR("command.gamemode.spectator"),
+    GAMEMODE_ADVENTURE("command.gamemode.adventure"),
+
+    MUTE("command.mod.mute"),
+    UNMUTE("command.mod.unmute"),
+    TEMPMUTE("command.mod.tempmute"),
 
     LOBBY("command.lobby.*"),
     SET_LOBBY("command.lobby.set"),

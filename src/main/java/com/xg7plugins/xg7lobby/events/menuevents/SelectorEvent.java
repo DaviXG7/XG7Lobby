@@ -20,7 +20,7 @@ public class SelectorEvent implements JoinQuitEvent {
     public void onWorldJoin(Player player) {
         PlayerData data = PlayerManager.getPlayerData(player.getUniqueId());
 
-        if (!data.isBuildEnabled() && !data.isPVPEnabled()) SelectorManager.getMenu().open(player);
+        if (!data.isBuildEnabled() && !data.isPVPEnabled()) SelectorManager.open(player);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class SelectorEvent implements JoinQuitEvent {
 
         PlayerData data = PlayerManager.getPlayerData(event.getPlayer().getUniqueId());
 
-        if (!data.isBuildEnabled() && !data.isPVPEnabled()) SelectorManager.getMenu().open(event.getPlayer());
+        if (!data.isBuildEnabled() && !data.isPVPEnabled()) SelectorManager.open(event.getPlayer());
     }
 }

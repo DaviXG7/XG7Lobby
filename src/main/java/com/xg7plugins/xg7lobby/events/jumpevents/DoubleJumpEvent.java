@@ -8,7 +8,6 @@ import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -32,6 +31,7 @@ public class DoubleJumpEvent implements JoinQuitEvent {
     @Override
     public void onWorldJoin(Player player) {
         player.setAllowFlight(player.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+        isJumping.add(player.getUniqueId());
     }
 
     @Override

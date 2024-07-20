@@ -10,6 +10,8 @@ import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.scores.Bossbar;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Log;
+import com.xg7plugins.xg7lobby.utils.PacketEvents;
+import com.xg7plugins.xg7lobby.utils.Placeholders;
 import com.xg7plugins.xg7menus.api.XG7Menus;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -45,6 +47,8 @@ public final class XG7Lobby extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "It's recommended to install PlaceholderAPI");
             this.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "to get more resourses!");
+        } else {
+            new Placeholders().register();
         }
         Log.setEnabled(XG7Lobby.getPlugin().getConfig().getBoolean("debug"));
 
@@ -63,9 +67,11 @@ public final class XG7Lobby extends JavaPlugin {
 
         Log.loading("Loading events...");
         new EventManager().init();
+        EventManager.initPacketEvents();
 
         Log.loading("Loading commands...");
         new CommandManager().init();
+        CommandManager.initCustomCommands();
 
         Log.loading("Loading Tasks...");
         TaskManager.initTimerTasks();
@@ -77,7 +83,7 @@ public final class XG7Lobby extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        Bukkit.getOnlinePlayers().forEach(PacketEvents::stopEvent);
         if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bukkit.getOnlinePlayers().forEach(Bossbar::removePlayer);
         if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) Bukkit.getOnlinePlayers().forEach(SelectorManager.getMenu()::close);
     }

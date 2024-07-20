@@ -2,7 +2,6 @@ package com.xg7plugins.xg7lobby.data.handler;
 
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.menus.MenuManager;
 import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.utils.Log;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.HandlerList;
 
 import java.io.File;
 import java.util.*;
@@ -60,7 +58,7 @@ public class Config {
             menus.add(configuration);
         }
         MenuManager.load();
-        SelectorManager.load();
+        if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) SelectorManager.load();
         Log.fine("Menus loaded!");
     }
 
@@ -107,8 +105,12 @@ public class Config {
     public static List<String> getList(ConfigType type, String path) {
         return configs.get(type).getStringList(path);
     }
+    public static List<Integer> getIntegerList(ConfigType type, String path) {
+        return configs.get(type).getIntegerList(path);
+    }
 
     public static Set<String> getConfigurationSections(ConfigType type, String path) {
+        if (configs.get(type).getConfigurationSection(path) == null) return null;
         return configs.get(type).getConfigurationSection(path).getKeys(false);
     }
 
@@ -132,6 +134,8 @@ public class Config {
     public static void reloadMenus() {
         Log.info("Reloading menus...");
         menus.clear();
+        MenuManager.getSkulls().clear();
+        MenuManager.getStoredItems().clear();
         reload(ConfigType.SELECTOR);
         loadMenu();
         Log.fine("Successful reloaded!");

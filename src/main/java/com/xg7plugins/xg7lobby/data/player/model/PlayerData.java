@@ -40,4 +40,8 @@ public class PlayerData {
         this.infractions = new ArrayList<>();
     }
 
+    public Warn getWarnById(UUID id) {
+        return infractions.stream().filter(warn -> warn.getId().equals(id)).findFirst().orElse(null);
+    }
+
 }

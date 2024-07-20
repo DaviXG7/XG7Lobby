@@ -1,5 +1,26 @@
 anti-tab: true
 
+custom-commands:
+  site:
+    aliases: ["website"]
+    description: "Send the website link!"
+    permission: ""
+    actions:
+      - "[MESSAGE] "
+      - "[MESSAGE] [CENTER] &7Visit our website!"
+      - "[MESSAGE] [CENTER] &1Link: &bhttps://xg7plugins.com/"
+      - "[MESSAGE] "
+  discord:
+    aliases: ["dc"]
+    description: "Send discord link"
+    permission: ""
+    actions:
+      - "[MESSAGE] "
+      - "[MESSAGE] [CENTER] &7Join on our discord server!"
+      - "[MESSAGE] [CENTER] &1Discord: &bhttps://discord.gg/JKUgMsF3bH"
+      - "[MESSAGE] "
+
+
 commands:
   xg7lobbysetlobby:
     enabled: true
@@ -28,3 +49,39 @@ commands:
   xg7lobbygui:
     enabled: true
     args: [ "7lgui", "xg7lgui", "lgui", "gui" ]
+  xg7lobbywarn:
+    enabled: true
+    args: [ "7lwarn", "xg7lwarn", "lwarn", "warn" ]
+  xg7lobbywarns:
+    enabled: true
+    args: [ "7lwarns", "xg7lwarns", "lwarns", "warns" ]
+  xg7lobbyban:
+    enabled: true
+    args: [ "7lban", "xg7lban", "lban", "ban" ]
+  xg7lobbyunban:
+    enabled: true
+    args: [ "7lunban", "xg7lunban", "lunban", "unban" ]
+  xg7lobbytempban:
+    enabled: true
+    args: [ "7ltempban", "xg7ltempban", "ltempban", "tempban" ]
+  xg7lobbybanip:
+    enabled: true
+    args: [ "7lbanip", "xg7lbanip", "lbanip", "banip" ]
+  xg7lobbykick:
+    enabled: true
+    args: [ "7lkick", "xg7lkick", "lkick", "kick" ]
+  xg7lobbymute:
+    enabled: true
+    args: [ "7lmute", "xg7lmute", "lmute", "mute" ]
+  xg7lobbytempmute:
+    enabled: true
+    args: [ "7ltempmute", "xg7ltempmute", "ltempmute", "tempmute" ]
+  xg7lobbyunmute:
+    enabled: true
+    args: [ "7lunmute", "xg7lunmute", "lunmute", "unmute" ]
+  xg7lobbylockchat:
+    enabled: true
+    args: [ "7llockchat", "xg7llockchat", "llockchat", "lockchat" ]
+  xg7lobbygamemode:
+    enabled: true
+    args: [ "7lgamemode", "xg7lgamemode", "lgamemode", "gamemode", "7lgm", "xg7lgm", "lgm", "gm" ]

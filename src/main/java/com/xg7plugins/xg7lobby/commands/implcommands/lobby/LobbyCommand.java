@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands.lobby;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
@@ -10,6 +11,7 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.tasks.CooldownTask;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +27,10 @@ public class LobbyCommand implements Command {
     @Override
     public String getName() {
         return "xg7lobbylobby";
+    }
+    @Override
+    public InventoryItem getIcon() {
+        return new InventoryItem(XMaterial.ENDER_PEARL.parseMaterial(), "&6Reload command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
     }
 
     @Override

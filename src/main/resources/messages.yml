@@ -1,73 +1,75 @@
 commands:
-  syntax-error: "&cThe right way to use this command is: &r[SYNTAX]"
-  no-permission: "&cYou don't have permission to use this!"
-  not-a-player: "&cOnly players can execute this command!"
-  not-in-world: "&cYou cannot execute this command in a disabled world!"
+  syntax-error: "[PREFIX] &cThe right way to use this command is: &r[SYNTAX]"
+  no-permission: "[PREFIX] &cYou don't have permission to use this!"
+  not-a-player: "[PREFIX] &cOnly players can execute this command!"
+  not-in-world: "[PREFIX] &cYou cannot execute this command in a disabled world!"
 
-  player-doesnt-exist: "&cThis player doesn't exist!"
+  player-not-found: "[PREFIX] &cThis player does not exist or never played before!"
+  player-not-online: "[PREFIX] &cThis player is not online!"
 
+  command-blocked: "[PREFIX] &cYou cannot use this command!"
 
-#Activate commands
+gamemode:
+
+  on-change: "[PREFIX] &aYou changed your gamemode to [GAMEMODE]"
+  on-change-other: "[PREFIX] &aYou changed gamemode of [PLAYER] to [GAMEMODE]"
 
 pvp:
-  not-enabled: "&cPVP is not enabled in this server! Go to config.yml to enable"
+  not-enabled: "[PREFIX] &cPVP is not enabled in this server! Go to config.yml to enable"
 
   on-enabling: "[ACTION] &aEnabling pvp in [SECONDS] seconds!"
   on-disabling: "[ACTION] &cDisabling pvp in [SECONDS] seconds... Don't move!"
   on-enabling-other: "&aEnabling pvp of [PLAYER] in [SECONDS] seconds..."
   on-disabling-other: "&cThe pvp of [PLAYER] is now disabled!"
 
-  on-enable: "&aYour pvp is now enabled!"
-  on-disable: "&cYour pvp is now disabled!"
-  on-enable-other: "&aThe pvp of [PLAYER] is now enabled!"
-  on-disable-other: "&cThe pvp of [PLAYER] is now disabled!"
+  on-enable: "[PREFIX] &aYour pvp is now enabled!"
+  on-disable: "[PREFIX] &cYour pvp is now disabled!"
+  on-enable-other: "[PREFIX] &aThe pvp of [PLAYER] is now enabled!"
+  on-disable-other: "[PREFIX] &cThe pvp of [PLAYER] is now disabled!"
 
-  no-permission: "&cYou don't have permission to attack!"
+  no-permission: "[PREFIX] &cYou don't have permission to attack!"
 
-  disabled-other: "&cYou cannot attack this player! This player has pvp disabled"
-  disabled: "&cYou cannot attack! Your pvp is disabled"
+  disabled-other: "[PREFIX] &cYou cannot attack this player! This player has pvp disabled"
+  disabled: "[PREFIX] &cYou cannot attack! Your pvp is disabled"
 
   pvp-enable-cancelled: "[ACTION] &cPVP enable cancelled!"
   pvp-disable-cancelled: "[ACTION] &cPVP disable cancelled!"
 
 vanish:
-  on-enable: "&aYou toggle vanish to hide!"
-  on-disable: "&cYou toggle vanish to show!"
-  on-enable-other: "&aThe player [PLAYER] is now hiding other players!"
-  on-disable-other: "&cThe build of [PLAYER] is now showing other players!"
+  on-enable: "[PREFIX] &aYou toggle vanish to hide!"
+  on-disable: "[PREFIX] &cYou toggle vanish to show!"
+  on-enable-other: "[PREFIX] &aThe player [PLAYER] is now hiding other players!"
+  on-disable-other: "[PREFIX] &cThe build of [PLAYER] is now showing other players!"
 
 build:
-  on-enable: "&aYour build is now enabled!"
-  on-disable: "&cYour build is now disabled!"
-  on-enable-other: "&aThe build of [PLAYER] is now enabled!"
-  on-disable-other: "&cThe build of [PLAYER] is now disabled!"
+  on-enable: "[PREFIX] &aYour build is now enabled!"
+  on-disable: "[PREFIX] &cYour build is now disabled!"
+  on-enable-other: "[PREFIX] &aThe build of [PLAYER] is now enabled!"
+  on-disable-other: "[PREFIX] &cThe build of [PLAYER] is now disabled!"
 
-  disabled: "&cYour build is disabled, use &b/build &cto enable!"
+  disabled: "[PREFIX] &cYour build is disabled, use &b/build &cto enable!"
 
 fly:
-  on-enable: "&aYour fly is now enabled!"
-  on-disable: "&cYour fly is now disabled!"
-  on-enable-other: "&aThe fly of [PLAYER] is now enabled!"
-  on-disable-other: "&cThe fly of [PLAYER] is now disabled!"
+  on-enable: "[PREFIX] &aYour fly is now enabled!"
+  on-disable: "[PREFIX] &cYour fly is now disabled!"
+  on-enable-other: "[PREFIX] &aThe fly of [PLAYER] is now enabled!"
+  on-disable-other: "[PREFIX] &cThe fly of [PLAYER] is now disabled!"
 
-  gamemode: "You must be in survival mode to toggle flight!"
-  gamemode-other: "[PLAYER] must be in survival mode to toggle flight!"
-
-  on-pvp: "&cYou cannot enable fly with pvp enabled"
-  on-pvp-fly: "&cYou cannot enable pvp with fly enabled"
+  on-pvp: "[PREFIX] &cYou cannot enable fly with pvp enabled"
+  on-pvp-fly: "[PREFIX] &cYou cannot enable pvp with fly enabled"
 
 block-item-permission:
-  no-permission-place: "&cYou don't have permission to place blocks!"
-  no-permission-break: "&cYou don't have permission to break blocks!"
-  no-permission-interact: "&cYou don't have permission to interact with blocks!"
+  no-permission-place: "[PREFIX] &cYou don't have permission to place blocks!"
+  no-permission-break: "[PREFIX] &cYou don't have permission to break blocks!"
+  no-permission-interact: "[PREFIX] &cYou don't have permission to interact with blocks!"
 
-  no-permission-pickup: "&cYou don't have permission to pickup items!"
-  no-permission-drop: "&cYou don't have permission to drop items!"
+  no-permission-pickup: "[PREFIX] &cYou don't have permission to pickup items!"
+  no-permission-drop: "[PREFIX] &cYou don't have permission to drop items!"
 
 lobby:
-  no-location: "&cThe lobby was not placed, wait for an adm to put!"
+  no-location: "[PREFIX] &cThe lobby was not placed, wait for an adm to put!"
 
-  on-cmd: "You will teleport in few seconds, please wait!"
+  on-cmd: "&aYou will teleport in few seconds, please wait!"
   on-tp: "[ACTION] &6You will teleport in [SECONDS] seconds... Don't move!"
   on-tp-cancel: "[ACTION] &cTeleport canceled"
 
@@ -76,3 +78,38 @@ lobby:
   on-first-join: "&8[&f+&b1&8] &f%player_name% joined the server for the first time"
 
 selector-cooldown: "&cYou must wait [SECONDS] seconds to use it again!"
+
+chat:
+
+  on-lock: "[PREFIX] &aThe chat has been locked!"
+  on-unlock: "[PREFIX] &aThe chat has been unlocked!"
+
+  chat-locked: "[PREFIX] &cYou cannot send message because the chat is locked!"
+
+  on-swearing: "[PREFIX] &cYou cannot send this word in the chat!"
+
+moderation:
+
+  on-warn: "[PREFIX] &aYou sent a level [LEVEL] warning to the [PLAYER] for the following reason: &f[WARN]"
+  on-warn-other: "[PREFIX] &cYou received a warning with the following reason: &f[WARN]"
+
+  warn-invalid-level: "[PREFIX] &cYou cannot make a level [LEVEL] warning! The level must between 1 and 3"
+  warn-permission: "[PREFIX] &cYou cannot send a warning an admin!"
+  warn-not-found: "[PREFIX] &cThe warn with id [ID] was not found!"
+
+  on-remove: "[PREFIX] &aThe warn with id [ID] has been removed!"
+
+  warn-kick-message: "&cYou received so many warns!"
+  warn-ban-message: "&cYou received so many warns!"
+
+  on-ban: "[PREFIX] &aYou successful banned [PLAYER]!"
+  on-unban: "[PREFIX] &aYou successful unbanned [PLAYER]!"
+
+  on-mute: "[PREFIX] &aYou successful muted [PLAYER]!"
+  on-mute-other: "[PREFIX] &cYou have been muted by admin!"
+
+  on-unmute: "[PREFIX] &aYou successful unmuted [PLAYER]!"
+  on-unmute-other: "[PREFIX] &cYou have been unmuted!"
+
+  on-mute-chat: "[PREFIX] &cYou cannot send a message in chat. You are muted!"
+  on-tempmute-chat: "[PREFIX] &cYou cannot send a message  in chat. You are muted for [TIME]!"
