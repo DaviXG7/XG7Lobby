@@ -1,10 +1,9 @@
 package com.xg7plugins.xg7lobby.commands;
 
-import com.xg7plugins.xg7lobby.commands.implcommands.ActionCommand;
-import com.xg7plugins.xg7lobby.commands.implcommands.GuiCommand;
+import com.xg7plugins.xg7lobby.commands.implcommands.*;
+import com.xg7plugins.xg7lobby.commands.implcommands.moderationcommands.*;
 import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.FlyCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.PVPCommand;
-import com.xg7plugins.xg7lobby.commands.implcommands.ReloadCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.togglecommands.VanishCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.lobby.BuildCommand;
 import com.xg7plugins.xg7lobby.data.ConfigType;
@@ -50,6 +49,18 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commands.add(new VanishCommand());
         commands.add(new GuiCommand());
         commands.add(new ActionCommand());
+        commands.add(new WarnsCommand());
+        commands.add(new WarnCommand());
+        commands.add(new Mute.MuteCommand());
+        commands.add(new Mute.TempmuteCommand());
+        commands.add(new Mute.UnmuteCommand());
+        commands.add(new Ban.BanCommand());
+        commands.add(new Ban.BanipCommand());
+        commands.add(new Ban.TempBanCommand());
+        commands.add(new Ban.UnbanCommand());
+        commands.add(new KickCommand());
+        commands.add(new LockChatCommand());
+        commands.add(new GamemodeCommand());
 
         Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
         commandMapField.setAccessible(true);
@@ -60,7 +71,9 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
             constructor.setAccessible(true);
             PluginCommand pluginCommand = constructor.newInstance(command.getName(), XG7Lobby.getPlugin());
             pluginCommand.setExecutor(this);
+            pluginCommand.setUsage(command.getSyntax());
             pluginCommand.setTabCompleter(this);
+            pluginCommand.setDescription(command.getDescription());
             pluginCommand.setAliases(command.getAliasses());
             commandMap.register(command.getName(), pluginCommand);
         }
@@ -68,6 +81,28 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         XG7Lobby.getPlugin().getServer().getPluginManager().registerEvents(this, XG7Lobby.getPlugin());
 
         Log.fine("Commands loaded!");
+    }
+
+    @SneakyThrows
+    public static void initCustomCommands() {
+        Log.info("Loading custom commands...");
+
+        for (String cmd : Config.getConfigurationSections(ConfigType.COMMANDS, "custom-commands")) {
+            Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+            CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
+
+
+            Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
+            constructor.setAccessible(true);
+            PluginCommand pluginCommand = constructor.newInstance(cmd, XG7Lobby.getPlugin());
+            pluginCommand.setExecutor(new CustomCommands());
+            pluginCommand.setDescription(Config.getString(ConfigType.COMMANDS, "custom-commands." + cmd + ".description"));
+            pluginCommand.setAliases(Config.getList(ConfigType.COMMANDS, "custom-commands." + cmd + ".aliases"));
+            commandMap.register(cmd, pluginCommand);
+
+        }
+        Log.fine("Custom commands loaded!");
     }
 
     @Override

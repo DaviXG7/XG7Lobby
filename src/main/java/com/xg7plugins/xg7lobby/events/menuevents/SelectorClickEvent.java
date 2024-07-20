@@ -28,14 +28,13 @@ public class SelectorClickEvent implements Event {
         ) return;
         if (!event.getMenu().getId().equals("xg7lselector")) return;
 
+        if (Config.getList(ConfigType.SELECTOR, "actions.slot-" + (event.getSlot() + 1)).isEmpty()) return;
+
         if (CacheManager.getSelectorCache().asMap().containsKey(event.getPlayer().getUniqueId())) {
             Text.send(Config.getString(ConfigType.MESSAGES, "selector-cooldown").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getSelectorCache().asMap().get(event.getPlayer().getUniqueId()) - System.currentTimeMillis()) + 1) + ""), event.getPlayer());
             return;
         }
-
         CacheManager.put(event.getPlayer().getUniqueId(), CacheType.SELECTOR_COOLDOWN, null);
-
-        if (Config.getList(ConfigType.SELECTOR, "actions.slot-" + (event.getSlot() + 1)).isEmpty()) return;
 
         for (String action : Config.getList(ConfigType.SELECTOR, "actions.slot-" + (event.getSlot() + 1))) {
             if (action.startsWith("[SWAP]")) {

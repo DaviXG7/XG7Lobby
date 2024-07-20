@@ -1,6 +1,9 @@
 package com.xg7plugins.xg7lobby.utils;
 
+import com.xg7plugins.xg7lobby.data.ConfigType;
+import com.xg7plugins.xg7lobby.data.handler.Config;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +22,8 @@ public class Text {
 
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("\\[g#([0-9a-fA-F]{6})](.*?)\\[/g#([0-9a-fA-F]{6})]");
     private final static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    @Setter
+    private static String PREFIX = "";
 
 
     public static void send(String text, CommandSender sender) {
@@ -37,7 +43,7 @@ public class Text {
 
     @SneakyThrows
     public static void sendActionBar(String text, Player player) {
-        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) {
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(getFormatedText(player, text)));
             return;
         }
@@ -60,16 +66,21 @@ public class Text {
     }
 
     public static String getFormatedText(Player player, String text) {
+        text = text.replace("[PREFIX]", Config.getString(ConfigType.CONFIG, "plugin-prefix"));
         if (text.startsWith("[CENTER] ")) return translateColorCodes(getCentralizedText(PixelsSize.CHAT.getPixels(), setPlaceholders(text.substring(9), player)));
         return translateColorCodes(setPlaceholders(text, player));
     }
     public static String setPlaceholders(String text, Player player) {
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+        }
+
         return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null ? PlaceholderAPI.setPlaceholders(player, text) : text;
     }
 
     public static String translateColorCodes(String text) {
 
-        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 16) {
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 16) {
             text = applyGradients(text);
             Matcher matcher = HEX_PATTERN.matcher(text);
             while (matcher.find()) {
@@ -194,6 +205,36 @@ public class Text {
         }
 
         return 4;
+    }
+
+    public static long convertToMilliseconds(String timeStr) {
+        long milliseconds = 0;
+        Pattern pattern = Pattern.compile("(\\d+)([SMHD])");
+        Matcher matcher = pattern.matcher(timeStr.toUpperCase());
+
+        while (matcher.find()) {
+            long value = Long.parseLong(matcher.group(1));
+            String unit = matcher.group(2);
+
+            switch (unit) {
+                case "S":
+                    milliseconds += value * 1000;
+                    break;
+                case "M":
+                    milliseconds += value * 60000;
+                    break;
+                case "H":
+                    milliseconds += value * 3600000;
+                    break;
+                case "D":
+                    milliseconds += value * 86400000;
+                    break;
+                default:
+                    Log.severe("Invalid time unit: " + unit);
+            }
+        }
+
+        return milliseconds;
     }
 
     @Getter

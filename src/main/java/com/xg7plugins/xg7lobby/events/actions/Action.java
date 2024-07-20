@@ -3,6 +3,7 @@ package com.xg7plugins.xg7lobby.events.actions;
 import com.cryptomorin.xseries.XEntityType;
 import com.cryptomorin.xseries.XPotion;
 import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
@@ -23,7 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Action {
@@ -85,12 +85,15 @@ public class Action {
                 return;
             case OPEN:
 
-                if (MenuManager.getById(text) == null) {
-                    Log.severe("The menu with gui " + text + " doesn't exist!");
-                    return;
-                }
+                final String finalText = text;
+                Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
+                    if (MenuManager.getById(finalText) == null) {
+                        Log.severe("The menu with gui " + finalText + " doesn't exist!");
+                        return;
+                    }
 
-                MenuManager.getById(text).open(player);
+                    MenuManager.openById(player, finalText);
+                },5);
 
                 return;
             case CLOSE:
@@ -205,9 +208,14 @@ public class Action {
                 }
                 if (item == null) return;
 
-                item.setSlot(Integer.parseInt(textSplited[0]) - 1);
+                if (item instanceof InventoryItem.SkullInventoryItem) {
+                    if (MenuManager.getSkulls().get(menu.getId()).contains(item)) ((InventoryItem.SkullInventoryItem)item).setOwner(player.getName(), Bukkit.getOnlineMode());
+                }
 
-                menu.updateInventory(item);
+                item.setSlot(Integer.parseInt(textSplited[0]) - 1);
+                item.setPlaceholders(player);
+
+                menu.updateInventory(player, item);
 
                 return;
 

@@ -1,13 +1,16 @@
 package com.xg7plugins.xg7lobby.commands.implcommands;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.commands.SubCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
+import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -21,8 +24,13 @@ public class ReloadCommand implements Command {
     }
 
     @Override
+    public InventoryItem getIcon() {
+        return new InventoryItem(XMaterial.NETHER_STAR.parseItem().getData(), "&6Reload command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+    }
+
+    @Override
     public String getDescription() {
-        return "Reloads teh plugin";
+        return "Reloads the plugin";
     }
 
     @Override
@@ -154,6 +162,7 @@ public class ReloadCommand implements Command {
             Text.send("&bReloading configs...", sender);
             Config.reload();
             Config.reloadMenus();
+            EventManager.reload();
             Text.send("&aReloaded!", sender);
         }
     }

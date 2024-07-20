@@ -11,6 +11,7 @@ import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import com.xg7plugins.xg7lobby.events.actions.Action;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
+import com.xg7plugins.xg7lobby.utils.PacketEvents;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,6 +28,7 @@ public class JoinEvent implements JoinQuitEvent {
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
+        PacketEvents.create(event.getPlayer());
         event.setJoinMessage(Text.getFormatedText(event.getPlayer(), Config.getString(ConfigType.MESSAGES, "lobby.on-join")));
         if (Config.getBoolean(ConfigType.CONFIG, "on-join.tp-to-lobby")) {
             if (Config.getString(ConfigType.DATA, "spawn-location.world") != null) {
@@ -63,10 +65,15 @@ public class JoinEvent implements JoinQuitEvent {
         Config.getList(ConfigType.CONFIG, "on-join.events").forEach(action -> Action.execute(action, event.getPlayer()));
 
     }
+    @Override
+    public void onWorldJoin(Player player) {
+        if (Config.getBoolean(ConfigType.CONFIG, "on-join.run-events-when-return-to-the-world"))
+            Config.getList(ConfigType.CONFIG, "on-join.events").forEach(action -> Action.execute(action, player));
+    }
 
     @Override
     public void onQuit(PlayerQuitEvent event) {
-
+        PacketEvents.stopEvent(event.getPlayer());
         CacheManager.remove(event.getPlayer().getUniqueId(), CacheType.SQL_QUERY);
 
         TaskManager.cancelTask("cooldown:lobby=" + event.getPlayer().getUniqueId());

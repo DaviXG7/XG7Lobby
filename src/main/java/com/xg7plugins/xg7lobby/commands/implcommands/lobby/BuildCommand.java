@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands.lobby;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
 import com.xg7plugins.xg7lobby.commands.Command;
@@ -12,12 +13,14 @@ import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +29,10 @@ public class BuildCommand implements Command {
     public String getName() {
         return "xg7lobbybuild";
     }
-
+    @Override
+    public InventoryItem getIcon() {
+        return new InventoryItem(XMaterial.CRAFTING_TABLE.parseMaterial(), "&6Reload command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+    }
     @Override
     public String getDescription() {
         return "Enables the build on the lobby";
@@ -73,13 +79,15 @@ public class BuildCommand implements Command {
                 return true;
             }
 
-            PlayerData data = PlayerManager.getPlayerData(target.getUniqueId());
+            PlayerData data = PlayerManager.createPlayerData(target.getUniqueId());
             data.setBuildEnabled(!data.isBuildEnabled());
             CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
             SQLHandler.update("UPDATE players SET isbuildenabled = ? WHERE id = ?", data.isBuildEnabled(), data.getId());
 
-            if (data.isBuildEnabled()) SelectorManager.getMenu().close(target);
-            else SelectorManager.getMenu().open(target);
+            if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) {
+                if (data.isBuildEnabled()) SelectorManager.getMenu().close(target);
+                else SelectorManager.getMenu().open(target);
+            }
 
 
             Text.send(data.isBuildEnabled() ? Config.getString(ConfigType.MESSAGES, "build.on-enable") : Config.getString(ConfigType.MESSAGES, "build.on-disable"), target);
@@ -98,8 +106,10 @@ public class BuildCommand implements Command {
         CacheManager.put(data.getId(), CacheType.SQL_QUERY, data);
         SQLHandler.update("UPDATE players SET isbuildenabled = ? WHERE id = ?", data.isBuildEnabled(), data.getId());
 
-        if (data.isBuildEnabled()) SelectorManager.getMenu().close(player);
-        else SelectorManager.getMenu().open(player);
+        if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) {
+            if (data.isBuildEnabled()) SelectorManager.getMenu().close(player);
+            else SelectorManager.getMenu().open(player);
+        }
 
         Text.send(data.isBuildEnabled() ? Config.getString(ConfigType.MESSAGES, "build.on-enable") : Config.getString(ConfigType.MESSAGES, "build.on-disable"), player);
 

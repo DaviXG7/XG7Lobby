@@ -1,17 +1,20 @@
 package com.xg7plugins.xg7lobby.commands.implcommands.lobby;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.SubCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +23,10 @@ public class SetLobbyCommand implements Command {
     public String getName() {
         return "xg7lobbysetlobby";
     }
-
+    @Override
+    public InventoryItem getIcon() {
+        return new InventoryItem(XMaterial.RED_BED.parseItem().getData(), "&6Set lobby command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+    }
     @Override
     public String getDescription() {
         return "Puts the lobby location";
@@ -64,6 +70,7 @@ public class SetLobbyCommand implements Command {
             Config.set(ConfigType.DATA, "spawn-location.z", location.getZ());
             Config.set(ConfigType.DATA, "spawn-location.yaw", location.getYaw());
             Config.set(ConfigType.DATA, "spawn-location.pitch", location.getPitch());
+            Config.save(ConfigType.DATA);
             Config.reload(ConfigType.DATA);
             Text.send("&aLobby successfully placed at &bworld: &r" + location.getWorld().getName() + "&b, x: &r" + (int) location.getX() + "&b, y: &r" + (int) location.getY() + "&b, z: &r" + (int) location.getZ() + "&b, yaw: &r" + (int) location.getYaw() + "&b, pitch: &r" + (int) location.getPitch(), sender);
             return true;

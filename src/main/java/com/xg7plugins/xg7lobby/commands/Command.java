@@ -3,6 +3,7 @@ package com.xg7plugins.xg7lobby.commands;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public interface Command {
     default List<String> getAliasses() {
         return Config.getList(ConfigType.COMMANDS, "commands." + getName() + ".args");
     }
+    InventoryItem getIcon();
     String getDescription();
     String getSyntax();
     boolean isOnlyInLobbyWorld();
@@ -37,6 +39,7 @@ public interface Command {
             subcommand.onCommand(sender,command,label,args);
             return true;
         }
+        Text.send(Config.getString(ConfigType.MESSAGES, "commands.syntax-error").replace("[SYNTAX]", getSyntax()), sender);
         return true;
     }
     List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args);

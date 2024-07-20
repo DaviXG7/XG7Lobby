@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands.togglecommands;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
@@ -15,12 +16,15 @@ import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.tasks.CooldownTask;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -30,7 +34,10 @@ public class PVPCommand implements Command {
     public String getName() {
         return "xg7lobbypvp";
     }
-
+    @Override
+    public InventoryItem getIcon() {
+        return new InventoryItem(XMaterial.DIAMOND_SWORD.parseMaterial(), "&6PVP command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+    }
     @Override
     public String getDescription() {
         return "Enables pvp on lobby";
@@ -66,9 +73,13 @@ public class PVPCommand implements Command {
                 return true;
             }
 
-            Player target = Bukkit.getPlayerExact(args[0]);
-            if (target == null) {
-                Text.send(Config.getString(ConfigType.MESSAGES, "commands.player-doesnt-exist"), sender);
+            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+            if (!target.hasPlayedBefore()) {
+                Text.send(Config.getString(ConfigType.MESSAGES, "commands.player-not-found"), sender);
+                return true;
+            }
+            if (!target.isOnline()) {
+                Text.send(Config.getString(ConfigType.MESSAGES, "commands.player-not-online"), sender);
                 return true;
             }
             if (!Config.getBoolean(ConfigType.CONFIG, "pvp.enabled")) {
@@ -76,7 +87,7 @@ public class PVPCommand implements Command {
                 return true;
             }
 
-            PlayerData data = PlayerManager.getPlayerData(target.getUniqueId());
+            PlayerData data = PlayerManager.createPlayerData(target.getUniqueId());
 
             if (!data.isPVPEnabled() && data.isFlying() && Config.getBoolean(ConfigType.CONFIG, "pvp.disable-fly")) {
                 Text.send(Config.getString(ConfigType.MESSAGES, "fly.on-pvp-fly"), sender);
@@ -98,23 +109,22 @@ public class PVPCommand implements Command {
                             SQLHandler.update("UPDATE players SET ispvpenabled = ? WHERE id = ?", data.isPVPEnabled(), data.getId());
 
                                         if (data.isPVPEnabled()) {
-                                            SelectorManager.getMenu().close(target);
-                                            target.setMaxHealth(Config.getDouble(ConfigType.CONFIG, "pvp.max-hearts") * 2);
-                                            target.setHealth(target.getMaxHealth());
-                                            target.getActivePotionEffects().clear();
-                                        } else {
-                                            SelectorManager.getMenu().open(target);
-                                        }
+                                            if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) SelectorManager.getMenu().close(target.getPlayer());
+                                            target.getPlayer().setMaxHealth(Config.getDouble(ConfigType.CONFIG, "pvp.max-hearts") * 2);
+                                            target.getPlayer().setHealth(target.getPlayer().getMaxHealth());
+                                            target.getPlayer().getActivePotionEffects().clear();
+                                        } else if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) SelectorManager.getMenu().open(target.getPlayer());
 
-                            Config.getList(ConfigType.CONFIG, data.isPVPEnabled() ? "pvp.events-enable" : "pvp.events-disable").forEach(action -> Action.execute(action, target));
 
-                            Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enable") : Config.getString(ConfigType.MESSAGES, "pvp.on-disable"), target);
+                            Config.getList(ConfigType.CONFIG, data.isPVPEnabled() ? "pvp.events-enable" : "pvp.events-disable").forEach(action -> Action.execute(action, target.getPlayer()));
+
+                            Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enable") : Config.getString(ConfigType.MESSAGES, "pvp.on-disable"), target.getPlayer());
                             Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enable-other").replace("[PLAYER]", target.getName()) : Config.getString(ConfigType.MESSAGES, "pvp.on-disable-other").replace("[PLAYER]", target.getName()), sender);
                             },5L);
                             TaskManager.cancelTask(this.getName());
                             return;
                         }
-                        Text.send(!data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enabling").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + "") : Config.getString(ConfigType.MESSAGES, "pvp.on-disabling").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + ""), target);
+                        Text.send(!data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enabling").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + "") : Config.getString(ConfigType.MESSAGES, "pvp.on-disabling").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + ""), target.getPlayer());
                         Text.send(!data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.on-enabling-other").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + "").replace("[PLAYER]", target.getName()) : Config.getString(ConfigType.MESSAGES, "pvp.on-disabling-other").replace("[SECONDS]", (TimeUnit.MILLISECONDS.toSeconds(CacheManager.getPvpCache().asMap().get(target.getUniqueId()) - System.currentTimeMillis()) + 1) + "").replace("[PLAYER]", target.getName()), sender);
 
                     }
@@ -123,7 +133,7 @@ public class PVPCommand implements Command {
 
             }
 
-            Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.pvp-disable-cancelled") : Config.getString(ConfigType.MESSAGES, "pvp.pvp-enable-cancelled"), target);
+            Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.pvp-disable-cancelled") : Config.getString(ConfigType.MESSAGES, "pvp.pvp-enable-cancelled"), target.getPlayer());
             Text.send(data.isPVPEnabled() ? Config.getString(ConfigType.MESSAGES, "pvp.pvp-disable-cancelled") : Config.getString(ConfigType.MESSAGES, "pvp.pvp-enable-cancelled"), sender);
             TaskManager.cancelTask("cooldown:lobby=" + target.getUniqueId());
             CacheManager.remove(target.getUniqueId(), CacheType.PVP_COOLDOWN);
@@ -165,13 +175,12 @@ public class PVPCommand implements Command {
                         SQLHandler.update("UPDATE players SET ispvpenabled = ? WHERE id = ?", data.isPVPEnabled(), data.getId());
 
                             if (data.isPVPEnabled()) {
-                                SelectorManager.getMenu().close(player);
+                                if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) SelectorManager.getMenu().close(player);
                                 player.setMaxHealth(Config.getDouble(ConfigType.CONFIG, "pvp.max-hearts") * 2);
                                 player.setHealth(player.getMaxHealth());
                                 player.getActivePotionEffects().clear();
-                            } else {
-                                SelectorManager.getMenu().open(player);
-                            }
+                            } else if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) SelectorManager.getMenu().open(player);
+
 
 
                         Config.getList(ConfigType.CONFIG, data.isPVPEnabled() ? "pvp.events-enable" : "pvp.events-disable").forEach(action -> Action.execute(action, player));

@@ -54,6 +54,8 @@ on-join:
   heal: true
   clear-inventory: true
 
+  run-events-when-return-to-the-world: true
+
   events:
     - "[TITLE] &bWelcome, &f%player_name%"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
@@ -97,8 +99,84 @@ double-jump:
 
 #MODERATION
 
-min-warns-to-kick: 10
-warns-to-ban: 20
+warn-admin: false
+
+warn-level-ban: 3
+warn-level-kick: 2
+warn-level-mute: 2
+
+min-warns-level1-to-kick: 20
+min-warns-level2-to-kick: 10
+min-warns-level3-to-kick: 5
+min-warns-total-to-kick: 50
+
+warns-level1-to-ban: 50
+warns-level2-to-ban: 25
+warns-level3-to-ban: 12
+warns-total-to-ban: 70
+
+#CHAT
+
+ignore-adm-for-lock-chat: true
+
+anti-swearing:
+  enabled: true
+
+  #If you don't have permission and
+  #if you send some this words
+  #The message do not be sent, and
+  #you will recive a warning
+
+  #Try putting the words in lower case
+  blocked-words:
+    - "cu"
+    - "wtf"
+    - "fuck"
+    - "porra"
+
+block-commands:
+  enabled: true
+
+  anti-tab: true
+
+  #If you don't have permission and
+  #if you send some these commands
+  #will block
+  commands-blocked:
+    - /pl
+    - /plugins
+    - /?
+    - /bukkit:?
+    - /bukkit:plugins
+    - /bukkit:pl
+    - /bukkit:help
+    - /version
+    - /bukkit:version
+    - /bukkit:ver
+    - /tell
+
+anti-spam:
+  enabled: true
+
+  #To send other message (IN SECONDS)
+  cooldown: 1
+
+  #Remove one spam from each player's list (IN SECONDS)
+  spam-cooldown: 2
+
+  #Messages tolerance
+  tolerance: 10
+
+  warn-tolerance: 5
+
+  mute-on-spam-limit: true
+
+  #To indeterminate and avoid errors, put "indeterminate"
+  unmute-delay: "30m"
+
+  warn-on-spam-limit: true
+  warning: "&cMuted by spam"
+
 
 #PLAYER
 
@@ -233,12 +311,25 @@ bossbar:
 
 warns-gui:
 
-  fill-item: AIR
+  title: "&6You have &9%xg7lobby_warns% warns &8%player_name%"
+
+  fill-item: GRAY_STAINED_GLASS_PANE
 
   inv-pos-1: [2,2]
-  inv-pos-2: [5,8]
+  inv-pos-2: [8,5]
 
-  warn-item-material: PAPER
+  #Do not supports skull
+
+  warn-item-material-level-1: LIME_WOOL
+  warn-item-material-level-2: YELLOW_WOOL
+  warn-item-material-level-3: RED_WOOL
+
+  warn-item:
+    name: "&cWarn level [LEVEL]"
+    lore:
+      - "&9Date: &f[DATE]"
+      - "&9Reason: &f[WARN]"
+      - "&9ID: &7&o[ID]"
 
   go-next-page:
     name: "&aGo next"

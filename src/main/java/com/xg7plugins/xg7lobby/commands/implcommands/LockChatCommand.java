@@ -3,36 +3,35 @@ package com.xg7plugins.xg7lobby.commands.implcommands;
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
-import com.xg7plugins.xg7lobby.menus.MenuManager;
-import com.xg7plugins.xg7lobby.utils.Log;
+import com.xg7plugins.xg7lobby.data.ConfigType;
+import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GuiCommand implements Command {
+public class LockChatCommand implements Command {
     @Override
     public String getName() {
-        return "xg7lobbygui";
+        return "xg7lobbylockchat";
     }
+
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.GLASS_PANE.parseItem().getData(), "&6GUI command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.BARRIER.parseMaterial(), "&6Unban command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
     }
 
     @Override
     public String getDescription() {
-        return "Opens a gui";
+        return "Locks the chat";
     }
 
     @Override
     public String getSyntax() {
-        return "/xg7lobbygui [MENUID]";
+        return "/xg7lobbylockchat";
     }
 
     @Override
@@ -42,28 +41,28 @@ public class GuiCommand implements Command {
 
     @Override
     public PermissionType getPermission() {
-        return PermissionType.GUI;
+        return PermissionType.LOCKCHAT;
     }
 
     @Override
     public boolean isOnlyPlayer() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (MenuManager.getById(args[0]) == null) {
-            Log.severe("The menu with gui " + args[0] + " doesn't exist!");
-            Text.send("&cThe menu with gui " + args[0] + " doesn't exist!", sender);
-            return true;
-        }
-        MenuManager.openById((Player) sender, args[0]);
+
+        Config.set(ConfigType.DATA, "chat-locked", !Config.getBoolean(ConfigType.DATA, "chat-locked"));
+        Config.save(ConfigType.DATA);
+        Config.reload(ConfigType.DATA);
+
+        Text.send(Config.getString(ConfigType.MESSAGES, Config.getBoolean(ConfigType.DATA, "chat-locked") ? "chat.on-lock" : "chat.on-unlock"), sender);
 
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        return args.length == 1 ? Collections.singletonList("id") : new ArrayList<>();
+        return Collections.emptyList();
     }
 }

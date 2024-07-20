@@ -1,11 +1,13 @@
 package com.xg7plugins.xg7lobby.tasks;
 
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.events.EventManager;
+import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.scores.Bossbar;
 import com.xg7plugins.xg7lobby.tasks.tasksimpl.PlayerEventsTask;
@@ -27,13 +29,16 @@ public class TaskManager {
             PlayerData data = PlayerManager.createPlayerData(p.getUniqueId());
             if (EventManager.getWorlds().contains(p.getWorld().getName())) {
                 if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) {
-                    if (!data.isPVPEnabled() && !data.isBuildEnabled()) SelectorManager.getMenu().open(p);
+                    if (!data.isPVPEnabled() && !data.isBuildEnabled()) SelectorManager.open(p);
                 }
-                if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) < 9) {
+                if (Config.getBoolean(ConfigType.CONFIG, "double-jump.enabled")) {
+                    p.setAllowFlight(p.hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+                    DoubleJumpEvent.isJumping.add(p.getUniqueId());
+                }
+                if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) < 9) {
                     Log.warn(" Your version do not support bossbars!");
                     return;
                 }
-
                 if (Config.getBoolean(ConfigType.CONFIG, "bossbar.enabled")) Bossbar.addPlayer(p);
             }
         });
