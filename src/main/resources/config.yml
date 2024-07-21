@@ -158,8 +158,10 @@ block-commands:
 anti-spam:
   enabled: true
 
+  message-cannot-be-the-same: true
+
   #To send other message (IN SECONDS)
-  cooldown: 1
+  cooldown: 0.5
 
   #Remove one spam from each player's list (IN SECONDS)
   spam-cooldown: 2
@@ -175,6 +177,7 @@ anti-spam:
   unmute-delay: "30m"
 
   warn-on-spam-limit: true
+  spam-warn-level: 2
   warning: "&cMuted by spam"
 
 
@@ -274,7 +277,7 @@ scoreboard:
 
   #Scoreboard title
   #In older versions, the max is 32 characters!
-  title: "[g#0000ff]XG7Lobby[/g#00ffff]"
+  title: "&9XG7&3Lob&bby"
 
   #Lines of the score
   lines:
@@ -306,6 +309,38 @@ bossbar:
 
   #Goes from 0 to 1. For example: 0.5
   progress: 1
+
+
+#WORLD
+
+
+world-task-delay: 20
+
+#Define if mobs will spawn in the lobby
+spawn-mobs: false
+
+#Define the weather cycle on lobby world
+storm: false
+
+#Define the day cycle on lobby world
+day-cycle: false
+
+#Sunrise: 0
+#Noon: 6000
+#Sunset: 13000
+#Midnight: 18000
+time: 6000
+
+#Define if the leaves will fall in the lobby
+leaves-decay: false
+
+#Define whether blocks will burn in the lobby
+burn-blocks: false
+
+block-spread: false
+
+#Cancel explosions
+cancel-explosions: true
 
 
 

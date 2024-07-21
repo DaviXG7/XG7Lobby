@@ -84,4 +84,4 @@ commands:
     args: [ "7llockchat", "xg7llockchat", "llockchat", "lockchat" ]
   xg7lobbygamemode:
     enabled: true
-    args: [ "7lgamemode", "xg7lgamemode", "lgamemode", "gamemode", "7lgm", "xg7lgm", "lgm", "gm" ]
+    args: [ "7lgamemode", "xg7lgamemode", "lgamemode", "7lgm", "xg7lgm", "lgm", "gm" ]

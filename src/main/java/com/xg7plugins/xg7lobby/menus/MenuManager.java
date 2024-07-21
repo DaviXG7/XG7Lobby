@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class MenuManager {
 
             Menu menu = new Menu(configuration.getString("id"), configuration.getString("title"), configuration.getInt("rows") * 9);
 
-            if (configuration.get("fill-item") != null && !configuration.getString("fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.valueOf(configuration.getString("fill-item")).parseItem().getData(), " ", new ArrayList<>(), 1, -1));
+            if (configuration.get("fill-item") != null && !configuration.getString("fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.matchXMaterial(configuration.getString("fill-item").toUpperCase()).get().parseItem(), " ", new ArrayList<>(), 1, -1));
 
             for (String s : configuration.getConfigurationSection("items").getKeys(false)) {
 
@@ -54,6 +55,7 @@ public class MenuManager {
     }
 
     public static InventoryItem getItemByConfig(String id, FileConfiguration configuration, String path, int slot) {
+
         if (configuration.getString(path + "material").startsWith("PLAYER_HEAD") && configuration.getString(path + "material").split(", ").length == 2) {
 
             String value = configuration.getString(path + "material").split(", ")[1];
@@ -74,6 +76,8 @@ public class MenuManager {
                 skullInventoryItem.setValue(value.substring(7));
             }
 
+            if (configuration.get(path + "item-flags") != null) configuration.getStringList(path + "item-flags").stream().map(ItemFlag::valueOf).forEach(skullInventoryItem::addFlags);
+
             if (configuration.getBoolean(path + "glow")) {
                 skullInventoryItem.addEnchant(Enchantment.DURABILITY, 1);
             }
@@ -82,11 +86,14 @@ public class MenuManager {
         }
 
         InventoryItem item = new InventoryItem(
-                XMaterial.valueOf(configuration.getString(path + "material")).parseItem().getData() , Text.translateColorCodes(configuration.getString(path + "name")), configuration.getStringList(path + "lore").stream().map(Text::translateColorCodes).collect(Collectors.toList()), configuration.getInt(path + "amount"), slot - 1
+                XMaterial.matchXMaterial(configuration.getString(path + "material")).get().parseItem(), Text.translateColorCodes(configuration.getString(path + "name")), configuration.getStringList(path + "lore").stream().map(Text::translateColorCodes).collect(Collectors.toList()), configuration.getInt(path + "amount"), slot - 1
         );
-        if (configuration.getBoolean(path + "glow")) {
-            item.addEnchant(Enchantment.DURABILITY, 1);
-        }
+        if (configuration.get(path + "custom-model-data") != null) item.setCustomModelData(configuration.getInt(path + "custom-model-data"));
+
+        if (configuration.get(path + "item-flags") != null) configuration.getStringList(path + "item-flags").stream().map(ItemFlag::valueOf).forEach(item::addFlags);
+
+        if (configuration.getBoolean(path + "glow")) item.addEnchant(Enchantment.DURABILITY, 1);
+
         return item;
     }
 

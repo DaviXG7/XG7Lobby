@@ -16,9 +16,11 @@ public class CustomCommands implements CommandExecutor {
 
         if (!Config.getConfigurationSections(ConfigType.COMMANDS, "custom-commands").contains(command.getName())) return true;
 
-        if (!commandSender.hasPermission(Config.getString(ConfigType.COMMANDS, "custom-commands." + command.getName() + ".permission"))) {
-            Text.send(Config.getString(ConfigType.MESSAGES, "commands.no-permission"), commandSender);
-            return true;
+        if (!Config.getString(ConfigType.COMMANDS, "custom-commands." + command.getName() + ".permission").isEmpty()) {
+            if (!commandSender.hasPermission(Config.getString(ConfigType.COMMANDS, "custom-commands." + command.getName() + ".permission"))) {
+                Text.send(Config.getString(ConfigType.MESSAGES, "commands.no-permission"), commandSender);
+                return true;
+            }
         }
         Config.getList(ConfigType.COMMANDS, "custom-commands." + command.getName() + ".actions").forEach(ac -> Action.execute(ac, (Player) commandSender));
         return true;

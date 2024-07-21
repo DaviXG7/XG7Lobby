@@ -80,7 +80,7 @@ public class WarnsCommand implements Command {
                 lore.add(Text.translateColorCodes("&aClick to copy the id! &fID: " + warn.getId()));
 
                 return new InventoryItem(
-                        XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.warn-item-material-level-" + warn.getLevel())).parseItem().getData(),
+                        XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.warn-item-material-level-" + warn.getLevel())).get().parseItem(),
                         Text.getFormatedText(target.getPlayer(), Config.getString(ConfigType.CONFIG, "warns-gui.warn-item.name").replace("[WARN]", warn.getWarn()).replace("[ID]", warn.getId().toString()).replace("[DATE]", new SimpleDateFormat("dd/MM/yy HH:mm").format(warn.getDate())).replace("[LEVEL]", warn.getLevel() + "")),
                         lore, 1, -1
                 );
@@ -88,18 +88,18 @@ public class WarnsCommand implements Command {
 
             ItemPages menu = new ItemPages("xg7lobby:warns", Text.translateColorCodes("Warns of " + target.getName() + ": " + warnItems.size()), 54, warnItems, Menu.InventoryCoordinate.fromList(Config.getIntegerList(ConfigType.CONFIG, "warns-gui.inv-pos-1")), Menu.InventoryCoordinate.fromList(Config.getIntegerList(ConfigType.CONFIG, "warns-gui.inv-pos-2")));
 
-            if (Config.getString(ConfigType.CONFIG, "warns-gui.fill-item") != null && !Config.getString(ConfigType.CONFIG, "warns-gui.fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.fill-item")).parseItem().getData(), " ", new ArrayList<>(), 1, -1));
+            if (Config.getString(ConfigType.CONFIG, "warns-gui.fill-item") != null && !Config.getString(ConfigType.CONFIG, "warns-gui.fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.fill-item")).parseMaterial(), " ", new ArrayList<>(), 1, -1));
 
             menu.addItems(
                     new InventoryItem(
-                            XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.material")).parseItem().getData(),
+                            XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.material")).get().parseItem(),
                             Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.name")),
                             Config.getList(ConfigType.CONFIG, "warns-gui.go-next-page.lore").stream().map(Text::translateColorCodes).collect(Collectors.toList()),
                             1,
                             Config.getInt(ConfigType.CONFIG, "warns-gui.go-next-page.slot") - 1
                     ),
                     new InventoryItem(
-                            XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.material")).parseItem().getData(),
+                            XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.material")).get().parseItem(),
                             Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.name")),
                             Config.getList(ConfigType.CONFIG, "warns-gui.go-back-page.lore").stream().map(Text::translateColorCodes).collect(Collectors.toList()),
                             1,
@@ -116,7 +116,7 @@ public class WarnsCommand implements Command {
         PlayerData data = PlayerManager.createPlayerData(player.getUniqueId());
 
         List<InventoryItem> warnItems = data.getInfractions().stream().map(warn -> new InventoryItem(
-                XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.warn-item-material-level-" + warn.getLevel())).parseItem().getData(),
+                XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.warn-item-material-level-" + warn.getLevel())).get().parseItem(),
                 Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.warn-item.name").replace("[WARN]", warn.getWarn()).replace("[ID]", warn.getId().toString()).replace("[DATE]", new SimpleDateFormat("dd/MM/yy HH:mm").format(warn.getDate())).replace("[LEVEL]", warn.getLevel() + "")),
                 Config.getList(ConfigType.CONFIG, "warns-gui.warn-item.lore").stream().map(text -> Text.getFormatedText(player, text).replace("[WARN]", warn.getWarn()).replace("[ID]", warn.getId().toString()).replace("[DATE]", new SimpleDateFormat("dd/MM/yy HH:mm").format(warn.getDate())).replace("[LEVEL]", warn.getLevel() + "")).collect(Collectors.toList()),
                 1, -1
@@ -124,18 +124,18 @@ public class WarnsCommand implements Command {
 
         ItemPages menu = new ItemPages("xg7lobby:warns", Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.title")), 54, warnItems, Menu.InventoryCoordinate.fromList(Config.getIntegerList(ConfigType.CONFIG, "warns-gui.inv-pos-1")), Menu.InventoryCoordinate.fromList(Config.getIntegerList(ConfigType.CONFIG, "warns-gui.inv-pos-2")));
 
-        if (Config.getString(ConfigType.CONFIG, "warns-gui.fill-item") != null && !Config.getString(ConfigType.CONFIG, "warns-gui.fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.fill-item")).parseItem().getData(), " ", new ArrayList<>(), 1, -1));
+        if (Config.getString(ConfigType.CONFIG, "warns-gui.fill-item") != null && !Config.getString(ConfigType.CONFIG, "warns-gui.fill-item").equals("AIR")) menu.setFillItem(new InventoryItem(XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.fill-item")).get().parseItem(), " ", new ArrayList<>(), 1, -1));
 
         menu.addItems(
                 new InventoryItem(
-                        XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.material")).parseItem().getData(),
+                        XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.material")).get().parseItem(),
                         Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.go-next-page.name")),
                         Config.getList(ConfigType.CONFIG, "warns-gui.go-next-page.lore").stream().map(text -> Text.getFormatedText(player, text)).collect(Collectors.toList()),
                         1,
                         Config.getInt(ConfigType.CONFIG, "warns-gui.go-next-page.slot") - 1
                 ),
                 new InventoryItem(
-                        XMaterial.valueOf(Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.material")).parseItem().getData(),
+                        XMaterial.matchXMaterial(Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.material")).get().parseItem(),
                         Text.getFormatedText(player, Config.getString(ConfigType.CONFIG, "warns-gui.go-back-page.name")),
                         Config.getList(ConfigType.CONFIG, "warns-gui.go-back-page.lore").stream().map(text -> Text.getFormatedText(player, text)).collect(Collectors.toList()),
                         1,

@@ -28,7 +28,7 @@ public class JoinEvent implements JoinQuitEvent {
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
-        PacketEvents.create(event.getPlayer());
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) <= 13) PacketEvents.create(event.getPlayer());
         event.setJoinMessage(Text.getFormatedText(event.getPlayer(), Config.getString(ConfigType.MESSAGES, "lobby.on-join")));
         if (Config.getBoolean(ConfigType.CONFIG, "on-join.tp-to-lobby")) {
             if (Config.getString(ConfigType.DATA, "spawn-location.world") != null) {

@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TabCompleteEvent implements PacketPlayEvent.PacketPlayOutEvent {
-
+public class PluginTabCompleteEvent implements PacketPlayEvent.PacketPlayOutEvent {
     @Override
     public String[] getPacketsNames() {
         return new String[]{"PacketPlayOutTabComplete"};
@@ -29,13 +28,21 @@ public class TabCompleteEvent implements PacketPlayEvent.PacketPlayOutEvent {
         Class<?> packetPlayOutTabCompleteClass = NMSUtil.getNMSClass("PacketPlayOutTabComplete");
         Field suggestionsField = packetPlayOutTabCompleteClass.getDeclaredField("a");
         suggestionsField.setAccessible(true);
+
         Object suggestions = suggestionsField.get(packet);
 
         if (suggestions instanceof String[]) {
             String[] suggestionsArray = (String[]) suggestions;
-            if (player.hasPermission(PermissionType.ANTITAB_BYPASS.getPerm())) return packet;
+            if (player.hasPermission(PermissionType.ANTITAB_PLUGIN_BYPASS.getPerm())) return packet;
 
-            for (String commands : Config.getList(ConfigType.CONFIG, "block-commands.commands-blocked")) {
+            for (String commands : CommandManager.getCommands().stream().flatMap(cmd -> {
+                        List<String> combined = new ArrayList<>();
+                        combined.add("/" + cmd.getName());
+                        combined.addAll(cmd.getAliasses().stream().map(alias -> "/" + alias).collect(Collectors.toList()));
+                        return combined.stream();
+                    })
+                    .collect(Collectors.toList()))
+            {
                 suggestionsArray = java.util.Arrays.stream(suggestionsArray)
                         .filter(suggestion -> !suggestion.startsWith(commands))
                         .toArray(String[]::new);
@@ -46,8 +53,9 @@ public class TabCompleteEvent implements PacketPlayEvent.PacketPlayOutEvent {
         return packet;
     }
 
+
     @Override
     public boolean isEnabled() {
-        return Config.getBoolean(ConfigType.CONFIG, "block-commands.anti-tab");
+        return Config.getBoolean(ConfigType.COMMANDS, "anti-tab");
     }
 }

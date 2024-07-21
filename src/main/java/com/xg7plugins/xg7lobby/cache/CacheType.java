@@ -5,5 +5,6 @@ public enum CacheType {
     LOBBY_COOLDOWN,
     SELECTOR_COOLDOWN,
     PVP_COOLDOWN,
+    ANTI_SPAM,
     SQL_QUERY
 }

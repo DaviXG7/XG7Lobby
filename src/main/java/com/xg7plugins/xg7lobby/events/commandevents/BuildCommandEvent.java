@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.events.commandevents;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
@@ -15,6 +16,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+
+import java.util.stream.Collectors;
 
 public class BuildCommandEvent implements Event {
     @Override
@@ -59,7 +62,7 @@ public class BuildCommandEvent implements Event {
         }
     }
     @EventHandler
-    public void onPickup(PlayerDropItemEvent event) {
+    public void onDrop(PlayerDropItemEvent event) {
         if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
 
         if (Config.getBoolean(ConfigType.CONFIG, "drop-items")) return;
@@ -76,7 +79,7 @@ public class BuildCommandEvent implements Event {
 
         if (Config.getBoolean(ConfigType.CONFIG, "interact-with-blocks")) return;
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if (!Config.getList(ConfigType.CONFIG, "blocks-with-canceled-interaction").contains(event.getClickedBlock().getType().name())) return;
+        if (!Config.getList(ConfigType.CONFIG, "blocks-with-canceled-interaction").stream().map(block -> XMaterial.valueOf(block.toUpperCase()).parseMaterial().name()).collect(Collectors.toList()).contains(event.getClickedBlock().getType().name())) return;
 
         PlayerData data = PlayerManager.getPlayerData(event.getPlayer().getUniqueId());
         if (!data.isBuildEnabled()) {

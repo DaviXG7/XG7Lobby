@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.events.ChatEvents;
+package com.xg7plugins.xg7lobby.events.chatevents;
 
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.data.ConfigType;

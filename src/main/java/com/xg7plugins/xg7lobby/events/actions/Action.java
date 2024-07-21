@@ -37,7 +37,10 @@ public class Action {
                 break;
             }
         }
-        if (type == null) return;
+        if (type == null) {
+            Log.severe("Action with name " + text.split(" ")[0] + " doesn't exist!");
+            return;
+        }
         if (text.startsWith("[PERMISSION: ")) {
             String perm = text.substring(13, text.indexOf("] "));
             if (!player.hasPermission(perm)) return;

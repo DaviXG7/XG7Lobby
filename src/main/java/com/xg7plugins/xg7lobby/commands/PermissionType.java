@@ -17,6 +17,8 @@ public enum PermissionType {
     ANTITAB_BYPASS("antitab.bypass"),
     ANTITAB_PLUGIN_BYPASS("antitab.plugin.bypass"),
 
+    SPAM("spam"),
+
     HELP("help"),
 
     COMMAND("command.*"),

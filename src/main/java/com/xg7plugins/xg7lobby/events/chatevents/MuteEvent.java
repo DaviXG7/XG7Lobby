@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.events.ChatEvents;
+package com.xg7plugins.xg7lobby.events.chatevents;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
@@ -10,12 +10,13 @@ import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.events.Event;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class MuteEvent implements Event {
     @Override
     public boolean isEnabled() {
-        return Config.getBoolean(ConfigType.COMMANDS, "commands.xg7lobbymute.enabled");
+        return true;
     }
 
     public static String formatDuration(long milliseconds) {
@@ -45,7 +46,7 @@ public class MuteEvent implements Event {
         return result.toString().trim();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onAsyncChat(AsyncPlayerChatEvent event) {
         PlayerData data = PlayerManager.getPlayerData(event.getPlayer().getUniqueId());
 

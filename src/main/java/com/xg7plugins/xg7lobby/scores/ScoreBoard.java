@@ -4,6 +4,7 @@ import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -19,7 +20,9 @@ public class ScoreBoard {
 
         Scoreboard scoreboard = player.getScoreboard();
 
-        if (player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())) scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        if (player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())) {
+            scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        }
 
         Objective objective = scoreboard.getObjective("xg7lscore");
 
@@ -34,18 +37,21 @@ public class ScoreBoard {
         for (String s : Config.getList(ConfigType.CONFIG, "scoreboard.lines")) {
             index--;
 
-
             String entry = IntStream.range(0, index).mapToObj(i -> "§r").collect(Collectors.joining());
-
 
             Team team = scoreboard.getTeam("xg7lscore:Team=" + index) != null ? scoreboard.getTeam("xg7lscore:Team=" + index) : scoreboard.registerNewTeam("xg7lscore:Team=" + index);
 
             s = Text.getFormatedText(player, s);
 
-            String prefix = Text.getFormatedText(player, s.substring(0, Math.min(s.length(), 16)));
+            String prefix = s.substring(0, Math.min(s.length(), 16));
             String suffix = null;
             if (s.length() > 16) {
-                suffix = Text.getFormatedText(player, s.substring(16, Math.min(s.length(), 32)));
+                suffix = s.substring(16, Math.min(s.length(), 32));
+                if (prefix.charAt(15) == '§') {
+                    prefix = prefix.substring(0, 15);
+                    suffix = "§" + suffix;
+                }
+                suffix = ChatColor.getLastColors(prefix) + suffix;
             }
 
             team.setPrefix(prefix);

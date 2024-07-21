@@ -67,7 +67,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         Log.loading("Loading events...");
         new EventManager().init();
-        EventManager.initPacketEvents();
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) <= 13) EventManager.initPacketEvents();
 
         Log.loading("Loading commands...");
         new CommandManager().init();
@@ -83,7 +83,7 @@ public final class XG7Lobby extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getOnlinePlayers().forEach(PacketEvents::stopEvent);
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) <= 13)Bukkit.getOnlinePlayers().forEach(PacketEvents::stopEvent);
         if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bukkit.getOnlinePlayers().forEach(Bossbar::removePlayer);
         if (Config.getBoolean(ConfigType.SELECTOR, "enabled")) Bukkit.getOnlinePlayers().forEach(SelectorManager.getMenu()::close);
     }

@@ -20,7 +20,7 @@ pvp:
   on-enabling: "[ACTION] &aEnabling pvp in [SECONDS] seconds!"
   on-disabling: "[ACTION] &cDisabling pvp in [SECONDS] seconds... Don't move!"
   on-enabling-other: "&aEnabling pvp of [PLAYER] in [SECONDS] seconds..."
-  on-disabling-other: "&cThe pvp of [PLAYER] is now disabled!"
+  on-disabling-other: "&cDisabling pvp of [PLAYER] in [SECONDS] seconds..."
 
   on-enable: "[PREFIX] &aYour pvp is now enabled!"
   on-disable: "[PREFIX] &cYour pvp is now disabled!"
@@ -69,7 +69,7 @@ block-item-permission:
 lobby:
   no-location: "[PREFIX] &cThe lobby was not placed, wait for an adm to put!"
 
-  on-cmd: "&aYou will teleport in few seconds, please wait!"
+  on-cmd: "[PREFIX] &aYou will teleport in few seconds, please wait!"
   on-tp: "[ACTION] &6You will teleport in [SECONDS] seconds... Don't move!"
   on-tp-cancel: "[ACTION] &cTeleport canceled"
 
@@ -87,6 +87,11 @@ chat:
   chat-locked: "[PREFIX] &cYou cannot send message because the chat is locked!"
 
   on-swearing: "[PREFIX] &cYou cannot send this word in the chat!"
+
+  on-spam-tolerance: "[PREFIX] &cYou are sending messages too fast! Please send slower..."
+  on-spam-time: "[PREFIX] &cYou cannot send another message in [SECONDS] seconds..."
+  on-spam-limit: "[PREFIX] &cYou have been muted for spam!"
+  on-same-message: "[PREFIX] &cYou cannot send the same message again!"
 
 moderation:
 
@@ -106,7 +111,7 @@ moderation:
   on-unban: "[PREFIX] &aYou successful unbanned [PLAYER]!"
 
   on-mute: "[PREFIX] &aYou successful muted [PLAYER]!"
-  on-mute-other: "[PREFIX] &cYou have been muted by admin!"
+  on-mute-other: "[PREFIX] &cYou have been muted by an admin!"
 
   on-unmute: "[PREFIX] &aYou successful unmuted [PLAYER]!"
   on-unmute-other: "[PREFIX] &cYou have been unmuted!"

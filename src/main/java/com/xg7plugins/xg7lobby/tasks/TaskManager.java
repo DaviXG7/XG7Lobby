@@ -10,8 +10,10 @@ import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.scores.Bossbar;
+import com.xg7plugins.xg7lobby.tasks.tasksimpl.ChatTask;
 import com.xg7plugins.xg7lobby.tasks.tasksimpl.PlayerEventsTask;
 import com.xg7plugins.xg7lobby.tasks.tasksimpl.ScoreTask;
+import com.xg7plugins.xg7lobby.tasks.tasksimpl.WorldTask;
 import com.xg7plugins.xg7lobby.utils.Log;
 import org.bukkit.Bukkit;
 
@@ -47,6 +49,8 @@ public class TaskManager {
 
         taskList.add(new PlayerEventsTask());
         taskList.add(new ScoreTask());
+        taskList.add(new WorldTask());
+        if (Config.getBoolean(ConfigType.CONFIG, "anti-spam.enabled")) taskList.add(new ChatTask());
 
         taskList.forEach(TaskManager::addTask);
 

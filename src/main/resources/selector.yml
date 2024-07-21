@@ -63,6 +63,8 @@ items:
       - "&aClick to toggle!"
       - "&9Hiding: &f%xg7lobby_players_hiding%"
     material: "YELLOW_DYE"
+    item-flags:
+      - "HIDE_ATTRIBUTES"
     amount: 1
     slot: 9
     glow: true

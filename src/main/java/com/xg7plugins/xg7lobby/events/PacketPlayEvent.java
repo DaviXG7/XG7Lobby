@@ -6,12 +6,10 @@ public interface PacketPlayEvent extends Event {
 
     String[] getPacketsNames();
 
-    boolean isCancelled();
-
     interface PacketPlayInEvent extends PacketPlayEvent {
-        void in(Player player, Object packet);
+        Object in(Player player, Object packet);
     }
     interface PacketPlayOutEvent extends PacketPlayEvent {
-        void out(Player player, Object packet);
+        Object out(Player player, Object packet);
     }
 }

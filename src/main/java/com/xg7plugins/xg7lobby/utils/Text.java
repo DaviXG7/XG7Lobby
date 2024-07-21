@@ -71,10 +71,6 @@ public class Text {
         return translateColorCodes(setPlaceholders(text, player));
     }
     public static String setPlaceholders(String text, Player player) {
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-        }
-
         return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null ? PlaceholderAPI.setPlaceholders(player, text) : text;
     }
 

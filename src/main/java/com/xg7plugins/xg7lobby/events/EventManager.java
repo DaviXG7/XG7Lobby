@@ -3,19 +3,19 @@ package com.xg7plugins.xg7lobby.events;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
-import com.xg7plugins.xg7lobby.events.ChatEvents.AntiSwearingEvent;
-import com.xg7plugins.xg7lobby.events.ChatEvents.LockChatEvent;
-import com.xg7plugins.xg7lobby.events.ChatEvents.MuteEvent;
+import com.xg7plugins.xg7lobby.events.chatevents.AntiSpamEvent;
+import com.xg7plugins.xg7lobby.events.chatevents.AntiSwearingEvent;
+import com.xg7plugins.xg7lobby.events.chatevents.LockChatEvent;
+import com.xg7plugins.xg7lobby.events.chatevents.MuteEvent;
 import com.xg7plugins.xg7lobby.events.commandevents.*;
-import com.xg7plugins.xg7lobby.events.commandevents.commandtabevents.CommandPreProcessEvent;
-import com.xg7plugins.xg7lobby.events.commandevents.commandtabevents.PluginTabCompleteEvent;
+import com.xg7plugins.xg7lobby.events.commandevents.commandtabevents.*;
 import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.events.jumpevents.LaunchpadEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.MenuClickEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.SelectorClickEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.SelectorEvent;
 import com.xg7plugins.xg7lobby.events.playerevents.*;
-import com.xg7plugins.xg7lobby.events.commandevents.commandtabevents.TabCompleteEvent;
+import com.xg7plugins.xg7lobby.events.worldevents.WorldEvents;
 import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7lobby.utils.PacketEvents;
 import lombok.Getter;
@@ -64,7 +64,10 @@ public class EventManager implements Listener {
         events.add(new MuteEvent());
         events.add(new LockChatEvent());
         events.add(new AntiSwearingEvent());
+        events.add(new AntiSpamEvent());
         events.add(new CommandPreProcessEvent());
+        events.add(new WorldEvents());
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 14) events.add(new PluginTabCompleteEventNew());
 
         worlds = Config.getList(ConfigType.CONFIG, "enabled-worlds");
 
