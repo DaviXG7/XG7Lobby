@@ -2,6 +2,7 @@ package com.xg7plugins.xg7lobby;
 
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.commands.CommandManager;
+import com.xg7plugins.xg7lobby.commands.implcommands.HelpCommand;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
@@ -10,6 +11,7 @@ import com.xg7plugins.xg7lobby.menus.SelectorManager;
 import com.xg7plugins.xg7lobby.scores.Bossbar;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.utils.Log;
+import com.xg7plugins.xg7lobby.utils.Metrics;
 import com.xg7plugins.xg7lobby.utils.PacketEvents;
 import com.xg7plugins.xg7lobby.utils.Placeholders;
 import com.xg7plugins.xg7menus.api.XG7Menus;
@@ -26,6 +28,7 @@ public final class XG7Lobby extends JavaPlugin {
 
     public void onEnable() {
         plugin = this;
+        Metrics metrics = Metrics.getMetrics(this);
 
         this.getServer().getConsoleSender().sendMessage("Loading...");
         this.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "__   __  ___   ______     " + ChatColor.DARK_AQUA + "_       ____    ____ " + ChatColor.AQUA + "  ____ __   __");
@@ -52,7 +55,7 @@ public final class XG7Lobby extends JavaPlugin {
         }
         Log.setEnabled(XG7Lobby.getPlugin().getConfig().getBoolean("debug"));
 
-        Log.warn("DEBUG is enabled, to disable go on config.yml");
+        if (Log.isEnabled) Log.warn("DEBUG is enabled, to disable go on config.yml");
 
         Log.loading("Loading the plugin..");
 
@@ -71,6 +74,7 @@ public final class XG7Lobby extends JavaPlugin {
 
         Log.loading("Loading commands...");
         new CommandManager().init();
+        HelpCommand.init();
         CommandManager.initCustomCommands();
 
         Log.loading("Loading Tasks...");

@@ -43,6 +43,10 @@ public class PlayerEvents implements Event {
 
         if (!EventManager.getWorlds().contains(player.getWorld().getName())) return;
         if (event.getTo().getBlockY() <= level) {
+            if (Config.getString(ConfigType.DATA, "spawn-location.world") == null) {
+                player.teleport(player.getWorld().getSpawnLocation());
+                return;
+            }
 
             World world = Bukkit.getWorld(Config.getString(ConfigType.DATA, "spawn-location.world"));
             double x = Config.getDouble(ConfigType.DATA, "spawn-location.x");

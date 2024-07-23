@@ -22,8 +22,6 @@ public class Text {
 
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("\\[g#([0-9a-fA-F]{6})](.*?)\\[/g#([0-9a-fA-F]{6})]");
     private final static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
-    @Setter
-    private static String PREFIX = "";
 
 
     public static void send(String text, CommandSender sender) {
@@ -66,7 +64,6 @@ public class Text {
     }
 
     public static String getFormatedText(Player player, String text) {
-        text = text.replace("[PREFIX]", Config.getString(ConfigType.CONFIG, "plugin-prefix"));
         if (text.startsWith("[CENTER] ")) return translateColorCodes(getCentralizedText(PixelsSize.CHAT.getPixels(), setPlaceholders(text.substring(9), player)));
         return translateColorCodes(setPlaceholders(text, player));
     }
@@ -86,7 +83,7 @@ public class Text {
             }
         }
 
-        return ChatColor.translateAlternateColorCodes('&', text);
+        return ChatColor.translateAlternateColorCodes('&', text.replace("[PREFIX]", Config.getString(ConfigType.CONFIG, "plugin-prefix")));
 
     }
 

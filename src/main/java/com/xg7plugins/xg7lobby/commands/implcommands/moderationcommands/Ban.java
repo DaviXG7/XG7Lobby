@@ -62,7 +62,7 @@ public class Ban {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "&6Ban command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "§6Ban command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: &7&o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
@@ -134,7 +134,7 @@ public class Ban {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "&6Banip command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "§6Banip command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
@@ -211,7 +211,7 @@ public class Ban {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "&6TempBan command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "§6TempBan command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
@@ -284,7 +284,7 @@ public class Ban {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "&6Unban command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.IRON_AXE.parseMaterial(), "§6Unban command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override

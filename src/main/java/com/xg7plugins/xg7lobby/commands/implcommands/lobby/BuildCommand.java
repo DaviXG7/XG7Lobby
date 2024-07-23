@@ -31,7 +31,7 @@ public class BuildCommand implements Command {
     }
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.CRAFTING_TABLE.parseMaterial(), "&6Reload command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.CRAFTING_TABLE.parseMaterial(), "§6Build command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
     @Override
     public String getDescription() {

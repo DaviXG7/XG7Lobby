@@ -101,107 +101,58 @@
 #Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
 #Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
 
-cooldown: 5
+#The id of the inventory will indicate the menu
+#You can open the menu using "[OPEN] (id)"
+id: 2
 
-enabled: true
+title: "[CENTER] &aGames"
+rows: 3
 
-#The actions in each slot
+#The item that will fill the whole inventory
+fill-item: AIR
+
+
+#To learn about actions, stored items and items go to selectors.yml
+
 actions:
+  slot-19:
+    - "[CLOSE] "
 
-  #Put the slot and the click action
-  slot-1:
-    - "[OPEN] 2"
-  slot-2:
-    - "[OPEN] 1"
-  slot-9:
-    - "[TOGGLE_HIDE] "
-    - "[SWAP] [IF: %xg7lobby_players_hiding%] 9, hide-players-on"
-    - "[SWAP] [!IF: %xg7lobby_players_hiding%] 9, hide-players-off"
+  slot-15:
+    - "[CONSOLE] mvtp DaviXG7 BEDWARS"
 
-#The items that will be stored, you can restore using [SWAP]
+  slot-13:
+    - "[CONSOLE] mvtp DaviXG7 survival"
+
 stored-items:
-  hide-players-off:
 
-    name: "&7Hide Players &6- &cOFF!"
-    lore:
-      - "&aClick to hide!"
-      - "&9Hiding: &f%xg7lobby_players_hiding%"
-    material: GRAY_DYE
-    amount: 1
-    slot: 9
-    glow: true
-
-  hide-players-on:
-
-    name: "&7Hide Players &6- &aON!"
-    lore:
-      - "&aClick to show!"
-      - "&9Hiding: &f%xg7lobby_players_hiding%"
-    material: LIME_DYE
-    amount: 1
-    glow: true
-
-#You can create infinite items. Just put a section and make the item
 items:
 
-  #This is an example
+  item1:
 
-  #item:
-    #name: "&8A Cool name"
-    #lore:
-      #- "&aA cool lore"
-    #material: WATER_BUCKET
-    #amount: 1
-    #slot: 1
-    #glow: false
-
-  #You can make with custom model data (+1.9) and with item flags!
-
-  #item2:
-    #name: "&8A Cool name"
-    #lore:
-      #- "&aA cool lore"
-    #item-flags:
-      #- "HIDE_ATTRIBUTES"
-    #custom-model-data: 1
-    #material: WATER_BUCKET
-    #amount: 1
-    #slot: 1
-    #glow: false
-
-  #The item can be a stored item
-
-  #item3:
-    #item: hide-players-off
-    #slot: 9
-
-  game:
-    name: "&8Game Selector"
+    name: "&bSURVIVAL"
     lore:
-      - "&aClick to open!"
-    material: COMPASS
+      - "&7- &aClick to play SURVIVAL"
+    material: GRASS_BLOCK
     amount: 1
-    slot: 1
-    glow: false
-
-  profile:
-
-    name: "&bProfile %player_name%"
-    lore:
-      - "&aClick to open profile!"
-    material: "PLAYER_HEAD, THIS_PLAYER"
-    amount: 1
-    slot: 2
-    glow: false
-
-  hide_players:
-    name: "&7Hide players &6- &6Click to toggle!"
-    lore:
-      - "&aClick to toggle!"
-      - "&9Hiding: &f%xg7lobby_players_hiding%"
-    material: "YELLOW_DYE"
-    item-flags:
-      - "HIDE_ATTRIBUTES"
-    amount: 1
-    slot: 9
     glow: true
+    slot: 13
+
+  item2:
+
+    name: "&cBEDWARS"
+    lore:
+      - "&7- &aClick to play BEDWARS"
+    material: RED_BED
+    amount: 1
+    glow: true
+    slot: 15
+
+  close:
+    name: "&cClose"
+    lore:
+      - ""
+    material: BARRIER
+    amount: 1
+    glow: false
+    slot: 19

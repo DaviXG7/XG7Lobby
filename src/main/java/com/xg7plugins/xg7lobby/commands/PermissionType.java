@@ -23,6 +23,9 @@ public enum PermissionType {
 
     COMMAND("command.*"),
 
+    BUG("xg7lobby.command.bug"),
+    SUGGEST("xg7lobby.command.suggest"),
+
     RELOAD("command.reload.*"),
     RELOAD_DB("command.reload.db"),
     RELOAD_CONFIG("command.reload.config"),

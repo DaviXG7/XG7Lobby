@@ -11,6 +11,7 @@ import com.xg7plugins.xg7lobby.events.commandevents.*;
 import com.xg7plugins.xg7lobby.events.commandevents.commandtabevents.*;
 import com.xg7plugins.xg7lobby.events.jumpevents.DoubleJumpEvent;
 import com.xg7plugins.xg7lobby.events.jumpevents.LaunchpadEvent;
+import com.xg7plugins.xg7lobby.events.menuevents.HelpMenuEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.MenuClickEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.SelectorClickEvent;
 import com.xg7plugins.xg7lobby.events.menuevents.SelectorEvent;
@@ -49,6 +50,7 @@ public class EventManager implements Listener {
     public void init() {
         events.add(new LobbyCommandEvent());
         events.add(new JoinEvent());
+        events.add(new SelectorEvent());
         events.add(new WorldLeaveEvent());
         events.add(new PlayerEvents());
         events.add(new BuildCommandEvent());
@@ -58,7 +60,6 @@ public class EventManager implements Listener {
         events.add(new VanishCommandEvent());
         events.add(new ScoreEvents());
         events.add(new MenuClickEvent());
-        events.add(new SelectorEvent());
         events.add(new SelectorClickEvent());
         events.add(new WarnsCommandEvent());
         events.add(new MuteEvent());
@@ -67,6 +68,8 @@ public class EventManager implements Listener {
         events.add(new AntiSpamEvent());
         events.add(new CommandPreProcessEvent());
         events.add(new WorldEvents());
+        events.add(new MOTDEvent());
+        events.add(new HelpMenuEvent());
         if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 14) events.add(new PluginTabCompleteEventNew());
 
         worlds = Config.getList(ConfigType.CONFIG, "enabled-worlds");

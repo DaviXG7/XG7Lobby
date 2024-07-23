@@ -85,3 +85,12 @@ commands:
   xg7lobbygamemode:
     enabled: true
     args: [ "7lgamemode", "xg7lgamemode", "lgamemode", "7lgm", "xg7lgm", "lgm", "gm" ]
+  xg7lobbyhelp:
+    enabled: true
+    args: [ "7lhelp", "xg7lhelp", "lhelp" ]
+  xg7lobbybugreport:
+    enabled: true
+    args: [ "7lbugreport", "xg7lbugreport", "lbugreport" ]
+  xg7lobbysuggest:
+    enabled: true
+    args: [ "7lsuggest", "xg7lsuggest", "lsuggest" ]

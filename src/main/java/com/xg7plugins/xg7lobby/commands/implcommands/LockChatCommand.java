@@ -21,7 +21,7 @@ public class LockChatCommand implements Command {
 
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.BARRIER.parseMaterial(), "&6Unban command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.BARRIER.parseMaterial(), "§6LockChat command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
 
     @Override

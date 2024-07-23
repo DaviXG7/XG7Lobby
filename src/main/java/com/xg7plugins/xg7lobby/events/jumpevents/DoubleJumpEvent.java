@@ -69,7 +69,7 @@ public class DoubleJumpEvent implements JoinQuitEvent {
             isJumping.add(player.getUniqueId());
             player.setVelocity(player.getEyeLocation().getDirection().multiply(Config.getDouble(ConfigType.CONFIG, "double-jump.strength")).setY(Config.getDouble(ConfigType.CONFIG, "double-jump.jump")));
             String[] sound = Config.getString(ConfigType.CONFIG, "double-jump.sound").split(", ");
-            player.playSound(player.getLocation(), Objects.requireNonNull(XSound.valueOf(sound[0].toUpperCase()).parseSound()), Float.parseFloat(sound[1]), Float.parseFloat(sound[2]));
+            if (sound.length != 1) player.playSound(player.getLocation(), Objects.requireNonNull(XSound.valueOf(sound[0].toUpperCase()).parseSound()), Float.parseFloat(sound[1]), Float.parseFloat(sound[2]));
         }
 
     }

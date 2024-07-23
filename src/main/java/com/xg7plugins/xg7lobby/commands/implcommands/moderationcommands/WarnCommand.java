@@ -31,7 +31,7 @@ public class WarnCommand implements Command {
     }
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.NAME_TAG.parseMaterial(), "&6Warn command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.NAME_TAG.parseMaterial(), "§6Warn command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
     @Override
     public String getDescription() {
@@ -40,7 +40,7 @@ public class WarnCommand implements Command {
 
     @Override
     public String getSyntax() {
-        return "/xg7lobbywarn [Player] [Warn level] [Reasom] or /xg7lobbywarn remove [Warn id]";
+        return "/xg7lobbywarn [Player] [Warn level] [Reason] or /xg7lobbywarn remove [Warn id]";
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.events.playerevents;
 
+import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
@@ -62,13 +63,29 @@ public class JoinEvent implements JoinQuitEvent {
             }
         }
 
-        Config.getList(ConfigType.CONFIG, "on-join.events").forEach(action -> Action.execute(action, event.getPlayer()));
+        Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
+            for (String action : Config.getList(ConfigType.CONFIG, "on-join.events")) {
+                if (action.startsWith("[SWAP]")) {
+                    action += ", selectorclickevent";
+                }
+                Action.execute(action, event.getPlayer());
+            }
+        },1L);
 
     }
     @Override
     public void onWorldJoin(Player player) {
-        if (Config.getBoolean(ConfigType.CONFIG, "on-join.run-events-when-return-to-the-world"))
-            Config.getList(ConfigType.CONFIG, "on-join.events").forEach(action -> Action.execute(action, player));
+        Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
+            if (Config.getBoolean(ConfigType.CONFIG, "on-join.run-events-when-return-to-the-world")) {
+                for (String action : Config.getList(ConfigType.CONFIG, "on-join.events")) {
+                    if (action.startsWith("[SWAP]")) {
+                        action += ", selectorclickevent";
+                    }
+                    Action.execute(action, player);
+                }
+            }
+        },1L);
+
     }
 
     @Override

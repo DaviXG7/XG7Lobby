@@ -27,7 +27,7 @@ public class GamemodeCommand implements Command {
 
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.GRASS_BLOCK.parseItem().getData(), "&6Gamemode command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.GRASS_BLOCK.parseItem(), "§6Gamemode command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
 
     @Override

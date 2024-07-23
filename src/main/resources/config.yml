@@ -1,15 +1,128 @@
-# General
+#   _________________    _____            _________    _______       _______   ____    ____
+#  /                /   /    /           / _____  /   / _____ \     / _____ \  \   \  /   /
+# /___________     /   /    /           / /    / /   / /    / /    / /    / /   \   \/   /
+#            /    /   /    /           / /    / /   / /____/ /    / /____/ /     \      /
+#           /    /   /    /           / /    / /   / ______ \    / ______ \       \    /
+#          /    /   /    /_______    / /    / /   / /     / /   / /     / /       /   /
+#         /    /   /            /   / /____/ /   / /_____/ /   / /_____/ /       /   /
+#        /____/   /____________/   /________/   /_________/   /_________/       /___/
 
-debug: true
+#Use %player_name% to replace player name
+#You need the PlaceHolderAPI for that!
+
+#Colors:
+#&0 - Black           | &8 - Dark Gray
+#&1 - Dark blue       | &9 - Blue
+#&2 - Dark green      | &a - Green
+#&3 - Dark cyan       | &b - Cyan
+#&4 - Dark red        | &c - Red
+#&5 - Purple          | &d - Pink
+#&6 - Orange          | &e - Yellow
+#&7 - Gray            | &f - White
+
+#Lettering options:
+#&k - Random    | &n - Underlined
+#&l - Bold     | &o - Italic
+#&m - Track     | &r - Reset
+
+#HEX to get hex color!
+#Only in 1.16+
+#&#ffffff
+
+#Placeholders
+
+#%xg7lobby_first_join%: returns the long of the first join of the player on the server;
+#%xg7lobby_players_hiding%: returns if the player is hiding other players;
+#%xg7lobby_pvp_enabled%: returns if the player is with pvp enabled;
+#%xg7lobby_fly_enabled%: returns if the player is with fly enabled;
+#%xg7lobby_build_enabled%: returns if the player is with build enabled;
+#%xg7lobby_muted%: returns if the player is muted;
+#%xg7lobby_warns%: returns the number of warns of the player.
+
+#Actions
+
+#You can use actions in the "actions:" or "events:"
+#The right way to use your action is: [ACTION] content
+
+#[MESSAGE] Send a message
+#[TITLE] Send a title
+
+#[FIREWORK] Summons a firework
+#Ex.: [FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1
+
+#Ex.: [TITLE] &bWelcome!, Subtitle
+#[BROADCAST] Advertise to everyone.
+
+#[COMMAND] Make the player execute a command
+#[CONSOLE] Make console execute a command
+
+#[SOUND] play a sound
+#[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, (Volume) 10.0, (Pitch) 10.0"
+
+#[SUMMON] Summons an entity
+
+#[EFFECT] give an effect to the player
+#[EFFECT] effect, duration, amplifier
+
+#[FLY] Makes the player fly
+
+#[TP] teleport player for an exact location
+#[TP] world, x, y, z (yaw, pictch)
+
+#[OPEN] Opens an inventory
+#[CLOSE] Closes an inventory
+#There in the selectors.yml file you can create an inventory
+#Mode of use: "[OPEN] (id)", "[CLOSE] "
+
+#[PLAYER] returns the player's name (if you are not using PLACEHOLDER API)
+
+#[HIDE] hide the players
+#[SHOW] show the players
+#[TOGGLE_HIDE] toggle the hide of the player
+
+#[GAMEMODE] change the game mode of the player
+
+#[CENTER] Centers your text according to Minecraft's default chat size
+#It is an approximate centering according to the pixels of each letter in the game
+
+#[PERMISSION] Only do the action if you have permission
+#[OPEN] 1 [PERMISSION: your.permission]
+#[OPEN] 1 [!PERMISSION: your.permission] (If you don't have permission)
+
+#[ACTION] Send an action
+
+#[PERMISSION] Only do the action if the condition is true
+#[OPEN] 1 [IF: %xg7lobby_players_hiding%]
+#[OPEN] 1 [!IF: #%xg7lobby_players_hiding%] (If the condition is false)
+
+#Links:
+
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+#Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
+
+###############################################
+#GENERAL                                      #
+###############################################
+
+#Debug mode
+debug: false
+
+#Prefix
 plugin-prefix: "&9[XG7&3Lob&bby] &8| &r"
 
+#Will warn for a new version
 warn-for-version: true
 
+#Enabled worlds
 enabled-worlds:
   - world
 
-# SQL
+###############################################
+#SQL                                          #
+###############################################
 
+#Cooldown to remove players on ram
 sql-cache-expires: 30
 
 sql:
@@ -20,13 +133,16 @@ sql:
   user: "root"
   pass: "root"
 
-# LOBBY
+###############################################
+#LOBBY                                        #
+###############################################
 
-
+#Cooldown for tp
 before-tp:
   cooldown-for-tp: 5
   dont-move: true
 
+#Events on first join
 on-first-join:
   enabled: true
   events:
@@ -48,12 +164,14 @@ on-first-join:
     - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
+#Events on join
 on-join:
   tp-to-lobby: true
 
   heal: true
   clear-inventory: true
 
+  #Run events again when return to the world
   run-events-when-return-to-the-world: true
 
   events:
@@ -72,9 +190,13 @@ on-join:
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
     - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
+    - "[SWAP] [IF: %xg7lobby_players_hiding%] 9, hide-players-on"
+    - "[SWAP] [!IF: %xg7lobby_players_hiding%] 9, hide-players-off"
 
 
-#JUMPS
+###############################################
+#JUMPS                                        #
+###############################################
 
 launchpad:
 
@@ -83,6 +205,7 @@ launchpad:
   top-block: STONE_PLATE
   bottom-block: AIR
 
+  #Force of jump
   strength: 2
   jump: 1
 
@@ -92,12 +215,67 @@ double-jump:
 
   enabled: true
 
+  #Force of jump
   strength: 2
   jump: 1
 
   sound: "ENTITY_BAT_TAKEOFF, 1.0, 2.0"
 
-#MODERATION
+###############################################
+#AUTO BROADCAST                               #
+###############################################
+
+auto-broadcast:
+
+  enabled: true
+
+  #Cooldown of ads in minutes
+  cooldown: 3
+
+  broadcast-only-in-the-lobby: false
+
+  #Make the announcement random
+  random: false
+
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP, 5.0, 0.0"
+
+  announcements:
+    #Create your announcement
+    #You can send in actionbars
+    announcement1:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &9This plugin was made by &bDaviXG7"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+    announcement2:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &aRate XG7Lobby in &e5 &bstars!"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+    announcement3:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &fVisit our website: &bhttps://xg7plugins.com"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+
+###############################################
+#MOTD                                         #
+###############################################
+
+#MOTD is the message that appears before
+#join the server!
+motd:
+  enabled: true
+
+  max-players: 9999
+
+  text:
+    - "[CENTER] &9XG7&3Lob&bby&r"
+    - "[CENTER] &5&oMade by DaviXG7"
+
+###############################################
+#MODERATION                                   #
+###############################################
 
 warn-admin: false
 
@@ -115,7 +293,9 @@ warns-level2-to-ban: 25
 warns-level3-to-ban: 12
 warns-total-to-ban: 70
 
-#CHAT
+###############################################
+#CHAT                                         #
+###############################################
 
 ignore-adm-for-lock-chat: true
 
@@ -181,7 +361,9 @@ anti-spam:
   warning: "&cMuted by spam"
 
 
-#PLAYER
+###############################################
+#PLAYER OPTIONS                               #
+###############################################
 
 player-task-delay: 5
 
@@ -196,8 +378,12 @@ take-damage: false
 cancel-portal: true
 attack-entities: false
 
+###############################################
+#PVP                                          #
+###############################################
+
 pvp:
-  enabled: false
+  enabled: true
 
   auto-respawn: true
   max-hearts: 10
@@ -208,10 +394,13 @@ pvp:
 
   take-damage: true
 
+  #Cooldown to enable or disable the command (IN SECONDS)
   cooldown-to-toggle: 5
 
+  #On use command will be cancelled
   dont-move-on-cmd: true
 
+  #Drop the items on pvp
   drop-items: false
 
   blocked-commands-in-pvp:
@@ -221,13 +410,12 @@ pvp:
     - "[CONSOLE] clear [PLAYER]"
     - "[CONSOLE] give [PLAYER] diamond_sword"
   events-disable:
-    - "[CONSOLE] clear [PLAYER]"
+    - ""
   events-on-kill:
     - "[CONSOLE] give [KILLER] apple"
   events-on-respawn:
     - "[CONSOLE] clear [PLAYER]"
     - "[CONSOLE] give [PLAYER] diamond_sword"
-
 
 #Interaction
 
@@ -251,7 +439,9 @@ blocks-with-canceled-interaction:
 pickup-items: true
 drop-items: false
 
-#ScoreEvents
+###############################################
+#SCORES                                       #
+###############################################
 
 scores-update: 5
 
@@ -311,7 +501,9 @@ bossbar:
   progress: 1
 
 
-#WORLD
+###############################################
+#WORLD EVENTS                                 #
+###############################################
 
 
 world-task-delay: 20
@@ -343,6 +535,11 @@ block-spread: false
 cancel-explosions: true
 
 
+###############################################
+#WARN GUI OPTIONS                             #
+###############################################
+
+#Go in selectors.yml to learn more about items
 
 warns-gui:
 
@@ -350,6 +547,7 @@ warns-gui:
 
   fill-item: GRAY_STAINED_GLASS_PANE
 
+  #To learn more about inv pos go to https://github.com/DaviXG7/XG7MenusAPI/tree/master
   inv-pos-1: [2,2]
   inv-pos-2: [8,5]
 

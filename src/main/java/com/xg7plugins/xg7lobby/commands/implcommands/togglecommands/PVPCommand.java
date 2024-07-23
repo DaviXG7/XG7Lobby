@@ -36,7 +36,7 @@ public class PVPCommand implements Command {
     }
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.DIAMOND_SWORD.parseMaterial(), "&6PVP command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.DIAMOND_SWORD.parseMaterial(), "§6PVP command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
     @Override
     public String getDescription() {

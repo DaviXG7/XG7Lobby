@@ -1,3 +1,50 @@
+#   _________________    _____            _________    _______       _______   ____    ____
+#  /                /   /    /           / _____  /   / _____ \     / _____ \  \   \  /   /
+# /___________     /   /    /           / /    / /   / /    / /    / /    / /   \   \/   /
+#            /    /   /    /           / /    / /   / /____/ /    / /____/ /     \      /
+#           /    /   /    /           / /    / /   / ______ \    / ______ \       \    /
+#          /    /   /    /_______    / /    / /   / /     / /   / /     / /       /   /
+#         /    /   /            /   / /____/ /   / /_____/ /   / /_____/ /       /   /
+#        /____/   /____________/   /________/   /_________/   /_________/       /___/
+
+#Use %player_name% to replace player name
+#You need the PlaceHolderAPI for that!
+
+#Colors:
+#&0 - Black           | &8 - Dark Gray
+#&1 - Dark blue       | &9 - Blue
+#&2 - Dark green      | &a - Green
+#&3 - Dark cyan       | &b - Cyan
+#&4 - Dark red        | &c - Red
+#&5 - Purple          | &d - Pink
+#&6 - Orange          | &e - Yellow
+#&7 - Gray            | &f - White
+
+#Lettering options:
+#&k - Random    | &n - Underlined
+#&l - Bold     | &o - Italic
+#&m - Track     | &r - Reset
+
+#HEX to get hex color!
+#Only in 1.16+
+#&#ffffff
+
+#Placeholders
+
+#%xg7lobby_first_join%: returns the long of the first join of the player on the server;
+#%xg7lobby_players_hiding%: returns if the player is hiding other players;
+#%xg7lobby_pvp_enabled%: returns if the player is with pvp enabled;
+#%xg7lobby_fly_enabled%: returns if the player is with fly enabled;
+#%xg7lobby_build_enabled%: returns if the player is with build enabled;
+#%xg7lobby_muted%: returns if the player is muted;
+#%xg7lobby_warns%: returns the number of warns of the player.
+
+#Links:
+
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+#Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
+
 commands:
   syntax-error: "[PREFIX] &cThe right way to use this command is: &r[SYNTAX]"
   no-permission: "[PREFIX] &cYou don't have permission to use this!"

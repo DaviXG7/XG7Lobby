@@ -22,7 +22,7 @@ public class GuiCommand implements Command {
     }
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.GLASS_PANE.parseItem().getData(), "&6GUI command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.GLASS_PANE.parseItem(), "§6GUI command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
 
     @Override

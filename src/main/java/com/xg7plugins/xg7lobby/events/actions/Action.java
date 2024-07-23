@@ -282,7 +282,6 @@ public class Action {
 
                 firework.setFireworkMeta(fireworkMeta);
 
-                return;
         }
     }
 

@@ -52,6 +52,7 @@ public class Config {
         if (!menuFolder.exists()) {
             menuFolder.mkdirs();
             XG7Lobby.getPlugin().saveResource("menus/profile.yml", false);
+            XG7Lobby.getPlugin().saveResource("menus/games.yml", false);
         }
         for (File file : Objects.requireNonNull(menuFolder.listFiles())) {
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);

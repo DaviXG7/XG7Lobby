@@ -136,5 +136,10 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.111.Final</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.DaviXG7</groupId>
+            <artifactId>XG7MenusAPI</artifactId>
+            <version>Beta-1.2</version>
+        </dependency>
     </dependencies>
 </project>

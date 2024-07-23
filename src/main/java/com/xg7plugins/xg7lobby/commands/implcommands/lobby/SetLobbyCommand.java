@@ -25,7 +25,7 @@ public class SetLobbyCommand implements Command {
     }
     @Override
     public InventoryItem getIcon() {
-        return new InventoryItem(XMaterial.RED_BED.parseItem().getData(), "&6Set lobby command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+        return new InventoryItem(XMaterial.RED_BED.parseItem(), "§6Set lobby command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
     }
     @Override
     public String getDescription() {

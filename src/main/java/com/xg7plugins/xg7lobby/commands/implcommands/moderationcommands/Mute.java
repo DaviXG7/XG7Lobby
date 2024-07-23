@@ -55,7 +55,7 @@ public class Mute {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.OAK_SIGN.parseItem().getData(), "&6Mute command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.OAK_SIGN.parseItem(), "§6Mute command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
@@ -126,7 +126,7 @@ public class Mute {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.OAK_SIGN.parseItem().getData(), "&6Tempmute command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.OAK_SIGN.parseItem(), "§6Tempmute command", Arrays.asList("§9Description: §r" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
@@ -197,7 +197,7 @@ public class Mute {
 
         @Override
         public InventoryItem getIcon() {
-            return new InventoryItem(XMaterial.OAK_SIGN.parseItem().getData(), "&6Tempmute command", Arrays.asList("&9Description: " + getDescription(), "&9Usage: &7&o" + getSyntax(), "&9Permission: &b" + getPermission().getPerm()), 1, -1);
+            return new InventoryItem(XMaterial.OAK_SIGN.parseItem(), "§6Tempmute command", Arrays.asList("§9Description: §f" + getDescription(), "§9Usage: §7§o" + getSyntax(), "§9Permission: §b" + getPermission().getPerm()), 1, -1);
         }
 
         @Override
