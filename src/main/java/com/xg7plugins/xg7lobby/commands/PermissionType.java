@@ -48,6 +48,7 @@ public enum PermissionType {
     CHAT("command.chat.*"),
     CHAT_SWEAR("command.chat.swear"),
     CHAT_COMMANDS("command.chat.commands"),
+    CLEAR_CHAT("command.clearchat"),
 
     BAN("command.mod.ban"),
     TEMPBAN("command.mod.tempban"),

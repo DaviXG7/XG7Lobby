@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class WarnVersion extends Task {
 
-    private static final String THIS_VERSION = "1.0-RETURN";
+    private static final String THIS_VERSION = "1.1-RETURN";
 
     public WarnVersion() {
         super("xg7lwarnversion", 6000);

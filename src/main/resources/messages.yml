@@ -140,6 +140,8 @@ chat:
   on-spam-limit: "[PREFIX] &cYou have been muted for spam!"
   on-same-message: "[PREFIX] &cYou cannot send the same message again!"
 
+  cleared: "[PREFIX] &aThe chat has been cleared!"
+
 moderation:
 
   on-warn: "[PREFIX] &aYou sent a level [LEVEL] warning to the [PLAYER] for the following reason: &f[WARN]"

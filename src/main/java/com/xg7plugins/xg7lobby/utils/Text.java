@@ -3,7 +3,6 @@ package com.xg7plugins.xg7lobby.utils;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
@@ -14,7 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

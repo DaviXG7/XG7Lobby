@@ -25,6 +25,7 @@ public enum ActionType {
     HIDE,
     SHOW,
     FIREWORK,
+    CLEAR_CHAT,
     TOGGLE_HIDE;
 
     public static List<InventoryItem> getIcons() {
@@ -47,6 +48,7 @@ public enum ActionType {
         items.add(new InventoryItem(XMaterial.ENDER_EYE.parseItem(), "§6Show action", Arrays.asList("§9Description: §rShows all the players", "§9Usage: §7§o\"[SHOW] \""), 1, -1));
         items.add(new InventoryItem(XMaterial.FIREWORK_ROCKET.parseItem(), "§6Firework action", Arrays.asList("§9Description: §rSpawns a firework on a player", "§9Usage: §7§o\"[FIREWORK] ball type, hex: color, hex: colorfade, logic: trail, logic: flicker, power\""), 1, -1));
         items.add(new InventoryItem(XMaterial.NETHER_STAR.parseItem(), "§6Toggle hide action", Arrays.asList("§9Description: §rToggles the hiding of players", "§9Usage: §7§o\"[TOGGLE_HIDE] \""), 1, -1));
+        items.add(new InventoryItem(XMaterial.BOOK.parseItem(), "§6Clar chat action", Arrays.asList("§9Description: §rClears the chat", "§9Usage: §7§o\"[CLEAR_CHAT] \""), 1, -1));
 
         items.add(new InventoryItem.SkullInventoryItem("§6Modifier Center", Arrays.asList("§9Description: §rCenter a message", "§9Example usage: §7§o\"[MESSAGE] [CENTER] a center message!\""), 1, -1).setValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg4OTViYTZhZjAyNmEwZDE5NTJiYzEwYzFmY2IzZWM0NjgzMjM3NjdiYzU2ZjkxYTVhNWI1Y2YzYTYzMzAwZSJ9fX0="));
         items.add(new InventoryItem.SkullInventoryItem("§6Modifier Action", Arrays.asList("§9Description: §rSends a action bar", "§9Example usage: §7§o\"[MESSAGE] [ACTION] action bar message!\""), 1, -1).setValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTQ0MGIwYWNiZjk4YzY3YzU1ZjIwYmMxOWQ5NDkxZGU0OWYzYzhhMjBkZTkwNWUzZmFkNWIzZGU4YjRkYjdiOCJ9fX0="));

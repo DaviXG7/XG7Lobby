@@ -18,6 +18,7 @@ import com.xg7plugins.xg7lobby.utils.Log;
 import com.xg7plugins.xg7lobby.utils.Text;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import com.xg7plugins.xg7menus.api.menus.Menu;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -264,7 +265,6 @@ public class Action {
                     Log.severe("Action FIREWORK needs 6 arguments: type, hex: color, hex: colorfade, logic: trail, logic: flicker, power");
                     return;
                 }
-
                 Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), XEntityType.FIREWORK_ROCKET.get());
 
                 FireworkMeta fireworkMeta = firework.getFireworkMeta();
@@ -281,6 +281,15 @@ public class Action {
                 fireworkMeta.setPower(Integer.parseInt(textSplited[5]));
 
                 firework.setFireworkMeta(fireworkMeta);
+
+                try {
+                    firework.detonate();
+                } catch (Exception ignored) {}
+
+                return;
+
+            case CLEAR_CHAT:
+                Bukkit.broadcastMessage(StringUtils.repeat(" \n", 100));
 
         }
     }

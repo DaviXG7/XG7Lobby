@@ -78,8 +78,10 @@ public class PVPCommandEvent implements Event {
 
         if (!Config.getBoolean(ConfigType.CONFIG, "pvp.drop-items")) event.getDrops().clear();
 
+        Bukkit.getScheduler().runTaskLater(XG7Lobby.getPlugin(), () -> {
+            if (Config.getBoolean(ConfigType.CONFIG, "pvp.auto-respawn")) event.getEntity().spigot().respawn();
+                    }, 5L);
 
-        if (Config.getBoolean(ConfigType.CONFIG, "pvp.auto-respawn")) event.getEntity().spigot().respawn();
     }
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {

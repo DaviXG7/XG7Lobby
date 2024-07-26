@@ -146,7 +146,7 @@ before-tp:
 on-first-join:
   enabled: true
   events:
-    - "[TITLE] &bWelcome, &f%player_name%"
+    - "[TITLE] &bWelcome for the first time, &f%player_name%!"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[MESSAGE] [CENTER] &bWelcome &f%player_name%"
     - "[MESSAGE]  "
@@ -202,7 +202,7 @@ launchpad:
 
   enabled: true
 
-  top-block: STONE_PLATE
+  top-block: STONE_PRESSURE_PLATE
   bottom-block: AIR
 
   #Force of jump

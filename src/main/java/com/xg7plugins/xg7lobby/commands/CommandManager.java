@@ -1,6 +1,8 @@
 package com.xg7plugins.xg7lobby.commands;
 
 import com.xg7plugins.xg7lobby.commands.implcommands.*;
+import com.xg7plugins.xg7lobby.commands.implcommands.chatcommands.ClearChat;
+import com.xg7plugins.xg7lobby.commands.implcommands.chatcommands.LockChatCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.moderationcommands.*;
 import com.xg7plugins.xg7lobby.commands.implcommands.tocreatorcommands.BugsCommand;
 import com.xg7plugins.xg7lobby.commands.implcommands.tocreatorcommands.SuggestCommand;
@@ -62,6 +64,7 @@ public class CommandManager implements CommandExecutor, TabCompleter, Listener {
         commands.add(new Ban.UnbanCommand());
         commands.add(new KickCommand());
         commands.add(new LockChatCommand());
+        commands.add(new ClearChat());
         commands.add(new GamemodeCommand());
         commands.add(new HelpCommand());
         commands.add(new SuggestCommand());

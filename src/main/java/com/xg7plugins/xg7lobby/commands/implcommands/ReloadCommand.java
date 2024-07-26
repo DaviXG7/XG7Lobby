@@ -8,9 +8,13 @@ import com.xg7plugins.xg7lobby.commands.SubCommand;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.events.EventManager;
+import com.xg7plugins.xg7lobby.scores.Bossbar;
+import com.xg7plugins.xg7lobby.tasks.Task;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
+import com.xg7plugins.xg7lobby.tasks.tasksimpl.ScoreTask;
 import com.xg7plugins.xg7lobby.utils.Text;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ public class ReloadCommand implements Command {
 
     @Override
     public String getSyntax() {
-        return "/xg7lobbyreload [config, db, all, cache, tasks]";
+        return "/xg7lobbyreload [config, scores, db, all, cache, tasks]";
     }
 
     @Override
@@ -55,12 +59,12 @@ public class ReloadCommand implements Command {
 
     @Override
     public List<SubCommand> getSubCommands() {
-        return Arrays.asList(new ReloadAll(), new ReloadDB(), new ReloadCache(), new ReloadTask(), new ReloadConfig(), new ReloadMenus());
+        return Arrays.asList(new ReloadAll(), new ReloadScores(), new ReloadDB(), new ReloadCache(), new ReloadTask(), new ReloadConfig(), new ReloadMenus());
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        return args.length == 1 ? Arrays.asList("config", "db", "all", "cache", "tasks", "menus") : new ArrayList<>();
+        return args.length == 1 ? Arrays.asList("config", "scores", "db", "all", "cache", "tasks", "menus") : new ArrayList<>();
     }
 
     static class ReloadAll implements SubCommand {
@@ -82,8 +86,39 @@ public class ReloadCommand implements Command {
             Config.reloadMenus();
             CacheManager.reloadAll();
             TaskManager.cancelAll();
+            if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) {
+                Bukkit.getOnlinePlayers().forEach(Bossbar::removePlayer);
+            }
             TaskManager.initTimerTasks();
             Text.send("&aReloaded!", sender);
+
+        }
+    }
+    static class ReloadScores implements SubCommand {
+
+        @Override
+        public String getName() {
+            return "scores";
+        }
+
+        @Override
+        public PermissionType getPermission() {
+            return PermissionType.RELOAD;
+        }
+
+        @Override
+        public void onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            Text.send("&bReloading scores...", sender);
+
+            TaskManager.cancelTask("xg7lscore");
+            if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) {
+                Bukkit.getOnlinePlayers().forEach(Bossbar::removePlayer);
+                Bukkit.getOnlinePlayers().forEach(Bossbar::addPlayer);
+            }
+            TaskManager.addTask(new ScoreTask());
+
+            Text.send("&aReloaded!", sender);
+
         }
     }
     static class ReloadDB implements SubCommand {

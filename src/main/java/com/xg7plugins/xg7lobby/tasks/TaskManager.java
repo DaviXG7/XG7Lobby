@@ -48,10 +48,11 @@ public class TaskManager {
         taskList.add(new ScoreTask());
         taskList.add(new WorldTask());
         taskList.add(new AutoBroadcast());
-        if (Config.getBoolean(ConfigType.CONFIG, "warn-for-version")) taskList.add(new WarnVersion());
         if (Config.getBoolean(ConfigType.CONFIG, "anti-spam.enabled")) taskList.add(new ChatTask());
 
         taskList.forEach(TaskManager::addTask);
+
+        if (Config.getBoolean(ConfigType.CONFIG, "warn-for-version")) addTaskAsync(new WarnVersion());
 
     }
 

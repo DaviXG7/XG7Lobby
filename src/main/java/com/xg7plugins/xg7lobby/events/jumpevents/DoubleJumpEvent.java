@@ -10,6 +10,7 @@ import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -37,6 +38,12 @@ public class DoubleJumpEvent implements JoinQuitEvent {
     @Override
     public void onJoin(PlayerJoinEvent event) {
         if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
+        event.getPlayer().setAllowFlight(event.getPlayer().hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+    }
+
+    @EventHandler
+    public void onGamemode(PlayerGameModeChangeEvent event) {
+        if (!event.getNewGameMode().equals(GameMode.ADVENTURE) || !event.getNewGameMode().equals(GameMode.SURVIVAL)) return;
         event.getPlayer().setAllowFlight(event.getPlayer().hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
     }
 

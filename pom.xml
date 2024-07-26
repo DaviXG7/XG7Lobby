@@ -6,7 +6,7 @@
 
     <groupId>com.xg7plugins</groupId>
     <artifactId>XG7Lobby</artifactId>
-    <version>1.0-RETURN</version>
+    <version>1.1-RETURN</version>
     <packaging>jar</packaging>
 
     <name>XG7Lobby</name>

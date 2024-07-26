@@ -18,6 +18,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -25,6 +27,11 @@ public class JoinEvent implements JoinQuitEvent {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @EventHandler
+    public void onAsyncJoin(AsyncPlayerPreLoginEvent event) {
+        PlayerManager.createPlayerData(event.getUniqueId());
     }
 
     @Override
@@ -46,7 +53,7 @@ public class JoinEvent implements JoinQuitEvent {
 
         if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
 
-        PlayerData data = PlayerManager.createPlayerData(event.getPlayer().getUniqueId());
+        PlayerData data = PlayerManager.getPlayerData(event.getPlayer().getUniqueId());
         if (!data.isPVPEnabled() && !data.isBuildEnabled()) {
             if (Config.getBoolean(ConfigType.CONFIG, "on-join.clear-inventory")) event.getPlayer().getInventory().clear();
             if (Config.getBoolean(ConfigType.CONFIG, "on-join.heal")) event.getPlayer().setHealth(event.getPlayer().getMaxHealth());

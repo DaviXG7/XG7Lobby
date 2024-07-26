@@ -79,6 +79,9 @@ commands:
   xg7lobbyunmute:
     enabled: true
     args: [ "7lunmute", "xg7lunmute", "lunmute", "unmute" ]
+  xg7lobbyclearchat:
+    enabled: true
+    args: [ "7lclearchat", "xg7lclearchat", "lclearchat", "clearchat", "7lcc", "xg7lcc", "lcc", "cc" ]
   xg7lobbylockchat:
     enabled: true
     args: [ "7llockchat", "xg7llockchat", "llockchat", "lockchat" ]
