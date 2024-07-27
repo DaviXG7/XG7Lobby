@@ -43,8 +43,10 @@ public class DoubleJumpEvent implements JoinQuitEvent {
 
     @EventHandler
     public void onGamemode(PlayerGameModeChangeEvent event) {
-        if (!event.getNewGameMode().equals(GameMode.ADVENTURE) || !event.getNewGameMode().equals(GameMode.SURVIVAL)) return;
+        if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
+        if (!event.getNewGameMode().equals(GameMode.ADVENTURE) && !event.getNewGameMode().equals(GameMode.SURVIVAL)) return;
         event.getPlayer().setAllowFlight(event.getPlayer().hasPermission(PermissionType.DOUBLE_JUMP.getPerm()));
+        isJumping.add(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
