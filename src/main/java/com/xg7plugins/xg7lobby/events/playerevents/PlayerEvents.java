@@ -36,7 +36,7 @@ public class PlayerEvents implements Event {
         if (!Config.getBoolean(ConfigType.CONFIG, "cancel-death-by-void")) return;
         if (!EventManager.getWorlds().contains(event.getPlayer().getWorld().getName())) return;
 
-        int level = Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 18 ? -79 : -6;
+        int level = Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 18 ? -79 : -6;
 
 
         Player player = event.getPlayer();

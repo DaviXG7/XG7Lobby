@@ -81,7 +81,7 @@ public class Text {
             }
         }
 
-        return ChatColor.translateAlternateColorCodes('&', text.replace("[PREFIX]", Config.getString(ConfigType.CONFIG, "plugin-prefix")));
+        return ChatColor.translateAlternateColorCodes('&', Config.getString(ConfigType.CONFIG, "plugin-prefix") == null ? text : text.replace("[PREFIX]", Config.getString(ConfigType.CONFIG, "plugin-prefix")));
 
     }
 

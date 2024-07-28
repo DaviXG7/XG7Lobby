@@ -18,7 +18,7 @@ public class TabList {
         String header = headerl == null ? "" : Text.getFormatedText(player, headerl.stream().map(item -> item + "\n").collect(Collectors.joining()));
         String footer = footerl == null ? "" : Text.getFormatedText(player, footerl.stream().map(item -> item + "\n").collect(Collectors.joining()));
 
-        if (Integer.parseInt(Bukkit.getVersion().split("\\.")[1]) >= 16) {
+        if (Integer.parseInt(Bukkit.getVersion().split("\\.")[1].replace(")", "")) >= 16) {
             player.setPlayerListHeader(header);
             player.setPlayerListFooter(footer);
             return;

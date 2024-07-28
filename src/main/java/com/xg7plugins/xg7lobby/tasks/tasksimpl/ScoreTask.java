@@ -19,7 +19,7 @@ public class ScoreTask extends Task {
 
         Bukkit.getOnlinePlayers().stream().filter(player -> EventManager.getWorlds().contains(player.getWorld().getName())).forEach(player -> {
 
-            if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bossbar.updateTitle();
+            if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) Bossbar.updateTitle();
             ScoreBoard.set(player);
             TabList.sendTablist(player, Config.getList(ConfigType.CONFIG, "tablist.header"), Config.getList(ConfigType.CONFIG, "tablist.footer"));
 

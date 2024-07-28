@@ -26,21 +26,21 @@ public class ScoreEvents implements JoinQuitEvent {
 
     @Override
     public void onWorldLeave(Player player) {
-        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bossbar.removePlayer(player);
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) Bossbar.removePlayer(player);
         player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         TabList.sendTablist(player, null, null);
     }
 
     @Override
     public void onJoin(PlayerJoinEvent event) {
-        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bossbar.addPlayer(event.getPlayer());
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) Bossbar.addPlayer(event.getPlayer());
         ScoreBoard.set(event.getPlayer());
         TabList.sendTablist(event.getPlayer(), Config.getList(ConfigType.CONFIG, "tablist.header"), Config.getList(ConfigType.CONFIG, "tablist.footer"));
     }
 
     @Override
     public void onQuit(PlayerQuitEvent event) {
-        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1]) >= 9) Bossbar.removePlayer(event.getPlayer());
+        if (Integer.parseInt(Bukkit.getServer().getVersion().split("\\.")[1].replace(")", "")) >= 9) Bossbar.removePlayer(event.getPlayer());
         event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         TabList.sendTablist(event.getPlayer(), null, null);
     }
