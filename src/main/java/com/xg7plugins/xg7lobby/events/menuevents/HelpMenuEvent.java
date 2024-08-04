@@ -1,18 +1,15 @@
 package com.xg7plugins.xg7lobby.events.menuevents;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.commands.implcommands.HelpCommand;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.data.player.model.PlayerData;
 import com.xg7plugins.xg7lobby.events.Event;
-import com.xg7plugins.xg7lobby.utils.NMSUtil;
 import com.xg7plugins.xg7menus.api.events.MenuClickEvent;
 import com.xg7plugins.xg7menus.api.events.MenuOpenEvent;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import com.xg7plugins.xg7menus.api.menus.ItemPages;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,11 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
 
 public class HelpMenuEvent implements Event {
     @Override

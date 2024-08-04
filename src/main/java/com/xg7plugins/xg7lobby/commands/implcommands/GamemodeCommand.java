@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.commands.SubCommand;
@@ -15,7 +15,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class GamemodeCommand implements Command {

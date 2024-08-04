@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
@@ -9,7 +9,6 @@ import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.handler.SQLHandler;
 import com.xg7plugins.xg7lobby.events.EventManager;
 import com.xg7plugins.xg7lobby.scores.Bossbar;
-import com.xg7plugins.xg7lobby.tasks.Task;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
 import com.xg7plugins.xg7lobby.tasks.tasksimpl.ScoreTask;
 import com.xg7plugins.xg7lobby.utils.Text;

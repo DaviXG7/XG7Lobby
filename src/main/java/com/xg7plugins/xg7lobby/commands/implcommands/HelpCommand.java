@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.commands.Command;
 import com.xg7plugins.xg7lobby.commands.CommandManager;
@@ -79,7 +79,7 @@ public class HelpCommand implements Command {
                                 "§aCurrent lobby position: §r[" + Config.getString(ConfigType.DATA, "spawn-location.world") + ", " + (int) Config.getDouble(ConfigType.DATA, "spawn-location.x") + ", " + (int) Config.getDouble(ConfigType.DATA, "spawn-location.y") + ", " + (int) Config.getDouble(ConfigType.DATA, "spawn-location.z") + "]"
                         ),1,31),
 
-                new InventoryItem(XMaterial.BARRIER.parseMaterial(), "§cClose", Collections.singletonList("§aClick to close"),1,45),
+                new InventoryItem(XMaterial.BARRIER.parseItem().getData(), "§cClose", Collections.singletonList("§aClick to close"),1,45),
                 new InventoryItem(XMaterial.PAPER.parseMaterial(), "§bCollaborators", Collections.singletonList("§aAll plugin helpers"),1,53)
         );
 

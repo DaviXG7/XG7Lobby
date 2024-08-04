@@ -1,8 +1,8 @@
 package com.xg7plugins.xg7lobby.events.actions;
 
-import com.cryptomorin.xseries.XEntityType;
-import com.cryptomorin.xseries.XPotion;
-import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.utils.XSeries.XEntityType;
+import com.xg7plugins.xg7lobby.utils.XSeries.XPotion;
+import com.xg7plugins.xg7lobby.utils.XSeries.XSound;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.cache.CacheManager;
 import com.xg7plugins.xg7lobby.cache.CacheType;

@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.implcommands.tocreatorcommands;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.xg7plugins.xg7lobby.commands.Command;

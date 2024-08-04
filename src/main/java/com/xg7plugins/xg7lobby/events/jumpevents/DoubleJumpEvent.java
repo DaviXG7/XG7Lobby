@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.events.jumpevents;
 
-import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.utils.XSeries.XSound;
 import com.xg7plugins.xg7lobby.commands.PermissionType;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;

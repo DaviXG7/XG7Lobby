@@ -1,12 +1,11 @@
 package com.xg7plugins.xg7lobby.events.jumpevents;
 
-import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.utils.XSeries.XSound;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.data.player.PlayerManager;
 import com.xg7plugins.xg7lobby.events.Event;
 import com.xg7plugins.xg7lobby.events.EventManager;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;

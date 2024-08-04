@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.tasks.tasksimpl;
 
-import com.cryptomorin.xseries.XSound;
+import com.xg7plugins.xg7lobby.utils.XSeries.XSound;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.tasks.Task;

@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.events.actions;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 
 import java.util.ArrayList;

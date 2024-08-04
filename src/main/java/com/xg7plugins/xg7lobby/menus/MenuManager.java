@@ -1,8 +1,8 @@
 package com.xg7plugins.xg7lobby.menus;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.utils.Text;
+import com.xg7plugins.xg7lobby.utils.XSeries.XMaterial;
 import com.xg7plugins.xg7menus.api.menus.InventoryItem;
 import com.xg7plugins.xg7menus.api.menus.Menu;
 import lombok.Getter;
@@ -84,6 +84,7 @@ public class MenuManager {
 
             return skullInventoryItem;
         }
+
 
         InventoryItem item = new InventoryItem(
                 XMaterial.matchXMaterial(configuration.getString(path + "material")).get().parseItem(), Text.translateColorCodes(configuration.getString(path + "name")), configuration.getStringList(path + "lore").stream().map(Text::translateColorCodes).collect(Collectors.toList()), configuration.getInt(path + "amount"), slot - 1

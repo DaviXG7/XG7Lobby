@@ -1,12 +1,12 @@
 package com.xg7plugins.xg7lobby.events.playerevents;
 
-import com.cryptomorin.xseries.XPotion;
 import com.xg7plugins.xg7lobby.data.ConfigType;
 import com.xg7plugins.xg7lobby.data.handler.Config;
 import com.xg7plugins.xg7lobby.events.JoinQuitEvent;
 import com.xg7plugins.xg7lobby.tasks.TaskManager;
+import com.xg7plugins.xg7lobby.utils.XSeries.XPotion;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
+
 
 import java.util.Objects;
 
