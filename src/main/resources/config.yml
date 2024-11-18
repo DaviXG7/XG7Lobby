@@ -1,0 +1,19 @@
+prefix: "&8[XG7Lobby]&r"
+
+log-enabled: true
+
+main-lang: en-us
+
+sql:
+
+  cache-expires: 30m
+
+  type: "sqlite"
+
+  host: ""
+  port: ""
+
+  database: ""
+
+  username: ""
+  password: ""
