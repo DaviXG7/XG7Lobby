@@ -2,19 +2,24 @@ package com.xg7plugins.xg7lobby;
 
 import com.xg7plugins.Plugin;
 import com.xg7plugins.XG7Plugins;
-import lombok.Getter;
+import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
+import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 
 public final class XG7Lobby extends Plugin {
 
 
     public XG7Lobby() {
-        super("[XG7Lobby]", new String[]{});
+        super("XG7Lobby", new String[]{});
     }
 
     @Override
     public void onEnable() {
 
-        XG7Plugins.register(this, new String[]{"en-us", "pt-br"});
+        super.onEnable();
+
+        XG7Plugins.register(this);
+        XG7Plugins.getInstance().registerCommands(this, SetLobby.class, Lobby.class);
+        XG7Plugins.getInstance().connectPlugin(this);
         // Plugin startup logic
 
     }

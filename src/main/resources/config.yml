@@ -1,8 +1,14 @@
-prefix: "&8[XG7Lobby]&r"
+prefix: "&1X&9G&37&bLobby&r"
+
+enabled-worlds:
+  - "world"
+  - "lobby"
 
 log-enabled: true
 
 main-lang: en-us
+
+chat-locked: false
 
 sql:
 

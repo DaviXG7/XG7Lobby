@@ -1,0 +1,16 @@
+commands:
+  not-online: "Este jogador não está online."
+
+
+lobby:
+
+  on-set:
+    on-error: "&cErro enquanto tentava salvar o lobby."
+    on-success: "&aLobby colocado com sucesso no Mundo: [WORLD], em X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+
+  on-teleport:
+    on-error: "&cErro enquanto tentava teleportar para o lobby."
+    on-success: "&aTeleportado para o lobby com sucesso."
+    on-success-other: "&aO player [PLAYER] foi teleportado com sucesso."
+    on-error-doesnt-exist: "&cO lobby não foi colocado."
+    on-error-doesnt-exist-adm: "&cO lobby não foi colocado. Use /setlobby para colocar."

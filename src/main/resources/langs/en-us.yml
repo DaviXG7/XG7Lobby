@@ -1,0 +1,15 @@
+commands:
+  not-online: "This player is not online."
+
+lobby:
+
+  on-set:
+    on-error: "&cError while setting the lobby location."
+    on-success: "&aLobby location set successfully on World: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+
+  on-teleport:
+    on-error: "&cError while trying to teleport to the lobby."
+    on-error-doesnt-exist: "&cThe lobby location doesn't exist."
+    on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
+    on-success: "&aTeleported to the lobby successfully."
+    on-success-other: "&aTeleported [PLAYER] to the lobby successfully."

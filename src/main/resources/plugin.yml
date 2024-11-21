@@ -2,3 +2,6 @@ name: XG7Lobby
 version: '${version}'
 main: com.xg7plugins.xg7lobby.XG7Lobby
 api-version: '1.16'
+
+depend:
+  - "XG7Plugins"
