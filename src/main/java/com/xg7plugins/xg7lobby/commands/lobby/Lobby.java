@@ -11,7 +11,6 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.model.LobbyLocation;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -77,7 +76,7 @@ public class Lobby implements ICommand {
                     return;
                 }
 
-                Bukkit.getScheduler().runTask(XG7Lobby.getInstance(), () -> target.getPlayer().teleport(location.getLocation().getBukkitLocation()));
+                XG7Plugins.getInstance().getTaskManager().runTaskSync(XG7Lobby.getInstance(), () -> target.getPlayer().teleport(location.getLocation().getBukkitLocation()));
                 Text.format("lang:[lobby.on-teleport.on-success]", XG7Lobby.getInstance())
                         .send(target.getPlayer());
                 Text.format("lang:[lobby.on-teleport.on-success-other]", XG7Lobby.getInstance())
