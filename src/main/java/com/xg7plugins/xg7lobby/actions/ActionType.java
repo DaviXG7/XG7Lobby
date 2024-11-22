@@ -1,5 +1,8 @@
 package com.xg7plugins.xg7lobby.actions;
 
+import com.xg7plugins.libs.xg7menus.XSeries.XPotion;
+import com.xg7plugins.utils.Location;
+import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import lombok.AllArgsConstructor;
@@ -31,46 +34,37 @@ public enum ActionType {
             player.sendTitle(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), args[1].equals("_") ? "" : Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
         }
 
-        throw new ActionException(this, "Incorrectly amount of args: " + args.length + ". The right way to use is [TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>].\n" +
+        throw new ActionException("EFFECT", "Incorrectly amount of args: " + args.length + ". The right way to use is [TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>].\n" +
                 "Use \"_\" to remove the title in the first case or subtitle in the last case.");
     }),
     EFFECT((player, args) -> {
 
-        switch (args.length) {
-            case 2
-                player.addPotionEffect(new PotionEffect(XPotion.valueOf("name").getPotionEffectType()), Parser.BOOLEAN.convert(args[1]));
-            case 3:
-                player.addPotionEffect(new PotionEffect(XPotion.valueOf("name").getPotionEffectType()), Parser.INTEGER.convert(args[1]), Parser.INTEGER.convert(args[2]));
-            case 4:
+        try {
+            switch (args.length) {
+                case 3:
+                    player.addPotionEffect(new PotionEffect(XPotion.valueOf(args[0]).getPotionEffectType(), Parser.INTEGER.convert(args[1]), Parser.INTEGER.convert(args[2])));
+                case 4:
+                    player.addPotionEffect(new PotionEffect(XPotion.valueOf(args[0]).getPotionEffectType(), Parser.INTEGER.convert(args[1]), Parser.INTEGER.convert(args[2]), Parser.BOOLEAN.convert(args[3])));
+                case 5:
+                    player.addPotionEffect(new PotionEffect(XPotion.valueOf(args[0]).getPotionEffectType(), Parser.INTEGER.convert(args[1]), Parser.INTEGER.convert(args[2]), Parser.BOOLEAN.convert(args[3]), Parser.BOOLEAN.convert(args[4])));
+                default:
+                    throw new ActionException("EFFECT", "Incorrectly amount of args: " + args.length + ". The right way to use is [EFFECT] potion, duration, amplifier, Optional:[ambient, Optional:[particles, Optional:[icon]]].");
 
+            }
+        } catch (Throwable e) {
+            throw new ActionException("EFFECT", "Unable to convert text in values, check if the values are correct. potion: TEXT (ENUM_NAME), duration: INTEGER, amplifier: INTEGER, ambient: BOOLEAN, particles: BOOLEAN, icon: BOOLEAN");
         }
 
+    }),
+    TP((player, args) ->{
+        switch (args.length) {
+            case 4:
+                Location
+        }
     });
 
 
     private BiConsumer<Player, String[]> action;
-
-    public enum Parser {
-        INTEGER(Integer::parseInt),
-        STRING(s -> s),
-        BOOLEAN(Boolean::parseBoolean),
-        LONG(Long::parseLong),
-        DOUBLE(Double::parseDouble),
-        FLOAT(Float::parseFloat),
-        SHORT(Short::parseShort),
-        BYTE(Byte::parseByte),
-        CHAR(s -> s.charAt(0));
-
-        private final Function<String, ?> converter;
-
-        Parser(Function<String, ?> converter) {
-            this.converter = converter;
-        }
-
-        public <T> T convert(String value) {
-            return (T) converter.apply(value);
-        }
-    }
 
 
 

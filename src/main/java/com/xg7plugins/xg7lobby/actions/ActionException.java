@@ -1,9 +1,9 @@
 package com.xg7plugins.xg7lobby.actions;
 
-public class ActionException extends Exception {
+public class ActionException extends RuntimeException {
 
-    public ActionException(ActionType type, String message) {
-        super("Syntax error on " + type + "action! \n Content: " + message);
+    public ActionException(String action, String message) {
+        super("Syntax error on " + action + "action! \n Content: " + message);
     }
 
 
