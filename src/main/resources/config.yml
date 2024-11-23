@@ -23,3 +23,32 @@ sql:
 
   username: ""
   password: ""
+
+##################################################################
+#                            LOBBY                              #
+##################################################################
+
+on-join:
+  tp-to-lobby: true
+
+  heal: true
+  clear-inventory: true
+
+  run-events-when-return-to-the-world: true
+
+  events:
+    - "[TITLE] lang:[lobby.on-join-events.title], &f%player_name%"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.title] &f%player_name%"
+    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
+    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.message1]"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
+    - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"

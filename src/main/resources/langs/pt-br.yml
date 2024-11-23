@@ -5,12 +5,16 @@ commands:
 lobby:
 
   on-set:
-    on-error: "&cErro enquanto tentava salvar o lobby."
-    on-success: "&aLobby colocado com sucesso no Mundo: [WORLD], em X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+    on-error: "&cErro enquanto tentou colocar o lobby!"
+    on-success: "&aO lobby foi colocado com sucesso em: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
 
   on-teleport:
-    on-error: "&cErro enquanto tentava teleportar para o lobby."
-    on-success: "&aTeleportado para o lobby com sucesso."
-    on-success-other: "&aO player [PLAYER] foi teleportado com sucesso."
-    on-error-doesnt-exist: "&cO lobby não foi colocado."
-    on-error-doesnt-exist-adm: "&cO lobby não foi colocado. Use /setlobby para colocar."
+    on-error: "&cErro ao tentar teletransportar ao lobby!"
+    on-error-doesnt-exist: "&cA localização do lobby ainda não foi definida!"
+    on-error-doesnt-exist-adm: "&cA localização do lobby ainda não foi definida. Use &8/&esetlobby &cpara colocá-lo."
+    on-success: "&aTeletransportado para o lobby com sucesso!"
+    on-success-other: "&aO player [PLAYER] foi teletransportado para o lobby com sucesso!"
+
+  on-join-events:
+    title: "&bBem vindo!"
+    message1: "Plugin feito por DaviXG7"

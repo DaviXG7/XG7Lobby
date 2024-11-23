@@ -13,3 +13,7 @@ lobby:
     on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
     on-success: "&aTeleported to the lobby successfully."
     on-success-other: "&aTeleported [PLAYER] to the lobby successfully."
+
+  on-join-events:
+    title: "&bWelcome"
+    message1: "&5&oPlugin made by DaviXG7"
