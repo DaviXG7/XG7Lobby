@@ -28,10 +28,7 @@ public class PlayerData implements Entity {
 
     public PlayerData (UUID playerUUID) {
         this.playerUUID = playerUUID;
-        this.isPlayerHiding = false;
-        this.isMuted = false;
-        this.firstJoin = 0;
-        this.timeForUnmute = 0;
+        this.firstJoin = System.currentTimeMillis();
     }
 
 }

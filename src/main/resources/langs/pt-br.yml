@@ -1,7 +1,6 @@
 commands:
   not-online: "Este jogador não está online."
 
-
 lobby:
 
   on-set:
@@ -10,7 +9,7 @@ lobby:
 
   on-teleport:
     on-error: "&cErro ao tentar teletransportar ao lobby!"
-    on-error-doesnt-exist: "&cA localização do lobby ainda não foi definida!"
+    on-error-doesnt-exist: "&cA localização do lobby ainda não foi definida! Espere até que um administrador coloque-o."
     on-error-doesnt-exist-adm: "&cA localização do lobby ainda não foi definida. Use &8/&esetlobby &cpara colocá-lo."
     on-success: "&aTeletransportado para o lobby com sucesso!"
     on-success-other: "&aO player [PLAYER] foi teletransportado para o lobby com sucesso!"
@@ -18,3 +17,10 @@ lobby:
   on-join-events:
     title: "&bBem vindo!"
     message1: "Plugin feito por DaviXG7"
+
+
+
+messages:
+
+  on-join: "&b%player_name%&7, &eentrou no jogo!"
+  on-first-join: "&b%player_name%&7, &eentrou no jogo pela primeira vez!"

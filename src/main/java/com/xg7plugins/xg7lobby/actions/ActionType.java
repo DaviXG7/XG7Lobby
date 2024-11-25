@@ -25,25 +25,27 @@ import java.util.stream.IntStream;
 @Getter
 public enum ActionType {
 
-    MESSAGE((player, args) -> Text.format(String.join(" ", args), XG7Lobby.getInstance()).send(player)),
-    COMMAND((player, args) -> player.performCommand(String.join(" ", args))),
-    CONSOLE((player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.join(" ", args))),
-    TITLE((player, args) -> {
+    MESSAGE(false, (player, args) -> Text.formatComponent(args[0], XG7Lobby.getInstance()).send(player)),
+    COMMAND(false, (player, args) -> player.performCommand(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
+    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
+    TITLE(true,(player, args) -> {
         if (args.length == 1) {
             player.sendTitle(args[0].equals("_") ? "" : Text.format(args[0] , XG7Lobby.getInstance()).getWithPlaceholders(player), "");
             return;
         }
         if (args.length == 2) {
             player.sendTitle(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player));
+            return;
         }
         if (args.length == 5) {
-            player.sendTitle(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), args[1].equals("_") ? "" : Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
+            player.sendTitle(args[0].equals("_") ? "" : Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), args[1].equals("_") ? "" : Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
+            return;
         }
 
-        throw new ActionException("EFFECT", "Incorrectly amount of args: " + args.length + ". The right way to use is [TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>].\n" +
-                "Use \"_\" to remove the title in the first case or subtitle in the last case.");
+        throw new ActionException("TITLE", "Incorrectly amount of args: " + args.length + ". The right way to use is [TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>].\n" +
+                "Use \"_\" to remove the title in the second case or subtitle or title in the last case.");
     }),
-    EFFECT((player, args) -> {
+    EFFECT(true,(player, args) -> {
 
         try {
             switch (args.length) {
@@ -65,7 +67,7 @@ public enum ActionType {
         }
 
     }),
-    TP((player, args) ->{
+    TP(true,(player, args) ->{
         try {
             switch (args.length) {
                 case 4:
@@ -83,9 +85,9 @@ public enum ActionType {
             throw new ActionException("TP", "Unable to convert text in values, check if the values are correct. world: TEXT: (WORLD NAME), x: DECIMAL, y: DECIMAL, z: DECIMAL, yaw: DECIMAL, pitch: DECIMAL");
         }
     }),
-    BROADCAST((player, args) -> Bukkit.broadcastMessage(Text.format(String.join(" ", args), XG7Lobby.getInstance()).getWithPlaceholders(player))),
-    SUMMON((player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
-    SOUND((player, args) -> {
+    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
+    SUMMON(true,(player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
+    SOUND(true,(player, args) -> {
         try {
             switch (args.length) {
                 case 1:
@@ -105,7 +107,7 @@ public enum ActionType {
         }
 
     }),
-    PARTICLE((player, args) -> {
+    PARTICLE(true,(player, args) -> {
         try {
             switch (args.length) {
                 case 1:
@@ -125,7 +127,7 @@ public enum ActionType {
         }
 
     }),
-    FIREWORK((player, args) -> {
+    FIREWORK(true,(player, args) -> {
         try {
             if (args.length != 6) {
                 throw new ActionException("FIREWORK", "Incorrectly amount of args: " + args.length + ". The right way to use is [FIREWORK] type, color, colorfade, trail, flicker, power.");
@@ -155,16 +157,26 @@ public enum ActionType {
         }
 
     }),
-    CLEAR_CHAT((player, args) -> {
-        IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage);
-    });
+    CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage)),
+    OPEN(false, (player, args) -> {}),
+    CLOSE(false, (player, args) -> {});
 
+    private final boolean needArgs;
+    private final BiConsumer<Player, String[]> action;
 
+    public void execute(Player player, String[] args) {
+        action.accept(player, args);
+    }
 
-
-
-
-    private BiConsumer<Player, String[]> action;
+    public static ActionType extractType(String s) {
+        s = s.replace("[", "").replace("]", "");
+        for (ActionType type : values()) {
+            if (type.name().equalsIgnoreCase(s)) {
+                return type;
+            }
+        }
+        return null;
+    }
 
 
 

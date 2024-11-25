@@ -9,7 +9,7 @@ lobby:
 
   on-teleport:
     on-error: "&cError while trying to teleport to the lobby."
-    on-error-doesnt-exist: "&cThe lobby location doesn't exist."
+    on-error-doesnt-exist: "&cThe lobby location doesn't exist. Wait for an admin to set it."
     on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
     on-success: "&aTeleported to the lobby successfully."
     on-success-other: "&aTeleported [PLAYER] to the lobby successfully."
@@ -17,3 +17,9 @@ lobby:
   on-join-events:
     title: "&bWelcome"
     message1: "&5&oPlugin made by DaviXG7"
+
+
+messages:
+
+  on-join: "&b%player_name%&7, &ejoined the game!"
+  on-first-join: "&b%player_name%&7, &ejoined the game for the first time!"

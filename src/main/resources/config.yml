@@ -36,13 +36,16 @@ on-join:
 
   run-events-when-return-to-the-world: true
 
+  send-join-message: true
+  send-join-message-only-on-lobby: false
+
   events:
     - "[TITLE] lang:[lobby.on-join-events.title], &f%player_name%"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.title] &f%player_name%"
     - "[MESSAGE] "
     - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
-    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE] [CENTER] &4YT: &[CLICKHOVER text=%Nosso youtube% action=%OPEN_URL% value=%https://www.youtube.com/@DaviXG7_%]fwww.youtube.com[/CLICKHOVER]"
     - "[MESSAGE] "
     - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.message1]"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
@@ -50,5 +53,27 @@ on-join:
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
+    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
+
+on-first-join:
+  enabled: true
+  send-first-join-message: true
+  events:
+    - "[TITLE] &bWelcome, &f%player_name%"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] [CENTER] &bWelcome &f%player_name%"
+    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
+    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
+    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[SOUND] ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #FF00FF, true, true, 1"
+    - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
     - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
