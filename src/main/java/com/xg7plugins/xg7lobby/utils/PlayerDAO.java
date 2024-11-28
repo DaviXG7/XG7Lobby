@@ -14,24 +14,22 @@ public class PlayerDAO extends DAO<UUID, PlayerData> {
 
     public void add(PlayerData playerData) throws ExecutionException, InterruptedException {
         if(playerData == null || playerData.getPlayerUUID() == null) return;
-        if (EntityProcessor.exists(XG7Lobby.getInstance(),PlayerData.class, "playerUUID", playerData.getPlayerUUID()).get()) return;
-
-        System.out.println("Adding player data");
-
-        System.out.println(playerData.getFirstJoin());
+        if (EntityProcessor.exists(XG7Lobby.getInstance(),PlayerData.class, "playerUUID", playerData.getPlayerUUID())) return;
 
         EntityProcessor.insetEntity(XG7Lobby.getInstance(), playerData);
+
+        XG7Lobby.getInstance().getLog().info("PlayerData added to database: " + playerData.getPlayerUUID());
     }
 
     public CompletableFuture<PlayerData> get(UUID uuid) {
-        if (uuid == null) return null;
+        if (uuid == null) return CompletableFuture.completedFuture(null);
 
-        return CompletableFuture.supplyAsync(() -> Query.getEntity(XG7Lobby.getInstance(), "SELECT * FROM PlayerData INNER JOIN Warn ON PlayerData.playerUUID = Warn.playerUUID WHERE PlayerData.playerUUID = ?", uuid, PlayerData.class).join());
+        return Query.getEntity(XG7Lobby.getInstance(), "SELECT * FROM PlayerData INNER JOIN Warn ON PlayerData.playerUUID = Warn.playerUUID WHERE PlayerData.playerUUID = ?", uuid, PlayerData.class);
     }
     public CompletableFuture<Void> update(PlayerData playerData) {
         if (playerData == null) return null;
 
-        return Query.update(XG7Lobby.getInstance(), playerData);
+        return CompletableFuture.runAsync(() -> Query.update(XG7Lobby.getInstance(), playerData));
     }
 
 

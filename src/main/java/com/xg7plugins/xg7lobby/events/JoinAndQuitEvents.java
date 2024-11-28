@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class JoinAndQuitEvents extends LobbyEvent {
     @Override
@@ -31,38 +32,34 @@ public class JoinAndQuitEvents extends LobbyEvent {
         event.setJoinMessage(null);
 
         Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
-        PlayerData data = null;
+
         XG7Lobby.getInstance().getPlayerDAO().get(player.getUniqueId()).thenAccept(playerData -> {
-            System.out.println("Depois do processo ou antes????????");
-        });
-        boolean isFirstJoin = false;
+            if (playerData == null) {
 
-        System.out.println(data);
+                PlayerData data = new PlayerData(player.getUniqueId());
+                try {
+                    XG7Lobby.getInstance().getPlayerDAO().add(data);
+                } catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
-        if (data == null) {
+                if (config.get("on-first-join.enabled")) {
 
-            data = new PlayerData(player.getUniqueId());
-            XG7Lobby.getInstance().getPlayerDAO().add(data);
+                    boolean isOnlyOnLobby = config.get("on-join.send-join-message-only-on-lobby");
 
-            isFirstJoin = config.get("on-first-join.enabled");
-            if (isFirstJoin) {
+                    Bukkit.getOnlinePlayers().forEach(p -> {
+                        if (isOnlyOnLobby && !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())) return;
+                        Text.format("lang:[messages.on-first-join]", XG7Lobby.getInstance())
+                                .replace("[PLAYER]", event.getPlayer().getName())
+                                .send(p);
+                    });
 
-                boolean isOnlyOnLobby = config.get("on-join.send-join-message-only-on-lobby");
-
-                Bukkit.getOnlinePlayers().forEach(p -> {
-                    if (isOnlyOnLobby && !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())) return;
-                    Text.format("lang:[messages.on-first-join]", XG7Lobby.getInstance())
-                            .replace("[PLAYER]", event.getPlayer().getName())
-                            .send(p);
-                });
-
-                XG7Lobby.getInstance().getActionsProcessor().process("on-first-join", player);
+                    XG7Lobby.getInstance().getActionsProcessor().process("on-first-join", player);
+                    return;
+                }
 
             }
 
-        }
-
-        if (!isFirstJoin) {
 
             if (config.get("on-join.send-join-message")) {
 
@@ -71,15 +68,16 @@ public class JoinAndQuitEvents extends LobbyEvent {
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     if (isOnlyOnLobby && !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())) return;
                     Text.format("lang:[messages.on-join]", XG7Lobby.getInstance())
-                            .replace("[PLAYER]", p.getName())
-                            .send(player);
+                               .replace("[PLAYER]", p.getName())
+                                .send(player);
                 });
 
             }
 
             XG7Lobby.getInstance().getActionsProcessor().process("on-join", player);
 
-        }
+        });
+
 
         if (config.get("on-join.tp-to-lobby")) {
             LobbyLocation location = XG7Plugins.getInstance().getJsonManager().load(XG7Lobby.getInstance(), "lobby.json", LobbyLocation.class);

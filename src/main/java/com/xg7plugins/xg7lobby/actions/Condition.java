@@ -1,15 +1,19 @@
 package com.xg7plugins.xg7lobby.actions;
 
+import com.xg7plugins.Plugin;
 import com.xg7plugins.utils.Pair;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
 
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,15 +21,16 @@ import java.util.regex.Pattern;
 @Getter
 public enum Condition {
 
-    IF((player, condition) -> Parser.BOOLEAN.convert(Text.format(condition, XG7Lobby.getInstance()).getWithPlaceholders(player))),
-    IF_NOT((player, condition) -> !((boolean)Parser.BOOLEAN.convert(Text.format(condition, XG7Lobby.getInstance()).getWithPlaceholders(player)))),
-    PERMISSION(Permissible::hasPermission),
-    NO_PERMISSION((player, perm) -> !player.hasPermission(perm));
+    IF((conditionPack) -> Parser.BOOLEAN.convert(Text.format(conditionPack.conditionValue, conditionPack.getPlugin()).getWithPlaceholders(conditionPack.getPlayer()))),
+    IF_NOT((conditionPack) -> !((boolean) Parser.BOOLEAN.convert(Text.format(conditionPack.getConditionValue(), conditionPack.getPlugin()).getWithPlaceholders(conditionPack.getPlayer())))),
+    PERMISSION((conditionPack -> conditionPack.getPlayer().hasPermission(conditionPack.getConditionValue()))),
+    NO_PERMISSION((conditionPack) -> !conditionPack.getPlayer().hasPermission(conditionPack.getConditionValue()));
 
-    private final BiFunction<Player, String, Boolean> condition;
+    private final Function<ConditionPack, Boolean> condition;
+    private static Plugin plugin;
 
-    public boolean apply(Player player, String value) {
-        return condition.apply(player, value);
+    public boolean apply(ConditionPack pack) {
+        return condition.apply(pack);
     }
 
     private static final Pattern conditionPattern = Pattern.compile("\\[(.*?): (.*?)\\]");
@@ -43,4 +48,13 @@ public enum Condition {
         return null;
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    static
+    class ConditionPack {
+        private Plugin plugin;
+        private Player player;
+        private String conditionValue;
+    }
 }
