@@ -1,10 +1,11 @@
 package com.xg7plugins.xg7lobby.actions;
 
-import com.xg7plugins.libs.xg7menus.XSeries.XEntityType;
-import com.xg7plugins.libs.xg7menus.XSeries.XPotion;
-import com.xg7plugins.libs.xg7menus.XSeries.XSound;
-import com.xg7plugins.utils.Location;
+import com.cryptomorin.xseries.XEntityType;
+import com.cryptomorin.xseries.XPotion;
+import com.cryptomorin.xseries.XSound;
+import com.cryptomorin.xseries.particles.XParticle;
 import com.xg7plugins.utils.Parser;
+import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.Particle;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -25,20 +25,20 @@ import java.util.stream.IntStream;
 @Getter
 public enum ActionType {
 
-    MESSAGE(false, (player, args) -> Text.formatComponent(args[0], XG7Lobby.getInstance()).send(player)),
-    COMMAND(false, (player, args) -> player.performCommand(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
-    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
+    MESSAGE(false, (player, args) -> Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().toComponent().send(player)),
+    COMMAND(false, (player, args) -> player.performCommand(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
+    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
     TITLE(true,(player, args) -> {
         if (args.length == 1) {
-            player.sendTitle(args[0].equals("_") ? "" : Text.format(args[0] , XG7Lobby.getInstance()).getWithPlaceholders(player), "");
+            player.sendTitle(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), "");
             return;
         }
         if (args.length == 2) {
-            player.sendTitle(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player));
+            player.sendTitle(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), Text.detectLangOrText(XG7Lobby.getInstance(),player,args[1]).join().getText());
             return;
         }
         if (args.length == 5) {
-            player.sendTitle(args[0].equals("_") ? "" : Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player), args[1].equals("_") ? "" : Text.format(args[1], XG7Lobby.getInstance()).getWithPlaceholders(player), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
+            player.sendTitle(args[0].equals("_") ? "" : Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), args[1].equals("_") ? "" : Text.detectLangOrText(XG7Lobby.getInstance(),player,args[1]).join().getText(), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
             return;
         }
 
@@ -85,19 +85,19 @@ public enum ActionType {
             throw new ActionException("TP", "Unable to convert text in values, check if the values are correct. world: TEXT: (WORLD NAME), x: DECIMAL, y: DECIMAL, z: DECIMAL, yaw: DECIMAL, pitch: DECIMAL");
         }
     }),
-    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.format(args[0], XG7Lobby.getInstance()).getWithPlaceholders(player))),
+    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
     SUMMON(true,(player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
     SOUND(true,(player, args) -> {
         try {
             switch (args.length) {
                 case 1:
-                    player.playSound(player.getLocation(), XSound.valueOf(args[0]).parseSound(), 1, 1);
+                    player.playSound(player.getLocation(), XSound.of(args[0]).orElse(XSound.MUSIC_DISC_13).get(), 1, 1);
                     return;
                 case 2:
-                    player.playSound(player.getLocation(), XSound.valueOf(args[0]).parseSound(), Parser.FLOAT.convert(args[1]), 1);
+                    player.playSound(player.getLocation(), XSound.of(args[0]).orElse(XSound.MUSIC_DISC_13).get(), Parser.FLOAT.convert(args[1]), 1);
                     return;
                 case 3:
-                    player.playSound(player.getLocation(), XSound.valueOf(args[0]).parseSound(), Parser.FLOAT.convert(args[1]), Parser.FLOAT.convert(args[2]));
+                    player.playSound(player.getLocation(), XSound.of(args[0]).orElse(XSound.MUSIC_DISC_13).get(), Parser.FLOAT.convert(args[1]), Parser.FLOAT.convert(args[2]));
                     return;
                 default:
                     throw new ActionException("SOUND", "Incorrectly amount of args: " + args.length + ". The right way to use is [SOUND] sound, Optional:[volume, Optional:[pitch]].");
@@ -111,13 +111,13 @@ public enum ActionType {
         try {
             switch (args.length) {
                 case 1:
-                    player.spawnParticle(Particle.valueOf(args[0].toUpperCase()), player.getLocation(),1);
+                    player.spawnParticle(XParticle.valueOf(args[0].toUpperCase()).get(), player.getLocation(),1);
                     return;
                 case 2:
-                    player.spawnParticle(Particle.valueOf(args[0].toUpperCase()), player.getLocation(), Parser.INTEGER.convert(args[1]));
+                    player.spawnParticle(XParticle.valueOf(args[0].toUpperCase()).get(), player.getLocation(), Parser.INTEGER.convert(args[1]));
                     return;
                 case 5:
-                    player.spawnParticle(Particle.valueOf(args[0].toUpperCase()), player.getLocation(), Parser.INTEGER.convert(args[1]), Parser.DOUBLE.convert(args[2]), Parser.DOUBLE.convert(args[3]), Parser.DOUBLE.convert(args[4]));
+                    player.spawnParticle(XParticle.valueOf(args[0].toUpperCase()).get(), player.getLocation(), Parser.INTEGER.convert(args[1]), Parser.DOUBLE.convert(args[2]), Parser.DOUBLE.convert(args[3]), Parser.DOUBLE.convert(args[4]));
                     return;
                 default:
                     throw new ActionException("PARTICLE", "Incorrectly amount of args: " + args.length + ". The right way to use is [PARTICLE] particle, Optional:[amount, Optional:[offset x, offset y, offset z]].");

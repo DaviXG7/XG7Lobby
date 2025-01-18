@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'com.xg7plugins'
@@ -18,8 +19,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
-    compileOnly files("D:\\XG7Plugins\\plugins\\XG7Plugins\\XG7Plugins\\build\\libs\\XG7Plugins-1.0.jar")
+
+    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.16.5.jar")
+    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.8.8.jar")
+    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.7.8.jar")
+
+    compileOnly files("C:/Users/davis/Documents/XG7Plugins/plugins/XG7Plugins/build/libs/XG7Plugins-1.0.jar")
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
@@ -42,11 +47,8 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
-jar {
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks.shadowJar {
+    archiveFileName.set("${project.name}-${project.version}.jar")
 }
 
 processResources {

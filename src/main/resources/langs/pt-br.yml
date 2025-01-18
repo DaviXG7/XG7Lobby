@@ -1,3 +1,5 @@
+
+
 commands:
   not-online: "Este jogador não está online."
 
@@ -5,7 +7,7 @@ lobby:
 
   on-set:
     on-error: "&cErro enquanto tentou colocar o lobby!"
-    on-success: "&aO lobby foi colocado com sucesso em: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+    on-success: "&aO lobby [ID] foi salvo com sucesso em: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
 
   on-teleport:
     on-error: "&cErro ao tentar teletransportar ao lobby!"
@@ -17,8 +19,6 @@ lobby:
   on-join-events:
     title: "&bBem vindo!"
     message1: "Plugin feito por DaviXG7"
-
-
 
 messages:
 

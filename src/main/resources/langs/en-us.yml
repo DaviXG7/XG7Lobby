@@ -1,11 +1,19 @@
+
+
 commands:
   not-online: "This player is not online."
+
+  fly:
+    toggle-on: "&aFly mode enabled."
+    toggle-off: "&cFly mode disabled."
+    toggle-other-on: "&aFly mode enabled for [PLAYER]."
+    toggle-other-off: "&cFly mode disabled for [PLAYER]."
 
 lobby:
 
   on-set:
-    on-error: "&cError while setting the lobby location."
-    on-success: "&aLobby location set successfully on World: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+    on-error: "&cError while setting the lobby location. [ERROR]"
+    on-success: "&aLobby location [ID] set successfully on World: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
 
   on-teleport:
     on-error: "&cError while trying to teleport to the lobby."
@@ -13,13 +21,19 @@ lobby:
     on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
     on-success: "&aTeleported to the lobby successfully."
     on-success-other: "&aTeleported [PLAYER] to the lobby successfully."
+    on-cooldown: "&cYou can't teleport to the lobby for another [SECONDS] seconds."
+    on-cooldown-other: "&cYou can't teleport to the lobby this player for another [SECONDS] seconds."
 
   on-join-events:
     title: "&bWelcome"
     message1: "&5&oPlugin made by DaviXG7"
 
+  on-teleporting-message: "[ACTION] &7Teleporting to the lobby [SECONDS]s... Don't move!"
+  teleport-cancelled: "&cTeleport cancelled!"
 
 messages:
 
   on-join: "&b%player_name%&7, &ejoined the game!"
   on-first-join: "&b%player_name%&7, &ejoined the game for the first time!"
+
+  on-quit: "&b%player_name%&7, &eleave the game!"

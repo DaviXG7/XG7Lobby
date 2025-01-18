@@ -10,9 +10,8 @@ main-lang: en-us
 
 chat-locked: false
 
-sql:
 
-  cache-expires: 30m
+sql:
 
   type: "sqlite"
 
@@ -24,9 +23,28 @@ sql:
   username: ""
   password: ""
 
+  additional-url-args: "characterEncoding=utf8"
+
 ##################################################################
-#                            LOBBY                              #
+#                         LOBBY SERVER                           #
 ##################################################################
+
+multi-lobby-locations: true
+bungeecord: false
+
+lobby-server-name: "lobby1"
+
+lobby-location-cache-expires: 30m
+
+##################################################################
+#                         LOBBY EVENTS                           #
+##################################################################
+
+lobby-teleport-cooldown:
+  before-teleport: "5s"
+  dont-move: true
+
+  after-teleport: "5s"
 
 on-join:
   tp-to-lobby: true
@@ -43,10 +61,10 @@ on-join:
     - "[TITLE] lang:[lobby.on-join-events.title], &f%player_name%"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.title] &f%player_name%"
-    - "[MESSAGE] "
+    - "[MESSAGE]  "
     - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
-    - "[MESSAGE] [CENTER] &4YT: &[CLICKHOVER text=%Nosso youtube% action=%OPEN_URL% value=%https://www.youtube.com/@DaviXG7_%]fwww.youtube.com[/CLICKHOVER]"
-    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE]  "
     - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.message1]"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
@@ -62,11 +80,11 @@ on-first-join:
   events:
     - "[TITLE] &bWelcome, &f%player_name%"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
-    - "[MESSAGE] [CENTER] &bWelcome &f%player_name%"
-    - "[MESSAGE] "
+    - "[MESSAGE] [CENTER] &bWelcome for the first time! &f%player_name%"
+    - "[MESSAGE]  "
     - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
     - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
-    - "[MESSAGE] "
+    - "[MESSAGE]  "
     - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
     - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
@@ -75,5 +93,5 @@ on-first-join:
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FF00FF, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
-    - "[OPEN] [!PERMISSION: xg7lobby.admin] 1"
+    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"

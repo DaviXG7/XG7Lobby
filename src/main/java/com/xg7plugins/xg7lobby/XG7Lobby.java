@@ -1,29 +1,31 @@
 package com.xg7plugins.xg7lobby;
 
-import com.xg7plugins.Plugin;
-import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.boot.Plugin;
+import com.xg7plugins.boot.PluginConfigurations;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.data.database.Entity;
-import com.xg7plugins.events.Event;
+import com.xg7plugins.data.database.entity.Entity;
+import com.xg7plugins.events.Listener;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
+import com.xg7plugins.xg7lobby.commands.FlyCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
+import com.xg7plugins.xg7lobby.events.LobbyCooldownEvent;
+import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.events.JoinAndQuitEvents;
-import com.xg7plugins.xg7lobby.model.PlayerData;
-import com.xg7plugins.xg7lobby.model.Warn;
-import com.xg7plugins.xg7lobby.utils.PlayerDAO;
+import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
+import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
+import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
+import com.xg7plugins.xg7lobby.lobby.player.PlayerDAO;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
-public final class XG7Lobby extends Plugin {
-
-    private final ActionsProcessor actionsProcessor;
-    private PlayerDAO playerDAO;
-
-
-    public XG7Lobby() {
-        super("§1X§9G§37§bLobby§r", new String[]{}, new String[]{
+@PluginConfigurations(
+    prefix = "§1X§9G§37§bLobby§r",
+        onEnableDraw = {
                 "§1 __   §9_______ §3______ §b_           _     _           ",
                 "§1 \\ \\ §9/ / ____§3|____  §b| |         | |   | |          ",
                 "§1  \\ V §9/ |  __ §3   / /§b| |     ___ | |__ | |__  _   _ ",
@@ -33,49 +35,76 @@ public final class XG7Lobby extends Plugin {
                 "§b                                              __/ |",
                 "§b                                             |___/ "
 
-        });
+        },
+        mainCommandName = "xg7lobby",
+        mainCommandAliases = {"7l", "xg7l"}
+
+)
+public final class XG7Lobby extends Plugin {
+
+    private final ActionsProcessor actionsProcessor;
+    private LobbyManager lobbyManager;
+    private final PlayerDAO playerDAO;
+    private final ServerInfo serverInfo;
+
+
+    public XG7Lobby() {
         actionsProcessor = new ActionsProcessor();
+        playerDAO = new PlayerDAO();
+        serverInfo = new ServerInfo(this);
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
+        lobbyManager = new LobbyManager(this);
 
+        getLog().loading("Loading lobbies");
+        this.lobbyManager.load();
+
+        getLog().loading("Loading action events...");
         loadActions();
+
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         // Plugin startup logic
 
     }
 
     public void loadActions() {
-        getLog().loading("Loading action events...");
         Config config = getConfigsManager().getConfig("config");
-        actionsProcessor.registerActions("on-join", config.getList("on-join.events"));
-        if (config.get("on-first-join.enabled")) actionsProcessor.registerActions("on-first-join", config.getList("on-first-join.events"));
-        playerDAO = new PlayerDAO();
+        actionsProcessor.registerActions("on-join", config.get("on-join.events", List.class).orElse(new ArrayList<>()));
+        if (config.get("on-first-join.enabled", Boolean.class).orElse(false)){
+            actionsProcessor.registerActions("on-first-join", config.get("on-first-join.events", List.class).orElse(new ArrayList<>()));
+        }
     }
 
     @Override
     public Class<? extends Entity>[] loadEntites() {
-        return new Class[]{PlayerData.class};
+        return new Class[]{LobbyPlayer.class, LobbyLocation.class};
     }
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand()};
     }
 
     @Override
-    public Event[] loadEvents() {
-        return new Event[]{new JoinAndQuitEvents()};
+    public Listener[] loadEvents() {
+        return new Listener[]{new JoinAndQuitEvents(), new LobbyCooldownEvent()};
+    }
+
+    @Override
+    public void loadHelp() {
+
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        lobbyManager.save();
     }
 
 
     public static XG7Lobby getInstance() {
-        return XG7Plugins.getPlugin(XG7Lobby.class);
+        return getPlugin(XG7Lobby.class);
     }
 }

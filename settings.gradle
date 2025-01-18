@@ -1,1 +1,2 @@
 rootProject.name = 'XG7Lobby'
+include ':plugins:XG7Plugins'
