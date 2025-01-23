@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.lobby.player;
 
 
+import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Column;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.data.database.entity.Pkey;
@@ -8,6 +9,7 @@ import com.xg7plugins.data.database.entity.Table;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import lombok.Data;
 import lombok.Setter;
+import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -24,6 +26,8 @@ public class LobbyPlayer implements Entity {
     private UUID playerUUID;
     @Column(name = "hiding_players")
     private boolean isPlayerHiding;
+    @Column(name = "chat_hide")
+    private boolean isChatHide;
     @Column(name = "muted")
     private boolean isMuted;
     @Column(name = "time_for_unmute")
@@ -77,6 +81,42 @@ public class LobbyPlayer implements Entity {
     }
     public Player getPlayer() {
         return XG7Lobby.getInstance().getServer().getPlayer(playerUUID);
+    }
+
+
+    public void fly() {
+        Player player = this.getPlayer();
+
+        Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
+
+        if (player == null) return;
+
+        if (!XG7Lobby.getInstance().isInWorldEnabled(player.getPlayer())) return;
+
+
+        System.out.println(isFlying || (
+                (
+                        config.get("multi-jumps.enabled", Boolean.class).orElse(false) &&
+                                player.hasPermission("xg7lobby.multi-jumps")
+                ) || (
+                        player.getGameMode() == GameMode.CREATIVE ||
+                                player.getGameMode() == GameMode.SPECTATOR
+                )
+        ));
+
+        player.setAllowFlight(
+                isFlying || (
+                        (
+                                config.get("multi-jumps.enabled", Boolean.class).orElse(false) &&
+                                player.hasPermission("xg7lobby.multi-jumps")
+                        ) || (
+                                player.getGameMode() == GameMode.CREATIVE ||
+                                        player.getGameMode() == GameMode.SPECTATOR
+                        )
+                )
+        );
+        if (player.getAllowFlight()) player.setFlying(isFlying);
+
     }
 
 }

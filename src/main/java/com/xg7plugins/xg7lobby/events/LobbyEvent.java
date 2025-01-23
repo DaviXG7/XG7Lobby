@@ -9,10 +9,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
 
-public abstract class LobbyEvent implements Listener {
+public interface LobbyEvent extends Listener {
 
     @EventHandler
-    public final void onWorldChange(PlayerTeleportEvent event) {
+    default void onWorldChange(PlayerTeleportEvent event) {
         List<String> enabledWorlds = XG7Lobby.getInstance().getEnabledWorlds();
         if (enabledWorlds.contains(event.getFrom().getWorld().getName()) && !enabledWorlds.contains(event.getTo().getWorld().getName())) {
             onWorldLeave(event.getPlayer(), event.getTo().getWorld());
@@ -24,6 +24,6 @@ public abstract class LobbyEvent implements Listener {
     }
 
 
-    public void onWorldJoin(Player player, World newWorld) {}
-    public void onWorldLeave(Player player, World newWorld) {}
+    default void onWorldJoin(Player player, World newWorld) {}
+    default void onWorldLeave(Player player, World newWorld) {}
 }

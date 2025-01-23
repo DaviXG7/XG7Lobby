@@ -8,7 +8,10 @@ commands:
     toggle-off: "&cFly mode disabled."
     toggle-other-on: "&aFly mode enabled for [PLAYER]."
     toggle-other-off: "&cFly mode disabled for [PLAYER]."
-
+  gamemode:
+    invalid-gamemode: "&cInvalid gamemode. Use (0, s), (1, c), (2, a) or (3, sp)."
+    set: "&aGamemode set to [GAMEMODE]."
+    set-other: "&aGamemode set to [GAMEMODE] for [PLAYER]."
 lobby:
 
   on-set:
@@ -37,3 +40,19 @@ messages:
   on-first-join: "&b%player_name%&7, &ejoined the game for the first time!"
 
   on-quit: "&b%player_name%&7, &eleave the game!"
+
+
+multi-jump-left: "[ACTION] &7You have &b[JUMPS] &7jumps left."
+
+build-not-enabled: "&cYou are with build disabled! Use /build to enable it."
+
+player-prohibitions:
+  break-blocks: "&cYou can't break blocks."
+  place-blocks: "&cYou can't place blocks."
+  interact-with-blocks: "&cYou can't interact with blocks."
+
+  pick-up-items: "&cYou can't pick up items."
+  drop-items: "&cYou can't drop items."
+
+  attack: "&cYou can't attack."
+

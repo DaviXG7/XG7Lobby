@@ -95,3 +95,38 @@ on-first-join:
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
     - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
+
+##################################################################
+#                         MULTI JUMPS                            #
+##################################################################
+
+multi-jumps:
+
+  limit: 3
+
+  enabled: true
+
+  sound: "ENTITY_BAT_TAKEOFF, 1.0, 1.0"
+
+  power: 2
+  height: 1
+
+  cooldown: 3s
+
+##################################################################
+#                        PLAYER DEFAULTS                         #
+##################################################################
+
+player-defaults:
+
+  interact-with-blocks: false
+  break-block: false
+  place-block: false
+
+  drop-item: false
+  pickup-item: false
+
+  take-damage: false
+  attack: false
+
+

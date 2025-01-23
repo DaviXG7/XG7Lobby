@@ -8,11 +8,14 @@ import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.FlyCommand;
+import com.xg7plugins.xg7lobby.commands.GamemodeCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
+import com.xg7plugins.xg7lobby.events.MultiJumpEvent;
+import com.xg7plugins.xg7lobby.events.FlyEvent;
 import com.xg7plugins.xg7lobby.events.LobbyCooldownEvent;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
-import com.xg7plugins.xg7lobby.events.JoinAndQuitEvents;
+import com.xg7plugins.xg7lobby.events.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -85,12 +88,12 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand()};
     }
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new JoinAndQuitEvents(), new LobbyCooldownEvent()};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent()};
     }
 
     @Override
