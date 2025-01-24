@@ -101,6 +101,7 @@ effects-task-delay: 5s
 effects:
   - "JUMP_BOOST, 2"
   - "SPEED, 2"
+  - "NIGHT_VISION, 1"
 
 ##################################################################
 #                         MULTI JUMPS                            #
@@ -190,9 +191,9 @@ block-spread: false
 #Cancel explosions
 cancel-explosions: true
 
-###############################################
-#AUTO BROADCAST                               #
-###############################################
+##################################################################
+#                         AUTO BROADCAST                         #
+##################################################################
 
 auto-broadcast:
 
@@ -227,9 +228,9 @@ auto-broadcast:
       - "[CENTER] &fVisit our website: &bhttps://xg7plugins.com"
       - "[CENTER] &8-------------------&7**&8-------------------"
 
-###############################################
-#MOTD                                         #
-###############################################
+##################################################################
+#                             MOTD                               #
+##################################################################
 
 #MOTD is the message that appears before
 #join the server!
@@ -241,3 +242,63 @@ motd:
   text:
     - "[CENTER] &9XG7&3Lob&bby&r"
     - "[CENTER] &5&oMade by DaviXG7"
+
+##################################################################
+#                           SCORES                               #
+##################################################################
+
+scoreboard:
+
+  enabled: true
+
+  #Update time
+  update-time: 500ms
+
+  #Define the title of the scoreboard
+  title:
+    - "&9XG7Lobby"
+    - "&3XG7Lobby"
+    - "&bXG7Lobby"
+    - "&9XG7&3Lob&bby"
+    - "&1XG7Lobby"
+    - "&9XG7&3Lob&bby"
+    - "&9XG7&3Lob&bby"
+
+  #Define the lines of the scoreboard
+  #Max len 64 characters
+  lines:
+    - ""
+    - "&e&lPlayer&f:"
+    - "&fName: &9%player_name%"
+    - "&fRank: &r[%prefix%]"
+    - ""
+    - "&fPlayers online: &a%server_online%"
+    - ""
+    - "&8www.example.com"
+
+tablist:
+  enabled: true
+
+  update-time: 500ms
+
+  headers:
+
+    - state:
+      - "&9XG7Lobby"
+      - "&5&oMade by DaviXG7"
+    - state:
+      - "&3XG7Lobby"
+      - "&5&oMade by DaviXG7"
+    - state:
+      - "&bXG7Lobby"
+      - "&5&oMade by DaviXG7"
+    - state:
+      - "&3XG7Lobby"
+      - "&5&oMade by DaviXG7"
+    - state:
+      - "&9XG7Lobby"
+      - "&5&oMade by DaviXG7"
+
+  footers:
+    - state:
+        - "&8www.example.com"

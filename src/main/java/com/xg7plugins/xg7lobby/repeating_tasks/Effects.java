@@ -32,7 +32,7 @@ public class Effects extends Task {
 
             if (potion == null) return;
 
-            PotionEffect potionEffect = new PotionEffect(potion.getPotionEffectType(), 200, Integer.parseInt(effect[1]), false, true);
+            PotionEffect potionEffect = new PotionEffect(potion.getPotionEffectType(), 600, Integer.parseInt(effect[1]), false, true);
 
             effects.add(potionEffect);
         });

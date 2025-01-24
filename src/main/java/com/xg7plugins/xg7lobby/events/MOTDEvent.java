@@ -10,19 +10,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class MOTDEvent implements Listener {
     @Override
     public boolean isEnabled() {
+        System.out.println("MOTD Enabled " + XG7Lobby.getInstance().getConfig("config").get("motd.enabled", Boolean.class).orElse(false));
         return XG7Lobby.getInstance().getConfig("config").get("motd.enabled", Boolean.class).orElse(false);
     }
 
     @EventHandler
     public void onMOTDRequest(ServerListPingEvent event) {
+        System.out.println("MOTD Requested");
         Config config = XG7Lobby.getInstance().getConfig("config");
 
         String motd = config.getList("motd.text", String.class)

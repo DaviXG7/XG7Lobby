@@ -1,11 +1,13 @@
 package com.xg7plugins.xg7lobby;
 
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.boot.PluginConfigurations;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
+import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.BuildCommand;
@@ -19,6 +21,7 @@ import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.PlayerDAO;
+import com.xg7plugins.xg7lobby.lobby.scores.loaders.ScoreboardLoader;
 import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
 import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
 import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
@@ -106,6 +109,20 @@ public final class XG7Lobby extends Plugin {
     @Override
     public void loadHelp() {
 
+    }
+
+    @Override
+    public Score[] loadScores() {
+
+        Config config = getConfig("config");
+
+        ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
+
+        if (scoreboardLoader.isEnabled()) {
+            XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
+        }
+
+        return new Score[]{new ScoreboardLoader(config).load()};
     }
 
     @Override

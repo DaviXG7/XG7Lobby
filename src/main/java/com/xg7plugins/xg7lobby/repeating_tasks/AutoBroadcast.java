@@ -20,7 +20,7 @@ public class AutoBroadcast extends Task {
     private final AtomicInteger index = new AtomicInteger(0);
 
     public AutoBroadcast() {
-        super(XG7Lobby.getInstance(), "AutoBroadcast", true, true, XG7Lobby.getInstance().getConfig("config").getTime("auto-broadcast.cooldown").orElse(3 * 60 * 1000L), TaskState.RUNNING, null);
+        super(XG7Lobby.getInstance(), "auto-broadcast", true, true, XG7Lobby.getInstance().getConfig("config").getTime("auto-broadcast.cooldown").orElse(3 * 60 * 1000L), TaskState.RUNNING, null);
     }
 
     @Override
