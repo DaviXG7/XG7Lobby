@@ -1,4 +1,4 @@
-
+formated-name: "English (US)"
 
 commands:
   not-online: "This player is not online."
@@ -8,10 +8,17 @@ commands:
     toggle-off: "&cFly mode disabled."
     toggle-other-on: "&aFly mode enabled for [PLAYER]."
     toggle-other-off: "&cFly mode disabled for [PLAYER]."
+
   gamemode:
     invalid-gamemode: "&cInvalid gamemode. Use (0, s), (1, c), (2, a) or (3, sp)."
     set: "&aGamemode set to [GAMEMODE]."
     set-other: "&aGamemode set to [GAMEMODE] for [PLAYER]."
+  build:
+    toggle-on: "&aBuild mode enabled."
+    toggle-off: "&cBuild mode disabled."
+    toggle-other-on: "&aBuild mode enabled for [PLAYER]."
+    toggle-other-off: "&cBuild mode disabled for [PLAYER]."
+
 lobby:
 
   on-set:

@@ -52,27 +52,6 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
             if (!XG7Lobby.getInstance().isInWorldEnabled(player)) return;
 
-            lobbyPlayer.fly();
-
-            XG7Lobby.getInstance().getActionsProcessor().process(firstJoinEnabled && lobbyPlayer.isFirstJoin() ? "on-first-join" : "on-join", player);
-
-            if (config.get("on-join.tp-to-lobby", Boolean.class).orElse(true)) {
-
-                XG7Lobby.getInstance().getLobbyManager().getALobbyByPlayer(player.getPlayer()).thenAccept(lobby -> {
-                    if (lobby.getLocation() == null) {
-                        Text.formatLang(XG7Lobby.getInstance(), player, "lobby.on-teleport." + (player.hasPermission("xg7lobby.command.setlobby") ? "on-error-doesnt-exist-adm" : "on-error-doesnt-exist"))
-                                .join().send(player.getPlayer());
-                        return;
-                    }
-                    lobby.teleport(player.getPlayer());
-                });
-
-            }
-                if (config.get("on-join.heal", Boolean.class).orElse(true)) player.setHealth(player.getMaxHealth());
-                if (config.get("on-join.clear-inventory", Boolean.class).orElse(true)) player.getInventory().clear();
-            lobbyPlayer.setFirstJoin(false);
-            XG7Lobby.getInstance().getPlayerDAO().update(lobbyPlayer);
-
             onWorldJoin(player, player.getWorld());
         });
     }
@@ -110,6 +89,8 @@ public class LoginAndLogoutEvents implements LobbyEvent {
             });
 
         }
+        player.setMaxHealth(config.get("hearts", Double.class).orElse(10D) * 2);
+        player.setFoodLevel(config.get("hunger", Integer.class).orElse(10) * 2);
         if (config.get("on-join.heal", Boolean.class).orElse(true)) player.setHealth(player.getMaxHealth());
         if (config.get("on-join.clear-inventory", Boolean.class).orElse(true)) player.getInventory().clear();
         lobbyPlayer.setFirstJoin(false);
@@ -122,6 +103,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
         player.setHealth(20);
         player.getInventory().clear();
         player.setAllowFlight(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR);
+        player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
     }
 
 

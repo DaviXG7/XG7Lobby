@@ -2,3 +2,4 @@ setlobby: ["7lsetlobby", "7lsetl", "setlobby", "setl", "lobbyset", "lset", "lset
 lobby: ["7llobby", "7ll", "l", "lobby"]
 fly: ["7lfly", "7lf", "fly"]
 gamemode: ["gm", "7lgm"]
+build: ["7lbuild", "7lb", "build"]

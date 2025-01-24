@@ -12,7 +12,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Command(
         name = "gamemode",
@@ -79,7 +82,15 @@ public class GamemodeCommand implements ICommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, CommandArgs args) {
-        return ICommand.super.onTabComplete(sender, args);
+        switch (args.len()) {
+            case 1:
+                return Arrays.asList("s", "c", "a", "sp");
+            case 2:
+                if (!sender.hasPermission("xg7lobby.command.gamemode.other")) return Collections.emptyList();
+                return XG7Plugins.getInstance().getServer().getOnlinePlayers().stream().map(OfflinePlayer::getName).collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
     }
 
     @Override
@@ -93,7 +104,7 @@ public class GamemodeCommand implements ICommand {
         ADVENTURE("a", "2"),
         SPECTATOR("sp", "3");
 
-        private String[] aliases;
+        private final String[] aliases;
 
         Mode(String... aliases) {
             this.aliases = aliases;
@@ -101,7 +112,7 @@ public class GamemodeCommand implements ICommand {
 
         public static Mode getMode(String name) {
             for (Mode mode : values()) {
-                if (mode.name().equalsIgnoreCase(name)) return mode;
+                if (mode.name().equalsIgnoreCase(name.toUpperCase())) return mode;
                 for (String alias : mode.aliases) {
                     if (alias.equalsIgnoreCase(name)) return mode;
                 }

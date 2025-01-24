@@ -5,3 +5,22 @@ api-version: '1.16'
 
 depend:
   - "XG7Plugins"
+
+permissions:
+  xg7lobby.admin:
+    description: Permission to use the admin commands.
+    default: op
+
+  xg7lobby.command.*:
+    description: Permission to use all commands.
+    default: op
+    children:
+      xg7lobby.command.fly: true
+      xg7lobby.command.gamemode: true
+      xg7lobby.command.build: true
+      xg7lobby.command.setlobby: true
+      xg7lobby.command.lobby: true
+
+  xg7lobby.attack:
+    description: Permission to attack
+    default: op

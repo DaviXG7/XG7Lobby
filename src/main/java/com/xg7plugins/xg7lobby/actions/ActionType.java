@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 @Getter
 public enum ActionType {
 
-    MESSAGE(false, (player, args) -> Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().toComponent().send(player)),
+    MESSAGE(false, (player, args) -> Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().send(player)),
     COMMAND(false, (player, args) -> player.performCommand(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
     CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
     TITLE(true,(player, args) -> {

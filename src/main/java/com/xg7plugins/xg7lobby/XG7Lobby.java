@@ -6,20 +6,22 @@ import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
+import com.xg7plugins.tasks.Task;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
+import com.xg7plugins.xg7lobby.commands.BuildCommand;
 import com.xg7plugins.xg7lobby.commands.FlyCommand;
 import com.xg7plugins.xg7lobby.commands.GamemodeCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
-import com.xg7plugins.xg7lobby.events.MultiJumpEvent;
-import com.xg7plugins.xg7lobby.events.FlyEvent;
-import com.xg7plugins.xg7lobby.events.LobbyCooldownEvent;
+import com.xg7plugins.xg7lobby.events.*;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
-import com.xg7plugins.xg7lobby.events.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.PlayerDAO;
+import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
+import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
+import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -75,9 +77,9 @@ public final class XG7Lobby extends Plugin {
 
     public void loadActions() {
         Config config = getConfigsManager().getConfig("config");
-        actionsProcessor.registerActions("on-join", config.get("on-join.events", List.class).orElse(new ArrayList<>()));
+        actionsProcessor.registerActions("on-join", config.getList("on-join.events", String.class).orElse(new ArrayList<>()));
         if (config.get("on-first-join.enabled", Boolean.class).orElse(false)){
-            actionsProcessor.registerActions("on-first-join", config.get("on-first-join.events", List.class).orElse(new ArrayList<>()));
+            actionsProcessor.registerActions("on-first-join", config.getList("on-first-join.events", String.class).orElse(new ArrayList<>()));
         }
     }
 
@@ -88,12 +90,17 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand()};
     }
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent()};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents()};
+    }
+
+    @Override
+    public Task[] loadRepeatingTasks() {
+        return new Task[]{getConfig("config").get("auto-broadcast.enabled", Boolean.class).orElse(false) ? new AutoBroadcast() : null, getConfig("config").contains("effects") ? new Effects() : null, new WorldCycles()};
     }
 
     @Override

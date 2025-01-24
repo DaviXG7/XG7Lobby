@@ -30,7 +30,6 @@ sql:
 ##################################################################
 
 multi-lobby-locations: true
-bungeecord: false
 
 lobby-server-name: "lobby1"
 
@@ -96,6 +95,13 @@ on-first-join:
     - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
+
+effects-task-delay: 5s
+
+effects:
+  - "JUMP_BOOST, 2"
+  - "SPEED, 2"
+
 ##################################################################
 #                         MULTI JUMPS                            #
 ##################################################################
@@ -114,19 +120,124 @@ multi-jumps:
   cooldown: 3s
 
 ##################################################################
+#                           LAUNCHPAD                            #
+##################################################################
+
+launchpad:
+
+  enabled: true
+
+  sound: "ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0, 1.0"
+
+  top-block: "STONE_PRESSURE_PLATE"
+  bottom-block: "REDSTONE_BLOCK"
+
+  power: 3
+  height: 1
+
+
+##################################################################
 #                        PLAYER DEFAULTS                         #
 ##################################################################
 
-player-defaults:
+hearts: 1
 
-  interact-with-blocks: false
-  break-block: false
-  place-block: false
+hunger: 10
+food-change: false
 
-  drop-item: false
-  pickup-item: false
+interact-with-blocks: false
+break-block: false
+place-block: false
 
-  take-damage: false
-  attack: false
+drop-item: false
+pickup-item: false
 
+take-damage: false
+attack: false
 
+cancel-death-by-void: true
+
+cancel-portal-teleport: true
+
+##################################################################
+#                         WORLD DEFAULTS                         #
+##################################################################
+
+world-task-delay: 10s
+
+weather-cycle: false
+
+storm: false
+
+#Define the day cycle on lobby world
+day-cycle: false
+
+#12:00
+#12 PM
+time: "12:30"
+
+#Define if mobs will spawn in the lobby
+spawn-mobs: false
+
+#Define if the leaves will fall in the lobby
+leaves-decay: false
+
+#Define whether blocks will burn in the lobby
+burn-blocks: false
+
+block-spread: false
+
+#Cancel explosions
+cancel-explosions: true
+
+###############################################
+#AUTO BROADCAST                               #
+###############################################
+
+auto-broadcast:
+
+  enabled: true
+
+  #Cooldown
+  cooldown: 3m
+
+  broadcast-only-in-the-lobby: false
+
+  #Make the announcement random
+  random: false
+
+  sound: "ENTITY_EXPERIENCE_ORB_PICKUP, 5.0, 0.0"
+
+  advertisements:
+    #Create your announcement
+    #You can send in actionbars
+    - ad:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &9This plugin was made by &bDaviXG7"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+    - ad:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &aRate XG7Lobby in &e5 &bstars!"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+    - ad:
+      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "[CENTER] &e&lANNOUNCEMENT:"
+      - "[CENTER] &fVisit our website: &bhttps://xg7plugins.com"
+      - "[CENTER] &8-------------------&7**&8-------------------"
+
+###############################################
+#MOTD                                         #
+###############################################
+
+#MOTD is the message that appears before
+#join the server!
+motd:
+  enabled: true
+
+  max-players: 9999
+
+  text:
+    - "[CENTER] &9XG7&3Lob&bby&r"
+    - "[CENTER] &5&oMade by DaviXG7"
