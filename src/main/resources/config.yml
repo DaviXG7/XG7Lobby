@@ -285,20 +285,37 @@ tablist:
 
     - state:
       - "&9XG7Lobby"
-      - "&5&oMade by DaviXG7"
     - state:
       - "&3XG7Lobby"
-      - "&5&oMade by DaviXG7"
     - state:
       - "&bXG7Lobby"
-      - "&5&oMade by DaviXG7"
     - state:
       - "&3XG7Lobby"
-      - "&5&oMade by DaviXG7"
     - state:
       - "&9XG7Lobby"
-      - "&5&oMade by DaviXG7"
 
   footers:
     - state:
+        - "&5&oMade by DaviXG7"
         - "&8www.example.com"
+    - state:
+        - "&3&oMade by DaviXG7"
+        - "&8www.example.com"
+
+bossbar:
+  enabled: true
+
+  update-time: 500ms
+
+  title:
+    - "&9XG7Lobby"
+    - "&3XG7Lobby"
+    - "&bXG7Lobby"
+    - "&3XG7Lobby"
+    - "&9XG7Lobby"
+
+  progress: 0.5
+
+  #1.9+
+  color: "BLUE"
+  style: "SOLID"

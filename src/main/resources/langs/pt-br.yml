@@ -1,26 +1,63 @@
-
+formated-name: "Português (BR)"
 
 commands:
   not-online: "Este jogador não está online."
 
+  fly:
+    toggle-on: "&aFly ativado."
+    toggle-off: "&cFly desativado."
+    toggle-other-on: "&aFly ativado para [PLAYER]."
+    toggle-other-off: "&cFly desativado para [PLAYER]."
+
+  gamemode:
+    invalid-gamemode: "&cModo de jogo inválido. Use (0, s), (1, c), (2, a) ou (3, sp)."
+    set: "&aModo de jogo definido para [GAMEMODE]."
+    set-other: "&aModo de jogo definido para [GAMEMODE] para [PLAYER]."
+  build:
+    toggle-on: "&aModo de construção ativado."
+    toggle-off: "&cModo de construção desativado."
+    toggle-other-on: "&aModo de construção ativado para [PLAYER]."
+    toggle-other-off: "&cModo de construção desativado para [PLAYER]."
+
 lobby:
 
   on-set:
-    on-error: "&cErro enquanto tentou colocar o lobby!"
-    on-success: "&aO lobby [ID] foi salvo com sucesso em: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+    on-error: "&cErro ao definir a localização do lobby. [ERROR]"
+    on-success: "&aLocalização do lobby [ID] definida com sucesso no Mundo: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
 
   on-teleport:
-    on-error: "&cErro ao tentar teletransportar ao lobby!"
-    on-error-doesnt-exist: "&cA localização do lobby ainda não foi definida! Espere até que um administrador coloque-o."
-    on-error-doesnt-exist-adm: "&cA localização do lobby ainda não foi definida. Use &8/&esetlobby &cpara colocá-lo."
-    on-success: "&aTeletransportado para o lobby com sucesso!"
-    on-success-other: "&aO player [PLAYER] foi teletransportado para o lobby com sucesso!"
+    on-error: "&cErro ao tentar teleportar para o lobby."
+    on-error-doesnt-exist: "&cA localização do lobby não existe. Aguarde um administrador definir."
+    on-error-doesnt-exist-adm: "&cA localização do lobby não existe. Use /setlobby para definir."
+    on-success: "&aTeleportado para o lobby com sucesso."
+    on-success-other: "&aTeleportado [PLAYER] para o lobby com sucesso."
+    on-cooldown: "&cVocê não pode se teleportar para o lobby pelos próximos [SECONDS] segundos."
+    on-cooldown-other: "&cVocê não pode teleportar este jogador para o lobby pelos próximos [SECONDS] segundos."
 
   on-join-events:
-    title: "&bBem vindo!"
-    message1: "Plugin feito por DaviXG7"
+    title: "&bBem-vindo"
+    message1: "&5&oPlugin feito por DaviXG7"
+
+  on-teleporting-message: "[ACTION] &7Teleportando para o lobby em [SECONDS]s... Não se mova!"
+  teleport-cancelled: "&cTeleporte cancelado!"
 
 messages:
 
   on-join: "&b%player_name%&7, &eentrou no jogo!"
   on-first-join: "&b%player_name%&7, &eentrou no jogo pela primeira vez!"
+
+  on-quit: "&b%player_name%&7, &esaiu do jogo!"
+
+multi-jump-left: "[ACTION] &7Você tem &b[JUMPS] &7saltos restantes."
+
+build-not-enabled: "&cVocê está com a construção desativada! Use /build para ativar."
+
+player-prohibitions:
+  break-blocks: "&cVocê não pode quebrar blocos."
+  place-blocks: "&cVocê não pode colocar blocos."
+  interact-with-blocks: "&cVocê não pode interagir com blocos."
+
+  pick-up-items: "&cVocê não pode pegar itens."
+  drop-items: "&cVocê não pode soltar itens."
+
+  attack: "&cVocê não pode atacar."

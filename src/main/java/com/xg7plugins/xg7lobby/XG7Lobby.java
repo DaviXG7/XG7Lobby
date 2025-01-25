@@ -22,6 +22,7 @@ import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.PlayerDAO;
 import com.xg7plugins.xg7lobby.lobby.scores.loaders.ScoreboardLoader;
+import com.xg7plugins.xg7lobby.lobby.scores.loaders.TablistLoader;
 import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
 import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
 import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
@@ -117,12 +118,13 @@ public final class XG7Lobby extends Plugin {
         Config config = getConfig("config");
 
         ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
+        TablistLoader tablistLoader = new TablistLoader(config);
 
-        if (scoreboardLoader.isEnabled()) {
+        if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled()) {
             XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
         }
 
-        return new Score[]{new ScoreboardLoader(config).load()};
+        return new Score[]{scoreboardLoader.load(), tablistLoader.load()};
     }
 
     @Override

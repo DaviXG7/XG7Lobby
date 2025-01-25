@@ -8,6 +8,7 @@ import com.xg7plugins.xg7lobby.XG7Lobby;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TablistLoader extends ScoreLoader {
     public TablistLoader(Config config) {
@@ -18,17 +19,13 @@ public class TablistLoader extends ScoreLoader {
     public Score load() {
         if (!isEnabled) return null;
 
-        List<Map> headers = getMapList("headers");
+        List<List<String>> headerList = getMapList("headers").stream().map(map -> (List<String>) map.get("state")).collect(Collectors.toList());
 
-        List<List<String>> headerList = headers.stream().map(map -> {
-            List<String> list = (List<String>) map.get("header");
-            return list;
-        }).toList();
-
+        List<List<String>> footerList = getMapList("footers").stream().map(map -> (List<String>) map.get("state")).collect(Collectors.toList());
 
         return TablistBuilder.tablist("xg7lobby-tl")
-                .(headers)
-                .footers(footers)
+                .header(headerList.stream().map(list -> String.join("\n", list)).collect(Collectors.toList()))
+                .footer(footerList.stream().map(list -> String.join("\n", list)).collect(Collectors.toList()))
                 .delay(delay)
                 .condition(condition)
                 .build(XG7Lobby.getInstance());

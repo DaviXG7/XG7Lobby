@@ -93,17 +93,6 @@ public class LobbyPlayer implements Entity {
 
         if (!XG7Lobby.getInstance().isInWorldEnabled(player.getPlayer())) return;
 
-
-        System.out.println(isFlying || (
-                (
-                        config.get("multi-jumps.enabled", Boolean.class).orElse(false) &&
-                                player.hasPermission("xg7lobby.multi-jumps")
-                ) || (
-                        player.getGameMode() == GameMode.CREATIVE ||
-                                player.getGameMode() == GameMode.SPECTATOR
-                )
-        ));
-
         player.setAllowFlight(
                 isFlying || (
                         (

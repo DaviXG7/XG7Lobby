@@ -16,15 +16,15 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven { url = uri("https://maven.elmakers.com/repository/") }
 }
 
 dependencies {
 
-    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.16.5.jar")
-    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.8.8.jar")
-    compileOnly files("C:/Users/davis/Documents/Build tools/spigot-1.7.8.jar")
+    compileOnly "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
 
-    compileOnly files("C:/Users/davis/Documents/XG7Plugins/plugins/XG7Plugins/build/libs/XG7Plugins-1.0.jar")
+
+    compileOnly files("D:\\XG7Plugins\\plugins\\XG7Plugins\\XG7Plugins\\build\\libs\\XG7Plugins-1.0.jar")
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
