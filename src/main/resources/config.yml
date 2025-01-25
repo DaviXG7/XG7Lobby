@@ -319,3 +319,5 @@ bossbar:
   #1.9+
   color: "BLUE"
   style: "SOLID"
+
+  public: false
