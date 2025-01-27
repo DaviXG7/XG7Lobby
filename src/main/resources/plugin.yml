@@ -20,7 +20,28 @@ permissions:
       xg7lobby.command.build: true
       xg7lobby.command.setlobby: true
       xg7lobby.command.lobby: true
+      xg7lobby.command.moderation.*: true
+
+  xg7lobby.command.moderation.*:
+    description: Permission to use all moderation commands.
+    default: op
+    children:
+      xg7lobby.command.moderation.kick: true
+      xg7lobby.command.moderation.ban: true
+      xg7lobby.command.moderation.unban: true
+      xg7lobby.command.moderation.mute: true
+      xg7lobby.command.moderation.unmute: true
+      xg7lobby.command.moderation.tempban: true
+      xg7lobby.command.moderation.tempmute: true
+      xg7lobby.command.moderation.warn: true
 
   xg7lobby.attack:
     description: Permission to attack
     default: op
+
+  xg7lobby.chat.*:
+    description: Permission to use all chat restrictions.
+    default: op
+    children:
+      xg7lobby.chat.swear: true
+      xg7lobby.chat.ignore-lock: true

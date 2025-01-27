@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.events;
+package com.xg7plugins.xg7lobby.events.defaults;
 
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.events.Listener;

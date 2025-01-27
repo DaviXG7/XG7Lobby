@@ -1,7 +1,8 @@
-package com.xg7plugins.xg7lobby.events;
+package com.xg7plugins.xg7lobby.events.air_events;
 
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.events.LobbyEvent;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.World;

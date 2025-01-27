@@ -19,6 +19,54 @@ commands:
     toggle-other-on: "&aBuild mode enabled for [PLAYER]."
     toggle-other-off: "&cBuild mode disabled for [PLAYER]."
 
+  warn:
+    level-invalid: "&cInvalid warn level. Use a number between 1 and 3."
+
+    warn-admin: "&cYou can't warn an admin."
+
+    on-warn: "&cYou have been warned by an admin. Reason: [REASON]."
+    on-warn-sender: "&aPlayer [PLAYER] has been warned successfully by [REASON]."
+
+    warn-ban: "&cYou have been banned for reaching the maximum number of warns.\n Reason: [REASON]."
+    warn-mute: "&cYou have been muted for reaching the maximum number of warns.\n Reason: [REASON]."
+    warn-kick: "&cYou have been kicked for reaching the maximum number of warns.\n Reason: [REASON]."
+
+  mute:
+    already-muted: "&cThis player is already muted."
+
+    mute-admin: "&cYou can't mute an admin."
+
+    on-mute: "&cYou have been muted for [TIME]."
+    on-mute-sender: "&aPlayer [PLAYER] has been muted successfully for [TIME]."
+
+  unmute:
+    not-muted: "&cThis player is not muted."
+
+    on-unmute: "&aYou have been unmuted."
+    on-unmute-sender: "&aPlayer [PLAYER] has been unmuted successfully."
+
+  kick:
+
+    kick-admin: "&cYou can't kick an admin."
+
+    on-kick: "&cYou have been kicked by an admin. Reason: [REASON]."
+    on-kick-sender: "&aPlayer [PLAYER] has been kicked successfully by [REASON]."
+
+  ban:
+    already-banned: "&cThis player is already banned."
+
+    ban-admin: "&cYou can't ban an admin."
+
+    on-ban: "&cYou have been banned for [TIME]. Reason: [REASON]."
+    on-ban-sender: "&aPlayer [PLAYER] has been banned successfully for [TIME] by [REASON]."
+
+  unban:
+    not-banned: "&cThis player is not banned."
+
+    on-unban: "&aPlayer [PLAYER] has been unbanned successfully."
+    on-unban-ip: "&a[IP] has been unbanned successfully."
+
+
 lobby:
 
   on-set:
@@ -63,3 +111,11 @@ player-prohibitions:
 
   attack: "&cYou can't attack."
 
+chat:
+
+  chat-hide: "&7Chat hidden."
+  chat-show: "&7Chat shown."
+
+  swear: "&cYou can't swear in the chat."
+
+  muted: "&cYou are muted. You can't send messages for [TIME]."

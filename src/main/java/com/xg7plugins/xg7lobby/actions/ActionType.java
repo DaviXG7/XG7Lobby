@@ -159,7 +159,11 @@ public enum ActionType {
     }),
     CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage)),
     OPEN(false, (player, args) -> {}),
-    CLOSE(false, (player, args) -> {});
+    CLOSE(false, (player, args) -> {}),
+    HIDE_PLAYERS(false, (player, args) -> {}),
+    SHOW_PLAYERS(false, (player, args) -> {}),
+    HIDE_CHAT(false, (player, args) -> {}),
+    SHOW_CHAT(false, (player, args) -> {});
 
     private final boolean needArgs;
     private final BiConsumer<Player, String[]> action;

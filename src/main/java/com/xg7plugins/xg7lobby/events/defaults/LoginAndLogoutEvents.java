@@ -1,10 +1,11 @@
-package com.xg7plugins.xg7lobby.events;
+package com.xg7plugins.xg7lobby.events.defaults;
 
 import com.xg7plugins.data.config.Config;
 
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.events.LobbyEvent;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;

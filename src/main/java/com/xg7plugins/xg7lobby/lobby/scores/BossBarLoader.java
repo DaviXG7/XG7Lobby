@@ -1,10 +1,9 @@
-package com.xg7plugins.xg7lobby.lobby.scores.loaders;
+package com.xg7plugins.xg7lobby.lobby.scores;
 
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.libs.xg7scores.builder.BossBarBuilder;
-import com.xg7plugins.libs.xg7scores.scores.bossbar.BossBar;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 
@@ -18,15 +17,15 @@ public class BossBarLoader extends ScoreLoader {
     public Score load() {
         if (!isEnabled) return null;
 
-        if (XG7Plugins.getMinecraftVersion() < 9) {
-            boolean isPublic = config.get("bossbar.public", Boolean.class).orElse(false);
+        if (XG7Plugins.getMinecraftVersion() > 8) {
+            boolean isPublic = config.get("public", Boolean.class).orElse(false);
 
-            BarColor color = config.get("bossbar.color", BarColor.class).orElse(BarColor.WHITE);
-            BarStyle style = config.get("bossbar.style", BarStyle.class).orElse(BarStyle.SOLID);
+            BarColor color = config.get("color", BarColor.class).orElse(BarColor.WHITE);
+            BarStyle style = config.get("style", BarStyle.class).orElse(BarStyle.SOLID);
 
             return BossBarBuilder.bossBar("xg7lobby-bb")
-                    .title(getList("title"))
-                    .progress(config.get("bossbar.progress", Float.class).orElse(1.0f))
+                    .title(config.getList("title"))
+                    .progress(config.get("progress", Float.class).orElse(100f))
                     .color(color)
                     .style(style)
                     .isPublic(isPublic)
@@ -36,8 +35,8 @@ public class BossBarLoader extends ScoreLoader {
         }
 
         return BossBarBuilder.bossBar("xg7lobby-bb")
-                .title(getList("title"))
-                .progress(config.get("bossbar.progress", Float.class).orElse(1.0f))
+                .title(config.getList("title"))
+                .progress(config.get("progress", Float.class).orElse(100f))
                 .delay(delay)
                 .condition(condition)
                 .build(XG7Plugins.getInstance());

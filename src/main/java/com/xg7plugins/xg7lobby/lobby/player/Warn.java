@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "warns")
@@ -21,6 +20,16 @@ public class Warn implements Entity {
     @FKey(origin_table = LobbyPlayer.class, origin_column = "playerUUID")
     private UUID playerUUID;
     private int level;
-    private String warn;
+    private String reason;
     private long date;
+
+    private Warn() {}
+
+    public Warn(UUID playerUUID, int level, String reason) {
+        this.id = UUID.randomUUID();
+        this.playerUUID = playerUUID;
+        this.level = level;
+        this.reason = reason;
+        this.date = System.currentTimeMillis();
+    }
 }

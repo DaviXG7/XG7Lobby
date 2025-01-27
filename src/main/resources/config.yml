@@ -10,6 +10,9 @@ main-lang: en-us
 
 chat-locked: false
 
+##################################################################
+#                              SQL                               #
+##################################################################
 
 sql:
 
@@ -281,6 +284,10 @@ tablist:
 
   update-time: 500ms
 
+  #You can use the placeholders:
+  custom-player-prefix: "&8[&9XG7&8]&r "
+  custom-player-suffix: " &8[&3Lo&bbby&8]&r"
+
   headers:
 
     - state:
@@ -314,10 +321,139 @@ bossbar:
     - "&3XG7Lobby"
     - "&9XG7Lobby"
 
-  progress: 0.5
+  progress: 100
 
   #1.9+
   color: "BLUE"
   style: "SOLID"
 
   public: false
+
+actionbar:
+  enabled: false
+
+  update-time: 500ms
+
+  text:
+    - "&9XG7Lobby"
+    - "&3XG7Lobby"
+    - "&bXG7Lobby"
+    - "&3XG7Lobby"
+    - "&9XG7Lobby"
+
+xp-bar:
+  enabled: true
+
+  update-time: 1s
+
+  levels:
+    - "7, 0.2"
+    - "7, 0.4"
+    - "7, 0.6"
+    - "7, 0.8"
+    - "7, 1.0"
+
+##################################################################
+#                          MODERATION                            #
+##################################################################
+
+warn-admin: false
+mute-admin: false
+kick-admin: false
+ban-admin: false
+
+warn-levels:
+
+  - level: 1
+    min-to-ban: 5
+    min-to-mute: 2
+    min-to-kick: 3
+
+  - level: 2
+    min-to-ban: 3
+    min-to-mute: 2
+    min-to-kick: 1
+
+  - level: 3
+    min-to-ban: 2
+    min-to-mute: 1
+    min-to-kick: 1
+
+mute-warn-level: 2
+kick-warn-level: 3
+ban-warn-level: 3
+
+total-warns-to-ban: 10
+total-warns-to-mute: 2
+total-warns-to-kick: 5
+
+#Put forever to infinite
+warn-time-to-unmute: "30m"
+
+warn-ban-by-ip: false
+
+
+##################################################################
+#                             CHAT                               #
+##################################################################
+
+ignore-adm-for-lock-chat: true
+
+anti-swearing:
+  enabled: true
+
+  blocked-words:
+    - ["badword1", "badword2", "badword3"]
+
+  replacement: "*"
+
+  dont-send-the-message: false
+
+  #Put -1 to disable infraction
+  words-tolerance: 5
+
+block-commands:
+  enabled: true
+
+  anti-tab: true
+
+  #If you don't have permission and
+  #if you send some these commands
+  #will block
+  commands-blocked:
+    - /pl
+    - /plugins
+    - /?
+    - /bukkit:?
+    - /bukkit:plugins
+    - /bukkit:pl
+    - /bukkit:help
+    - /version
+    - /bukkit:version
+    - /bukkit:ver
+    - /tell
+
+anti-spam:
+  enabled: true
+
+  message-cannot-be-the-same: true
+
+  #To send other message (IN SECONDS)
+  cooldown: 0.5
+
+  #Remove one spam from each player's list (IN SECONDS)
+  spam-cooldown: 2
+
+  #Messages tolerance
+  tolerance: 10
+
+  warn-tolerance: 5
+
+  mute-on-spam-limit: true
+
+  #To indeterminate and avoid errors, put "indeterminate"
+  unmute-delay: "30m"
+
+  warn-on-spam-limit: true
+  spam-warn-level: 2
+  warning: "&cMuted by spam"

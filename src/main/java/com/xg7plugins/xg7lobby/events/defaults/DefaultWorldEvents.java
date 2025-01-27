@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.events;
+package com.xg7plugins.xg7lobby.events.defaults;
 
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
@@ -7,7 +7,6 @@ import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.world.WorldLoadEvent;
 
 public class DefaultWorldEvents implements Listener {
     @Override

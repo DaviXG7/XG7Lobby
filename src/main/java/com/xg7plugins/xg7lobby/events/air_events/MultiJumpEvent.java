@@ -1,11 +1,9 @@
-package com.xg7plugins.xg7lobby.events;
+package com.xg7plugins.xg7lobby.events.air_events;
 
 import com.cryptomorin.xseries.XSound;
-import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
-import com.xg7plugins.tasks.CooldownManager;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;

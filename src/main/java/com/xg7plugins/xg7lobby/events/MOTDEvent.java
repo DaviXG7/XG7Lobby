@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class MOTDEvent implements Listener {
     @Override
     public boolean isEnabled() {
-        System.out.println("MOTD Enabled " + XG7Lobby.getInstance().getConfig("config").get("motd.enabled", Boolean.class).orElse(false));
         return XG7Lobby.getInstance().getConfig("config").get("motd.enabled", Boolean.class).orElse(false);
     }
 

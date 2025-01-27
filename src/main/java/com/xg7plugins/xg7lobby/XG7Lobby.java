@@ -16,20 +16,23 @@ import com.xg7plugins.xg7lobby.commands.GamemodeCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 import com.xg7plugins.xg7lobby.events.*;
+import com.xg7plugins.xg7lobby.events.air_events.FlyEvent;
+import com.xg7plugins.xg7lobby.events.air_events.LaunchPadEvent;
+import com.xg7plugins.xg7lobby.events.air_events.MultiJumpEvent;
+import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
+import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
+import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
-import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
-import com.xg7plugins.xg7lobby.lobby.player.PlayerDAO;
-import com.xg7plugins.xg7lobby.lobby.scores.loaders.ScoreboardLoader;
-import com.xg7plugins.xg7lobby.lobby.scores.loaders.TablistLoader;
+import com.xg7plugins.xg7lobby.lobby.player.*;
+import com.xg7plugins.xg7lobby.lobby.scores.*;
 import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
 import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
 import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @PluginConfigurations(
@@ -119,12 +122,16 @@ public final class XG7Lobby extends Plugin {
 
         ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
         TablistLoader tablistLoader = new TablistLoader(config);
+        BossBarLoader bossBarLoader = new BossBarLoader(config);
+        ActionBarLoader actionBarLoader = new ActionBarLoader(config);
+        XPBarLoader xpBarLoader = new XPBarLoader(config);
 
-        if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled()) {
+
+        if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled() || bossBarLoader.isEnabled() || actionBarLoader.isEnabled() || xpBarLoader.isEnabled()) {
             XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
         }
 
-        return new Score[]{scoreboardLoader.load(), tablistLoader.load()};
+        return new Score[]{scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load()};
     }
 
     @Override
