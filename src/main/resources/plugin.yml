@@ -45,3 +45,4 @@ permissions:
     children:
       xg7lobby.chat.swear: true
       xg7lobby.chat.ignore-lock: true
+      xg7lobby.chat.spam: true

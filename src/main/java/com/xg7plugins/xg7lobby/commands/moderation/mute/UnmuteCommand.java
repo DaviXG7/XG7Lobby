@@ -46,6 +46,7 @@ public class UnmuteCommand implements ICommand {
 
         lobbyPlayer.setMuted(false);
         lobbyPlayer.setTimeForUnmute(0);
+        lobbyPlayer.update().join();
 
         if (target.isOnline()) {
             Text.formatLang(XG7Plugins.getInstance(), target.getPlayer(), "commands.unmute.on-unmute").thenAccept(text -> text.send(target.getPlayer()));

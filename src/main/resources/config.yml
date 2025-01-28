@@ -397,7 +397,7 @@ warn-ban-by-ip: false
 #                             CHAT                               #
 ##################################################################
 
-ignore-adm-for-lock-chat: true
+lock-chat-only-on-lobby: false
 
 anti-swearing:
   enabled: true
@@ -412,6 +412,12 @@ anti-swearing:
   #Put -1 to disable infraction
   words-tolerance: 5
 
+  tolerance-warn-level: 1
+
+  time-for-decrement-tolerance: 1m
+
+
+
 block-commands:
   enabled: true
 
@@ -420,7 +426,7 @@ block-commands:
   #If you don't have permission and
   #if you send some these commands
   #will block
-  commands-blocked:
+  blocked-commands:
     - /pl
     - /plugins
     - /?
@@ -436,24 +442,22 @@ block-commands:
 anti-spam:
   enabled: true
 
+  anti-spam-only-on-lobby: false
+
   message-cannot-be-the-same: true
 
   #To send other message (IN SECONDS)
   cooldown: 0.5
 
-  #Remove one spam from each player's list (IN SECONDS)
-  spam-cooldown: 2
+  #Messages tolerance to infraction
+  #Put -1 to disable infraction
+  spam-tolerance: 10
+  time-for-decrement-spam-tolerance: 2s
 
-  #Messages tolerance
-  tolerance: 10
-
-  warn-tolerance: 5
+  send-warning-on-message: 5
 
   mute-on-spam-limit: true
 
-  #To indeterminate and avoid errors, put "indeterminate"
   unmute-delay: "30m"
 
-  warn-on-spam-limit: true
   spam-warn-level: 2
-  warning: "&cMuted by spam"

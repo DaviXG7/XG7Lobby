@@ -20,9 +20,10 @@ public class MutedChat implements Listener {
 
         if (lobbyPlayer.isMuted()) {
 
-            if (System.currentTimeMillis() >= lobbyPlayer.getTimeForUnmute()) {
+            if (System.currentTimeMillis() >= lobbyPlayer.getTimeForUnmute() && lobbyPlayer.getTimeForUnmute() != 0) {
                 lobbyPlayer.setMuted(false);
                 lobbyPlayer.setTimeForUnmute(0);
+                lobbyPlayer.update().join();
                 return;
             }
 
@@ -43,5 +44,6 @@ public class MutedChat implements Listener {
             event.setCancelled(true);
             return;
         }
+
     }
 }

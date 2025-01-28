@@ -7,18 +7,29 @@ import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
+import com.xg7plugins.events.PacketListener;
 import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.BuildCommand;
 import com.xg7plugins.xg7lobby.commands.FlyCommand;
 import com.xg7plugins.xg7lobby.commands.GamemodeCommand;
+import com.xg7plugins.xg7lobby.commands.LockChatCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
+import com.xg7plugins.xg7lobby.commands.moderation.KickCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.WarnCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.ban.BanCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.ban.BanIPCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.ban.UnbanCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.ban.UnbanIPCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.mute.MuteCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.mute.UnmuteCommand;
 import com.xg7plugins.xg7lobby.events.*;
 import com.xg7plugins.xg7lobby.events.air_events.FlyEvent;
 import com.xg7plugins.xg7lobby.events.air_events.LaunchPadEvent;
 import com.xg7plugins.xg7lobby.events.air_events.MultiJumpEvent;
+import com.xg7plugins.xg7lobby.events.chat_events.*;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
@@ -97,12 +108,17 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand()};
     }
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents()};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), XG7Plugins.getMinecraftVersion() > 14 ? new CommandAntiTab() : null};
+    }
+
+    @Override
+    public PacketListener[] loadPacketEvents() {
+        return new PacketListener[]{XG7Plugins.getMinecraftVersion() < 14 ? new CommandAntiTabOlder() : null};
     }
 
     @Override

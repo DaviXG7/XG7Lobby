@@ -9,6 +9,7 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.Warn;
+import org.apache.logging.log4j.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -28,7 +29,7 @@ public class KickCommand implements ICommand {
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
-        String reason = args.len() > 1 ? args.get(1, String.class) : null;
+        String reason = args.len() > 1 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 1, args.len())), ' ') : null;
 
         if (target == null || !target.hasPlayedBefore()) {
             Text.formatLang(XG7Lobby.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));

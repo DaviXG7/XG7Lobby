@@ -10,11 +10,13 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.Warn;
+import org.apache.logging.log4j.util.Strings;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,14 +30,14 @@ public class BanIPCommand implements ICommand {
 
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
-        if (args.len() != 2) {
+        if (args.len() < 2) {
             syntaxError(sender, "banip <player> <level> [reason]");
             return;
         }
 
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
         long time = args.get(1, String.class).equals("forever") ? 0 : Text.convertToMilliseconds(XG7Lobby.getInstance(), args.get(1, String.class));
-        String reason = args.len() > 2 ? args.get(2, String.class) : null;
+        String reason = args.len() > 2 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 2, args.len())), ' ') : null;
 
         if (target == null || !target.hasPlayedBefore()) {
             Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
@@ -77,7 +79,6 @@ public class BanIPCommand implements ICommand {
         long finalSeconds = seconds;
 
         target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.ban.on-ban").join().replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).getText());
-
 
         Text.formatLang(XG7Lobby.getInstance(), sender, "commands.ban.on-ban-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
 

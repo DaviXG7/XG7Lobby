@@ -11,16 +11,14 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.Warn;
+import org.apache.logging.log4j.util.Strings;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Command(
@@ -39,14 +37,14 @@ public class WarnCommand implements ICommand {
 
     public void onCommand(CommandSender sender, CommandArgs args) {
 
-        if (args.len() != 3) {
+        if (args.len() < 3) {
             syntaxError(sender, "warn <player> <level> <reason>");
             return;
         }
 
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
         int level = args.get(1, int.class);
-        String reason = args.get(2, String.class);
+        String reason = Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 2, args.len())), ' ');
 
         Config config = XG7Lobby.getInstance().getConfig("config");
 
@@ -62,8 +60,8 @@ public class WarnCommand implements ICommand {
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(target.getUniqueId(), false).join();
 
-        if (!config.get("warn-admin",Boolean.class).orElse(false) && !target.isOp()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+        if (!config.get("warn-admin",Boolean.class).orElse(false) && target.isOp()) {
+            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.warn-admin").thenAccept(text -> text.send(sender));
             return;
         }
 

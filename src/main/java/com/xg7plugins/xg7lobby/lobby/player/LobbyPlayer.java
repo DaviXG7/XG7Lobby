@@ -114,6 +114,8 @@ public class LobbyPlayer implements Entity {
     public void addInfraction(Warn warn) {
         infractions.add(warn);
 
+        update().join();
+
         Config config = XG7Lobby.getInstance().getConfig("config");
 
         OfflinePlayer target = getOfflinePlayer();
@@ -130,20 +132,24 @@ public class LobbyPlayer implements Entity {
 
             levels.stream().filter(map -> map.get("level").equals(warn.getLevel())).findFirst().ifPresent(map -> {
 
-                int warnsToBan = (int) map.get("warns-to-ban");
-                int warnsToKick = (int) map.get("warns-to-kick");
-                int warnsToMute = (int) map.get("warns-to-mute");
+                int warnsToBan = (int) map.get("min-to-ban");
+                int warnsToKick = (int) map.get("min-to-kick");
+                int warnsToMute = (int) map.get("min-to-mute");
+                Bukkit.getScheduler().runTask(XG7Lobby.getInstance(), () -> {
+                    if ((warnCount >= warnsToBan && warnsToBan > 0) || (warnCount >= totalWarnsToBan && totalWarnsToBan > 0)) {
+                        if (banIp && target.isOnline())
+                            Bukkit.getBanList(BanList.Type.IP).addBan(getPlayer().getAddress().getAddress().getHostAddress(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.ban").join().getText(), null, null);
+                        else
+                            Bukkit.getBanList(BanList.Type.NAME).addBan(getPlayer().getName(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-ban").join().replace("[REASON]", warn.getReason()).getText(), null, null);
 
-                if ((warnCount >= warnsToBan && warnsToBan > 0) || (warnCount >= totalWarnsToBan && totalWarnsToBan > 0)) {
-                    if (banIp && target.isOnline()) Bukkit.getBanList(BanList.Type.IP).addBan(getPlayer().getAddress().getAddress().getHostAddress(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.ban").join().getText(), null, null);
-                    else Bukkit.getBanList(BanList.Type.NAME).addBan(getPlayer().getName(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-ban").join().replace("[REASON]", warn.getReason()).getText(), null, null);
+                        if (target.isOnline())
+                            target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-ban").join().getText());
+                    }
 
-                    if (target.isOnline()) target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-ban").join().getText());
-                }
-
-                if ((warnCount >= warnsToKick && warnsToKick > 0) || (warnCount >= totalWarnsToKick && totalWarnsToKick > 0) && target.isOnline()) {
-                    getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-kick").join().replace("[REASON]", warn.getReason()).getText());
-                }
+                    if ((warnCount >= warnsToKick && warnsToKick > 0) || (warnCount >= totalWarnsToKick && totalWarnsToKick > 0) && target.isOnline()) {
+                        getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn-kick").join().replace("[REASON]", warn.getReason()).getText());
+                    }
+                });
                 if ((warnCount >= warnsToMute && warnsToMute > 0) || (warnCount >= totalWarnsToMute && totalWarnsToMute > 0)) {
                     setMuted(true);
                     if(config.get("warn-time-to-unmute",String.class).orElse("").toLowerCase().equals("forever")) setTimeForUnmute(config.getTime("warn-time-to-unmute").orElse(0L));
@@ -152,6 +158,10 @@ public class LobbyPlayer implements Entity {
                 }
             });
         });
+    }
+
+    public CompletableFuture<Boolean> update() {
+        return XG7Lobby.getInstance().getPlayerDAO().update(this);
     }
 
 }

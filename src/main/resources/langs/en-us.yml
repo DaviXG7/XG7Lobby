@@ -113,9 +113,17 @@ player-prohibitions:
 
 chat:
 
-  chat-hide: "&7Chat hidden."
-  chat-show: "&7Chat shown."
+  on-lock: "&cChat locked."
+  on-unlock: "&aChat unlocked."
+
+  locked: "&cYou can't send messages. The chat is locked."
 
   swear: "&cYou can't swear in the chat."
 
   muted: "&cYou are muted. You can't send messages for [TIME]."
+
+  same-message: "&cYou can't send the same message twice."
+  message-cooldown: "&cYou can't send messages for another [SECONDS] seconds."
+  send-much-messages: "&cYou are sending messages too fast. Please slow down."
+
+  prohibited-command: "&cCommand not found."

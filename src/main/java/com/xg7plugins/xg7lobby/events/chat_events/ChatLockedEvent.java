@@ -1,0 +1,25 @@
+package com.xg7plugins.xg7lobby.events.chat_events;
+
+import com.xg7plugins.events.Listener;
+import com.xg7plugins.events.bukkitevents.EventHandler;
+import com.xg7plugins.utils.text.Text;
+import com.xg7plugins.xg7lobby.XG7Lobby;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+public class ChatLockedEvent implements Listener {
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        if (event.getPlayer().hasPermission("xg7lobby.chat.ignore-lock")) return;
+        if (XG7Lobby.getInstance().getServerInfo().isChatLocked()) {
+            if (XG7Lobby.getInstance().getConfig("config").get("lock-chat-only-on-lobby", Boolean.class).orElse(false) && !XG7Lobby.getInstance().isInWorldEnabled(event.getPlayer())) return;
+
+            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "chat.locked").thenAccept(text -> text.send(event.getPlayer()));
+            event.setCancelled(true);
+        }
+    }
+}

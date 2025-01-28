@@ -16,6 +16,7 @@ public class ServerInfo {
     private String name;
     private String address;
     private int port;
+    private transient boolean chatLocked;
 
     public ServerInfo(XG7Lobby plugin) {
         this.name = plugin.getConfig("config").get("lobby-server-name", String.class).orElse("lobby");

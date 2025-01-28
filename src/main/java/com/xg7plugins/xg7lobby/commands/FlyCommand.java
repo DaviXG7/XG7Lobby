@@ -65,7 +65,7 @@ public class FlyCommand implements ICommand {
                 XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), lobbyPlayer::fly);
                 Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
-            XG7Lobby.getInstance().getPlayerDAO().update(lobbyPlayer).join();
+            lobbyPlayer.update().join();
             if (finalIsOther) Text.formatLang(XG7Lobby.getInstance(), sender, "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("[PLAYER]", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();
