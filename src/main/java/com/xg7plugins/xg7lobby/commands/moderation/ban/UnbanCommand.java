@@ -7,10 +7,14 @@ import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.libs.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
+import com.xg7plugins.xg7lobby.XG7Lobby;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Command(
         name = "unban",
@@ -35,19 +39,19 @@ public class UnbanCommand implements ICommand {
         }
 
         if (!target.isBanned()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.unban.not-banned").thenAccept(text -> text.send(sender));
+            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unban.not-banned").thenAccept(text -> text.send(sender));
             return;
         }
 
         XG7Plugins.getInstance().getServer().getBanList(org.bukkit.BanList.Type.NAME).pardon(target.getName());
 
-        Text.formatLang(XG7Plugins.getInstance(), sender, "commands.unban.on-unban").thenAccept(text -> text.replace("[PLAYER]", target.getName()).send(sender));
+        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unban.on-unban").thenAccept(text -> text.replace("[PLAYER]", target.getName()).send(sender));
 
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, CommandArgs args) {
-        return ICommand.super.onTabComplete(sender, args);
+        return args.len() == 1 ? Bukkit.getBanList(org.bukkit.BanList.Type.NAME).getBanEntries().stream().map(banEntry -> banEntry.getTarget()).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     @Override

@@ -1,0 +1,41 @@
+
+id: "games"
+
+type: "NORMAL"
+
+title: "&a&lGames"
+
+rows: 3
+
+items:
+
+  survival:
+
+    material: DIAMOND_SWORD
+    name: "&aSurvival"
+    lore:
+      - "&7Click to join the survival server!"
+    amount: 1
+    glow: true
+    actions:
+      - "[COMMAND] /server survival"
+      - "[CLOSE]"
+
+  bedwars:
+
+      material: RED_BED
+      name: "&aBedwars"
+      lore:
+        - "&7Click to join the bedwars server!"
+      amount: 1
+      glow: true
+      actions:
+        - "[COMMAND] /server bedwars"
+        - "[CLOSE]"
+
+fill-material: GRAY_STAINED_GLASS_PANE
+
+grid:
+  - ["",        "","","","",    "","","",""]
+  - ["","survival","","","bedwars","","","",""]
+  - ["",        "","","","",     "","","",""]

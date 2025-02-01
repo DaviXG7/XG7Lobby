@@ -39,7 +39,7 @@ public class MuteCommand implements ICommand {
         long time = args.get(1, String.class).equals("forever") ? 0 : Text.convertToMilliseconds(XG7Lobby.getInstance(), args.get(1, String.class));
         String reason = args.len() > 2 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 2, args.len())), ' ') : null;
 
-        if (target == null || !target.hasPlayedBefore()) {
+        if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
             Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
@@ -73,10 +73,10 @@ public class MuteCommand implements ICommand {
         long finalMinutes = minutes;
         long finalSeconds = seconds;
         if (target.isOnline()) {
-            Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.mute.on-mute").thenAccept(text -> text.replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(lobbyPlayer.getPlayer()));
+            Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.mute.on-mute").thenAccept(text -> text.replace("[REASON]", reason != null ? reason : "").replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(lobbyPlayer.getPlayer()));
         }
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.mute.on-mute-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
+        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.mute.on-mute-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).replace("[REASON]", reason != null ? reason : "").replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
 
         if (reason != null) {
             lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("mute-warn-level", Integer.class).orElse(0), reason));

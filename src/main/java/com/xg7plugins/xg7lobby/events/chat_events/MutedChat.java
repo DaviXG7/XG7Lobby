@@ -27,7 +27,7 @@ public class MutedChat implements Listener {
                 return;
             }
 
-            long seconds = lobbyPlayer.getTimeForUnmute() / 1000;
+            long seconds = (lobbyPlayer.getTimeForUnmute() - System.currentTimeMillis()) / 1000;
             long minutes = seconds / 60;
             long hours = minutes / 60;
             long days = hours / 24;

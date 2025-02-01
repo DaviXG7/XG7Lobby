@@ -10,6 +10,8 @@ main-lang: en-us
 
 chat-locked: false
 
+menus-enabled: true
+
 ##################################################################
 #                              SQL                               #
 ##################################################################
@@ -402,8 +404,7 @@ lock-chat-only-on-lobby: false
 anti-swearing:
   enabled: true
 
-  blocked-words:
-    - ["badword1", "badword2", "badword3"]
+  blocked-words: ["badword1", "badword2", "badword3"]
 
   replacement: "*"
 
@@ -445,16 +446,14 @@ anti-spam:
   anti-spam-only-on-lobby: false
 
   message-cannot-be-the-same: true
-
-  #To send other message (IN SECONDS)
-  cooldown: 0.5
+  cooldown: "1s 500ms"
 
   #Messages tolerance to infraction
   #Put -1 to disable infraction
-  spam-tolerance: 10
-  time-for-decrement-spam-tolerance: 2s
+  spam-tolerance: 5
+  time-for-decrement-spam-tolerance: 10s
 
-  send-warning-on-message: 5
+  send-warning-on-message: 3
 
   mute-on-spam-limit: true
 

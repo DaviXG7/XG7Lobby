@@ -11,14 +11,17 @@ import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.Warn;
 import org.apache.logging.log4j.util.Strings;
+import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Command(
         name = "ban",
@@ -30,7 +33,7 @@ public class BanCommand implements ICommand {
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         if (args.len() < 2) {
-            syntaxError(sender, "ban <player> <level> [reason]");
+            syntaxError(sender, "ban <player> <time> [reason]");
             return;
         }
 
@@ -38,7 +41,7 @@ public class BanCommand implements ICommand {
         long time = args.get(1, String.class).equals("forever") ? 0 : Text.convertToMilliseconds(XG7Lobby.getInstance(), args.get(1, String.class));
         String reason = args.len() > 2 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 2, args.len())), ' ') : null;
 
-        if (target == null || !target.hasPlayedBefore()) {
+        if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
             Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
@@ -84,7 +87,14 @@ public class BanCommand implements ICommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, CommandArgs args) {
-        return ICommand.super.onTabComplete(sender, args);
+        switch (args.len()) {
+            case 1:
+                return Bukkit.getOnlinePlayers().stream().map(OfflinePlayer::getName).collect(Collectors.toList());
+            case 2:
+                return Collections.singletonList("reason");
+            default:
+                return Collections.emptyList();
+        }
     }
 
     @Override

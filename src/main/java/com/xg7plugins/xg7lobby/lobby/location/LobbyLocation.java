@@ -18,7 +18,7 @@ import java.io.IOException;
 @Setter
 @AllArgsConstructor
 @Table(name = "lobbies")
-public class LobbyLocation implements Entity {
+public class LobbyLocation implements Entity<LobbyLocation> {
     @Pkey
     private String id;
     private ServerInfo server;
@@ -47,5 +47,10 @@ public class LobbyLocation implements Entity {
         LobbyLocation that = (LobbyLocation) lobbyLocation;
 
         return id.equals(that.id);
+    }
+
+    @Override
+    public boolean equals(LobbyLocation lobbyLocation) {
+        return id.equals(lobbyLocation.getId());
     }
 }

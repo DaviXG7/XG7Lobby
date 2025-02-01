@@ -1,11 +1,14 @@
 package com.xg7plugins.xg7lobby.events.defaults;
 
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
 
 import com.xg7plugins.events.bukkitevents.EventHandler;
+import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.events.LobbyEvent;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -14,6 +17,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.List;
 
 public class LoginAndLogoutEvents implements LobbyEvent {
     @Override
@@ -90,6 +95,11 @@ public class LoginAndLogoutEvents implements LobbyEvent {
             });
 
         }
+
+        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+        if (menu != null) menu.open(player);
+
         player.setMaxHealth(config.get("hearts", Double.class).orElse(10D) * 2);
         player.setFoodLevel(config.get("hunger", Integer.class).orElse(10) * 2);
         if (config.get("on-join.heal", Boolean.class).orElse(true)) player.setHealth(player.getMaxHealth());
@@ -100,6 +110,12 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
     @Override
     public void onWorldLeave(Player player, World newWorld) {
+        player.closeInventory();
+        if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
+            player.getInventory().clear();
+            XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+        }
+
         player.setMaxHealth(20);
         player.setHealth(20);
         player.getInventory().clear();

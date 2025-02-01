@@ -1,0 +1,63 @@
+type: SELECTOR
+
+id: "selector"
+
+items:
+
+  games:
+
+    material: COMPASS
+    name: "&aGames"
+    lore:
+      - "&7Click to view the games menu!"
+    amount: 1
+    glow: true
+    actions:
+      - "[OPEN] games"
+      - "[CLOSE]"
+
+  profile:
+
+      material: THIS_PLAYER
+      name: "&aProfile"
+      lore:
+        - "&7Click to view your profile!"
+      amount: 1
+      glow: true
+      actions:
+        - "[OPEN] profile"
+        - "[CLOSE]"
+
+  hidePlayers:
+
+    material: GREEN_DYE
+
+    conditional: "[IF: %xg7lobby_player_hiding%]"
+    if-false: "showPlayers"
+
+    name: "&aHide Players"
+    lore:
+      - "&7Click to hide players!"
+    amount: 1
+    glow: true
+    actions:
+      - "[HIDE_PLAYERS]"
+      - "[SWAP] hidePlayers, showPlayers"
+
+  showPlayers:
+      material: GRAY_DYE
+      name: "&cShow Players"
+      lore:
+        - "&7Click to show players!"
+      amount: 1
+      glow: true
+      actions:
+        - "[SHOW_PLAYERS]"
+        - "[SWAP] showPlayers, hidePlayers"
+
+
+
+
+
+grid:
+  - ["games","profile","","","","","","","hidePlayers"]

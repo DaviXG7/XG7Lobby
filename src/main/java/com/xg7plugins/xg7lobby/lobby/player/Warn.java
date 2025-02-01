@@ -7,13 +7,15 @@ import com.xg7plugins.data.database.entity.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @Table(name = "warns")
-public class Warn implements Entity {
+@ToString
+public class Warn implements Entity<Warn> {
 
     @Pkey
     private UUID id;
@@ -31,5 +33,10 @@ public class Warn implements Entity {
         this.level = level;
         this.reason = reason;
         this.date = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean equals(Warn warn) {
+        return warn.getId().equals(this.id) && warn.getPlayerUUID().equals(this.playerUUID);
     }
 }

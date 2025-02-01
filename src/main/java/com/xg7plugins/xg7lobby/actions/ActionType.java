@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XEntityType;
 import com.cryptomorin.xseries.XPotion;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.particles.XParticle;
+import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
@@ -158,8 +159,29 @@ public enum ActionType {
 
     }),
     CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage)),
-    OPEN(false, (player, args) -> {}),
-    CLOSE(false, (player, args) -> {}),
+    OPEN(false, (player, args) -> {
+
+        BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
+
+        if (menu == null) {
+            throw new ActionException("OPEN", "The menu with id: " + args[0] + " doesn't exist.");
+        }
+
+        menu.open(player);
+
+    }),
+    CLOSE(false, (player, args) -> {
+        player.closeInventory();
+    }),
+    SWAP(false, (player, args) -> {
+        BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
+
+        if (menu == null) {
+            throw new ActionException("SWAP", "The menu with id: " + args[0] + " doesn't exist.");
+        }
+
+        menu.open(player);
+    }),
     HIDE_PLAYERS(false, (player, args) -> {}),
     SHOW_PLAYERS(false, (player, args) -> {}),
     HIDE_CHAT(false, (player, args) -> {}),

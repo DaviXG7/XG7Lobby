@@ -6,6 +6,7 @@ import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.libs.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
+import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -32,7 +33,7 @@ public class UnmuteCommand implements ICommand {
 
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
 
-        if (target == null || !target.hasPlayedBefore()) {
+        if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
             Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
@@ -40,7 +41,7 @@ public class UnmuteCommand implements ICommand {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(target.getUniqueId(), false).join();
 
         if (!lobbyPlayer.isMuted()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.unmute.not-muted").thenAccept(text -> text.send(sender));
+            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unmute.not-muted").thenAccept(text -> text.send(sender));
             return;
         }
 
@@ -49,10 +50,10 @@ public class UnmuteCommand implements ICommand {
         lobbyPlayer.update().join();
 
         if (target.isOnline()) {
-            Text.formatLang(XG7Plugins.getInstance(), target.getPlayer(), "commands.unmute.on-unmute").thenAccept(text -> text.send(target.getPlayer()));
+            Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
         }
 
-        Text.formatLang(XG7Plugins.getInstance(), sender, "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(sender));
+        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(sender));
     }
 
     @Override

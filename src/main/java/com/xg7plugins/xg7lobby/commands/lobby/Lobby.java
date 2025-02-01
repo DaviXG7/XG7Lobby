@@ -60,7 +60,7 @@ public class Lobby implements ICommand {
             }
             OfflinePlayer target = args.get(1, Player.class);
 
-            if (target == null || !target.hasPlayedBefore()) {
+            if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
                 Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
                 return;
             }

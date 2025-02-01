@@ -24,6 +24,10 @@ commands:
 
     warn-admin: "&cYou can't warn an admin."
 
+    invalid-id: "Invalid warn id!"
+    warn-not-found: "Warn not found!"
+    on-pardon: "&aWarn with id [ID] pardoned successfully."
+
     on-warn: "&cYou have been warned by an admin. Reason: [REASON]."
     on-warn-sender: "&aPlayer [PLAYER] has been warned successfully by [REASON]."
 

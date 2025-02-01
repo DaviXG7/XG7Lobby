@@ -41,14 +41,12 @@ public class AntiSwear implements Listener {
 
         String message = event.getMessage().toLowerCase();
 
-        for (String word : swearWords) message = message.replace(word, Strings.repeat(config.get("anti-swearing.replacement", String.class).orElse("*"), word.length()));
-
-
         for (String word : swearWords) {
             if (message.contains(word)) {
                 if (dontSend) {
                     event.setCancelled(true);
                     Text.formatLang(XG7Lobby.getInstance(), player, "chat.swear").thenAccept(text -> text.send(player));
+                    return;
                 }
 
                 if (config.get("anti-swearing.words-tolerance", Integer.class).orElse(0) > 0) {
@@ -56,27 +54,25 @@ public class AntiSwear implements Listener {
                     tolerance.put(player.getName(), tolerance.get(player.getName()) + 1);
 
                     if (tolerance.get(player.getName()) >= config.get("anti-swearing.words-tolerance", Integer.class).orElse(0)) {
+                        event.setCancelled(true);
                         LobbyPlayer.cast(player.getUniqueId(), true).thenAccept(lobbyPlayer -> lobbyPlayer.addInfraction(new Warn(player.getUniqueId(), config.get("anti-swearing.tolerance-warn-level", Integer.class).orElse(1), "Swearing")));
                         return;
                     }
 
                     Bukkit.getScheduler().runTaskLater(XG7Lobby.getInstance(), () -> {
                         tolerance.put(player.getName(), tolerance.get(player.getName()) - 1);
-                        if (tolerance.get(player.getName()) == 0) {
-                            tolerance.remove(player.getName());
-                        }
+                        if (tolerance.get(player.getName()) == 0) tolerance.remove(player.getName());
+
                     }, TaskManager.convertMillisToTicks(config.getTime("anti-swearing.time-for-decrement-tolerance").orElse(5000L)));
                 }
-                return;
+                break;
             }
         }
 
-
-
-
-
-
-
+        for (String word : swearWords) {
+            message = message.replace(word, Strings.repeat(config.get("anti-swearing.replacement", String.class).orElse("*"), word.length()));
+        }
+        event.setMessage(message);
 
     }
 }

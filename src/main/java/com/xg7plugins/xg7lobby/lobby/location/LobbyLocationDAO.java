@@ -109,7 +109,8 @@ public class LobbyLocationDAO implements DAO<String, List<LobbyLocation>> {
                 try {
                     Transaction.update(XG7Lobby.getInstance(), location).onError(Throwable::printStackTrace).waitForResult();
                     lobbyManager.getLobbyLocationCache().put(location.getId(), location);
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                         InstantiationException e) {
                     throw new RuntimeException(e);
                 }
             }

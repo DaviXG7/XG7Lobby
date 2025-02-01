@@ -8,6 +8,7 @@ import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.PacketListener;
+import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
@@ -33,6 +34,7 @@ import com.xg7plugins.xg7lobby.events.chat_events.*;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
+import com.xg7plugins.xg7lobby.inventories.InventoryManager;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
@@ -69,6 +71,7 @@ public final class XG7Lobby extends Plugin {
     private LobbyManager lobbyManager;
     private final PlayerDAO playerDAO;
     private final ServerInfo serverInfo;
+    private InventoryManager inventoryManager;
 
 
     public XG7Lobby() {
@@ -81,6 +84,7 @@ public final class XG7Lobby extends Plugin {
     public void onEnable() {
         super.onEnable();
         lobbyManager = new LobbyManager(this);
+        inventoryManager = new InventoryManager(this, "games", "profile", "selector");
 
         getLog().loading("Loading lobbies");
         this.lobbyManager.load();
@@ -124,6 +128,11 @@ public final class XG7Lobby extends Plugin {
     @Override
     public Task[] loadRepeatingTasks() {
         return new Task[]{getConfig("config").get("auto-broadcast.enabled", Boolean.class).orElse(false) ? new AutoBroadcast() : null, getConfig("config").contains("effects") ? new Effects() : null, new WorldCycles()};
+    }
+
+    @Override
+    public BaseMenu[] loadMenus() {
+        return inventoryManager.getInventories().toArray(new BaseMenu[0]);
     }
 
     @Override

@@ -1,0 +1,82 @@
+
+id: "profile"
+
+type: "NORMAL"
+
+title: "&a&lProfile"
+
+rows: 5
+
+items:
+
+  icon:
+
+    material: THIS_PLAYER
+    name: "&aProfile"
+    lore:
+      - "&7Click to view your profile!"
+    amount: 1
+    glow: true
+    actions:
+      - "[CLOSE]"
+
+  tpLobby:
+
+    material: ENDER_PEARL
+    name: "&aLobby"
+    lore:
+      - "&7Click to teleport to the lobby!"
+    amount: 1
+    glow: true
+    actions:
+      - "[COMMAND] /lobby"
+      - "[CLOSE]"
+
+  hidePlayers:
+
+    material: GREEN_DYE
+
+    conditional: "[IF: %xg7lobby_player_hiding%]"
+    if-false: "showPlayers"
+
+    name: "&aHide Players"
+    lore:
+      - "&7Click to hide players!"
+    amount: 1
+    glow: true
+    actions:
+      - "[HIDE_PLAYERS]"
+      - "[SWAP] hidePlayers, showPlayers"
+
+  showPlayers:
+
+    material: GRAY_DYE
+    name: "&cShow Players"
+    lore:
+      - "&7Click to show players!"
+    amount: 1
+    glow: true
+    actions:
+      - "[SHOW_PLAYERS]"
+      - "[SWAP] hidePlayers, showPlayers"
+
+  langs:
+
+      material: BOOK
+      name: "&aLanguages"
+      lore:
+        - "&7Click to change your language!"
+      amount: 1
+      glow: true
+      actions:
+        - "[COMMAND] /lang"
+        - "[CLOSE]"
+
+
+
+grid:
+  - ["","","","","","","","",""]
+  - ["","","","","icon","","","",""]
+  - ["","","","","","","","",""]
+  - ["","","tpLobby","","hidePlayers","","langs","",""]
+  - ["","","","","","","","",""]

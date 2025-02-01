@@ -46,7 +46,7 @@ public class BuildCommand implements ICommand {
             isOther = true;
         }
         if (isOther) {
-            if (target == null || !target.hasPlayedBefore()) {
+            if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
                 Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
                 return;
             }

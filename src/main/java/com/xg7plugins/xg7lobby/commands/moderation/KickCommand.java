@@ -31,7 +31,7 @@ public class KickCommand implements ICommand {
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
         String reason = args.len() > 1 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 1, args.len())), ' ') : null;
 
-        if (target == null || !target.hasPlayedBefore()) {
+        if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
             Text.formatLang(XG7Lobby.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
@@ -46,11 +46,11 @@ public class KickCommand implements ICommand {
             return;
         }
 
-        target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.kick.on-kick").join().replace("[REASON]", reason).getText());
+        target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.kick.on-kick").join().replace("[REASON]", reason != null ? reason : "").getText());
 
         if (reason != null) {
             LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {
-                lobbyPlayer.getInfractions().add(new Warn(target.getUniqueId(), XG7Lobby.getInstance().getConfig("config").get("kick-warn-level", Integer.class).orElse(0),  reason));
+                lobbyPlayer.getInfractions().add(new Warn(target.getUniqueId(), XG7Lobby.getInstance().getConfig("config").get("kick-warn-level", Integer.class).orElse(0),  reason != null ? reason : ""));
             });
         }
     }
