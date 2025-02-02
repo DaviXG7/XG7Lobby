@@ -49,7 +49,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
                             !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())
                                     && messageOnlyInLobby
                     ) return;
-                    Text.formatLang(XG7Lobby.getInstance(), player, firstJoinEnabled && lobbyPlayer.isFirstJoin() ? "messages.on-first-join" : "messages.on-join").join()
+                    Text.formatLang(XG7Lobby.getInstance(), p, firstJoinEnabled && lobbyPlayer.isFirstJoin() ? "messages.on-first-join" : "messages.on-join").join()
                             .replace("[PLAYER]", player.getName())
                             .send(p);
                 });
@@ -81,7 +81,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
                         !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())
                                 && messageOnlyInLobby
                 ) return;
-                Text.formatLang(XG7Lobby.getInstance(), player, "messages.on-quit").join()
+                Text.formatLang(XG7Lobby.getInstance(), p, "messages.on-quit").join()
                         .replace("[PLAYER]", player.getName())
                         .send(p);
             });
@@ -101,7 +101,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
         if (config.get("on-join.tp-to-lobby", Boolean.class).orElse(true)) {
 
-            XG7Lobby.getInstance().getLobbyManager().getALobbyByPlayer(player.getPlayer()).thenAccept(lobby -> {
+            XG7Lobby.getInstance().getLobbyManager().getRandomLobby().thenAccept(lobby -> {
                 if (lobby.getLocation() == null) {
                     Text.formatLang(XG7Lobby.getInstance(), player, "lobby.on-teleport." + (player.hasPermission("xg7lobby.command.setlobby") ? "on-error-doesnt-exist-adm" : "on-error-doesnt-exist"))
                             .join().send(player.getPlayer());

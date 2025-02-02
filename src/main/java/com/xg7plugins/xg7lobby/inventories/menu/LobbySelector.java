@@ -50,9 +50,6 @@ public class LobbySelector extends PlayerMenu {
             if (paths.containsKey(i)) {
                 String path = paths.get(i);
                 LobbyItem lobbyItem = this.items.get(path);
-                System.out.println("Condition: " + lobbyItem.getCondition().getFirst().toString());
-                System.out.println("Condition: " + lobbyItem.getCondition().getSecond());
-                System.out.println("Condition: " + lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).getTextFor(player))));
                 if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).getTextFor(player)))) {
                     items.add(lobbyItem.getItem().slot(i));
                     continue;

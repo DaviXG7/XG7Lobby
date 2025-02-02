@@ -94,6 +94,7 @@ public class Lobby implements ICommand {
         }
 
         Consumer<LobbyLocation> teleport = lobby -> {
+
             if (lobby == null) {
                 Text.formatLang(XG7Lobby.getInstance(), sender, "lobby.on-teleport.on-error-doesnt-exist" + (sender.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(sender));
                 return;
@@ -137,7 +138,7 @@ public class Lobby implements ICommand {
         };
 
         if (id == null) {
-            XG7Lobby.getInstance().getLobbyManager().getALobbyByPlayer(targetToTeleport).thenAccept(teleport);
+            XG7Lobby.getInstance().getLobbyManager().getRandomLobby().thenAccept(teleport);
             return;
         }
         XG7Lobby.getInstance().getLobbyManager().getLobby(id).thenAccept(teleport);
@@ -146,7 +147,7 @@ public class Lobby implements ICommand {
     @Override
     public List<String> onTabComplete(CommandSender sender, CommandArgs args) {
         if (args.len() == 1 && sender.hasPermission("xg7lobby.command.lobby.id")) {
-            return XG7Lobby.getInstance().getLobbyManager().getLobbyLocationCache().asMap().join().values().stream().map(LobbyLocation::getId).collect(Collectors.toList());
+            return XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(ob -> ob instanceof LobbyLocation).map(e -> ((LobbyLocation)e).getId()).collect(Collectors.toList());
         }
         if (args.len() == 2 && sender.hasPermission("xg7lobby.command.lobby.other")) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());

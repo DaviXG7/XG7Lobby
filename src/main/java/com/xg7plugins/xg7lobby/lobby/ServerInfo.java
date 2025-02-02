@@ -27,14 +27,20 @@ public class ServerInfo {
     private ServerInfo() {}
 
     public void connectPlayer(Player player) throws IOException {
+        System.out.println("Conectando jogador " + player.getName() + " ao servidor " + name);
         if (!XG7Plugins.isBungeecord()) {
+            System.out.println("O servidor não é bungeecord");
             return;
         }
+
+        System.out.println("O servidor é bungeecord");
 
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(byteArray);
         out.writeUTF("Connect");
         out.writeUTF(name);
+
+        System.out.println("Enviando mensagem para o servidor " + name);
         player.sendPluginMessage(XG7Lobby.getInstance(), "BungeeCord", byteArray.toByteArray());
     }
 

@@ -41,7 +41,6 @@ public class PlayerDAO implements DAO<UUID, LobbyPlayer> {
 
         return XG7Plugins.getInstance().getDatabaseManager().containsCachedEntity(XG7Lobby.getInstance(),uuid.toString()).thenComposeAsync(exists -> {
             if (exists) return XG7Plugins.getInstance().getDatabaseManager().getCachedEntity(XG7Lobby.getInstance(),uuid.toString());
-
             try {
                 return CompletableFuture.completedFuture(Query.selectFrom(XG7Lobby.getInstance(), LobbyPlayer.class, uuid).onError(Throwable::printStackTrace).waitForResult().get(LobbyPlayer.class));
             } catch (Exception e) {

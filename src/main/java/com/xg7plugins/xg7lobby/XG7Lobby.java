@@ -86,9 +86,6 @@ public final class XG7Lobby extends Plugin {
 
         if (XG7Plugins.isPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
 
-        getLog().loading("Loading lobbies");
-        this.lobbyManager.load();
-
         getLog().loading("Loading custom menus...");
         inventoryManager = new InventoryManager(this, "games", "profile", "selector");
 
@@ -98,11 +95,13 @@ public final class XG7Lobby extends Plugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         Bukkit.getOnlinePlayers().forEach(player -> {
+
+            LobbyPlayer.cast(player.getUniqueId(), false);
+
             LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
 
             if (menu != null) menu.open(player);
         });
-        // Plugin startup logic
 
     }
 
@@ -171,7 +170,6 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public void onDisable() {
-        lobbyManager.save();
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
                 player.getInventory().clear();

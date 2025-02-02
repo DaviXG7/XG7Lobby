@@ -95,10 +95,10 @@ lobby:
 
 messages:
 
-  on-join: "&b%player_name%&7, &ejoined the game!"
-  on-first-join: "&b%player_name%&7, &ejoined the game for the first time!"
+  on-join: "&b[PLAYER]&7, &ejoined the game!"
+  on-first-join: "&b[PLAYER]&7, &ejoined the game for the first time!"
 
-  on-quit: "&b%player_name%&7, &eleave the game!"
+  on-quit: "&b[PLAYER]&7, &eleave the game!"
 
 
 multi-jump-left: "[ACTION] &7You have &b[JUMPS] &7jumps left."

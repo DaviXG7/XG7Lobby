@@ -16,112 +16,43 @@ public class LobbyManager {
 
     private final LobbyLocationDAO dao;
     private final Config defaults;
-    @Getter
-    private final ObjectCache<String, LobbyLocation> lobbyLocationCache;
-    private static final TypeToken<List<LobbyLocation>> listType = new TypeToken<List<LobbyLocation>>() {};
-
 
     public LobbyManager(XG7Lobby lobby) {
 
         defaults = lobby.getConfig("config");
 
-        this.lobbyLocationCache = new ObjectCache<>(
-                lobby,
-                defaults.getTime("lobby-location-cache-expires").orElse(60 * 10 * 1000L),
-                false,
-                "lobby-cache",
-                false,
-                String.class,
-                LobbyLocation.class
-        );
-
-        this.dao = new LobbyLocationDAO(this);
+        this.dao = new LobbyLocationDAO();
     }
 
-    public void load() {
-        List<LobbyLocation> localLobbies = Arrays.asList(XG7Plugins.getInstance().getJsonManager()
-                .load(XG7Lobby.getInstance(), "lobbies.json", LobbyLocation[].class).join());
-
-        dao.add(localLobbies).thenAccept(existsSomeLobby -> {
-            if (!existsSomeLobby) return;
-
-
-            dao.update(localLobbies);
-        }).exceptionally(e -> {
-            e.printStackTrace();
-            return null;
-        });
-
-        save();
-    }
-
-    public void save() {
-        dao.getAll().thenAccept(lobbies -> {
-            System.out.println(lobbies);
-            List<LobbyLocation> localLobbies = lobbies
-                    .stream().filter(lobby -> lobby.getServer().equals(XG7Lobby.getInstance().getServerInfo()))
-                    .collect(Collectors.toList());
-            XG7Plugins.getInstance().getJsonManager().saveJson(XG7Lobby.getInstance(), "lobbies.json", localLobbies);
-        }).exceptionally(e -> {
-            e.printStackTrace();
-            return null;
-        });
-    }
     public CompletableFuture<Void> saveLobby(LobbyLocation lobbyLocation) {
-        if (!defaults.get("multi-lobby-locations", Boolean.class).orElse(false)) {
-            XG7Plugins.getInstance().getJsonManager().saveJson(XG7Lobby.getInstance(), "lobbies.json", Collections.singletonList(lobbyLocation));
-        }
-
         return CompletableFuture.runAsync(() -> {
-            List<LobbyLocation> localLobbies = XG7Plugins.getInstance().getJsonManager()
-                    .load(XG7Lobby.getInstance(), "lobbies.json", listType).join();
+            if (lobbyLocation == null) return;
+            if (XG7Plugins.getInstance().getDatabaseManager().getProcessor().exists(XG7Lobby.getInstance(), LobbyLocation.class, "id", lobbyLocation.getId()).join()) {
+                dao.update(lobbyLocation).join();
+                return;
+            }
+            dao.add(lobbyLocation).join();
 
-            if (!defaults.get("multi-lobby-locations", Boolean.class).orElse(false)) localLobbies.clear();
-            else localLobbies.remove(lobbyLocation);
-
-            localLobbies.add(lobbyLocation);
-            XG7Plugins.getInstance().getJsonManager().saveJson(XG7Lobby.getInstance(), "lobbies.json", localLobbies).join();
-
-            dao.add(Collections.singletonList(lobbyLocation)).thenAccept(exists -> {
-                if (exists) return;
-
-                dao.update(Collections.singletonList(lobbyLocation));
-            }).exceptionally(e -> {
-                throw new RuntimeException(e);
-            }).join();
         });
     }
 
     public CompletableFuture<LobbyLocation> getLobby(String id) {
-        return CompletableFuture.supplyAsync(() -> {
-            if (lobbyLocationCache.containsKey(id).join()) {
-                return lobbyLocationCache.get(id).join();
-            }
-            if (!defaults.get("multi-lobby-locations", Boolean.class).orElse(false)) {
-                return XG7Plugins.getInstance().getJsonManager()
-                        .load(XG7Lobby.getInstance(), "lobbies.json", LobbyLocation[].class)
-                        .thenApply(lobbies -> Arrays.asList(lobbies).get(0)).join();
-            }
-            return dao.get(id).thenApply(lobbies -> lobbies.get(0)).join();
-        });
+        return dao.get(id);
     }
-    public CompletableFuture<LobbyLocation> getALobbyByPlayer(Player player) {
+    public CompletableFuture<LobbyLocation> getRandomLobby() {
         return CompletableFuture.supplyAsync(() -> {
-            LobbyLocation[] localLobbies = XG7Plugins.getInstance().getJsonManager()
-                    .load(XG7Lobby.getInstance(), "lobbies.json", LobbyLocation[].class).join();
-            if (localLobbies.length == 0) return null;
+
+            List<LobbyLocation> lobbies = dao.getAll().join();
+
+            if (lobbies.isEmpty()) return null;
+
+            List<LobbyLocation> localLobbies = lobbies.stream().filter(location -> location.getServer().equals(XG7Lobby.getInstance().getServerInfo())).collect(Collectors.toList());
+
+            if (!localLobbies.isEmpty()) return localLobbies.get(new Random().nextInt(localLobbies.size()));
+
+            return lobbies.get(new Random().nextInt(lobbies.size()));
 
 
-            if (!defaults.get("multi-lobby-locations", Boolean.class).orElse(false)) {
-                return localLobbies[0];
-            }
-
-            for (LobbyLocation lobby : localLobbies) {
-                if (lobby.getLocation().getWorldName().equals(player.getWorld().getName())) {
-                    return lobby;
-                }
-            }
-            return localLobbies[(new Random().nextInt(localLobbies.length))];
         });
     }
 

@@ -5,6 +5,7 @@ import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 
 public class DefaultPlayerEvents implements Listener {
@@ -139,7 +141,7 @@ public class DefaultPlayerEvents implements Listener {
     )
     public void voidCheck(PlayerMoveEvent event) {
         if (event.getPlayer().getLocation().getY() < (XG7Plugins.getMinecraftVersion() > 17 ? -70 : -6)) {
-            XG7Lobby.getInstance().getLobbyManager().getALobbyByPlayer(event.getPlayer()).thenAccept(lobby -> {
+            XG7Lobby.getInstance().getLobbyManager().getRandomLobby().thenAccept(lobby -> {
                 if (lobby.getLocation() == null) {
                     XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation()));
                     return;
@@ -158,6 +160,26 @@ public class DefaultPlayerEvents implements Listener {
     public void onPortal(PlayerTeleportEvent event) {
         if (event.getTo() == null) return;
         event.setCancelled(!event.getFrom().getWorld().getEnvironment().equals(event.getTo().getWorld().getEnvironment()));
+    }
+
+    @EventHandler(isOnlyInWorld = true)
+    public void onDeath(PlayerDeathEvent event) {
+        event.getDrops().clear();
+    }
+
+    @EventHandler(isOnlyInWorld = true)
+    public void onRespawn(PlayerRespawnEvent event) {
+
+        Player player = event.getPlayer();
+
+        if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
+            player.getInventory().clear();
+            XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+        }
+
+        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+        if (menu != null) menu.open(player);
     }
 
 }

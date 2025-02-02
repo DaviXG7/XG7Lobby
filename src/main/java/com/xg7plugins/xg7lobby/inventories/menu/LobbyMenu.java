@@ -45,9 +45,6 @@ public class LobbyMenu extends Menu {
         this.items = items;
         this.fillItem = fillItem;
 
-        System.out.println("LobbyMenu created");
-        System.out.println(paths);
-        System.out.println(items);
     }
 
     @Override
@@ -65,7 +62,6 @@ public class LobbyMenu extends Menu {
                 String path = paths.get(i);
 
                 LobbyItem lobbyItem = this.items.get(path);
-
 
                 if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).getTextFor(player)))) {
                     items.add(lobbyItem.getItem().slot(i));

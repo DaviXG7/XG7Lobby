@@ -34,8 +34,6 @@ sql:
 #                         LOBBY SERVER                           #
 ##################################################################
 
-multi-lobby-locations: true
-
 lobby-server-name: "lobby1"
 
 lobby-location-cache-expires: 30m
