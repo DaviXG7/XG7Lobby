@@ -10,6 +10,7 @@ import com.xg7plugins.xg7lobby.inventories.menu.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.inventory.InventoryType;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +32,13 @@ public class LobbyInventoryBuilder {
         this.title = config.get("title", String.class).orElse("No title");
 
         List<List<String>> slots = (List<List<String>>) config.getConfig().getList("grid");
+
+        type = LobbyInventoryType.valueOf(config.get("type", String.class).orElse("NORMAL"));
+
+        if (type == LobbyInventoryType.SELECTOR) {
+            Collections.reverse(slots);
+        }
+
         if (slots != null) {
             int index = 0;
             for (List<String> rows : slots) {
@@ -44,7 +52,6 @@ public class LobbyInventoryBuilder {
                 }
             }
         }
-        type = LobbyInventoryType.valueOf(config.get("type", String.class).orElse("NORMAL"));
 
         ConfigurationSection section = config.getConfig().getConfigurationSection("items");
 

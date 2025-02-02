@@ -7,6 +7,7 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -151,7 +152,8 @@ public class DefaultPlayerEvents implements Listener {
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "cancel-portal-teleport", "false"}
+            enabledPath = {"config", "cancel-portal-teleport", "false"},
+            priority = EventPriority.LOW
     )
     public void onPortal(PlayerTeleportEvent event) {
         if (event.getTo() == null) return;

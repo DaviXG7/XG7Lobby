@@ -1,6 +1,9 @@
 type: SELECTOR
 
+#DON'T CHANGE THIS ID
 id: "selector"
+
+cooldown-to-use: 2s
 
 items:
 
@@ -14,7 +17,7 @@ items:
     glow: true
     actions:
       - "[OPEN] games"
-      - "[CLOSE]"
+      - "[CLOSE] "
 
   profile:
 
@@ -26,13 +29,13 @@ items:
       glow: true
       actions:
         - "[OPEN] profile"
-        - "[CLOSE]"
+        - "[CLOSE] "
 
   hidePlayers:
 
-    material: GREEN_DYE
+    material: LIME_DYE
 
-    conditional: "[IF: %xg7lobby_player_hiding%]"
+    conditional: "[IF_NOT: %xg7lobby_player_is_hiding%]"
     if-false: "showPlayers"
 
     name: "&aHide Players"
@@ -41,19 +44,20 @@ items:
     amount: 1
     glow: true
     actions:
-      - "[HIDE_PLAYERS]"
-      - "[SWAP] hidePlayers, showPlayers"
+      - "[HIDE_PLAYERS] "
+      - "[SWAP] showPlayers"
 
   showPlayers:
-      material: GRAY_DYE
-      name: "&cShow Players"
-      lore:
-        - "&7Click to show players!"
-      amount: 1
-      glow: true
-      actions:
-        - "[SHOW_PLAYERS]"
-        - "[SWAP] showPlayers, hidePlayers"
+
+    material: GRAY_DYE
+    name: "&cShow Players"
+    lore:
+      - "&7Click to show players!"
+    amount: 1
+    glow: true
+    actions:
+      - "[SHOW_PLAYERS] "
+      - "[SWAP] hidePlayers"
 
 
 

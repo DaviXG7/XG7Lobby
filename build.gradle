@@ -16,6 +16,9 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        url = 'https://repo.extendedclip.com/releases/'
+    }
     maven { url = uri("https://maven.elmakers.com/repository/") }
 }
 
@@ -23,9 +26,11 @@ dependencies {
 
     compileOnly "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
 
-
     compileOnly files("D:\\XG7Plugins\\plugins\\XG7Plugins\\XG7Plugins\\build\\libs\\XG7Plugins-1.0.jar")
     compileOnly 'org.projectlombok:lombok:1.18.34'
+
+    compileOnly "me.clip:placeholderapi:2.11.6"
+
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 

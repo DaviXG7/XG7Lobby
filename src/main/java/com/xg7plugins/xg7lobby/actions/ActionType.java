@@ -4,11 +4,19 @@ import com.cryptomorin.xseries.XEntityType;
 import com.cryptomorin.xseries.XPotion;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.particles.XParticle;
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
+import com.xg7plugins.libs.xg7menus.menus.gui.Menu;
+import com.xg7plugins.libs.xg7menus.menus.holders.MenuHolder;
+import com.xg7plugins.libs.xg7menus.menus.holders.PlayerMenuHolder;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbyItem;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbyMenu;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
+import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -19,6 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
@@ -159,7 +169,7 @@ public enum ActionType {
 
     }),
     CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage)),
-    OPEN(false, (player, args) -> {
+    OPEN(true, (player, args) -> {
 
         BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
 
@@ -173,19 +183,62 @@ public enum ActionType {
     CLOSE(false, (player, args) -> {
         player.closeInventory();
     }),
-    SWAP(false, (player, args) -> {
+    SWAP(true, (player, args) -> {
+
+        if (args.length != 3) {
+            throw new ActionException("SWAP", "Incorrectly amount of args: " + args.length + ". The right way to use is [SWAP] menuId, slot, itemPath.");
+        }
+
         BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
 
         if (menu == null) {
             throw new ActionException("SWAP", "The menu with id: " + args[0] + " doesn't exist.");
         }
 
-        menu.open(player);
+        int slot = Parser.INTEGER.convert(args[1]);
+
+        if (menu instanceof Menu) {
+
+            LobbyMenu lobbyMenu = (LobbyMenu) menu;
+
+            LobbyItem item = lobbyMenu.getItems().get(args[2]);
+
+            MenuHolder holder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
+
+            if (item == null) {
+                throw new ActionException("SWAP", "The item with path: " + args[1] + " doesn't exist in the menu with id: " + args[0]);
+            }
+
+            Menu.update(player, item.getItem().slot(slot), holder);
+            return;
+        }
+
+        if (menu instanceof LobbySelector) {
+            LobbySelector playerMenu = (LobbySelector) menu;
+
+            LobbyItem item = playerMenu.getItems().get(args[2]);
+
+            PlayerMenuHolder holder = XG7Plugins.getInstance().getMenuManager().getPlayerMenusMap().get(player.getUniqueId());
+
+            if (item == null) {
+                throw new ActionException("SWAP", "The item with path: " + args[1] + " doesn't exist in the menu with id: " + args[0]);
+            }
+
+            Menu.update(player, item.getItem().slot(slot), holder);
+        }
     }),
-    HIDE_PLAYERS(false, (player, args) -> {}),
-    SHOW_PLAYERS(false, (player, args) -> {}),
-    HIDE_CHAT(false, (player, args) -> {}),
-    SHOW_CHAT(false, (player, args) -> {});
+    REFRESH(false, (player, args) -> {
+        MenuHolder holder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
+        Menu.refresh(holder);
+    }),
+    HIDE_PLAYERS(false, (player, args) -> {
+        LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
+        lobbyPlayer.setPlayerHiding(true);
+    }),
+    SHOW_PLAYERS(false, (player, args) -> {
+        LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
+        lobbyPlayer.setPlayerHiding(false);
+    });
 
     private final boolean needArgs;
     private final BiConsumer<Player, String[]> action;

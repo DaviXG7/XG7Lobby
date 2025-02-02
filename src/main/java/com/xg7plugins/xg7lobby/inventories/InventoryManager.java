@@ -9,6 +9,7 @@ import com.xg7plugins.utils.Pair;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbyItem;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
+import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,21 +18,24 @@ import java.io.File;
 import java.util.*;
 
 public class InventoryManager {
-    private final HashMap<String, BaseMenu> inventories = new HashMap<>();
+    @Getter
+    private final HashMap<String, BaseMenu> inventoriesMap = new HashMap<>();
 
 
     public InventoryManager(XG7Lobby lobby, String... defaultInventories) {
 
         File folderFile = new File(lobby.getDataFolder(), "menus");
 
-        if (!folderFile.exists()) folderFile.mkdirs();
+        boolean existsBefore = folderFile.exists();
+
+        if (!existsBefore) folderFile.mkdirs();
 
         List<File> files = new ArrayList<>(Arrays.asList(folderFile.listFiles()));
         if (files == null) return;
 
         for (String inventory : defaultInventories) {
             File file = new File(folderFile, inventory + ".yml");
-            if (!file.exists()) {
+            if (!file.exists() && !existsBefore) {
                 lobby.saveResource("menus/" + inventory + ".yml", false);
                 files.add(file);
             }
@@ -45,15 +49,15 @@ public class InventoryManager {
 
             BaseMenu menu = builder.loadMenu();
 
-            if (menu instanceof PlayerMenu && (inventories.values().stream().anyMatch(m -> m instanceof LobbySelector))) throw new IllegalArgumentException("Only one player menu can be registered");
+            if (menu instanceof PlayerMenu && (inventoriesMap.values().stream().anyMatch(m -> m instanceof LobbySelector))) throw new IllegalArgumentException("Only one player menu can be registered");
 
-            inventories.put(id, menu);
+            inventoriesMap.put(id, menu);
         }
     }
 
     public static LobbyItem fromConfig(Config config, String path) {
 
-        Item item = Item.from(config.get("items." + path, String.class).orElse("AIR"))
+        Item item = Item.from(config.get("items." + path + ".material", String.class).orElse("AIR"))
                 .amount(config.get("items." + path + ".amount", Integer.class).orElse(1))
                 .name(config.get("items." + path + ".name", String.class).orElse("No name"))
                 .lore(config.getList("items." + path + ".lore", String.class).orElse(Collections.emptyList()))
@@ -64,23 +68,23 @@ public class InventoryManager {
 
         }
 
-        Pair<Condition, String> condition = Condition.extractCondition(config.get("items." + path + ".condition", String.class).orElse("[IF: true]"));
+        Pair<Condition, String> condition = config.contains("items." + path + ".conditional") ? Condition.extractCondition(config.get("items." + path + ".conditional", String.class).orElse("[IF: true]") + " ") : new Pair<>(Condition.IF, "true");
 
-        String otherItemPath = config.get("items." + path + ".if-false", String.class).orElse(null);
+        String otherItemPath = config.contains("items." + path + ".if-false") ? config.get("items." + path + ".if-false", String.class).orElse(null) : null;
 
         return new LobbyItem(item, path, condition, otherItemPath);
 
     }
 
     public BaseMenu getInventory(String id) {
-        return inventories.get(id);
+        return inventoriesMap.get(id);
     }
     public void openMenu(String id, Player player) {
-        inventories.get(id).open(player);
+        inventoriesMap.get(id).open(player);
     }
 
     public List<BaseMenu> getInventories() {
-        return new ArrayList<>(inventories.values());
+        return new ArrayList<>(inventoriesMap.values());
     }
 
 }

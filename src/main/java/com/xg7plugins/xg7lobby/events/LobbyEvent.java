@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface LobbyEvent extends Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     default void onWorldChange(PlayerTeleportEvent event) {
         List<String> enabledWorlds = XG7Lobby.getInstance().getEnabledWorlds();
         if (enabledWorlds.contains(event.getFrom().getWorld().getName()) && !enabledWorlds.contains(event.getTo().getWorld().getName())) {

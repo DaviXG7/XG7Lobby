@@ -7,8 +7,10 @@ import com.xg7plugins.libs.xg7menus.events.MenuEvent;
 import com.xg7plugins.libs.xg7menus.item.Item;
 import com.xg7plugins.libs.xg7menus.menus.gui.Menu;
 import com.xg7plugins.utils.Condition;
+import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
@@ -16,7 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Getter
 public class LobbyMenu extends Menu {
 
     private final HashMap<Integer, String> paths;
@@ -40,6 +44,10 @@ public class LobbyMenu extends Menu {
         this.paths = paths;
         this.items = items;
         this.fillItem = fillItem;
+
+        System.out.println("LobbyMenu created");
+        System.out.println(paths);
+        System.out.println(items);
     }
 
     @Override
@@ -58,7 +66,8 @@ public class LobbyMenu extends Menu {
 
                 LobbyItem lobbyItem = this.items.get(path);
 
-                if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, lobbyItem.getCondition().getSecond()))) {
+
+                if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).getTextFor(player)))) {
                     items.add(lobbyItem.getItem().slot(i));
                     continue;
                 }
@@ -70,7 +79,7 @@ public class LobbyMenu extends Menu {
                 items.add(InventoryManager.fromConfig(config, lobbyItem.getOtherItemPath()).getItem().slot(i));
 
             } else if (fillItem != XMaterial.AIR) {
-                items.add(Item.from(fillItem).name(" "));
+                items.add(Item.from(fillItem).name(" ").slot(i));
             }
         }
 
@@ -79,12 +88,19 @@ public class LobbyMenu extends Menu {
 
     @Override
     public <T extends MenuEvent> void onClick(T event) {
-        event.setCancelled(true);
         if (!(event instanceof ClickEvent)) return;
+        Item clickedItem = ((ClickEvent) event).getClickedItem();
+        if (clickedItem == null || clickedItem.getItemStack() == null || clickedItem.isAir()) return;
+        event.setCancelled(true);
 
-        List<String> actions = ((ClickEvent) event).getClickedItem().getTag("actions", List.class).orElse(Collections.emptyList());
+        List<String> actions = (List<String>) clickedItem.getTag("actions", List.class).orElse(Collections.emptyList()).stream().map(action -> {
+            if (action.toString().startsWith("[SWAP] ")) {
+                return "[SWAP] " + id + ", " + ((ClickEvent) event).getClickedSlot() + ", " + action.toString().replace("[SWAP] ", "");
+            }
+            return action;
+        }).collect(Collectors.toList());
 
-        XG7Lobby.getInstance().getActionsProcessor().process(actions);
+        XG7Lobby.getInstance().getActionsProcessor().process(actions, (Player) event.getWhoClicked());
 
     }
 

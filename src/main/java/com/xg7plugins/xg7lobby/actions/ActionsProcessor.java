@@ -23,10 +23,23 @@ public class ActionsProcessor {
 
     public void process(String id, Player player) {
         if (!actions.containsKey(id)) return;
-        actions.get(id).forEach(action -> action.execute(player));
+        actions.get(id).forEach(action -> {
+            try {
+                action.execute(player);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
     }
-    public void process(List<String> actions) {
-        actions.forEach(action -> getActionOf(action).execute(null));
+    public void process(List<String> actions, Player player) {
+        actions.forEach(action -> {
+            try {
+                getActionOf(action).execute(player);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 

@@ -41,10 +41,14 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
     private boolean isFlying;
     @Column(name = "global_pvp_enabled")
     private boolean isGlobalPVPEnabled;
+    @Column(name = "global_pvp_kills")
+    private int globalPVPKills;
+    @Column(name = "global_pvp_deaths")
+    private int globalPVPDeaths;
     private List<Warn> infractions = new ArrayList<>();
 
     @Setter
-    private transient boolean isFirstJoin;
+    private boolean isFirstJoin;
 
     public boolean isFirstJoin() {
         return isFirstJoin;
@@ -108,6 +112,23 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
                 )
         );
         if (player.getAllowFlight()) player.setFlying(isFlying);
+
+    }
+
+    public void setPlayerHiding(boolean playerHiding) {
+        isPlayerHiding = !playerHiding;
+        update().join();
+
+        if (!getOfflinePlayer().isOnline()) return;
+
+        Player player = getPlayer();
+
+        if (XG7Lobby.getInstance().isInWorldEnabled(player)) {
+            Bukkit.getOnlinePlayers().forEach(p -> {
+                if (playerHiding) player.hidePlayer(p);
+                else player.showPlayer(p);
+            });
+        }
 
     }
 

@@ -5,9 +5,11 @@ import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
+@ToString
 public class LobbyItem {
 
     private Item item;

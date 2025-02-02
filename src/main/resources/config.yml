@@ -75,7 +75,7 @@ on-join:
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
-    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
+    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] profile"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
 on-first-join:
@@ -97,7 +97,7 @@ on-first-join:
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FF00FF, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
-    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] 1"
+    - "[OPEN] [NO_PERMISSION: xg7lobby.admin] profile"
     - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
 
 

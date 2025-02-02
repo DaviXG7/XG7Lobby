@@ -131,3 +131,11 @@ chat:
   send-much-messages: "&cYou are sending messages too fast. Please slow down."
 
   prohibited-command: "&cCommand not found."
+
+menu-does-not-exist: "&cThis menu doesn't exist."
+
+selector-cooldown: "&cYou can't use the selector for another [SECONDS] seconds."
+
+hide-players:
+  show: "&aPlayers are now visible."
+  hide: "&cPlayers are now hidden."

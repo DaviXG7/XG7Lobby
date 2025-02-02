@@ -1,0 +1,58 @@
+package com.xg7plugins.xg7lobby;
+
+import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.data.playerdata.PlayerData;
+import com.xg7plugins.tasks.TaskState;
+import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+
+public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
+    @Override
+    public @NotNull String getIdentifier() {
+        return "xg7lobby";
+    }
+
+    @Override
+    public @NotNull String getAuthor() {
+        return "DaviXG7";
+    }
+
+    @Override
+    public @NotNull String getVersion() {
+        return "2.0";
+    }
+
+    public String onPlaceholderRequest(Player player, String identifier) {
+        LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
+        if (lobbyPlayer == null) {
+            return null;
+        }
+
+
+        switch (identifier) {
+            case "player_is_hiding":
+                return lobbyPlayer.isPlayerHiding() + "";
+            case "player_is_muted":
+                return lobbyPlayer.isMuted() + "";
+            case "player_time_for_unmute":
+                return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(lobbyPlayer.getTimeForUnmute());
+            case "player_is_build_enabled":
+                return lobbyPlayer.isBuildEnabled() + "";
+            case "player_is_flying":
+                return lobbyPlayer.isFlying() + "";
+            case "player_is_global_pvp_enabled":
+                return lobbyPlayer.isGlobalPVPEnabled() + "";
+            case "player_global_pvp_kills":
+                return lobbyPlayer.getGlobalPVPKills() + "";
+            case "player_global_pvp_deaths":
+                return lobbyPlayer.getGlobalPVPDeaths() + "";
+        }
+
+        return null;
+    }
+}

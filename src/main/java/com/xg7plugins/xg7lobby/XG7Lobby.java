@@ -12,10 +12,7 @@ import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
-import com.xg7plugins.xg7lobby.commands.BuildCommand;
-import com.xg7plugins.xg7lobby.commands.FlyCommand;
-import com.xg7plugins.xg7lobby.commands.GamemodeCommand;
-import com.xg7plugins.xg7lobby.commands.LockChatCommand;
+import com.xg7plugins.xg7lobby.commands.*;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 import com.xg7plugins.xg7lobby.commands.moderation.KickCommand;
@@ -35,6 +32,7 @@ import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
+import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
@@ -44,6 +42,7 @@ import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
 import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
 import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
@@ -84,18 +83,29 @@ public final class XG7Lobby extends Plugin {
     public void onEnable() {
         super.onEnable();
         lobbyManager = new LobbyManager(this);
-        inventoryManager = new InventoryManager(this, "games", "profile", "selector");
+
+        if (XG7Plugins.isPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
 
         getLog().loading("Loading lobbies");
         this.lobbyManager.load();
+
+        getLog().loading("Loading custom menus...");
+        inventoryManager = new InventoryManager(this, "games", "profile", "selector");
 
         getLog().loading("Loading action events...");
         loadActions();
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+            if (menu != null) menu.open(player);
+        });
         // Plugin startup logic
 
     }
+
 
     public void loadActions() {
         Config config = getConfigsManager().getConfig("config");
@@ -112,7 +122,7 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand()};
     }
 
     @Override
@@ -162,6 +172,12 @@ public final class XG7Lobby extends Plugin {
     @Override
     public void onDisable() {
         lobbyManager.save();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
+                player.getInventory().clear();
+                XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+            }
+        });
     }
 
 

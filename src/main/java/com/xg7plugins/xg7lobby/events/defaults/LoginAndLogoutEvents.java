@@ -4,7 +4,6 @@ import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
 
 import com.xg7plugins.events.bukkitevents.EventHandler;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.events.LobbyEvent;
@@ -18,13 +17,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.List;
 
 public class LoginAndLogoutEvents implements LobbyEvent {
     @Override
     public boolean isEnabled() {
         return true;
     }
+
 
     @EventHandler
     @SneakyThrows
@@ -50,7 +49,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
                             !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())
                                     && messageOnlyInLobby
                     ) return;
-                    Text.formatLang(XG7Lobby.getInstance(), p, firstJoinEnabled && lobbyPlayer.isFirstJoin() ? "messages.on-first-join" : "messages.on-join").join()
+                    Text.formatLang(XG7Lobby.getInstance(), player, firstJoinEnabled && lobbyPlayer.isFirstJoin() ? "messages.on-first-join" : "messages.on-join").join()
                             .replace("[PLAYER]", player.getName())
                             .send(p);
                 });
@@ -69,8 +68,23 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
             Player player = lobbyPlayer.getPlayer();
 
-            Text.formatLang(XG7Lobby.getInstance(), player, "messages.on-quit")
-                    .join().send(player.getPlayer());
+            if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
+                player.getInventory().clear();
+                XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+            }
+
+            boolean messageOnlyInLobby = XG7Lobby.getInstance().getConfig("config").get("on-join.send-join-message-only-on-lobby", Boolean.class).orElse(false);
+
+
+            Bukkit.getOnlinePlayers().forEach(p -> {
+                if (
+                        !XG7Lobby.getInstance().getEnabledWorlds().contains(p.getWorld().getName())
+                                && messageOnlyInLobby
+                ) return;
+                Text.formatLang(XG7Lobby.getInstance(), player, "messages.on-quit").join()
+                        .replace("[PLAYER]", player.getName())
+                        .send(p);
+            });
         });
     }
 
@@ -80,6 +94,8 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         lobbyPlayer.fly();
+
+        lobbyPlayer.setPlayerHiding(lobbyPlayer.isPlayerHiding());
 
         if (player.getWorld() == newWorld || config.get("on-join.run-events-when-return-to-the-world", Boolean.class).orElse(false)) XG7Lobby.getInstance().getActionsProcessor().process(config.get("on-first-join.enabled", Boolean.class).orElse(false) && lobbyPlayer.isFirstJoin() ? "on-first-join" : "on-join", player);
 
@@ -115,7 +131,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
             player.getInventory().clear();
             XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
         }
-
+        Bukkit.getOnlinePlayers().forEach(player::showPlayer);
         player.setMaxHealth(20);
         player.setHealth(20);
         player.getInventory().clear();
