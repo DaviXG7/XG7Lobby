@@ -62,6 +62,7 @@ public class DefaultPlayerEvents implements Listener {
     )
     public void onInteract(PlayerInteractEvent event) {
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
             if (lobbyPlayer.isBuildEnabled()) return;
@@ -78,7 +79,7 @@ public class DefaultPlayerEvents implements Listener {
             enabledPath = {"config", "drop-item", "true"}
     )
     public void onDropItem(PlayerDropItemEvent event) {
-
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
             if (lobbyPlayer.isBuildEnabled()) return;
@@ -95,6 +96,7 @@ public class DefaultPlayerEvents implements Listener {
             enabledPath = {"config", "pickup-item", "true"}
     )
     public void onPickupItem(PlayerPickupItemEvent event) {
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
             if (lobbyPlayer.isBuildEnabled()) return;
@@ -112,6 +114,7 @@ public class DefaultPlayerEvents implements Listener {
     )
     public void onTakeDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getEntity())) return;
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
         event.setCancelled(true);
     }
@@ -122,6 +125,7 @@ public class DefaultPlayerEvents implements Listener {
     )
     public void onAttack(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player)) return;
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getEntity()) && XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getDamager())) return;
         if (event.getDamager().hasPermission("xg7lobby.attack")) return;
         event.setCancelled(true);
         Text.formatLang(XG7Lobby.getInstance(), event.getDamager(), "player-prohibitions.attack").thenAccept(text -> text.send(event.getDamager()));
@@ -169,6 +173,8 @@ public class DefaultPlayerEvents implements Listener {
 
     @EventHandler(isOnlyInWorld = true)
     public void onRespawn(PlayerRespawnEvent event) {
+
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
 
         Player player = event.getPlayer();
 

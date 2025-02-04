@@ -2,6 +2,7 @@ package com.xg7plugins.xg7lobby.commands.lobby;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.*;
 import com.xg7plugins.libs.xg7menus.item.Item;
 import com.xg7plugins.utils.location.Location;
@@ -25,6 +26,11 @@ import java.util.UUID;
         isPlayerOnly = true
 )
 public class SetLobby implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
 
 
     @Override

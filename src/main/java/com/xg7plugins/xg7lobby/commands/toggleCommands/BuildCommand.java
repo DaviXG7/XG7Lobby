@@ -1,7 +1,8 @@
-package com.xg7plugins.xg7lobby.commands;
+package com.xg7plugins.xg7lobby.commands.toggleCommands;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
@@ -10,7 +11,6 @@ import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,16 +19,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Command(
-        name = "fly",
-        permission = "xg7lobby.command.fly",
-        syntax = "fly (player)",
-        description = "Toggle fly mode",
+        name = "build",
+        permission = "xg7lobby.command.build",
+        syntax = "build (player)",
+        description = "Toggle build mode",
         isInEnabledWorldOnly = true
 )
-public class FlyCommand implements ICommand {
+public class BuildCommand implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
+
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
-
         OfflinePlayer target = null;
         boolean isOther = false;
         if (args.len() == 0) {
@@ -40,7 +45,7 @@ public class FlyCommand implements ICommand {
         }
 
         if (args.len() > 0) {
-            if (!sender.hasPermission("xg7lobby.command.fly.other")) {
+            if (!sender.hasPermission("xg7lobby.command.build.other")) {
                 Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
@@ -56,23 +61,18 @@ public class FlyCommand implements ICommand {
 
         boolean finalIsOther = isOther;
 
-
-
         OfflinePlayer finalTarget = target;
         LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {
-            lobbyPlayer.setFlying(!lobbyPlayer.isFlying());
+            lobbyPlayer.setBuildEnabled(!lobbyPlayer.isBuildEnabled());
             if (finalTarget.isOnline()) {
-                XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), lobbyPlayer::fly);
-                Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
+                Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
             lobbyPlayer.update().join();
-            if (finalIsOther) Text.formatLang(XG7Lobby.getInstance(), sender, "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("[PLAYER]", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
+            if (finalIsOther) Text.formatLang(XG7Lobby.getInstance(), sender, "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("[PLAYER]", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();
             return null;
         });
-
-
     }
 
     @Override
@@ -82,7 +82,6 @@ public class FlyCommand implements ICommand {
 
     @Override
     public Item getIcon() {
-        return Item.commandIcon(XMaterial.FEATHER, this);
+        return Item.commandIcon(XMaterial.IRON_AXE, this);
     }
-
 }

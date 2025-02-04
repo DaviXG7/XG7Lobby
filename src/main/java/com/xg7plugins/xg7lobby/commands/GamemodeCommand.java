@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.commands;
 
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
@@ -24,6 +25,12 @@ import java.util.stream.Collectors;
         description = "Change player's gamemode"
 )
 public class GamemodeCommand implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
+
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         if (args.len() < 1) {

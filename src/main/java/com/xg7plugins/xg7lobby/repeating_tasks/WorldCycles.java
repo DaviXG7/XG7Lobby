@@ -34,8 +34,6 @@ public class WorldCycles extends Task {
             String time = config.get("time", String.class).orElse("12PM");
             boolean storm = config.get("storm", Boolean.class).orElse(false);
 
-            ReflectionObject worldReflection = ReflectionClass.of(World.class).castToRObject(world);
-
             if (!dayLightCycle) {
                 if (XG7Plugins.getMinecraftVersion() > 12) world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
                 else world.setGameRuleValue("doDaylightCycle", "false");

@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.actions;
 
 import com.cryptomorin.xseries.XEntityType;
+import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XPotion;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.particles.XParticle;
@@ -238,6 +239,38 @@ public enum ActionType {
     SHOW_PLAYERS(false, (player, args) -> {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         lobbyPlayer.setPlayerHiding(false);
+    }),
+    CLEAR_INVENTORY(false, (player, args) -> {
+        player.getInventory().clear();
+    }),
+    PVP(false, (player, args) -> {
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) XG7Lobby.getInstance().getGlobalPVPManager().addPlayerToPVP(player);
+        else XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(player);
+    }),
+    EQUIP(true, (player, args) -> {
+        Slot slot = Slot.valueOf(args[0].toUpperCase());
+        XMaterial material = XMaterial.valueOf(args[1]);
+        switch (slot) {
+            case HELMET:
+                player.getInventory().setHelmet(material.parseItem());
+                break;
+            case CHESTPLATE:
+                player.getInventory().setChestplate(material.parseItem());
+                break;
+            case LEGGINGS:
+                player.getInventory().setLeggings(material.parseItem());
+                break;
+            case BOOTS:
+                player.getInventory().setBoots(material.parseItem());
+                break;
+            case OFFHAND:
+                if (XG7Plugins.getMinecraftVersion() < 9) {
+                    System.err.println("The offhand slot is only available in 1.9 or higher.");
+                    return;
+                }
+                player.getInventory().setItemInOffHand(material.parseItem());
+                break;
+        }
     });
 
     private final boolean needArgs;
@@ -255,6 +288,14 @@ public enum ActionType {
             }
         }
         return null;
+    }
+
+    private enum Slot {
+        HELMET,
+        CHESTPLATE,
+        LEGGINGS,
+        BOOTS,
+        OFFHAND
     }
 
 

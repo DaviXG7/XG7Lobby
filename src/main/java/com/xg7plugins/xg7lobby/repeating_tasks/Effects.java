@@ -43,6 +43,7 @@ public class Effects extends Task {
     public void run() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (!XG7Lobby.getInstance().isInWorldEnabled(player)) return;
+            if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) return;
             effects.forEach(effect -> {
                 player.removePotionEffect(effect.getType());
                 player.addPotionEffect(effect);

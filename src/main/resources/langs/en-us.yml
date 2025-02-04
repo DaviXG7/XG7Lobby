@@ -110,7 +110,7 @@ player-prohibitions:
   place-blocks: "&cYou can't place blocks."
   interact-with-blocks: "&cYou can't interact with blocks."
 
-  pick-up-items: "&cYou can't pick up items."
+  pickup-items: "&cYou can't pick up items."
   drop-items: "&cYou can't drop items."
 
   attack: "&cYou can't attack."
@@ -139,3 +139,29 @@ selector-cooldown: "&cYou can't use the selector for another [SECONDS] seconds."
 hide-players:
   show: "&aPlayers are now visible."
   hide: "&cPlayers are now hidden."
+
+pvp:
+  on-enter: "&aYou are in global PvP mode."
+  on-leave: "&cYou are no longer in global PvP mode."
+
+  on-death-with-killer: "&c[PLAYER] has killed by [KILLER]."
+  on-death-without-killer: "&c[PLAYER] has died by [CAUSE]."
+
+  on-attack: "&cYou can't attack this player. He is not in global PvP mode."
+
+  pvp-disabling: "&cYour pvp is being disabled in [SECONDS] seconds. Dont move!"
+  disable-cancelled: "&cPvP disabling cancelled!"
+
+  pvp-command: "You can't use this command in global PvP mode."
+
+scoreboard:
+  player-info: "&e&lPlayer&b:"
+  name: "&7Name&b: &b%player_name%"
+  rank: "&7Rank&b: &r[%luckperms_prefix%]"
+
+  global-pvp: "&e&lGlobal PvP&b:"
+  kills: "&7Kills&b: &9%xg7lobby_player_global_pvp_kills%"
+  deaths: "&7Deaths&b: &c%xg7lobby_player_global_pvp_deaths%"
+
+  players-online: "&7Players online&b: &a%server_online%"
+  players-in-pvp: "&7Players in pvp&b: &a%xg7lobby_players_in_global_pvp%"

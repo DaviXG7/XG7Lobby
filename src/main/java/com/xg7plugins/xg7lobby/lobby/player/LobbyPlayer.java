@@ -39,8 +39,6 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
     private boolean isBuildEnabled;
     @Column(name = "fly_enabled")
     private boolean isFlying;
-    @Setter
-    private transient boolean isGlobalPVPEnabled;
     @Column(name = "global_pvp_kills")
     private int globalPVPKills;
     @Column(name = "global_pvp_deaths")
@@ -116,8 +114,12 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
     }
 
     public void setPlayerHiding(boolean playerHiding) {
+
+        boolean before = isPlayerHiding;
+
         isPlayerHiding = playerHiding;
-        update().join();
+
+        if (before != isPlayerHiding) update().join();
 
         if (!getOfflinePlayer().isOnline()) return;
 

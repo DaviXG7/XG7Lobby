@@ -12,6 +12,12 @@ chat-locked: false
 
 menus-enabled: true
 
+#Must be the same of BungeeCord config
+lobby-server-name: "lobby"
+
+main-selector-id: "selector"
+main-pvp-selector-id: "pvp"
+
 ##################################################################
 #                              SQL                               #
 ##################################################################
@@ -20,23 +26,15 @@ sql:
 
   type: "sqlite"
 
-  host: ""
-  port: ""
+  host: "localhost"
+  port: "3306"
 
-  database: ""
+  database: "xg7lobby"
 
-  username: ""
+  username: "root"
   password: ""
 
   additional-url-args: "characterEncoding=utf8"
-
-##################################################################
-#                         LOBBY SERVER                           #
-##################################################################
-
-lobby-server-name: "lobby1"
-
-lobby-location-cache-expires: 30m
 
 ##################################################################
 #                         LOBBY EVENTS                           #
@@ -271,11 +269,16 @@ scoreboard:
   #Max len 64 characters
   lines:
     - ""
-    - "&e&lPlayer&f:"
-    - "&fName: &9%player_name%"
-    - "&fRank: &r[%prefix%]"
+    - "lang:[scoreboard.player-info]"
+    - "  lang:[scoreboard.name]"
+    - "  lang:[scoreboard.rank]"
     - ""
-    - "&fPlayers online: &a%server_online%"
+    - "lang:[scoreboard.global-pvp]"
+    - "  lang:[scoreboard.kills]"
+    - "  lang:[scoreboard.deaths]"
+    - ""
+    - "lang:[scoreboard.players-online]"
+    - "lang:[scoreboard.players-in-pvp]"
     - ""
     - "&8www.example.com"
 
@@ -399,6 +402,14 @@ warn-ban-by-ip: false
 
 lock-chat-only-on-lobby: false
 
+custom-commands:
+  clear-chat:
+    name: "clearchat"
+    permission: "xg7lobby.command.clearchat"
+    description: "Clear the chat"
+    actions:
+      - "[CLEAR_CHAT]"
+
 anti-swearing:
   enabled: true
 
@@ -458,3 +469,53 @@ anti-spam:
   unmute-delay: "30m"
 
   spam-warn-level: 2
+
+##################################################################
+#                          PVP SYSTEM                            #
+##################################################################
+
+global-pvp:
+
+  disable-cooldown: 5s
+
+  enabled: true
+
+  hide-players-not-in-pvp: true
+
+  on-enter-pvp:
+    heal: true
+    clear-inventory: true
+
+    actions:
+      - "[OPEN] pvp"
+      - "[EQUIP] HELMET, DIAMOND_HELMET"
+      - "[EQUIP] CHESTPLATE, DIAMOND_CHESTPLATE"
+      - "[EQUIP] LEGGINGS, DIAMOND_LEGGINGS"
+      - "[EQUIP] BOOTS, DIAMOND_BOOTS"
+      - "[EQUIP] OFFHAND, GOLDEN_APPLE"
+      - "[BROADCAST] &f%player_name% joined the PvP!"
+
+  on-leave-pvp:
+    heal: true
+    clear-inventory: true
+
+    dont-move: true
+
+    actions:
+      - "[BROADCAST] &f%player_name% left the PvP!"
+
+  # on-death-actions:
+
+  commands-blocked:
+    - "/lobby"
+    - "/spawn"
+    - "/hub"
+    - "/warp"
+    - "/fly"
+    - "/gm"
+    - "/gamemode"
+    - "/tp"
+    - "/home"
+    - "/back"
+
+

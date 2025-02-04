@@ -13,6 +13,7 @@ import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
+import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -71,9 +72,10 @@ public class LobbySelector extends PlayerMenu {
         Item clickedItem = ((ClickEvent) event).getClickedItem();
         if (clickedItem == null || clickedItem.getItemStack() == null || clickedItem.isAir()) return;
         if (!event.getClickAction().isRightClick()) return;
-        event.setCancelled(true);
+        LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getWhoClicked().getUniqueId(), false).join();
+        if (!lobbyPlayer.isBuildEnabled()) event.setCancelled(true);
 
-        if (XG7Plugins.getInstance().getCooldownManager().containsPlayer("selector-click", (Player) event.getWhoClicked())) {
+        if (!lobbyPlayer.isBuildEnabled() && XG7Plugins.getInstance().getCooldownManager().containsPlayer("selector-click", (Player) event.getWhoClicked())) {
 
             double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("selector-click", (Player) event.getWhoClicked());
             Text.formatLang(XG7Lobby.getInstance(), event.getWhoClicked(), "selector-cooldown").thenAccept(text -> text
@@ -98,6 +100,7 @@ public class LobbySelector extends PlayerMenu {
         XG7Lobby.getInstance().getActionsProcessor().process(actions, (Player) event.getWhoClicked());
 
         XG7Plugins.getInstance().getCooldownManager().addCooldown((Player) event.getWhoClicked(), "selector-click", config.getTime("cooldown-to-use").orElse(2000L) + 0.0);
+
 
     }
 }

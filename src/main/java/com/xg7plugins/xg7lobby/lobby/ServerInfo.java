@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Data
 public class ServerInfo {
@@ -33,15 +34,16 @@ public class ServerInfo {
             return;
         }
 
-        System.out.println("O servidor é bungeecord");
-
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(byteArray);
         out.writeUTF("Connect");
         out.writeUTF(name);
+        out.flush(); // Garante que os dados sejam escritos corretamente
 
-        System.out.println("Enviando mensagem para o servidor " + name);
+        System.out.println("Enviando mensagem BungeeCord: [Connect, " + name + "]");
         player.sendPluginMessage(XG7Lobby.getInstance(), "BungeeCord", byteArray.toByteArray());
+
+        out.close();
     }
 
 

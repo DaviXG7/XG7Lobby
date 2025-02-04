@@ -49,7 +49,6 @@ public class InventoryManager {
 
             BaseMenu menu = builder.loadMenu();
 
-            if (menu instanceof PlayerMenu && (inventoriesMap.values().stream().anyMatch(m -> m instanceof LobbySelector))) throw new IllegalArgumentException("Only one player menu can be registered");
 
             inventoriesMap.put(id, menu);
         }
@@ -60,8 +59,8 @@ public class InventoryManager {
         Item item = Item.from(config.get("items." + path + ".material", String.class).orElse("AIR"))
                 .amount(config.get("items." + path + ".amount", Integer.class).orElse(1))
                 .name(config.get("items." + path + ".name", String.class).orElse("No name"))
-                .lore(config.getList("items." + path + ".lore", String.class).orElse(Collections.emptyList()))
-                .setNBTTag("actions", config.getList("items." + path + ".actions", String.class).orElse(Collections.emptyList()));
+                .lore(config.getList("items." + path + ".lore", String.class).orElse(new ArrayList<>()))
+                .setNBTTag("actions", config.getList("items." + path + ".actions", String.class).orElse(new ArrayList<>()));
 
         if (config.get("items." + path + ".glow", Boolean.class).orElse(false)) {
             item.enchant(Enchantment.DURABILITY, 1);

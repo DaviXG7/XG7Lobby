@@ -2,6 +2,7 @@ package com.xg7plugins.xg7lobby.commands.moderation.ban;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
@@ -23,6 +24,12 @@ import java.util.stream.Collectors;
         permission = "xg7lobby.command.moderation.unban"
 )
 public class UnbanIPCommand implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
+
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
 

@@ -46,7 +46,9 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
             case "player_is_flying":
                 return lobbyPlayer.isFlying() + "";
             case "player_is_global_pvp_enabled":
-                return lobbyPlayer.isGlobalPVPEnabled() + "";
+                return XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player) + "";
+            case "players_in_global_pvp":
+                return XG7Lobby.getInstance().getGlobalPVPManager().getInPVP().size() + "";
             case "player_global_pvp_kills":
                 return lobbyPlayer.getGlobalPVPKills() + "";
             case "player_global_pvp_deaths":

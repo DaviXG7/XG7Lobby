@@ -1,6 +1,7 @@
-package com.xg7plugins.xg7lobby.commands;
+package com.xg7plugins.xg7lobby.commands.toggleCommands;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
@@ -11,8 +12,6 @@ import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 @Command(
         name = "vanish",
         permission = "xg7lobby.command.vanish",
@@ -22,6 +21,12 @@ import java.util.List;
         isAsync = true
 )
 public class VanishCommand implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
+
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(((Player)sender).getUniqueId(), false).join();

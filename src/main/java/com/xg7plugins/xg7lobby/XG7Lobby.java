@@ -11,6 +11,7 @@ import com.xg7plugins.events.PacketListener;
 import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
 import com.xg7plugins.libs.xg7scores.Score;
 import com.xg7plugins.tasks.Task;
+import com.xg7plugins.utils.Metrics;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.*;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
@@ -23,6 +24,10 @@ import com.xg7plugins.xg7lobby.commands.moderation.ban.UnbanCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.ban.UnbanIPCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.mute.MuteCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.mute.UnmuteCommand;
+import com.xg7plugins.xg7lobby.commands.toggleCommands.BuildCommand;
+import com.xg7plugins.xg7lobby.commands.toggleCommands.FlyCommand;
+import com.xg7plugins.xg7lobby.commands.toggleCommands.LockChatCommand;
+import com.xg7plugins.xg7lobby.commands.toggleCommands.VanishCommand;
 import com.xg7plugins.xg7lobby.events.*;
 import com.xg7plugins.xg7lobby.events.air_events.FlyEvent;
 import com.xg7plugins.xg7lobby.events.air_events.LaunchPadEvent;
@@ -38,6 +43,8 @@ import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.*;
 import com.xg7plugins.xg7lobby.lobby.scores.*;
+import com.xg7plugins.xg7lobby.pvp.GlobalPVPManager;
+import com.xg7plugins.xg7lobby.pvp.PVPListener;
 import com.xg7plugins.xg7lobby.repeating_tasks.AutoBroadcast;
 import com.xg7plugins.xg7lobby.repeating_tasks.Effects;
 import com.xg7plugins.xg7lobby.repeating_tasks.WorldCycles;
@@ -71,6 +78,8 @@ public final class XG7Lobby extends Plugin {
     private final PlayerDAO playerDAO;
     private final ServerInfo serverInfo;
     private InventoryManager inventoryManager;
+    @Getter
+    private GlobalPVPManager globalPVPManager;
 
 
     public XG7Lobby() {
@@ -86,13 +95,25 @@ public final class XG7Lobby extends Plugin {
 
         if (XG7Plugins.isPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
 
-        getLog().loading("Loading custom menus...");
-        inventoryManager = new InventoryManager(this, "games", "profile", "selector");
+        Config config = getConfigsManager().getConfig("config");
+
+        if (config.get("menus-enabled",Boolean.class).orElse(false)) {
+
+            getLog().loading("Loading custom menus...");
+            inventoryManager = new InventoryManager(this, "games", "profile", "selector", "pvp_selector");
+
+        }
+
+        if (config.get("global-pvp.enabled", Boolean.class).orElse(false)) {
+            getLog().loading("Loading global pvp manager...");
+            globalPVPManager = new GlobalPVPManager(config);
+        }
 
         getLog().loading("Loading action events...");
         loadActions();
 
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        if (XG7Plugins.isBungeecord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
 
         Bukkit.getOnlinePlayers().forEach(player -> {
 
@@ -109,8 +130,11 @@ public final class XG7Lobby extends Plugin {
     public void loadActions() {
         Config config = getConfigsManager().getConfig("config");
         actionsProcessor.registerActions("on-join", config.getList("on-join.events", String.class).orElse(new ArrayList<>()));
-        if (config.get("on-first-join.enabled", Boolean.class).orElse(false)){
-            actionsProcessor.registerActions("on-first-join", config.getList("on-first-join.events", String.class).orElse(new ArrayList<>()));
+        if (config.get("on-first-join.enabled", Boolean.class).orElse(false)) actionsProcessor.registerActions("on-first-join", config.getList("on-first-join.events", String.class).orElse(new ArrayList<>()));
+        if (config.get("global-pvp.enabled", Boolean.class).orElse(false)) {
+            actionsProcessor.registerActions("on-pvp-enter", config.getList("global-pvp.on-enter-pvp.actions", String.class).orElse(new ArrayList<>()));
+            actionsProcessor.registerActions("on-pvp-leave", config.getList("global-pvp.on-leave-pvp.actions", String.class).orElse(new ArrayList<>()));
+            actionsProcessor.registerActions("on-pvp-die", config.getList("global-pvp.on-death-actions", String.class).orElse(new ArrayList<>()));
         }
     }
 
@@ -121,12 +145,12 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand(), new PVPCommand()};
     }
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), XG7Plugins.getMinecraftVersion() > 14 ? new CommandAntiTab() : null};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), XG7Plugins.getMinecraftVersion() > 14 ? new CommandAntiTab() : null, new PVPListener(globalPVPManager)};
     }
 
     @Override
@@ -152,6 +176,8 @@ public final class XG7Lobby extends Plugin {
     @Override
     public Score[] loadScores() {
 
+        Metrics.getMetrics(this, 24625);
+
         Config config = getConfig("config");
 
         ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
@@ -171,9 +197,13 @@ public final class XG7Lobby extends Plugin {
     @Override
     public void onDisable() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
-                player.getInventory().clear();
-                XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+
+            if (globalPVPManager.isPlayerInPVP(player)) globalPVPManager.removePlayerFromPVP(player);
+
+            LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(getConfig("config").get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+            if (menu != null) {
+                menu.close(player);
             }
         });
     }

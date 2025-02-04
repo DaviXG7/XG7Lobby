@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.commands.moderation;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
@@ -26,6 +27,12 @@ import java.util.stream.Collectors;
         permission = "xg7lobby.command.moderation.kick"
 )
 public class KickCommand implements ICommand {
+
+    @Override
+    public Plugin getPlugin() {
+        return XG7Lobby.getInstance();
+    }
+
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         OfflinePlayer target = args.get(0, OfflinePlayer.class);

@@ -50,7 +50,7 @@ public class LobbyManager {
 
             if (!localLobbies.isEmpty()) return localLobbies.get(new Random().nextInt(localLobbies.size()));
 
-            return lobbies.get(new Random().nextInt(lobbies.size()));
+            return null;
 
 
         });

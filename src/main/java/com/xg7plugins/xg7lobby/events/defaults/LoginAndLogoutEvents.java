@@ -14,8 +14,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 
 public class LoginAndLogoutEvents implements LobbyEvent {
@@ -64,6 +66,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         event.setQuitMessage(null);
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(event.getPlayer());
         LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).thenAccept(lobbyPlayer -> {
 
             Player player = lobbyPlayer.getPlayer();
@@ -112,7 +115,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
         }
 
-        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
+        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(config.get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
 
         if (menu != null) menu.open(player);
 
@@ -126,17 +129,44 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
     @Override
     public void onWorldLeave(Player player, World newWorld) {
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(player);
         player.closeInventory();
-        if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
-            player.getInventory().clear();
-            XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(XG7Lobby.getInstance().getConfig("config").get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+        if (menu != null) {
+            menu.close(player);
         }
         Bukkit.getOnlinePlayers().forEach(player::showPlayer);
         player.setMaxHealth(20);
         player.setHealth(20);
-        player.getInventory().clear();
         player.setAllowFlight(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR);
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (!XG7Lobby.getInstance().isInWorldEnabled(event.getPlayer())) return;
+
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
+
+        Player player = event.getPlayer();
+
+        Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
+
+        LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
+        lobbyPlayer.fly();
+
+        lobbyPlayer.setPlayerHiding(lobbyPlayer.isPlayerHiding());
+
+        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(config.get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+
+        if (menu != null) menu.open(player);
+
+        player.setMaxHealth(config.get("hearts", Double.class).orElse(10D) * 2);
+        player.setFoodLevel(config.get("hunger", Integer.class).orElse(10) * 2);
+        if (config.get("global-pvp.on-leave-pvp.heal", Boolean.class).orElse(true)) player.setHealth(player.getMaxHealth());
+        if (config.get("global-pvp.on-leave-pvp.clear-inventory", Boolean.class).orElse(true)) player.getInventory().clear();
+
     }
 
 
