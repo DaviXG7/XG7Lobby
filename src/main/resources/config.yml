@@ -372,15 +372,21 @@ warn-levels:
     min-to-mute: 2
     min-to-kick: 3
 
+    menu-material: "GREEN_WOOL"
+
   - level: 2
     min-to-ban: 3
     min-to-mute: 2
     min-to-kick: 1
 
+    menu-material: "YELLOW_WOOL"
+
   - level: 3
     min-to-ban: 2
     min-to-mute: 1
     min-to-kick: 1
+
+    menu-material: "RED_WOOL"
 
 mute-warn-level: 2
 kick-warn-level: 3
@@ -402,13 +408,36 @@ warn-ban-by-ip: false
 
 lock-chat-only-on-lobby: false
 
+custom-commands-enabled: true
+
 custom-commands:
+
   clear-chat:
     name: "clearchat"
+    aliases: ["cc"]
     permission: "xg7lobby.command.clearchat"
     description: "Clear the chat"
     actions:
-      - "[CLEAR_CHAT]"
+      - "[CLEAR_CHAT] "
+
+  discord:
+    name: "discord"
+    permission: ""
+    description: "Join our Discord"
+    aliases: ["dc"]
+    actions:
+      - "[MESSAGE]  "
+      - "[MESSAGE] [CENTER] &9Join our Discord: &bhttps://discord.gg/jfrn8w92kF"
+      - "[MESSAGE]  "
+
+  site:
+    name: "site"
+    permission: ""
+    description: "Visit our website"
+    actions:
+      - "[MESSAGE]  "
+      - "[MESSAGE] [CENTER] &9Visit our website: &bhttps://example.com"
+      - "[MESSAGE]  "
 
 anti-swearing:
   enabled: true

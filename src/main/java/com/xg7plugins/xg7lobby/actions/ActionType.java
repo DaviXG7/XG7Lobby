@@ -169,7 +169,7 @@ public enum ActionType {
         }
 
     }),
-    CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> "").forEach(player::sendMessage)),
+    CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> " ").forEach(e -> Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(e)))),
     OPEN(true, (player, args) -> {
 
         BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
@@ -242,6 +242,7 @@ public enum ActionType {
     }),
     CLEAR_INVENTORY(false, (player, args) -> {
         player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
     }),
     PVP(false, (player, args) -> {
         if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) XG7Lobby.getInstance().getGlobalPVPManager().addPlayerToPVP(player);

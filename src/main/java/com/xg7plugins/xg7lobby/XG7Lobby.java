@@ -14,6 +14,7 @@ import com.xg7plugins.tasks.Task;
 import com.xg7plugins.utils.Metrics;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.*;
+import com.xg7plugins.xg7lobby.commands.customcommand.CustomCommandManager;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 import com.xg7plugins.xg7lobby.commands.moderation.KickCommand;
@@ -78,6 +79,7 @@ public final class XG7Lobby extends Plugin {
     private final PlayerDAO playerDAO;
     private final ServerInfo serverInfo;
     private InventoryManager inventoryManager;
+    private CustomCommandManager customCommandManager;
     @Getter
     private GlobalPVPManager globalPVPManager;
 
@@ -107,6 +109,11 @@ public final class XG7Lobby extends Plugin {
         if (config.get("global-pvp.enabled", Boolean.class).orElse(false)) {
             getLog().loading("Loading global pvp manager...");
             globalPVPManager = new GlobalPVPManager(config);
+        }
+
+        if (config.get("custom-commands-enabled", Boolean.class).orElse(false)) {
+            getLog().loading("Loading custom commands...");
+            customCommandManager = new CustomCommandManager(config);
         }
 
         getLog().loading("Loading action events...");

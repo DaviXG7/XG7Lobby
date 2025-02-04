@@ -165,3 +165,13 @@ scoreboard:
 
   players-online: "&7Players online&b: &a%server_online%"
   players-in-pvp: "&7Players in pvp&b: &a%xg7lobby_players_in_global_pvp%"
+
+warn-menu:
+  title: "&c&lWarns of [TARGET]"
+
+  warn-item:
+    name: "&cWarn [ID]"
+    reason: "&7Reason&b: &r[REASON]"
+    level: "&7Level&b: &r[LEVEL]"
+    date: "&7Date&b: &r[DATE]"
+    click-to-copy-id: "&7Click to copy the warn id."
