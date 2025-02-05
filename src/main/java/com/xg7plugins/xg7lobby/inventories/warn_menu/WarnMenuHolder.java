@@ -19,7 +19,7 @@ public class WarnMenuHolder extends PageMenuHolder {
 
     private Player target;
 
-    public WarnMenuHolder(String id, Plugin plugin, String title, int size, InventoryType type, PageMenu pageMenu, Player player, Player target) {
+    public WarnMenuHolder(String id, Plugin plugin, String title, int size, InventoryType type, WarnMenu pageMenu, Player player, Player target) {
         super(id, plugin, title, size, type, pageMenu, player);
         this.target = target;
     }
@@ -32,9 +32,9 @@ public class WarnMenuHolder extends PageMenuHolder {
 
         CompletableFuture.runAsync(() -> {
 
-            PageMenu pageMenu = (PageMenu) this.menu;
+            WarnMenu pageMenu = (WarnMenu) this.menu;
 
-            List<Item> pagedItems = pageMenu.pagedItems(player);
+            List<Item> pagedItems = pageMenu.pagedItems(player,target);
 
             List<Item> itemsToAdd = pagedItems.subList(page * getArea(), pagedItems.size());
 
@@ -62,5 +62,7 @@ public class WarnMenuHolder extends PageMenuHolder {
 
         }, XG7Plugins.taskManager().getAsyncExecutors().get("menus"));
     }
+
+
 
 }

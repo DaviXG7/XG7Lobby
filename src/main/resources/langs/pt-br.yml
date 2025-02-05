@@ -4,35 +4,85 @@ commands:
   not-online: "Este jogador não está online."
 
   fly:
-    toggle-on: "&aFly ativado."
-    toggle-off: "&cFly desativado."
-    toggle-other-on: "&aFly ativado para [PLAYER]."
-    toggle-other-off: "&cFly desativado para [PLAYER]."
+    toggle-on: "&aModo voar ativado."
+    toggle-off: "&cModo voar desativado."
+    toggle-other-on: "&aModo voar ativado para [PLAYER]."
+    toggle-other-off: "&cModo voar desativado para [PLAYER]."
 
   gamemode:
     invalid-gamemode: "&cModo de jogo inválido. Use (0, s), (1, c), (2, a) ou (3, sp)."
     set: "&aModo de jogo definido para [GAMEMODE]."
     set-other: "&aModo de jogo definido para [GAMEMODE] para [PLAYER]."
+
   build:
-    toggle-on: "&aModo de construção ativado."
-    toggle-off: "&cModo de construção desativado."
-    toggle-other-on: "&aModo de construção ativado para [PLAYER]."
-    toggle-other-off: "&cModo de construção desativado para [PLAYER]."
+    toggle-on: "&aModo construção ativado."
+    toggle-off: "&cModo construção desativado."
+    toggle-other-on: "&aModo construção ativado para [PLAYER]."
+    toggle-other-off: "&cModo construção desativado para [PLAYER]."
+
+  warn:
+    level-invalid: "&cNível de aviso inválido. Use um número entre 1 e 3."
+
+    warn-admin: "&cVocê não pode avisar um administrador."
+
+    invalid-id: "ID de aviso inválido!"
+    warn-not-found: "Aviso não encontrado!"
+    on-pardon: "&aAviso com ID [ID] perdoado com sucesso."
+
+    on-warn: "&cVocê foi avisado por um administrador. Motivo: [REASON]."
+    on-warn-sender: "&aJogador [PLAYER] foi avisado com sucesso por [REASON]."
+
+    warn-ban: "&cVocê foi banido por atingir o número máximo de avisos.\n Motivo: [REASON]."
+    warn-mute: "&cVocê foi silenciado por atingir o número máximo de avisos.\n Motivo: [REASON]."
+    warn-kick: "&cVocê foi expulso por atingir o número máximo de avisos.\n Motivo: [REASON]."
+
+  mute:
+    already-muted: "&cEste jogador já está silenciado."
+
+    mute-admin: "&cVocê não pode silenciar um administrador."
+
+    on-mute: "&cVocê foi silenciado por [TIME]."
+    on-mute-sender: "&aJogador [PLAYER] foi silenciado com sucesso por [TIME]."
+
+  unmute:
+    not-muted: "&cEste jogador não está silenciado."
+
+    on-unmute: "&aVocê foi dessilenciado."
+    on-unmute-sender: "&aJogador [PLAYER] foi dessilenciado com sucesso."
+
+  kick:
+    kick-admin: "&cVocê não pode expulsar um administrador."
+
+    on-kick: "&cVocê foi expulso por um administrador. Motivo: [REASON]."
+    on-kick-sender: "&aJogador [PLAYER] foi expulso com sucesso por [REASON]."
+
+  ban:
+    already-banned: "&cEste jogador já está banido."
+
+    ban-admin: "&cVocê não pode banir um administrador."
+
+    on-ban: "&cVocê foi banido por [TIME]. Motivo: [REASON]."
+    on-ban-sender: "&aJogador [PLAYER] foi banido com sucesso por [TIME] por [REASON]."
+
+  unban:
+    not-banned: "&cEste jogador não está banido."
+
+    on-unban: "&aJogador [PLAYER] foi desbanido com sucesso."
+    on-unban-ip: "&a[IP] foi desbanido com sucesso."
 
 lobby:
-
   on-set:
     on-error: "&cErro ao definir a localização do lobby. [ERROR]"
     on-success: "&aLocalização do lobby [ID] definida com sucesso no Mundo: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
 
   on-teleport:
     on-error: "&cErro ao tentar teleportar para o lobby."
-    on-error-doesnt-exist: "&cA localização do lobby não existe. Aguarde um administrador definir."
-    on-error-doesnt-exist-adm: "&cA localização do lobby não existe. Use /setlobby para definir."
+    on-error-doesnt-exist: "&cA localização do lobby não existe. Aguarde um administrador defini-la."
+    on-error-doesnt-exist-adm: "&cA localização do lobby não existe. Use /setlobby para defini-la."
     on-success: "&aTeleportado para o lobby com sucesso."
-    on-success-other: "&aTeleportado [PLAYER] para o lobby com sucesso."
-    on-cooldown: "&cVocê não pode se teleportar para o lobby pelos próximos [SECONDS] segundos."
-    on-cooldown-other: "&cVocê não pode teleportar este jogador para o lobby pelos próximos [SECONDS] segundos."
+    on-success-other: "&a[PLAYER] foi teleportado para o lobby com sucesso."
+    on-cooldown: "&cVocê não pode teleportar para o lobby por mais [SECONDS] segundos."
+    on-cooldown-other: "&cVocê não pode teleportar este jogador para o lobby por mais [SECONDS] segundos."
 
   on-join-events:
     title: "&bBem-vindo"
@@ -42,22 +92,87 @@ lobby:
   teleport-cancelled: "&cTeleporte cancelado!"
 
 messages:
+  on-join: "&b[PLAYER]&7, &eentrou no jogo!"
+  on-first-join: "&b[PLAYER]&7, &eentrou no jogo pela primeira vez!"
 
-  on-join: "&b%player_name%&7, &eentrou no jogo!"
-  on-first-join: "&b%player_name%&7, &eentrou no jogo pela primeira vez!"
+  on-quit: "&b[PLAYER]&7, &esaiu do jogo!"
 
-  on-quit: "&b%player_name%&7, &esaiu do jogo!"
+multi-jump-left: "[ACTION] &7Você tem &b[JUMPS] &7pulos restantes."
 
-multi-jump-left: "[ACTION] &7Você tem &b[JUMPS] &7saltos restantes."
-
-build-not-enabled: "&cVocê está com a construção desativada! Use /build para ativar."
+build-not-enabled: "&cVocê está com a construção desativada! Use /build para ativá-la."
 
 player-prohibitions:
   break-blocks: "&cVocê não pode quebrar blocos."
   place-blocks: "&cVocê não pode colocar blocos."
   interact-with-blocks: "&cVocê não pode interagir com blocos."
 
-  pick-up-items: "&cVocê não pode pegar itens."
-  drop-items: "&cVocê não pode soltar itens."
+  pickup-items: "&cVocê não pode pegar itens."
+  drop-items: "&cVocê não pode dropar itens."
 
   attack: "&cVocê não pode atacar."
+
+chat:
+  on-lock: "&cChat bloqueado."
+  on-unlock: "&aChat desbloqueado."
+
+  locked: "&cVocê não pode enviar mensagens. O chat está bloqueado."
+
+  swear: "&cVocê não pode xingar no chat."
+
+  muted: "&cVocê está silenciado. Você não pode enviar mensagens por [TIME]."
+
+  same-message: "&cVocê não pode enviar a mesma mensagem duas vezes."
+  message-cooldown: "&cVocê não pode enviar mensagens por mais [SECONDS] segundos."
+  send-much-messages: "&cVocê está enviando mensagens muito rápido. Por favor, desacelere."
+
+  prohibited-command: "&cComando não encontrado."
+
+menu-does-not-exist: "&cEste menu não existe."
+
+selector-cooldown: "&cVocê não pode usar o seletor por mais [SECONDS] segundos."
+
+hide-players:
+  show: "&aOs jogadores agora estão visíveis."
+  hide: "&cOs jogadores agora estão ocultos."
+
+pvp:
+  on-enter: "&aVocê está no modo PvP global."
+  on-leave: "&cVocê não está mais no modo PvP global."
+
+  on-death-with-killer: "&c[PLAYER] foi morto por [KILLER]."
+  on-death-without-killer: "&c[PLAYER] morreu por [CAUSE]."
+
+  on-attack: "&cVocê não pode atacar este jogador. Ele não está no modo PvP global."
+
+  pvp-disabling: "&cSeu PvP será desativado em [SECONDS] segundos. Não se mova!"
+  disable-cancelled: "&cDesativação do PvP cancelada!"
+
+  pvp-command: "Você não pode usar este comando no modo PvP global."
+
+scoreboard:
+  player-info: "&e&lJogador&b:"
+  name: "&7Nome&b: &b%player_name%"
+  rank: "&7Cargo&b: &r[%luckperms_prefix%]"
+
+  global-pvp: "&e&lPvP Global&b:"
+  kills: "&7Abates&b: &9%xg7lobby_player_global_pvp_kills%"
+  deaths: "&7Mortes&b: &c%xg7lobby_player_global_pvp_deaths%"
+
+  players-online: "&7Jogadores online&b: &a%server_online%"
+  players-in-pvp: "&7Jogadores no PvP&b: &a%xg7lobby_players_in_global_pvp%"
+
+warn-menu:
+  title: "&c&lAvisos de [TARGET]"
+
+  warn-item:
+    name: "&cAviso [ID]"
+    reason: "&7Motivo&b: &r[REASON]"
+    level: "&7Nível&b: &r[LEVEL]"
+    date: "&7Data&b: &r[DATE]"
+    click-to-copy-id: "&7Clique para copiar o ID do aviso."
+
+  go-back: "&cPágina anterior"
+  go-next: "&aPróxima página"
+  close: "&cFechar"
+
+  id-message: "&7Clique para copiar o ID do aviso [ID]."

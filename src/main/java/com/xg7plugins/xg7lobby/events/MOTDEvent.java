@@ -21,7 +21,6 @@ public class MOTDEvent implements Listener {
 
     @EventHandler
     public void onMOTDRequest(ServerListPingEvent event) {
-        System.out.println("MOTD Requested");
         Config config = XG7Lobby.getInstance().getConfig("config");
 
         String motd = config.getList("motd.text", String.class)

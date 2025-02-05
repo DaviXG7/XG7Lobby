@@ -176,7 +176,7 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
                             target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-ban").join().replace("[REASON]", warn.getReason()).getText());
                     }
 
-                    if ((warnCount >= warnsToKick && warnsToKick > 0) || (warnCount >= totalWarnsToKick && totalWarnsToKick > 0) && target.isOnline()) {
+                    if (((warnCount >= warnsToKick && warnsToKick > 0) || (warnCount >= totalWarnsToKick && totalWarnsToKick > 0)) && target.isOnline()) {
                         getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-kick").join().replace("[REASON]", warn.getReason()).getText());
                     }
                 });

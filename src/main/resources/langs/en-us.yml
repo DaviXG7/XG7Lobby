@@ -175,3 +175,11 @@ warn-menu:
     level: "&7Level&b: &r[LEVEL]"
     date: "&7Date&b: &r[DATE]"
     click-to-copy-id: "&7Click to copy the warn id."
+
+  go-back: "&cPrevious page"
+  go-next: "&aNext page"
+  close: "&cClose"
+
+  id-message: "&7Click to copy the warn id [ID]."
+
+

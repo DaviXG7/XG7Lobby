@@ -19,6 +19,7 @@ import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 import com.xg7plugins.xg7lobby.commands.moderation.KickCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.WarnCommand;
+import com.xg7plugins.xg7lobby.commands.moderation.WarnsCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.ban.BanCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.ban.BanIPCommand;
 import com.xg7plugins.xg7lobby.commands.moderation.ban.UnbanCommand;
@@ -39,6 +40,7 @@ import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
+import com.xg7plugins.xg7lobby.inventories.warn_menu.WarnMenu;
 import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
@@ -53,6 +55,8 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @PluginConfigurations(
@@ -152,7 +156,7 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand(), new PVPCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand(), new PVPCommand(), new WarnsCommand()};
     }
 
     @Override
@@ -172,7 +176,14 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public BaseMenu[] loadMenus() {
-        return inventoryManager.getInventories().toArray(new BaseMenu[0]);
+
+        List<BaseMenu> menus = new ArrayList<>();
+
+        menus.add(new WarnMenu());
+
+        menus.addAll(inventoryManager.getInventories());
+
+        return menus.toArray(new BaseMenu[0]);
     }
 
     @Override
