@@ -6,7 +6,8 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.utils.Time;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @Command(
         name = "ban",
         description = "Ban a player",
-        syntax = "/ban <player> <time> [reason]",
+        syntax = "/ban <player> <time> %reason%",
         permission = "xg7lobby.command.moderation.ban"
 )
 public class BanCommand implements ICommand {
@@ -40,28 +41,33 @@ public class BanCommand implements ICommand {
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
         if (args.len() < 2) {
-            syntaxError(sender, "ban <player> <time> [reason]");
+            syntaxError(sender, "ban <player> <time> %reason%");
             return;
         }
 
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
-        long time = args.get(1, String.class).equals("forever") ? 0 : Text.convertToMilliseconds(XG7Lobby.getInstance(), args.get(1, String.class));
+        long time;
+        try {
+            time = args.get(1, String.class).equals("forever") ? 0 : Time.convertToMilliseconds(args.get(1, String.class));
+        } catch (Time.TimeParseException e) {
+            throw new RuntimeException(e);
+        }
         String reason = args.len() > 2 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 2, args.len())), ' ') : null;
 
         if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender,XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(target.getUniqueId(), false).join();
 
         if (target.isBanned()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.ban.already-banned").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.ban.already-banned").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (target.isOp() && !XG7Lobby.getInstance().getConfig("config").get("ban-admin",Boolean.class).orElse(false)) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.ban.ban-admin").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.ban.ban-admin").thenAccept(text -> text.send(sender));
             return;
         }
 
@@ -82,10 +88,10 @@ public class BanCommand implements ICommand {
         long finalMinutes = minutes;
         long finalSeconds = seconds;
         if (target.isOnline()) {
-            target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.ban.on-ban").join().replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).getText());
+            target.getPlayer().kickPlayer(Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.ban.on-ban").join().replace("reason", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).getText());
         }
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.ban.on-ban-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).replace("[REASON]", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.ban.on-ban-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
 
         if (reason != null) {
             lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("ban-warn-level", Integer.class).orElse(0), reason));

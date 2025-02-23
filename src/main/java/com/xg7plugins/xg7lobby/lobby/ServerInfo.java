@@ -38,7 +38,7 @@ public class ServerInfo {
         DataOutputStream out = new DataOutputStream(byteArray);
         out.writeUTF("Connect");
         out.writeUTF(name);
-        out.flush(); // Garante que os dados sejam escritos corretamente
+        out.flush();
 
         System.out.println("Enviando mensagem BungeeCord: [Connect, " + name + "]");
         player.sendPluginMessage(XG7Lobby.getInstance(), "BungeeCord", byteArray.toByteArray());

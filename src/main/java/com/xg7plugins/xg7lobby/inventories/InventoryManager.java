@@ -1,14 +1,12 @@
 package com.xg7plugins.xg7lobby.inventories;
 
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
-import com.xg7plugins.libs.xg7menus.menus.player.PlayerMenu;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.Pair;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbyItem;
-import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -42,7 +40,7 @@ public class InventoryManager {
         }
 
         for (File file : files) {
-            Config config = new Config(lobby, YamlConfiguration.loadConfiguration(file));
+            Config config = new Config(lobby, YamlConfiguration.loadConfiguration(file), file.getName().replace(".yml", ""));
             String id = config.get("id", String.class).orElse("No id");
 
             LobbyInventoryBuilder builder = new LobbyInventoryBuilder(id, config);

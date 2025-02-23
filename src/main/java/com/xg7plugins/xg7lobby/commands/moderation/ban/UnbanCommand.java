@@ -6,7 +6,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
@@ -41,18 +41,18 @@ public class UnbanCommand implements ICommand {
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
 
         if (target == null || !target.hasPlayedBefore()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender,XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (!target.isBanned()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unban.not-banned").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unban.not-banned").thenAccept(text -> text.send(sender));
             return;
         }
 
         XG7Plugins.getInstance().getServer().getBanList(org.bukkit.BanList.Type.NAME).pardon(target.getName());
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unban.on-unban").thenAccept(text -> text.replace("[PLAYER]", target.getName()).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unban.on-unban").thenAccept(text -> text.replace("player", target.getName()).send(sender));
 
     }
 

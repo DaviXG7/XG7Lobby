@@ -37,7 +37,7 @@ public class LaunchPadEvent implements Listener {
             float pitch = Float.parseFloat(soundString[2]);
             player.setVelocity(player.getLocation().getDirection().multiply(power).setY(height));
 
-            player.getWorld().playSound(player.getLocation(), sound, 1, 1);
+            player.getWorld().playSound(player.getLocation(), sound, volume, pitch);
         }
     }
 }

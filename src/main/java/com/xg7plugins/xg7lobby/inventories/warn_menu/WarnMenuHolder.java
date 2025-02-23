@@ -2,11 +2,10 @@ package com.xg7plugins.xg7lobby.inventories.warn_menu;
 
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
-import com.xg7plugins.libs.xg7menus.Slot;
-import com.xg7plugins.libs.xg7menus.item.ClickableItem;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.gui.PageMenu;
-import com.xg7plugins.libs.xg7menus.menus.holders.PageMenuHolder;
+import com.xg7plugins.modules.xg7menus.Slot;
+import com.xg7plugins.modules.xg7menus.item.ClickableItem;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.holders.PageMenuHolder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

@@ -6,25 +6,21 @@ import com.xg7plugins.data.database.query.QueryResult;
 import com.xg7plugins.data.database.query.Transaction;
 import com.xg7plugins.utils.DAO;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import lombok.AllArgsConstructor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @AllArgsConstructor
 public class LobbyLocationDAO implements DAO<String, LobbyLocation> {
 
     @Override
     public CompletableFuture<Boolean> add(LobbyLocation location) {
-        if(location == null || location.getId() == null) return CompletableFuture.completedFuture(false);
+        if(location == null || location.getID() == null) return CompletableFuture.completedFuture(false);
         return XG7Plugins.getInstance().getDatabaseManager().getProcessor().exists(
-                XG7Lobby.getInstance(), LobbyLocation.class, "id", location.getId()
+                XG7Lobby.getInstance(), LobbyLocation.class, "id", location.getID()
         ).thenApply(exists -> {
             if (exists) return false;
             try {
@@ -33,7 +29,7 @@ public class LobbyLocationDAO implements DAO<String, LobbyLocation> {
                         location,
                         Transaction.Type.INSERT
                 ).waitForResult();
-                XG7Plugins.getInstance().getDatabaseManager().cacheEntity(XG7Lobby.getInstance(),location.getId(), location);
+                XG7Plugins.getInstance().getDatabaseManager().cacheEntity(XG7Lobby.getInstance(),location.getID(), location);
                 return true;
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
                 throw new RuntimeException(e);
@@ -81,7 +77,7 @@ public class LobbyLocationDAO implements DAO<String, LobbyLocation> {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 Transaction.update(XG7Lobby.getInstance(), location).onError(Throwable::printStackTrace).waitForResult();
-                XG7Plugins.getInstance().getDatabaseManager().cacheEntity(XG7Lobby.getInstance(),location.getId(), location);
+                XG7Plugins.getInstance().getDatabaseManager().cacheEntity(XG7Lobby.getInstance(),location.getID(), location);
 
                 return true;
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {

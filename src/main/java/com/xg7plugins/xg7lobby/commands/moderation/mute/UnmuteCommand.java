@@ -5,7 +5,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -41,14 +41,14 @@ public class UnmuteCommand implements ICommand {
         OfflinePlayer target = args.get(0, OfflinePlayer.class);
 
         if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender,XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(target.getUniqueId(), false).join();
 
         if (!lobbyPlayer.isMuted()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unmute.not-muted").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unmute.not-muted").thenAccept(text -> text.send(sender));
             return;
         }
 
@@ -57,10 +57,10 @@ public class UnmuteCommand implements ICommand {
         lobbyPlayer.update().join();
 
         if (target.isOnline()) {
-            Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
+            Text.fromLang( target.getPlayer(),XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
         }
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unmute.on-unmute-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.replace("player", target.getName()).send(sender));
     }
 
     @Override

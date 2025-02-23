@@ -2,13 +2,9 @@ package com.xg7plugins.xg7lobby.inventories;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7menus.builders.MenuBuilder;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
-import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.xg7lobby.inventories.menu.*;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.event.inventory.InventoryType;
 
 import java.util.Collections;
 import java.util.HashMap;

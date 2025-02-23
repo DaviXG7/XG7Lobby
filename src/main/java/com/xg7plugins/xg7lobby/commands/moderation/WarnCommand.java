@@ -8,15 +8,12 @@ import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.query.Query;
-import com.xg7plugins.data.database.query.Transaction;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import com.xg7plugins.xg7lobby.lobby.player.Warn;
 import org.apache.logging.log4j.util.Strings;
-import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -65,26 +62,26 @@ public class WarnCommand implements ICommand {
         Config config = XG7Lobby.getInstance().getConfig("config");
 
         if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (level < 1) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "warn-level-invalid").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "warn-level-invalid").thenAccept(text -> text.send(sender));
             return;
         }
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(target.getUniqueId(), false).join();
 
         if (!config.get("warn-admin",Boolean.class).orElse(false) && target.isOp()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.warn-admin").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.warn-admin").thenAccept(text -> text.send(sender));
             return;
         }
 
         lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), level, reason));
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.on-warn-sender").thenAccept(text -> text.replace("[PLAYER]", target.getName()).replace("[REASON]", reason).send(sender));
-        if (target.isOnline()) Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.warn.on-warn").thenAccept(text -> text.replace("[REASON]", reason).send(target.getPlayer()));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.on-warn-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason).send(sender));
+        if (target.isOnline()) Text.fromLang(lobbyPlayer.getPlayer(), XG7Lobby.getInstance(), "commands.warn.on-warn").thenAccept(text -> text.replace("reason", reason).send(target.getPlayer()));
 
 
     }
@@ -131,7 +128,7 @@ public class WarnCommand implements ICommand {
             String warnId = args.get(0, String.class);
 
             if (warnId.split("-").length != 5) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.invalid-id").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.invalid-id").thenAccept(text -> text.send(sender));
                 return;
             }
 
@@ -139,13 +136,13 @@ public class WarnCommand implements ICommand {
                 Warn warn = Query.selectFrom(XG7Lobby.getInstance(), Warn.class, UUID.fromString(warnId)).waitForResult().get(Warn.class);
 
                 if (warn == null) {
-                    Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.warn-not-found").thenAccept(text -> text.send(sender));
+                    Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.warn-not-found").thenAccept(text -> text.send(sender));
                     return;
                 }
 
                 LobbyPlayer player = XG7Lobby.getInstance().getPlayerDAO().get(warn.getPlayerUUID()).join();
 
-                Text.formatLang(XG7Lobby.getInstance(), sender, "commands.warn.on-pardon").thenAccept(text -> text.replace("[REASON]", warn.getReason()).replace("[ID]", warnId).send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.on-pardon").thenAccept(text -> text.replace("reason", warn.getReason()).replace("id", warnId).send(sender));
 
                 player.removeInfraction(warn);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |

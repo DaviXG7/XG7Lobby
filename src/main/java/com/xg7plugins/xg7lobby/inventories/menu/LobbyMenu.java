@@ -2,10 +2,9 @@ package com.xg7plugins.xg7lobby.inventories.menu;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7menus.events.ClickEvent;
-import com.xg7plugins.libs.xg7menus.events.MenuEvent;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.gui.Menu;
+import com.xg7plugins.modules.xg7menus.events.ClickEvent;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.gui.Menu;
 import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -63,7 +62,7 @@ public class LobbyMenu extends Menu {
 
                 LobbyItem lobbyItem = this.items.get(path);
 
-                if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).getTextFor(player)))) {
+                if (lobbyItem.getCondition().getFirst().apply(new Condition.ConditionPack(player, Text.format(lobbyItem.getCondition().getSecond()).textFor(player).getPlainText()))) {
                     items.add(lobbyItem.getItem().slot(i));
                     continue;
                 }
@@ -83,15 +82,14 @@ public class LobbyMenu extends Menu {
     }
 
     @Override
-    public <T extends MenuEvent> void onClick(T event) {
-        if (!(event instanceof ClickEvent)) return;
-        Item clickedItem = ((ClickEvent) event).getClickedItem();
+    public void onClick(ClickEvent event) {
+        Item clickedItem = event.getClickedItem();
         if (clickedItem == null || clickedItem.getItemStack() == null || clickedItem.isAir()) return;
         event.setCancelled(true);
 
         List<String> actions = (List<String>) clickedItem.getTag("actions", List.class).orElse(Collections.emptyList()).stream().map(action -> {
             if (action.toString().startsWith("[SWAP] ")) {
-                return "[SWAP] " + id + ", " + ((ClickEvent) event).getClickedSlot() + ", " + action.toString().replace("[SWAP] ", "");
+                return "[SWAP] " + id + ", " + event.getClickedSlot() + ", " + action.toString().replace("[SWAP] ", "");
             }
             return action;
         }).collect(Collectors.toList());

@@ -7,7 +7,8 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.warn_menu.WarnMenu;
@@ -24,8 +25,7 @@ import java.util.stream.Collectors;
         name = "warns",
         permission = "xg7lobby.commands.warns",
         description = "View a player's warnings",
-        syntax = "/warns [player]",
-        isAsync = true,
+        syntax = "/warns %player%",
         isPlayerOnly = true
 )
 public class WarnsCommand implements ICommand {
@@ -43,20 +43,20 @@ public class WarnsCommand implements ICommand {
 
         if (args.len() == 1) {
             if (!sender.hasPermission("xg7lobby.commands.warns.others")) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
 
             OfflinePlayer targetOffline = args.get(0, OfflinePlayer.class);
             if (!targetOffline.isOnline()) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "commands.not-online").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "commands.not-online").thenAccept(text -> text.send(sender));
                 return;
             }
 
             target = targetOffline.getPlayer();
         }
 
-        WarnMenu menu = (WarnMenu) XG7Plugins.getInstance().getMenuManager().getMenu(XG7Lobby.getInstance(), "warn-menu");
+        WarnMenu menu = XG7Menus.getInstance().getMenu(XG7Lobby.getInstance(), "warn-menu");
 
         menu.open(player, target);
 

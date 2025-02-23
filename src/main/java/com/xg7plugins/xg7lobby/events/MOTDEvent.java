@@ -27,7 +27,7 @@ public class MOTDEvent implements Listener {
                 .orElse(Collections.singletonList("Powred by XG7Plugins"))
                 .stream()
                 .map(
-                        (txt) -> Text.format(txt).getTextCentralized(TextCentralizer.PixelsSize.MOTD)
+                        (txt) -> Text.format(txt).getPlainText()
                 ).collect(Collectors.joining("\n"));
         event.setMotd(motd);
         event.setMaxPlayers(config.get("motd.max-players", int.class).orElse(100));

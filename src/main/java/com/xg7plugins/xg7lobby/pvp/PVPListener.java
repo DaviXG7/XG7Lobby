@@ -52,7 +52,7 @@ public class PVPListener implements LobbyEvent {
         if (!pvpManager.isPlayerInPVP(damager)) return;
 
         if (!pvpManager.isPlayerInPVP(victim)) {
-            Text.formatLang(XG7Lobby.getInstance(), damager, "pvp.on-attack").join().send(damager);
+            Text.fromLang(damager, XG7Lobby.getInstance(), "pvp.on-attack").join().send(damager);
             return;
         }
 
@@ -83,16 +83,16 @@ public class PVPListener implements LobbyEvent {
 
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (killer != null) {
-                    Text.formatLang(XG7Lobby.getInstance(), player, "pvp.on-death-with-killer").join()
-                            .replace("[PLAYER]", event.getEntity().getName())
+                    Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-with-killer").join()
+                            .replace("player", event.getEntity().getName())
                             .replace("[KILLER]", event.getEntity().getKiller().getName())
                             .replace("[CAUSE]", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                             .send(player);
                     return;
                 }
 
-                Text.formatLang(XG7Lobby.getInstance(), player, "pvp.on-death-without-killer").join()
-                        .replace("[PLAYER]", event.getEntity().getName())
+                Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-without-killer").join()
+                        .replace("player", event.getEntity().getName())
                         .replace("[CAUSE]", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                         .send(player);
             });
@@ -128,7 +128,7 @@ public class PVPListener implements LobbyEvent {
 
         if (XG7Lobby.getInstance().getConfig("config").getList("global-pvp.commands-blocked", String.class).orElse(new ArrayList<>()).contains(event.getMessage().split(" ")[0])) {
             event.setCancelled(true);
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "pvp.pvp-command").thenAccept(text -> text.send(event.getPlayer()));
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "pvp.pvp-command").thenAccept(text -> text.send(event.getPlayer()));
         }
     }
 

@@ -59,9 +59,8 @@ items:
       - "[SHOW_PLAYERS] "
       - "[SWAP] hidePlayers"
 
-
-
-
-
 grid:
   - ["games","profile","","","","","","","hidePlayers"]
+
+
+config-version: test-1.0

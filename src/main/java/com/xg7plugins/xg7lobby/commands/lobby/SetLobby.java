@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.*;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -45,29 +45,25 @@ public class SetLobby implements ICommand {
         LobbyLocation location = new LobbyLocation(lobbyId, XG7Lobby.getInstance().getServerInfo(), Location.fromPlayer(player));
 
         if (!XG7Lobby.getInstance().isWorldEnabled(location.getLocation().getWorld())) {
-            Text.formatLang(XG7Plugins.getInstance(), player, "commands.disabled-world").thenAccept(text -> text.send(player));
+            Text.fromLang(player, XG7Plugins.getInstance(), "commands.disabled-world").thenAccept(text -> text.send(player));
             return;
         }
 
         XG7Lobby.getInstance().getLobbyManager().saveLobby(location)
                 .exceptionally(e -> {
-                    System.out.println("[ERROR] Failed to save lobby: " + e.getMessage());
-                    Text.formatLang(XG7Lobby.getInstance(), player, "lobby.on-set.on-error")
+                    Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-set.on-error")
                             .thenAccept(text -> text.replace("[ERROR]", e.getMessage()).send(player));
                     e.printStackTrace();
                     throw new RuntimeException(e);
-                }).thenRun(() -> {
-                    System.out.println("[DEBUG] Lobby saved successfully. Sending success message...");
-                    Text.formatLang(XG7Lobby.getInstance(), player, "lobby.on-set.on-success").join()
-                            .replace("[ID]", location.getId())
-                            .replace("[WORLD]", location.getLocation().getWorld().getName())
-                            .replace("[X]", String.format("%.2f", location.getLocation().getX()))
-                            .replace("[Y]", String.format("%.2f", location.getLocation().getY()))
-                            .replace("[Z]", String.format("%.2f", location.getLocation().getZ()))
-                            .replace("[YAW]", String.format("%.2f", location.getLocation().getYaw()))
-                            .replace("[PITCH]", String.format("%.2f", location.getLocation().getPitch()))
-                            .send(player);
-                });
+                }).thenRun(() -> Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-set.on-success").join()
+                        .replace("id", location.getID())
+                        .replace("world", location.getLocation().getWorld().getName())
+                        .replace("x", String.format("%.2f", location.getLocation().getX()))
+                        .replace("y", String.format("%.2f", location.getLocation().getY()))
+                        .replace("z", String.format("%.2f", location.getLocation().getZ()))
+                        .replace("yaw", String.format("%.2f", location.getLocation().getYaw()))
+                        .replace("pitch", String.format("%.2f", location.getLocation().getPitch()))
+                        .send(player));
     }
 
     @Override

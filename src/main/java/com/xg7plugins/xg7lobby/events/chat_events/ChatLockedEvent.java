@@ -18,7 +18,7 @@ public class ChatLockedEvent implements Listener {
         if (XG7Lobby.getInstance().getServerInfo().isChatLocked()) {
             if (XG7Lobby.getInstance().getConfig("config").get("lock-chat-only-on-lobby", Boolean.class).orElse(false) && !XG7Lobby.getInstance().isInWorldEnabled(event.getPlayer())) return;
 
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "chat.locked").thenAccept(text -> text.send(event.getPlayer()));
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "chat.locked").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
         }
     }

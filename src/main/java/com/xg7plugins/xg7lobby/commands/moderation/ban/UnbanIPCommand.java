@@ -6,7 +6,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import org.bukkit.Bukkit;
@@ -42,7 +42,7 @@ public class UnbanIPCommand implements ICommand {
 
         XG7Plugins.getInstance().getServer().getBanList(org.bukkit.BanList.Type.IP).pardon(ip);
 
-        Text.formatLang(XG7Lobby.getInstance(), sender, "commands.unban.on-unban-ip").thenAccept(text -> text.replace("[IP]", ip).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unban.on-unban-ip").thenAccept(text -> text.replace("ip", ip).send(sender));
 
     }
 

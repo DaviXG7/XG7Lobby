@@ -1,25 +1,20 @@
 package com.xg7plugins.xg7lobby.commands;
 
 import com.cryptomorin.xseries.XMaterial;
-import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.actions.ActionException;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Command(
         name = "open",
@@ -52,7 +47,7 @@ public class OpenInventoryCommand implements ICommand {
         BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args.get(0, String.class));
 
         if (menu == null) {
-            Text.formatLang(XG7Lobby.getInstance(), player, "menu-does-not-exist").thenAccept(text -> text.send(player));
+            Text.fromLang(player,XG7Lobby.getInstance(), "menu-does-not-exist").thenAccept(text -> text.send(player));
             return;
         }
 

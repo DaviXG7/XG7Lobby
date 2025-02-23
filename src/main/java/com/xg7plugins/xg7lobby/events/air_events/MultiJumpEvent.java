@@ -55,7 +55,7 @@ public class MultiJumpEvent implements Listener {
 
         if (jumpingPlayers.get(player.getPlayerUUID()) == 0) player.getPlayer().setAllowFlight(false);
 
-        Text.formatLang(XG7Lobby.getInstance(), player.getPlayer(), "multi-jump-left").thenAccept(text -> text.replace("[JUMPS]", jumpingPlayers.getOrDefault(player.getPlayerUUID(), config.get("multi-jumps.limit", Integer.class).orElse(2)) + "").send(player.getPlayer()));
+        Text.fromLang(player.getPlayer(),XG7Lobby.getInstance(), "multi-jump-left").thenAccept(text -> text.replace("jumps", jumpingPlayers.getOrDefault(player.getPlayerUUID(), config.get("multi-jumps.limit", Integer.class).orElse(2)) + "").send(player.getPlayer()));
 
     }
 

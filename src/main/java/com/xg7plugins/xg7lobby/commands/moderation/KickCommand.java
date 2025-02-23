@@ -1,11 +1,12 @@
 package com.xg7plugins.xg7lobby.commands.moderation;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Command(
         name = "kick",
         description = "Kick a player",
-        syntax = "/kick <player> [reason]",
+        syntax = "/kick <player> %reason%",
         permission = "xg7lobby.command.moderation.kick"
 )
 public class KickCommand implements ICommand {
@@ -39,21 +40,21 @@ public class KickCommand implements ICommand {
         String reason = args.len() > 1 ? Strings.join(Arrays.asList(Arrays.copyOfRange(args.getArgs(), 1, args.len())), ' ') : null;
 
         if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (!target.isOnline()) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.not-online").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Plugins.getInstance(), "commands.not-online").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (target.isOp() && !XG7Lobby.getInstance().getConfig("config").get("kick-admin",Boolean.class).orElse(false)) {
-            Text.formatLang(XG7Lobby.getInstance(), sender, "commands.kick.kick-admin").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.kick.kick-admin").thenAccept(text -> text.send(sender));
             return;
         }
 
-        target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.kick.on-kick").join().replace("[REASON]", reason != null ? reason : "").getText());
+        target.getPlayer().kickPlayer(Text.fromLang(target.getPlayer(), XG7Lobby.getInstance(), "commands.kick.on-kick").join().replace("reason", reason != null ? reason : "").getText());
 
         if (reason != null) {
             LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {

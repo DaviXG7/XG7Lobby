@@ -8,9 +8,12 @@ import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.PacketListener;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
-import com.xg7plugins.libs.xg7scores.Score;
+
+import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
+import com.xg7plugins.modules.xg7scores.XG7Scores;
 import com.xg7plugins.tasks.Task;
+import com.xg7plugins.utils.Debug;
 import com.xg7plugins.utils.Metrics;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.*;
@@ -78,17 +81,18 @@ import java.util.List;
 )
 public final class XG7Lobby extends Plugin {
 
-    private final ActionsProcessor actionsProcessor;
+    private ActionsProcessor actionsProcessor;
     private LobbyManager lobbyManager;
-    private final PlayerDAO playerDAO;
-    private final ServerInfo serverInfo;
+    private PlayerDAO playerDAO;
+    private ServerInfo serverInfo;
     private InventoryManager inventoryManager;
     private CustomCommandManager customCommandManager;
     @Getter
     private GlobalPVPManager globalPVPManager;
 
-
-    public XG7Lobby() {
+    @Override
+    public void onLoad() {
+        super.onLoad();
         actionsProcessor = new ActionsProcessor();
         playerDAO = new PlayerDAO();
         serverInfo = new ServerInfo(this);
@@ -97,7 +101,10 @@ public final class XG7Lobby extends Plugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        lobbyManager = new LobbyManager(this);
+
+        Metrics.getMetrics(this, 24625);
+
+        lobbyManager = new LobbyManager();
 
         if (XG7Plugins.isPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
 
@@ -105,25 +112,51 @@ public final class XG7Lobby extends Plugin {
 
         if (config.get("menus-enabled",Boolean.class).orElse(false)) {
 
-            getLog().loading("Loading custom menus...");
+            Debug.of(XG7Lobby.getInstance()).loading("Loading custom menus...");
             inventoryManager = new InventoryManager(this, "games", "profile", "selector", "pvp_selector");
 
         }
 
         if (config.get("global-pvp.enabled", Boolean.class).orElse(false)) {
-            getLog().loading("Loading global pvp manager...");
+            Debug.of(XG7Lobby.getInstance()).loading("Loading global pvp manager...");
             globalPVPManager = new GlobalPVPManager(config);
         }
 
         if (config.get("custom-commands-enabled", Boolean.class).orElse(false)) {
-            getLog().loading("Loading custom commands...");
+            Debug.of(XG7Lobby.getInstance()).loading("Loading custom commands...");
             customCommandManager = new CustomCommandManager(config);
         }
 
-        getLog().loading("Loading action events...");
+        Debug.of(XG7Lobby.getInstance()).loading("Loading action events...");
         loadActions();
 
         if (XG7Plugins.isBungeecord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+        Debug.of(XG7Lobby.getInstance()).loading("Loading menus...");
+
+
+        List<BaseMenu> menus = new ArrayList<>();
+
+        menus.add(new WarnMenu());
+
+        menus.addAll(inventoryManager.getInventories());
+
+        XG7Menus.getInstance().registerMenus(menus.toArray(new BaseMenu[0]));
+
+        Debug.of(XG7Lobby.getInstance()).loading("Loading scores...");
+
+        ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
+        TablistLoader tablistLoader = new TablistLoader(config);
+        BossBarLoader bossBarLoader = new BossBarLoader(config);
+        ActionBarLoader actionBarLoader = new ActionBarLoader(config);
+        XPBarLoader xpBarLoader = new XPBarLoader(config);
+
+
+        if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled() || bossBarLoader.isEnabled() || actionBarLoader.isEnabled() || xpBarLoader.isEnabled()) {
+            XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
+        }
+
+        XG7Scores.getInstance().registerScores(scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load());
 
 
         Bukkit.getOnlinePlayers().forEach(player -> {
@@ -175,41 +208,8 @@ public final class XG7Lobby extends Plugin {
     }
 
     @Override
-    public BaseMenu[] loadMenus() {
-
-        List<BaseMenu> menus = new ArrayList<>();
-
-        menus.add(new WarnMenu());
-
-        menus.addAll(inventoryManager.getInventories());
-
-        return menus.toArray(new BaseMenu[0]);
-    }
-
-    @Override
     public void loadHelp() {
 
-    }
-
-    @Override
-    public Score[] loadScores() {
-
-        Metrics.getMetrics(this, 24625);
-
-        Config config = getConfig("config");
-
-        ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
-        TablistLoader tablistLoader = new TablistLoader(config);
-        BossBarLoader bossBarLoader = new BossBarLoader(config);
-        ActionBarLoader actionBarLoader = new ActionBarLoader(config);
-        XPBarLoader xpBarLoader = new XPBarLoader(config);
-
-
-        if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled() || bossBarLoader.isEnabled() || actionBarLoader.isEnabled() || xpBarLoader.isEnabled()) {
-            XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
-        }
-
-        return new Score[]{scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load()};
     }
 
     @Override

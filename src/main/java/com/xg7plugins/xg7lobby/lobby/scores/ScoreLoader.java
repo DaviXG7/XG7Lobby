@@ -1,17 +1,17 @@
 package com.xg7plugins.xg7lobby.lobby.scores;
 
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7scores.Score;
-import com.xg7plugins.libs.xg7scores.ScoreCondition;
+import com.xg7plugins.modules.xg7scores.Score;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 public abstract class ScoreLoader {
 
@@ -19,7 +19,7 @@ public abstract class ScoreLoader {
     protected final boolean isEnabled;
     protected final ScoreConfig config;
     protected final long delay;
-    protected final ScoreCondition condition = player -> XG7Lobby.getInstance().isInWorldEnabled(player);
+    protected final Function<Player, Boolean> condition = player -> XG7Lobby.getInstance().isInWorldEnabled(player);
 
     public ScoreLoader(Config config, String path) {
         this.config = new ScoreConfig(config, path);

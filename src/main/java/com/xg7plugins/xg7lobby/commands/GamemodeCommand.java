@@ -5,7 +5,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import org.bukkit.GameMode;
@@ -42,7 +42,7 @@ public class GamemodeCommand implements ICommand {
 
         if (args.len() == 1) {
             if (!(sender instanceof Player)) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.not-a-player").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender,XG7Plugins.getInstance(), "commands.not-a-player").thenAccept(text -> text.send(sender));
                 return;
             }
             target = (Player) sender;
@@ -52,13 +52,13 @@ public class GamemodeCommand implements ICommand {
         boolean isOther = false;
 
         if (mode == null) {
-            Text.formatLang(XG7Plugins.getInstance(), sender, "commands.gamemode.invalid-gamemode").thenAccept(text -> text.send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.gamemode.invalid-gamemode").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (args.len() > 1) {
             if (!sender.hasPermission("xg7lobby.command.gamemode.other")) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
             target = args.get(1, OfflinePlayer.class);
@@ -68,12 +68,12 @@ public class GamemodeCommand implements ICommand {
         if (isOther) {
 
             if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
                 return;
             }
 
             if (!target.isOnline()) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "commands.not-online").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "commands.not-online").thenAccept(text -> text.send(sender));
                 return;
             }
         }
@@ -81,10 +81,10 @@ public class GamemodeCommand implements ICommand {
         target.getPlayer().setGameMode(mode.getGameMode());
 
         OfflinePlayer finalTarget = target;
-        Text.formatLang(XG7Lobby.getInstance(), target.getPlayer(), "commands.gamemode.set")
+        Text.fromLang(target.getPlayer(),XG7Lobby.getInstance(), "commands.gamemode.set")
                 .thenAccept(text -> text.replace("[GAMEMODE]", mode.name().toLowerCase()).send(finalTarget.getPlayer()));
-        if (isOther) Text.formatLang(XG7Lobby.getInstance(), sender, "commands.gamemode.set-other")
-                .thenAccept(text -> text.replace("[GAMEMODE]", mode.name().toLowerCase()).replace("[PLAYER]", finalTarget.getName()).send(sender));
+        if (isOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.gamemode.set-other")
+                .thenAccept(text -> text.replace("[GAMEMODE]", mode.name().toLowerCase()).replace("player", finalTarget.getName()).send(sender));
     }
 
     @Override
@@ -119,7 +119,7 @@ public class GamemodeCommand implements ICommand {
 
         public static Mode getMode(String name) {
             for (Mode mode : values()) {
-                if (mode.name().equalsIgnoreCase(name.toUpperCase())) return mode;
+                if (mode.name().equalsIgnoreCase(name)) return mode;
                 for (String alias : mode.aliases) {
                     if (alias.equalsIgnoreCase(name)) return mode;
                 }

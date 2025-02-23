@@ -1,8 +1,9 @@
 package com.xg7plugins.xg7lobby.lobby.scores;
 
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7scores.Score;
-import com.xg7plugins.libs.xg7scores.builder.TablistBuilder;
+
+import com.xg7plugins.modules.xg7scores.Score;
+import com.xg7plugins.modules.xg7scores.builder.TablistBuilder;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 
 import java.util.List;

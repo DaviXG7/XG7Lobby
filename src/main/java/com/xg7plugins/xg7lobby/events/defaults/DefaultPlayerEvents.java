@@ -3,6 +3,7 @@ package com.xg7plugins.xg7lobby.events.defaults;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
+import com.xg7plugins.modules.xg7menus.XG7Menus;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
@@ -26,86 +27,109 @@ public class DefaultPlayerEvents implements Listener {
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "break-block", "true"}
+            enabledPath = {"config", "break-block", "true"},
+            priority = EventPriority.HIGH
     )
     public void onBreakBlock(BlockBreakEvent event) {
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
-            if (lobbyPlayer.isBuildEnabled()) return;
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
+            if (lobbyPlayer.isBuildEnabled())  {
+                event.setCancelled(false);
+                return;
+            }
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "player-prohibitions.break-blocks").thenAccept(text -> text.send(event.getPlayer()));
+        Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "player-prohibitions.break-blocks").thenAccept(text -> text.send(event.getPlayer()));
     }
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "place-block", "true"}
+            enabledPath = {"config", "place-block", "true"},
+            priority = EventPriority.HIGH
     )
     public void onPlaceBlock(BlockPlaceEvent event) {
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
-            if (lobbyPlayer.isBuildEnabled()) return;
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
+            if (lobbyPlayer.isBuildEnabled())  {
+                event.setCancelled(false);
+                return;
+            }
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "player-prohibitions.place-blocks").thenAccept(text -> text.send(event.getPlayer()));
+        Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "player-prohibitions.place-blocks").thenAccept(text -> text.send(event.getPlayer()));
     }
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "interact-with-blocks", "true"}
+            enabledPath = {"config", "interact-with-blocks", "true"},
+            priority = EventPriority.HIGH
     )
     public void onInteract(PlayerInteractEvent event) {
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
-            if (lobbyPlayer.isBuildEnabled()) return;
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
+            if (lobbyPlayer.isBuildEnabled()) {
+                event.setCancelled(false);
+                return;
+            }
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "player-prohibitions.interact-with-blocks").thenAccept(text -> text.send(event.getPlayer()));
+        Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "player-prohibitions.interact-with-blocks").thenAccept(text -> text.send(event.getPlayer()));
     }
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "drop-item", "true"}
+            enabledPath = {"config", "drop-item", "true"},
+            priority = EventPriority.HIGH
     )
     public void onDropItem(PlayerDropItemEvent event) {
-        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) {
+            event.setCancelled(false);
+            return;
+        }
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
-            if (lobbyPlayer.isBuildEnabled()) return;
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
+            if (lobbyPlayer.isBuildEnabled()) {
+                event.setCancelled(false);
+                return;
+            }
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "player-prohibitions.drop-items").thenAccept(text -> text.send(event.getPlayer()));
+        Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "player-prohibitions.drop-items").thenAccept(text -> text.send(event.getPlayer()));
     }
 
     @EventHandler(
             isOnlyInWorld = true,
-            enabledPath = {"config", "pickup-item", "true"}
+            enabledPath = {"config", "pickup-item", "true"},
+            priority = EventPriority.HIGH
     )
     public void onPickupItem(PlayerPickupItemEvent event) {
-        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) {
+            event.setCancelled(false);
+            return;
+        }
         if (event.getPlayer().hasPermission("xg7lobby.command.build")) {
             LobbyPlayer lobbyPlayer = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
             if (lobbyPlayer.isBuildEnabled()) return;
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "build-not-enabled").thenAccept(text -> text.send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "player-prohibitions.pickup-items").thenAccept(text -> text.send(event.getPlayer()));
+        Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "player-prohibitions.pickup-items").thenAccept(text -> text.send(event.getPlayer()));
     }
 
     @EventHandler(
@@ -125,10 +149,11 @@ public class DefaultPlayerEvents implements Listener {
     )
     public void onAttack(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
         if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getEntity()) && XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getDamager())) return;
         if (event.getDamager().hasPermission("xg7lobby.attack")) return;
         event.setCancelled(true);
-        Text.formatLang(XG7Lobby.getInstance(), event.getDamager(), "player-prohibitions.attack").thenAccept(text -> text.send(event.getDamager()));
+        Text.fromLang(event.getDamager(), XG7Lobby.getInstance(), "player-prohibitions.attack").thenAccept(text -> text.send(event.getDamager()));
     }
 
     @EventHandler(
@@ -178,9 +203,9 @@ public class DefaultPlayerEvents implements Listener {
 
         Player player = event.getPlayer();
 
-        if (XG7Plugins.getInstance().getMenuManager().hasPlayerMenu(player.getUniqueId())) {
+        if (XG7Menus.getInstance().hasPlayerMenuHolder(player.getUniqueId())) {
             player.getInventory().clear();
-            XG7Plugins.getInstance().getMenuManager().removePlayerMenu(player.getUniqueId());
+            XG7Menus.getInstance().removePlayerMenuHolder(player.getUniqueId());
         }
 
         LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);

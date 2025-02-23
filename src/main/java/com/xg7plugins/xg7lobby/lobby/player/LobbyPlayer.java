@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Data
 @Table(name = "player_data")
-public class LobbyPlayer implements Entity<LobbyPlayer> {
+public class LobbyPlayer implements Entity<UUID,LobbyPlayer> {
 
     @Pkey
     private UUID playerUUID;
@@ -169,22 +169,22 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
                 Bukkit.getScheduler().runTask(XG7Lobby.getInstance(), () -> {
                     if ((warnCount >= warnsToBan && warnsToBan > 0) || (warnCount >= totalWarnsToBan && totalWarnsToBan > 0)) {
                         if (banIp && target.isOnline())
-                            Bukkit.getBanList(BanList.Type.IP).addBan(getPlayer().getAddress().getAddress().getHostAddress(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn.ban").join().getText(), null, null);
+                            Bukkit.getBanList(BanList.Type.IP).addBan(getPlayer().getAddress().getAddress().getHostAddress(), Text.fromLang(getPlayer(),XG7Lobby.getInstance(), "commands.warn.warn.ban").join().getText(), null, null);
                         else
-                            Bukkit.getBanList(BanList.Type.NAME).addBan(target.getName(), Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-ban").join().replace("[REASON]", warn.getReason()).getText(), null, null);
+                            Bukkit.getBanList(BanList.Type.NAME).addBan(target.getName(), Text.fromLang(getPlayer(),XG7Lobby.getInstance(), "commands.warn.warn-ban").join().replace("reason", warn.getReason()).getText(), null, null);
                         if (target.isOnline())
-                            target.getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-ban").join().replace("[REASON]", warn.getReason()).getText());
+                            target.getPlayer().kickPlayer(Text.fromLang(getPlayer(),XG7Lobby.getInstance(), "commands.warn.warn-ban").join().replace("reason", warn.getReason()).getText());
                     }
 
                     if (((warnCount >= warnsToKick && warnsToKick > 0) || (warnCount >= totalWarnsToKick && totalWarnsToKick > 0)) && target.isOnline()) {
-                        getPlayer().kickPlayer(Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-kick").join().replace("[REASON]", warn.getReason()).getText());
+                        getPlayer().kickPlayer(Text.fromLang(getPlayer(),XG7Lobby.getInstance(), "commands.warn.warn-kick").join().replace("reason", warn.getReason()).getText());
                     }
                 });
                 if ((warnCount >= warnsToMute && warnsToMute > 0) || (warnCount >= totalWarnsToMute && totalWarnsToMute > 0)) {
                     setMuted(true);
                     if(config.get("warn-time-to-unmute",String.class).orElse("").toLowerCase().equals("forever")) setTimeForUnmute(System.currentTimeMillis() + config.getTime("warn-time-to-unmute").orElse(0L));
 
-                    if (target.isOnline()) Text.formatLang(XG7Lobby.getInstance(), getPlayer(), "commands.warn.warn-mute").thenAccept(text -> text.replace("[REASON]", warn.getReason()).send(getPlayer()));
+                    if (target.isOnline()) Text.fromLang(getPlayer(),XG7Lobby.getInstance(), "commands.warn.warn-mute").thenAccept(text -> text.replace("reason", warn.getReason()).send(getPlayer()));
                 }
             });
         });
@@ -202,5 +202,10 @@ public class LobbyPlayer implements Entity<LobbyPlayer> {
     @Override
     public boolean equals(LobbyPlayer lobbyPlayer) {
         return playerUUID.equals(lobbyPlayer.getPlayerUUID());
+    }
+
+    @Override
+    public UUID getID() {
+        return this.playerUUID;
     }
 }

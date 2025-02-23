@@ -1,6 +1,6 @@
 package com.xg7plugins.xg7lobby.inventories.menu;
 
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.Pair;
 import lombok.AllArgsConstructor;

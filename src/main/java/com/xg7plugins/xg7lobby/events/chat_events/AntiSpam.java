@@ -5,6 +5,7 @@ import com.xg7plugins.data.config.Config;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.tasks.TaskManager;
+import com.xg7plugins.utils.Time;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -41,8 +42,8 @@ public class AntiSpam implements Listener {
 
         if (XG7Plugins.getInstance().getCooldownManager().containsPlayer("lobby-chat-spam", player)) {
             double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("lobby-chat-spam", player);
-            Text.formatLang(XG7Lobby.getInstance(), player, "chat.message-cooldown").thenAccept(text -> text
-                    .replace("[PLAYER]", player.getName())
+            Text.fromLang(player,XG7Lobby.getInstance(), "chat.message-cooldown").thenAccept(text -> text
+                    .replace("player", player.getName())
                     .replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
                     .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
                     .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
@@ -56,7 +57,7 @@ public class AntiSpam implements Listener {
             if (config.get("anti-spam.message-cannot-be-the-same", Boolean.class).orElse(true)) {
                 String lastMessage = this.lastMessages.get(player.getUniqueId());
                 if (lastMessage != null && lastMessage.equalsIgnoreCase(event.getMessage())) {
-                    Text.formatLang(XG7Lobby.getInstance(), player, "chat.same-message").thenAccept(text -> text.send(player));
+                    Text.fromLang(player,XG7Lobby.getInstance(), "chat.same-message").thenAccept(text -> text.send(player));
                     event.setCancelled(true);
                     return;
                 }
@@ -75,7 +76,7 @@ public class AntiSpam implements Listener {
                 if (tolerance.get(player.getName()) == 0) {
                     tolerance.remove(player.getName());
                 }
-            }, TaskManager.convertMillisToTicks(config.getTime("anti-spam.time-for-decrement-spam-tolerance").orElse(5000L)));
+            }, Time.convertMillisToTicks(config.getTime("anti-spam.time-for-decrement-spam-tolerance").orElse(5000L)));
 
             if (tolerance.get(player.getName()) >= config.get("anti-spam.spam-tolerance", Integer.class).orElse(0)) {
                 event.setCancelled(true);
@@ -92,7 +93,7 @@ public class AntiSpam implements Listener {
             }
 
             if (tolerance.get(player.getName()) >= config.get("anti-spam.send-warning-on-message", Integer.class).orElse(0)) {
-                Text.formatLang(XG7Lobby.getInstance(), player, "chat.send-much-messages").thenAccept(text -> text.send(player));
+                Text.fromLang(player,XG7Lobby.getInstance(), "chat.send-much-messages").thenAccept(text -> text.send(player));
             }
         }
     }

@@ -4,9 +4,22 @@ enabled-worlds:
   - "world"
   - "lobby"
 
-log-enabled: true
+debug:
 
-main-lang: en-us
+  enabled: false
+
+  config-warn: true
+  lang: true
+  packet-events: true
+  tasks: true
+  sql: true
+  menus: true
+  hologram: true
+  scoreboards: true
+  commands: true
+  events: true
+  extensions: true
+  libs: true
 
 chat-locked: false
 
@@ -59,14 +72,14 @@ on-join:
 
   events:
     - "[TITLE] lang:[lobby.on-join-events.title], &f%player_name%"
-    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
-    - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.title] &f%player_name%"
+    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center> lang:[lobby.on-join-events.title] &f%player_name%"
     - "[MESSAGE]  "
-    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
-    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE] <center> &aSite: &fwww.website.com"
+    - "[MESSAGE] <center> &4YT: &fwww.youtube.com"
     - "[MESSAGE]  "
-    - "[MESSAGE] [CENTER] lang:[lobby.on-join-events.message1]"
-    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center> lang:[lobby.on-join-events.message1]"
+    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
@@ -79,14 +92,14 @@ on-first-join:
   send-first-join-message: true
   events:
     - "[TITLE] &bWelcome, &f%player_name%"
-    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
-    - "[MESSAGE] [CENTER] &bWelcome for the first time! &f%player_name%"
+    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center> &bWelcome for the first time! &f%player_name%"
     - "[MESSAGE]  "
-    - "[MESSAGE] [CENTER] &aSite: &fwww.website.com"
-    - "[MESSAGE] [CENTER] &4YT: &fwww.youtube.com"
+    - "[MESSAGE] <center> &aSite: &fwww.website.com"
+    - "[MESSAGE] <center> &4YT: &fwww.youtube.com"
     - "[MESSAGE]  "
-    - "[MESSAGE] [CENTER] &5&oPlugin made by DaviXG7"
-    - "[MESSAGE] [CENTER] &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center> &5&oPlugin made by DaviXG7"
+    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
@@ -214,20 +227,20 @@ auto-broadcast:
     #Create your announcement
     #You can send in actionbars
     - ad:
-      - "[CENTER] &8-------------------&7**&8-------------------"
-      - "[CENTER] &e&lANNOUNCEMENT:"
-      - "[CENTER] &9This plugin was made by &bDaviXG7"
-      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "<center> &8-------------------&7**&8-------------------"
+      - "<center> &e&lANNOUNCEMENT:"
+      - "<center> &9This plugin was made by &bDaviXG7"
+      - "<center> &8-------------------&7**&8-------------------"
     - ad:
-      - "[CENTER] &8-------------------&7**&8-------------------"
-      - "[CENTER] &e&lANNOUNCEMENT:"
-      - "[CENTER] &aRate XG7Lobby in &e5 &bstars!"
-      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "<center> &8-------------------&7**&8-------------------"
+      - "<center> &e&lANNOUNCEMENT:"
+      - "<center> &aRate XG7Lobby in &e5 &bstars!"
+      - "<center> &8-------------------&7**&8-------------------"
     - ad:
-      - "[CENTER] &8-------------------&7**&8-------------------"
-      - "[CENTER] &e&lANNOUNCEMENT:"
-      - "[CENTER] &fVisit our website: &bhttps://xg7plugins.com"
-      - "[CENTER] &8-------------------&7**&8-------------------"
+      - "<center> &8-------------------&7**&8-------------------"
+      - "<center> &e&lANNOUNCEMENT:"
+      - "<center> &fVisit our website: &bhttps://xg7plugins.com"
+      - "<center> &8-------------------&7**&8-------------------"
 
 ##################################################################
 #                             MOTD                               #
@@ -241,8 +254,8 @@ motd:
   max-players: 9999
 
   text:
-    - "[CENTER] &9XG7&3Lob&bby&r"
-    - "[CENTER] &5&oMade by DaviXG7"
+    - "<center> &9XG7&3Lob&bby&r"
+    - "<center> &5&oMade by DaviXG7"
 
 ##################################################################
 #                           SCORES                               #
@@ -427,7 +440,7 @@ custom-commands:
     aliases: ["dc"]
     actions:
       - "[MESSAGE]  "
-      - "[MESSAGE] [CENTER] &9Join our Discord: &bhttps://discord.gg/jfrn8w92kF"
+      - "[MESSAGE] <center> &9Join our Discord: &bhttps://discord.gg/jfrn8w92kF"
       - "[MESSAGE]  "
 
   site:
@@ -436,7 +449,7 @@ custom-commands:
     description: "Visit our website"
     actions:
       - "[MESSAGE]  "
-      - "[MESSAGE] [CENTER] &9Visit our website: &bhttps://example.com"
+      - "[MESSAGE] <center> &9Visit our website: &bhttps://example.com"
       - "[MESSAGE]  "
 
 anti-swearing:
@@ -548,3 +561,4 @@ global-pvp:
     - "/back"
 
 
+config-version: test-1.0

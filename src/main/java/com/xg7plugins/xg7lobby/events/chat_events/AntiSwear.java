@@ -5,6 +5,7 @@ import com.xg7plugins.data.config.Config;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.tasks.TaskManager;
+import com.xg7plugins.utils.Time;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -45,7 +46,7 @@ public class AntiSwear implements Listener {
             if (message.contains(word)) {
                 if (dontSend) {
                     event.setCancelled(true);
-                    Text.formatLang(XG7Lobby.getInstance(), player, "chat.swear").thenAccept(text -> text.send(player));
+                    Text.fromLang(player,XG7Lobby.getInstance(), "chat.swear").thenAccept(text -> text.send(player));
                     return;
                 }
 
@@ -63,7 +64,7 @@ public class AntiSwear implements Listener {
                         tolerance.put(player.getName(), tolerance.get(player.getName()) - 1);
                         if (tolerance.get(player.getName()) == 0) tolerance.remove(player.getName());
 
-                    }, TaskManager.convertMillisToTicks(config.getTime("anti-swearing.time-for-decrement-tolerance").orElse(5000L)));
+                    }, Time.convertMillisToTicks(config.getTime("anti-swearing.time-for-decrement-tolerance").orElse(5000L)));
                 }
                 break;
             }

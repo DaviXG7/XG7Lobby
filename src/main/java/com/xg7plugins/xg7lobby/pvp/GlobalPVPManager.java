@@ -60,7 +60,7 @@ public class GlobalPVPManager {
 
         XG7Lobby.getInstance().getActionsProcessor().process("on-pvp-enter", player);
 
-        if (!alreadyInPVP) Text.formatLang(XG7Lobby.getInstance(), player, "pvp.on-enter").join().send(player);
+        if (!alreadyInPVP) Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-enter").join().send(player);
 
     }
 

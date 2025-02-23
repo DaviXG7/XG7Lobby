@@ -40,7 +40,7 @@ public class MutedChat implements Listener {
             long finalMinutes = minutes;
             long finalSeconds = seconds;
 
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "chat.muted").thenAccept(text -> text.replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(event.getPlayer()));
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "chat.muted").thenAccept(text -> text.replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(event.getPlayer()));
             event.setCancelled(true);
             return;
         }

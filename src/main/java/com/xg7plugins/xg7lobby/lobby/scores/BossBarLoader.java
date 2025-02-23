@@ -2,8 +2,8 @@ package com.xg7plugins.xg7lobby.lobby.scores;
 
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7scores.Score;
-import com.xg7plugins.libs.xg7scores.builder.BossBarBuilder;
+import com.xg7plugins.modules.xg7scores.Score;
+import com.xg7plugins.modules.xg7scores.builder.BossBarBuilder;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 

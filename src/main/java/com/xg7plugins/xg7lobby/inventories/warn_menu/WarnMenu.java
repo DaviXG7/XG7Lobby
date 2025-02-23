@@ -1,12 +1,12 @@
 package com.xg7plugins.xg7lobby.inventories.warn_menu;
 
-import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7menus.Slot;
-import com.xg7plugins.libs.xg7menus.events.ClickEvent;
-import com.xg7plugins.libs.xg7menus.events.MenuEvent;
-import com.xg7plugins.libs.xg7menus.item.Item;
-import com.xg7plugins.libs.xg7menus.menus.gui.PageMenu;
+import com.xg7plugins.modules.xg7menus.Slot;
+import com.xg7plugins.modules.xg7menus.events.ClickEvent;
+import com.xg7plugins.modules.xg7menus.events.MenuEvent;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.gui.PageMenu;
+import com.xg7plugins.utils.Pair;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.utils.text.TextCentralizer;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -49,15 +49,15 @@ public class WarnMenu extends PageMenu {
 
             item.lore(lore);
 
-            item.setBuildPlaceholders(new HashMap<String,String>() {{
-                put("[TARGET]", target.getName());
-                put("[REASON]", infraction.getReason());
-                put("[DATE]", new SimpleDateFormat("dd/MM/yy HH:mm").format(infraction.getDate()));
-                put("[LEVEL]", String.valueOf(infraction.getLevel()));
-                put("[ID]", String.valueOf(infraction.getId()));
-            }});
+            item.setBuildPlaceholders(
+                Pair.of("target", target.getName()),
+                    Pair.of("reason", infraction.getReason()),
+                    Pair.of("date", new SimpleDateFormat("dd/MM/yy HH:mm").format(infraction.getDate())),
+                    Pair.of("level", String.valueOf(infraction.getLevel())),
+                    Pair.of("id", String.valueOf(infraction.getID()))
+            );
 
-            item.setNBTTag("warn-id", String.valueOf(infraction.getId()));
+            item.setNBTTag("warn-id", String.valueOf(infraction.getID()));
 
             items.add(item);
         });
@@ -81,7 +81,7 @@ public class WarnMenu extends PageMenu {
     }
 
     public void open(Player player, Player target) {
-        WarnMenuHolder holder = new WarnMenuHolder(this.id, this.plugin, (Text.detectLangOrText(XG7Lobby.getInstance(), player, this.title).join().replace("[TARGET]", target.getName())).getTextCentralized(TextCentralizer.PixelsSize.INV), this.size, this.type, this, player, target);
+        WarnMenuHolder holder = new WarnMenuHolder(this.id, this.plugin, (Text.detectLangs(player, XG7Lobby.getInstance(), this.title).join().replace("target", target.getName())).getPlainText(), this.size, this.type, this, player, target);
         player.openInventory(holder.getInventory());
         this.putItems(player, holder);
         holder.goPage(0);
@@ -93,18 +93,16 @@ public class WarnMenu extends PageMenu {
         return Collections.emptyList();
     }
 
-    public <T extends MenuEvent> void onClick(T event) {
+    public void onClick(ClickEvent event) {
         event.setCancelled(true);
-        if (!(event instanceof ClickEvent)) return;
-        ClickEvent clickEvent = (ClickEvent) event;
 
-        Player player = (Player) clickEvent.getWhoClicked();
+        Player player = (Player) event.getWhoClicked();
 
-        WarnMenuHolder holder = (WarnMenuHolder) clickEvent.getInventoryHolder();
+        WarnMenuHolder holder = (WarnMenuHolder) event.getInventoryHolder();
 
-        if (clickEvent.getClickedItem().isAir()) return;
+        if (event.getClickedItem().isAir()) return;
 
-        switch (clickEvent.getClickedSlot()) {
+        switch (event.getClickedSlot()) {
             case 45:
                 holder.previousPage();
                 break;
@@ -116,11 +114,11 @@ public class WarnMenu extends PageMenu {
                 break;
             default:
 
-                String id = clickEvent.getClickedItem().getTag("warn-id", String.class).orElse(null);
+                String id = event.getClickedItem().getTag("warn-id", String.class).orElse(null);
 
                 Text.format(" ").send(player);
 
-                String message = Text.formatLang(XG7Lobby.getInstance(), player, "warn-menu.id-message").join().replace("[ID]", id).getText();
+                String message = Text.fromLang(player,XG7Lobby.getInstance(), "warn-menu.id-message").join().replace("id", id).getText();
 
                 TextComponent textComponent = new TextComponent(message);
                 textComponent.setClickEvent(new net.md_5.bungee.api.chat.ClickEvent(net.md_5.bungee.api.chat.ClickEvent.Action.SUGGEST_COMMAND, id));

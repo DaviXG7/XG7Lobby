@@ -6,18 +6,18 @@ commands:
   fly:
     toggle-on: "&aFly mode enabled."
     toggle-off: "&cFly mode disabled."
-    toggle-other-on: "&aFly mode enabled for [PLAYER]."
-    toggle-other-off: "&cFly mode disabled for [PLAYER]."
+    toggle-other-on: "&aFly mode enabled for %player%."
+    toggle-other-off: "&cFly mode disabled for %player%."
 
   gamemode:
     invalid-gamemode: "&cInvalid gamemode. Use (0, s), (1, c), (2, a) or (3, sp)."
-    set: "&aGamemode set to [GAMEMODE]."
-    set-other: "&aGamemode set to [GAMEMODE] for [PLAYER]."
+    set: "&aGamemode set to %gamemode%."
+    set-other: "&aGamemode set to %gamemode% for %player%."
   build:
     toggle-on: "&aBuild mode enabled."
     toggle-off: "&cBuild mode disabled."
-    toggle-other-on: "&aBuild mode enabled for [PLAYER]."
-    toggle-other-off: "&cBuild mode disabled for [PLAYER]."
+    toggle-other-on: "&aBuild mode enabled for %player%."
+    toggle-other-off: "&cBuild mode disabled for %player%."
 
   warn:
     level-invalid: "&cInvalid warn level. Use a number between 1 and 3."
@@ -26,82 +26,82 @@ commands:
 
     invalid-id: "Invalid warn id!"
     warn-not-found: "Warn not found!"
-    on-pardon: "&aWarn with id [ID] pardoned successfully."
+    on-pardon: "&aWarn with id %id% pardoned successfully."
 
-    on-warn: "&cYou have been warned by an admin. Reason: [REASON]."
-    on-warn-sender: "&aPlayer [PLAYER] has been warned successfully by [REASON]."
+    on-warn: "&cYou have been warned by an admin. Reason: %reason%."
+    on-warn-sender: "&aPlayer %player% has been warned successfully by %reason%."
 
-    warn-ban: "&cYou have been banned for reaching the maximum number of warns.\n Reason: [REASON]."
-    warn-mute: "&cYou have been muted for reaching the maximum number of warns.\n Reason: [REASON]."
-    warn-kick: "&cYou have been kicked for reaching the maximum number of warns.\n Reason: [REASON]."
+    warn-ban: "&cYou have been banned for reaching the maximum number of warns.\n Reason: %reason%."
+    warn-mute: "&cYou have been muted for reaching the maximum number of warns.\n Reason: %reason%."
+    warn-kick: "&cYou have been kicked for reaching the maximum number of warns.\n Reason: %reason%."
 
   mute:
     already-muted: "&cThis player is already muted."
 
     mute-admin: "&cYou can't mute an admin."
 
-    on-mute: "&cYou have been muted for [TIME]."
-    on-mute-sender: "&aPlayer [PLAYER] has been muted successfully for [TIME]."
+    on-mute: "&cYou have been muted for %time%."
+    on-mute-sender: "&aPlayer %player% has been muted successfully for %time%."
 
   unmute:
     not-muted: "&cThis player is not muted."
 
     on-unmute: "&aYou have been unmuted."
-    on-unmute-sender: "&aPlayer [PLAYER] has been unmuted successfully."
+    on-unmute-sender: "&aPlayer %player% has been unmuted successfully."
 
   kick:
 
     kick-admin: "&cYou can't kick an admin."
 
-    on-kick: "&cYou have been kicked by an admin. Reason: [REASON]."
-    on-kick-sender: "&aPlayer [PLAYER] has been kicked successfully by [REASON]."
+    on-kick: "&cYou have been kicked by an admin. Reason: %reason%."
+    on-kick-sender: "&aPlayer %player% has been kicked successfully by %reason%."
 
   ban:
     already-banned: "&cThis player is already banned."
 
     ban-admin: "&cYou can't ban an admin."
 
-    on-ban: "&cYou have been banned for [TIME]. Reason: [REASON]."
-    on-ban-sender: "&aPlayer [PLAYER] has been banned successfully for [TIME] by [REASON]."
+    on-ban: "&cYou have been banned for %time%. Reason: %reason%."
+    on-ban-sender: "&aPlayer %player% has been banned successfully for %time% by %reason%."
 
   unban:
     not-banned: "&cThis player is not banned."
 
-    on-unban: "&aPlayer [PLAYER] has been unbanned successfully."
+    on-unban: "&aPlayer %player% has been unbanned successfully."
     on-unban-ip: "&a[IP] has been unbanned successfully."
 
 
 lobby:
 
   on-set:
-    on-error: "&cError while setting the lobby location. [ERROR]"
-    on-success: "&aLobby location [ID] set successfully on World: [WORLD], X: [X], Y: [Y], Z: [Z], YAW: [YAW], PITCH: [PITCH]."
+    on-error: "&cError while setting the lobby location. %error%"
+    on-success: "&aLobby location %id% set successfully on World: %world%, X: %x%, Y: %y%, Z: %z%, YAW: %yaw%, PITCH: %pitch%."
 
   on-teleport:
     on-error: "&cError while trying to teleport to the lobby."
     on-error-doesnt-exist: "&cThe lobby location doesn't exist. Wait for an admin to set it."
     on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
     on-success: "&aTeleported to the lobby successfully."
-    on-success-other: "&aTeleported [PLAYER] to the lobby successfully."
-    on-cooldown: "&cYou can't teleport to the lobby for another [SECONDS] seconds."
-    on-cooldown-other: "&cYou can't teleport to the lobby this player for another [SECONDS] seconds."
+    on-success-other: "&aTeleported %player% to the lobby successfully."
+    on-cooldown: "&cYou can't teleport to the lobby for another %seconds% seconds."
+    on-cooldown-other: "&cYou can't teleport to the lobby this player for another %seconds% seconds."
 
   on-join-events:
     title: "&bWelcome"
     message1: "&5&oPlugin made by DaviXG7"
 
-  on-teleporting-message: "[ACTION] &7Teleporting to the lobby [SECONDS]s... Don't move!"
+  on-teleporting-message: "<action> &7Teleporting to the lobby %seconds%s... Don't move!"
   teleport-cancelled: "&cTeleport cancelled!"
 
 messages:
 
-  on-join: "&b[PLAYER]&7, &ejoined the game!"
-  on-first-join: "&b[PLAYER]&7, &ejoined the game for the first time!"
+  on-join: "&b%player%&7, &ejoined the game!"
+  on-first-join: "&b%player%&7, &ejoined the game for the first time!"
 
-  on-quit: "&b[PLAYER]&7, &eleave the game!"
+  on-quit: "&b%player%&7, &eleave the game!"
 
 
-multi-jump-left: "[ACTION] &7You have &b[JUMPS] &7jumps left."
+multi-jump-left: "<action> &7You have &b%jumps% &7jumps left."
 
 build-not-enabled: "&cYou are with build disabled! Use /build to enable it."
 
@@ -124,17 +124,17 @@ chat:
 
   swear: "&cYou can't swear in the chat."
 
-  muted: "&cYou are muted. You can't send messages for [TIME]."
+  muted: "&cYou are muted. You can't send messages for %time%."
 
   same-message: "&cYou can't send the same message twice."
-  message-cooldown: "&cYou can't send messages for another [SECONDS] seconds."
+  message-cooldown: "&cYou can't send messages for another %seconds% seconds."
   send-much-messages: "&cYou are sending messages too fast. Please slow down."
 
   prohibited-command: "&cCommand not found."
 
 menu-does-not-exist: "&cThis menu doesn't exist."
 
-selector-cooldown: "&cYou can't use the selector for another [SECONDS] seconds."
+selector-cooldown: "&cYou can't use the selector for another %seconds% seconds."
 
 hide-players:
   show: "&aPlayers are now visible."
@@ -144,12 +144,12 @@ pvp:
   on-enter: "&aYou are in global PvP mode."
   on-leave: "&cYou are no longer in global PvP mode."
 
-  on-death-with-killer: "&c[PLAYER] has killed by [KILLER]."
-  on-death-without-killer: "&c[PLAYER] has died by [CAUSE]."
+  on-death-with-killer: "&c%player% has killed by %killer%."
+  on-death-without-killer: "&c%player% has died by %cause%."
 
   on-attack: "&cYou can't attack this player. He is not in global PvP mode."
 
-  pvp-disabling: "&cYour pvp is being disabled in [SECONDS] seconds. Dont move!"
+  pvp-disabling: "&cYour pvp is being disabled in %seconds% seconds. Dont move!"
   disable-cancelled: "&cPvP disabling cancelled!"
 
   pvp-command: "You can't use this command in global PvP mode."
@@ -170,8 +170,8 @@ warn-menu:
   title: "&c&lWarns of [TARGET]"
 
   warn-item:
-    name: "&cWarn [ID]"
-    reason: "&7Reason&b: &r[REASON]"
+    name: "&cWarn %id%"
+    reason: "&7Reason&b: &r%reason%"
     level: "&7Level&b: &r[LEVEL]"
     date: "&7Date&b: &r[DATE]"
     click-to-copy-id: "&7Click to copy the warn id."
@@ -180,6 +180,16 @@ warn-menu:
   go-next: "&aNext page"
   close: "&cClose"
 
-  id-message: "&7Click to copy the warn id [ID]."
+  id-message: "&7Click to copy the warn id %id%."
 
+lobby-menu:
 
+  title: "&b&lLobbies"
+
+  lobby-item:
+      name: "&bLobby %name%"
+      server: "&7Server&b: &r%server%"
+      location: "&7Location&b: &rWorld: %world%, X: %x%, Y: %y%, Z: %z%, YAW: %yaw%, PITCH: %pitch%"
+      click-to-teleport: "&7Click to teleport to the lobby."
+
+config-version: test-1.0

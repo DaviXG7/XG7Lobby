@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @Table(name = "warns")
 @ToString
-public class Warn implements Entity<Warn> {
+public class Warn implements Entity<UUID,Warn> {
 
     @Pkey
     private UUID id;
@@ -37,6 +37,11 @@ public class Warn implements Entity<Warn> {
 
     @Override
     public boolean equals(Warn warn) {
-        return warn.getId().equals(this.id) && warn.getPlayerUUID().equals(this.playerUUID);
+        return warn.getID().equals(this.id) && warn.getPlayerUUID().equals(this.playerUUID);
+    }
+
+    @Override
+    public UUID getID() {
+        return id;
     }
 }

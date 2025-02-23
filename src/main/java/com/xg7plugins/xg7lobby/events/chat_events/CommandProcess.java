@@ -20,7 +20,7 @@ public class CommandProcess implements Listener {
 
         if (XG7Lobby.getInstance().getConfig("config").getList("block-commands.blocked-commands", String.class).orElse(new ArrayList<>()).contains(event.getMessage().split(" ")[0])) {
             event.setCancelled(true);
-            Text.formatLang(XG7Lobby.getInstance(), event.getPlayer(), "chat.prohibited-command").thenAccept(text -> text.send(event.getPlayer()));
+            Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "chat.prohibited-command").thenAccept(text -> text.send(event.getPlayer()));
         }
     }
 }

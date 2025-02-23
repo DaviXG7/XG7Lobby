@@ -6,10 +6,12 @@ import com.cryptomorin.xseries.XPotion;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.particles.XParticle;
 import com.xg7plugins.XG7Plugins;
-import com.xg7plugins.libs.xg7menus.menus.BaseMenu;
-import com.xg7plugins.libs.xg7menus.menus.gui.Menu;
-import com.xg7plugins.libs.xg7menus.menus.holders.MenuHolder;
-import com.xg7plugins.libs.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
+import com.xg7plugins.modules.xg7menus.menus.gui.Menu;
+import com.xg7plugins.modules.xg7menus.menus.holders.MenuHolder;
+import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.tasks.CooldownManager;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
@@ -28,8 +30,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.Arrays;
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
@@ -37,20 +37,20 @@ import java.util.stream.IntStream;
 @Getter
 public enum ActionType {
 
-    MESSAGE(false, (player, args) -> Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().send(player)),
-    COMMAND(false, (player, args) -> player.performCommand(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
-    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
+    MESSAGE(false, (player, args) -> Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().send(player)),
+    COMMAND(false, (player, args) -> player.performCommand(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
+    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
     TITLE(true,(player, args) -> {
         if (args.length == 1) {
-            player.sendTitle(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), "");
+            player.sendTitle(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText(), "");
             return;
         }
         if (args.length == 2) {
-            player.sendTitle(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), Text.detectLangOrText(XG7Lobby.getInstance(),player,args[1]).join().getText());
+            player.sendTitle(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText(), Text.detectLangs(player,XG7Lobby.getInstance(),args[1]).join().getText());
             return;
         }
         if (args.length == 5) {
-            player.sendTitle(args[0].equals("_") ? "" : Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText(), args[1].equals("_") ? "" : Text.detectLangOrText(XG7Lobby.getInstance(),player,args[1]).join().getText(), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
+            player.sendTitle(args[0].equals("_") ? "" : Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText(), args[1].equals("_") ? "" : Text.detectLangs(player,XG7Lobby.getInstance(),args[1]).join().getText(), Parser.INTEGER.convert(args[2]), Parser.INTEGER.convert(args[3]), Parser.INTEGER.convert(args[4]));
             return;
         }
 
@@ -97,7 +97,7 @@ public enum ActionType {
             throw new ActionException("TP", "Unable to convert text in values, check if the values are correct. world: TEXT: (WORLD NAME), x: DECIMAL, y: DECIMAL, z: DECIMAL, yaw: DECIMAL, pitch: DECIMAL");
         }
     }),
-    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.detectLangOrText(XG7Lobby.getInstance(),player,args[0]).join().getText())),
+    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
     SUMMON(true,(player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
     SOUND(true,(player, args) -> {
         try {
@@ -219,7 +219,7 @@ public enum ActionType {
 
             LobbyItem item = playerMenu.getItems().get(args[2]);
 
-            PlayerMenuHolder holder = XG7Plugins.getInstance().getMenuManager().getPlayerMenusMap().get(player.getUniqueId());
+            PlayerMenuHolder holder = XG7Menus.getInstance().getPlayerMenuHolder(player.getUniqueId());
 
             if (item == null) {
                 throw new ActionException("SWAP", "The item with path: " + args[1] + " doesn't exist in the menu with id: " + args[0]);
@@ -229,8 +229,14 @@ public enum ActionType {
         }
     }),
     REFRESH(false, (player, args) -> {
+        if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) return;
+
         MenuHolder holder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
         Menu.refresh(holder);
+        if (XG7Menus.getInstance().hasPlayerMenuHolder(player.getUniqueId())) {
+            PlayerMenuHolder playerMenuHolder = XG7Menus.getInstance().getPlayerMenuHolder(player.getUniqueId());
+            Menu.refresh(playerMenuHolder);
+        }
     }),
     HIDE_PLAYERS(false, (player, args) -> {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
@@ -272,6 +278,20 @@ public enum ActionType {
                 player.getInventory().setItemInOffHand(material.parseItem());
                 break;
         }
+    }),
+    LOBBY(true, (player, args) -> {
+
+        if (args.length != 1)
+            throw new ActionException("LOBBY", "Incorrectly amount of args: " + args.length + ". The right way to use is [LOBBY] lobbyId.");
+
+        XG7Lobby.getInstance().getLobbyManager().getLobby(args[0]).thenAccept(lobby -> {
+            if (lobby == null) {
+                Text.fromLang(player, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (player.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(player));
+                return;
+            }
+            XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(player));
+        });
+
     });
 
     private final boolean needArgs;

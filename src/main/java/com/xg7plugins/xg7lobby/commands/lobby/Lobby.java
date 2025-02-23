@@ -6,7 +6,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.tasks.CooldownManager;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -41,7 +41,7 @@ public class Lobby implements ICommand {
 
         if (args.len() > 0) {
             if (!sender.hasPermission("xg7lobby.command.lobby.teleport.id")) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender,XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
             id = args.get(0, String.class);
@@ -54,7 +54,7 @@ public class Lobby implements ICommand {
 
         if (args.len() < 2) {
             if (!(sender instanceof Player)) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.not-a-player").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender,XG7Plugins.getInstance(), "commands.not-a-player").thenAccept(text -> text.send(sender));
                 return;
             }
             targetToTeleport = (Player) sender;
@@ -62,17 +62,17 @@ public class Lobby implements ICommand {
 
         if (args.len() > 1) {
             if (!sender.hasPermission("xg7lobby.command.lobby.teleport.other")) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender,XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
             OfflinePlayer target = args.get(1, Player.class);
 
             if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender,XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
                 return;
             }
             if (!target.isOnline()) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "commands.not-online").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "commands.not-online").thenAccept(text -> text.send(sender));
                 return;
             }
             targetToTeleport = target.getPlayer();
@@ -83,18 +83,18 @@ public class Lobby implements ICommand {
 
         if (XG7Plugins.getInstance().getCooldownManager().containsPlayer("lobby-cooldown-before", targetToTeleport)) {
             XG7Plugins.getInstance().getCooldownManager().removePlayer("lobby-cooldown-before", targetToTeleport.getUniqueId());
-            if (targetIsOther) Text.formatLang(XG7Lobby.getInstance(), sender, "lobby.on-teleporting-message").thenAccept(text -> text.send(sender));
+            if (targetIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleporting-message").thenAccept(text -> text.send(sender));
             return;
         }
 
         if (XG7Plugins.getInstance().getCooldownManager().containsPlayer("lobby-cooldown-after", targetToTeleport)) {
             double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("lobby-cooldown-after", targetToTeleport);
-            Text.formatLang(XG7Lobby.getInstance(), sender, "lobby.on-teleport.on-cooldown" + (finalTargetIsOther ? "-other" : "")).thenAccept(text -> text
-                    .replace("[PLAYER]", finalTargetToTeleport.getName())
-                    .replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
-                    .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
-                    .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
-                    .replace("[HOURS]", String.valueOf((int) ((cooldownToToggle) / 3600000)))
+            Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-cooldown" + (finalTargetIsOther ? "-other" : "")).thenAccept(text -> text
+                    .replace("player", finalTargetToTeleport.getName())
+                    .replace("milliseconds", String.valueOf((cooldownToToggle)))
+                    .replace("seconds", String.valueOf((int) ((cooldownToToggle) / 1000)))
+                    .replace("minutes", String.valueOf((int) ((cooldownToToggle) / 60000)))
+                    .replace("hours", String.valueOf((int) ((cooldownToToggle) / 3600000)))
                     .send(sender));
             return;
         }
@@ -102,7 +102,7 @@ public class Lobby implements ICommand {
         Consumer<LobbyLocation> teleport = lobby -> {
 
             if (lobby == null) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "lobby.on-teleport.on-error-doesnt-exist" + (sender.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (sender.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(sender));
                 return;
             }
 
@@ -110,23 +110,22 @@ public class Lobby implements ICommand {
                     new CooldownManager.CooldownTask(
                             "lobby-cooldown-before",
                             finalTargetToTeleport.hasPermission("xg7lobby.command.lobby.bypass-cooldown") ? 0 : XG7Lobby.getInstance().getConfig("config").getTime("lobby-teleport-cooldown.before-teleport").orElse(5000L),
-                            player -> Text.formatLang(
-                                    XG7Lobby.getInstance(),
+                            player -> Text.fromLang(
                                     player,
-                                    "lobby.on-teleporting-message"
-                            ).thenAccept(text -> {
+                                    XG7Lobby.getInstance(),
+                                                                "lobby.on-teleporting-message"
+                                                        ).thenAccept(text -> {
                                 double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("lobby-cooldown-before", finalTargetToTeleport);
 
-                                text.
-                                        replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
-                                        .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
-                                        .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
-                                        .replace("[HOURS]", String.valueOf((int) ((cooldownToToggle) / 3600000)))
+                                text.replace("milliseconds", String.valueOf((cooldownToToggle)))
+                                        .replace("seconds", String.valueOf((int) ((cooldownToToggle) / 1000)))
+                                        .replace("minutes", String.valueOf((int) ((cooldownToToggle) / 60000)))
+                                        .replace("hours", String.valueOf((int) ((cooldownToToggle) / 3600000)))
                                         .send(player);
                             }),
                             ((player, aBoolean) -> {
                                 if (aBoolean) {
-                                    Text.formatLang(XG7Lobby.getInstance(), player, "lobby.teleport-cancelled").thenAccept(text -> text.send(player));
+                                    Text.fromLang(player,XG7Lobby.getInstance(), "lobby.teleport-cancelled").thenAccept(text -> text.send(player));
                                     return;
                                 }
                                 XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(finalTargetToTeleport));
@@ -137,8 +136,8 @@ public class Lobby implements ICommand {
             );
 
             if (finalTargetIsOther) {
-                Text.formatLang(XG7Lobby.getInstance(), sender, "lobby.on-teleport.on-success-other").thenAccept(text -> {
-                    text.replace("[PLAYER]", finalTargetToTeleport.getName()).send(sender);
+                Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-success-other").thenAccept(text -> {
+                    text.replace("player", finalTargetToTeleport.getName()).send(sender);
                 });
             }
         };
@@ -153,7 +152,7 @@ public class Lobby implements ICommand {
     @Override
     public List<String> onTabComplete(CommandSender sender, CommandArgs args) {
         if (args.len() == 1 && sender.hasPermission("xg7lobby.command.lobby.id")) {
-            return XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(ob -> ob instanceof LobbyLocation).map(e -> ((LobbyLocation)e).getId()).collect(Collectors.toList());
+            return XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(ob -> ob instanceof LobbyLocation).map(e -> ((LobbyLocation)e).getID()).collect(Collectors.toList());
         }
         if (args.len() == 2 && sender.hasPermission("xg7lobby.command.lobby.other")) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());

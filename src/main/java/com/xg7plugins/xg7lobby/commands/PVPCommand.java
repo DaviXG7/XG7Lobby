@@ -7,7 +7,7 @@ import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.tasks.CooldownManager;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -56,8 +56,8 @@ public class PVPCommand implements ICommand {
 
                         double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("pvp-disable", p);
 
-                        Text.formatLang(XG7Lobby.getInstance(), player, "pvp.pvp-disabling").join()
-                                .replace("[PLAYER]", p.getName())
+                        Text.fromLang(player,XG7Lobby.getInstance(), "pvp.pvp-disabling").join()
+                                .replace("player", p.getName())
                                 .replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
                                 .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
                                 .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
@@ -66,7 +66,7 @@ public class PVPCommand implements ICommand {
                     },
                     (p, b) -> {
                         if (b) {
-                            Text.formatLang(XG7Lobby.getInstance(), player, "pvp.disable-cancelled").thenAccept(text -> text.send(player));
+                            Text.fromLang(player,XG7Lobby.getInstance(), "pvp.disable-cancelled").thenAccept(text -> text.send(player));
                             return;
                         }
                         XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(player));

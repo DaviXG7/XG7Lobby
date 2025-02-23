@@ -6,7 +6,7 @@ import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
-import com.xg7plugins.libs.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
@@ -38,7 +38,7 @@ public class BuildCommand implements ICommand {
         boolean isOther = false;
         if (args.len() == 0) {
             if (!(sender instanceof Player)) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.not-a-player").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.not-a-player").thenAccept(text -> text.send(sender));
                 return;
             }
             target = (Player) sender;
@@ -46,7 +46,7 @@ public class BuildCommand implements ICommand {
 
         if (args.len() > 0) {
             if (!sender.hasPermission("xg7lobby.command.build.other")) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.no-permission").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
             target = args.get(0, OfflinePlayer.class);
@@ -54,7 +54,7 @@ public class BuildCommand implements ICommand {
         }
         if (isOther) {
             if (target == null || (!target.hasPlayedBefore()) && !target.isOnline()) {
-                Text.formatLang(XG7Plugins.getInstance(), sender, "commands.player-not-found").thenAccept(text -> text.send(sender));
+                Text.fromLang(sender, XG7Plugins.getInstance(), "commands.player-not-found").thenAccept(text -> text.send(sender));
                 return;
             }
         }
@@ -65,10 +65,10 @@ public class BuildCommand implements ICommand {
         LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {
             lobbyPlayer.setBuildEnabled(!lobbyPlayer.isBuildEnabled());
             if (finalTarget.isOnline()) {
-                Text.formatLang(XG7Lobby.getInstance(), lobbyPlayer.getPlayer(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
+                Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
             lobbyPlayer.update().join();
-            if (finalIsOther) Text.formatLang(XG7Lobby.getInstance(), sender, "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("[PLAYER]", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
+            if (finalIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("player", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();
             return null;
