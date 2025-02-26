@@ -33,6 +33,13 @@ public class LobbyManager {
     public CompletableFuture<LobbyLocation> getRandomLobby() {
         return CompletableFuture.supplyAsync(() -> {
 
+            List<LobbyLocation> cachedLobbies = XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(entity -> entity instanceof LobbyLocation).map(entity -> (LobbyLocation) entity).collect(Collectors.toList());
+
+            List<LobbyLocation> cachedLocalLobbies = cachedLobbies.stream().filter(location -> location.getServer().equals(XG7Lobby.getInstance().getServerInfo())).collect(Collectors.toList());
+
+            if (!cachedLocalLobbies.isEmpty()) return cachedLocalLobbies.get(new Random().nextInt(cachedLocalLobbies.size()));
+
+
             List<LobbyLocation> lobbies = dao.getAll().join();
 
             if (lobbies.isEmpty()) return null;
@@ -41,8 +48,7 @@ public class LobbyManager {
 
             if (!localLobbies.isEmpty()) return localLobbies.get(new Random().nextInt(localLobbies.size()));
 
-            return null;
-
+            return lobbies.get(new Random().nextInt(lobbies.size()));
 
         });
     }
