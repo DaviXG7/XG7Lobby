@@ -69,31 +69,37 @@ public class MuteCommand implements ICommand {
             return;
         }
 
-        lobbyPlayer.setMuted(true);
-        lobbyPlayer.setTimeForUnmute(time == 0 ? 0 : System.currentTimeMillis() + time);
-        lobbyPlayer.update().join();
+        try {
+            lobbyPlayer.setMuted(true);
+            lobbyPlayer.setTimeForUnmute(time == 0 ? 0 : System.currentTimeMillis() + time);
+            lobbyPlayer.update().join();
 
-        long seconds = time / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-        long days = hours / 24;
+            long seconds = time / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
 
-        seconds %= 60;
-        minutes %= 60;
-        hours %= 24;
+            seconds %= 60;
+            minutes %= 60;
+            hours %= 24;
 
-        long finalHours = hours;
-        long finalMinutes = minutes;
-        long finalSeconds = seconds;
-        if (target.isOnline()) {
-            Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.mute.on-mute").thenAccept(text -> text.replace("reason", reason != null ? reason : "").replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(lobbyPlayer.getPlayer()));
+            long finalHours = hours;
+            long finalMinutes = minutes;
+            long finalSeconds = seconds;
+            if (target.isOnline()) {
+                Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.mute.on-mute").thenAccept(text -> text.replace("reason", reason != null ? reason : "").replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(lobbyPlayer.getPlayer()));
+            }
+
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.mute.on-mute-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason != null ? reason : "").replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
+
+            if (reason != null) {
+                lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("mute-warn-level", Integer.class).orElse(0), reason));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.mute.on-mute-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason != null ? reason : "").replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
-
-        if (reason != null) {
-            lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("mute-warn-level", Integer.class).orElse(0), reason));
-        }
 
 
     }

@@ -11,7 +11,9 @@ import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.modules.xg7menus.menus.gui.Menu;
 import com.xg7plugins.modules.xg7menus.menus.holders.MenuHolder;
 import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.server.MinecraftVersion;
 import com.xg7plugins.tasks.CooldownManager;
+import com.xg7plugins.utils.Debug;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
@@ -271,8 +273,8 @@ public enum ActionType {
                 player.getInventory().setBoots(material.parseItem());
                 break;
             case OFFHAND:
-                if (XG7Plugins.getMinecraftVersion() < 9) {
-                    System.err.println("The offhand slot is only available in 1.9 or higher.");
+                if (MinecraftVersion.isOlderThan(9)) {
+                    Debug.of(XG7Lobby.getInstance()).error("The offhand slot is only available in 1.9 or higher.");
                     return;
                 }
                 player.getInventory().setItemInOffHand(material.parseItem());

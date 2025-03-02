@@ -68,7 +68,7 @@ commands:
     not-banned: "&cThis player is not banned."
 
     on-unban: "&aPlayer %player% has been unbanned successfully."
-    on-unban-ip: "&a[IP] has been unbanned successfully."
+    on-unban-ip: "&a%ip% has been unbanned successfully."
 
 
 lobby:
@@ -95,10 +95,10 @@ lobby:
 
 messages:
 
-  on-join: "&b%player%&7, &ejoined the game!"
-  on-first-join: "&b%player%&7, &ejoined the game for the first time!"
+  on-join: "&b%target%&7, &ejoined the game!"
+  on-first-join: "&b%target%&7, &ejoined the game for the first time!"
 
-  on-quit: "&b%player%&7, &eleave the game!"
+  on-quit: "&b%target%&7, &eleave the game!"
 
 
 multi-jump-left: "<action> &7You have &b%jumps% &7jumps left."
@@ -167,13 +167,13 @@ scoreboard:
   players-in-pvp: "&7Players in pvp&b: &a%xg7lobby_players_in_global_pvp%"
 
 warn-menu:
-  title: "&c&lWarns of [TARGET]"
+  title: "&c&lWarns of %target%"
 
   warn-item:
     name: "&cWarn %id%"
     reason: "&7Reason&b: &r%reason%"
-    level: "&7Level&b: &r[LEVEL]"
-    date: "&7Date&b: &r[DATE]"
+    level: "&7Level&b: &r%level%"
+    date: "&7Date&b: &r%date%  "
     click-to-copy-id: "&7Click to copy the warn id."
 
   go-back: "&cPrevious page"

@@ -1,14 +1,20 @@
 package com.xg7plugins.xg7lobby.commands.toggleCommands;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
+import com.xg7plugins.modules.xg7menus.XG7Menus;
 import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.menus.gui.Menu;
+import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.modules.xg7menus.menus.player.PlayerMenu;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,7 +24,7 @@ import org.bukkit.entity.Player;
         description = "Vanish command",
         syntax = "/vanish",
         isPlayerOnly = true,
-        isAsync = true
+        isAsync = false
 )
 public class VanishCommand implements ICommand {
 
@@ -32,6 +38,9 @@ public class VanishCommand implements ICommand {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(((Player)sender).getUniqueId(), false).join();
 
         lobbyPlayer.setPlayerHiding(!lobbyPlayer.isPlayerHiding());
+
+        PlayerMenuHolder playerMenu = XG7Menus.getInstance().getPlayerMenuHolder(lobbyPlayer.getPlayerUUID());
+        if (playerMenu != null) Menu.refresh(playerMenu);
 
         Text.fromLang(sender, XG7Lobby.getInstance(), lobbyPlayer.isPlayerHiding() ? "hide-players.hide" : "hide-players.show").thenAccept(text -> text.send(sender));
     }

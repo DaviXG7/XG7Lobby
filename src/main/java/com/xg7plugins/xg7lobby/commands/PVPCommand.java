@@ -58,10 +58,10 @@ public class PVPCommand implements ICommand {
 
                         Text.fromLang(player,XG7Lobby.getInstance(), "pvp.pvp-disabling").join()
                                 .replace("player", p.getName())
-                                .replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
-                                .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
-                                .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
-                                .replace("[HOURS]", String.valueOf((int) ((cooldownToToggle) / 3600000)))
+                                .replace("milliseconds", String.valueOf((cooldownToToggle)))
+                                .replace("seconds", String.valueOf((int) ((cooldownToToggle) / 1000)))
+                                .replace("minutes", String.valueOf((int) ((cooldownToToggle) / 60000)))
+                                .replace("hours", String.valueOf((int) ((cooldownToToggle) / 3600000)))
                                 .send(sender);
                     },
                     (p, b) -> {

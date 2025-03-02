@@ -3,6 +3,7 @@ package com.xg7plugins.xg7lobby.repeating_tasks;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.data.config.Config;
+import com.xg7plugins.server.MinecraftVersion;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.tasks.TaskState;
 import com.xg7plugins.utils.reflection.ReflectionClass;
@@ -35,13 +36,13 @@ public class WorldCycles extends Task {
             boolean storm = config.get("storm", Boolean.class).orElse(false);
 
             if (!dayLightCycle) {
-                if (XG7Plugins.getMinecraftVersion() > 12) world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+                if (MinecraftVersion.isNewerOrEqual(13)) world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
                 else world.setGameRuleValue("doDaylightCycle", "false");
                 world.setTime(translateTimeToMinecraftTicks(time));
             }
 
             if (!weatherCycle) {
-                if (XG7Plugins.getMinecraftVersion() > 12) world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+                if (MinecraftVersion.isNewerOrEqual(13)) world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
                 else world.setGameRuleValue("doWeatherCycle", "false");
                 world.setStorm(storm);
             }

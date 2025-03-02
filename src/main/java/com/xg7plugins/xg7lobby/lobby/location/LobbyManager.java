@@ -35,7 +35,7 @@ public class LobbyManager {
 
             List<LobbyLocation> cachedLobbies = XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(entity -> entity instanceof LobbyLocation).map(entity -> (LobbyLocation) entity).collect(Collectors.toList());
 
-            List<LobbyLocation> cachedLocalLobbies = cachedLobbies.stream().filter(location -> location.getServer().equals(XG7Lobby.getInstance().getServerInfo())).collect(Collectors.toList());
+            List<LobbyLocation> cachedLocalLobbies = cachedLobbies.stream().filter(location -> location.getServer().equals(XG7Plugins.serverInfo())).collect(Collectors.toList());
 
             if (!cachedLocalLobbies.isEmpty()) return cachedLocalLobbies.get(new Random().nextInt(cachedLocalLobbies.size()));
 
@@ -44,7 +44,7 @@ public class LobbyManager {
 
             if (lobbies.isEmpty()) return null;
 
-            List<LobbyLocation> localLobbies = lobbies.stream().filter(location -> location.getServer().equals(XG7Lobby.getInstance().getServerInfo())).collect(Collectors.toList());
+            List<LobbyLocation> localLobbies = lobbies.stream().filter(location -> location.getServer().equals(XG7Plugins.serverInfo())).collect(Collectors.toList());
 
             if (!localLobbies.isEmpty()) return localLobbies.get(new Random().nextInt(localLobbies.size()));
 

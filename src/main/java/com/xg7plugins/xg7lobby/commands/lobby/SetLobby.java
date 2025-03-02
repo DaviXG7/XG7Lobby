@@ -42,7 +42,7 @@ public class SetLobby implements ICommand {
 
         Player player = (Player) sender;
 
-        LobbyLocation location = new LobbyLocation(lobbyId, XG7Lobby.getInstance().getServerInfo(), Location.fromPlayer(player));
+        LobbyLocation location = new LobbyLocation(lobbyId, XG7Plugins.serverInfo(), Location.fromPlayer(player));
 
         if (!XG7Lobby.getInstance().isWorldEnabled(location.getLocation().getWorld())) {
             Text.fromLang(player, XG7Plugins.getInstance(), "commands.disabled-world").thenAccept(text -> text.send(player));
@@ -52,7 +52,7 @@ public class SetLobby implements ICommand {
         XG7Lobby.getInstance().getLobbyManager().saveLobby(location)
                 .exceptionally(e -> {
                     Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-set.on-error")
-                            .thenAccept(text -> text.replace("[ERROR]", e.getMessage()).send(player));
+                            .thenAccept(text -> text.replace("error", e.getMessage()).send(player));
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }).thenRun(() -> Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-set.on-success").join()

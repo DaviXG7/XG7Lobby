@@ -69,7 +69,7 @@ public class LobbyPlayer implements Entity<UUID,LobbyPlayer> {
             if (playerData == null) {
                 LobbyPlayer data = new LobbyPlayer(playerUUID);
                 try {
-                    dao.add(data);
+                    dao.add(data).get();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -92,9 +92,10 @@ public class LobbyPlayer implements Entity<UUID,LobbyPlayer> {
     public void fly() {
         Player player = this.getPlayer();
 
+        if (player == null) return;
+
         Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
 
-        if (player == null) return;
 
         if (!XG7Lobby.getInstance().isInWorldEnabled(player.getPlayer())) return;
 

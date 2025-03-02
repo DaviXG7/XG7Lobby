@@ -85,15 +85,15 @@ public class PVPListener implements LobbyEvent {
                 if (killer != null) {
                     Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-with-killer").join()
                             .replace("player", event.getEntity().getName())
-                            .replace("[KILLER]", event.getEntity().getKiller().getName())
-                            .replace("[CAUSE]", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
+                            .replace("killer", event.getEntity().getKiller().getName())
+                            .replace("cause", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                             .send(player);
                     return;
                 }
 
                 Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-without-killer").join()
                         .replace("player", event.getEntity().getName())
-                        .replace("[CAUSE]", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
+                        .replace("cause", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                         .send(player);
             });
 
@@ -124,6 +124,9 @@ public class PVPListener implements LobbyEvent {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
+
+        if (!pvpManager.isPlayerInPVP(event.getPlayer())) return;
+
         if (event.getPlayer().hasPermission("xg7lobby.command.*")) return;
 
         if (XG7Lobby.getInstance().getConfig("config").getList("global-pvp.commands-blocked", String.class).orElse(new ArrayList<>()).contains(event.getMessage().split(" ")[0])) {

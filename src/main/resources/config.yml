@@ -21,12 +21,7 @@ debug:
   extensions: true
   libs: true
 
-chat-locked: false
-
 menus-enabled: true
-
-#Must be the same of BungeeCord config
-lobby-server-name: "lobby"
 
 main-selector-id: "selector"
 main-pvp-selector-id: "pvp"
@@ -72,14 +67,14 @@ on-join:
 
   events:
     - "[TITLE] lang:[lobby.on-join-events.title], &f%player_name%"
-    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
-    - "[MESSAGE] <center> lang:[lobby.on-join-events.title] &f%player_name%"
+    - "[MESSAGE] <center:CHAT> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center:CHAT> lang:[lobby.on-join-events.title] &f%player_name%"
     - "[MESSAGE]  "
-    - "[MESSAGE] <center> &aSite: &fwww.website.com"
-    - "[MESSAGE] <center> &4YT: &fwww.youtube.com"
+    - "[MESSAGE] <center:CHAT> &aSite: &fwww.website.com"
+    - "[MESSAGE] <center:CHAT> &4YT: &fwww.youtube.com"
     - "[MESSAGE]  "
-    - "[MESSAGE] <center> lang:[lobby.on-join-events.message1]"
-    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center:CHAT> lang:[lobby.on-join-events.message1]"
+    - "[MESSAGE] <center:CHAT> &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, 10.0, 0.0"
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
@@ -92,14 +87,14 @@ on-first-join:
   send-first-join-message: true
   events:
     - "[TITLE] &bWelcome, &f%player_name%"
-    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
-    - "[MESSAGE] <center> &bWelcome for the first time! &f%player_name%"
+    - "[MESSAGE] <center:CHAT> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center:CHAT> &bWelcome for the first time! &f%player_name%"
     - "[MESSAGE]  "
-    - "[MESSAGE] <center> &aSite: &fwww.website.com"
-    - "[MESSAGE] <center> &4YT: &fwww.youtube.com"
+    - "[MESSAGE] <center:CHAT> &aSite: &fwww.website.com"
+    - "[MESSAGE] <center:CHAT> &4YT: &fwww.youtube.com"
     - "[MESSAGE]  "
-    - "[MESSAGE] <center> &5&oPlugin made by DaviXG7"
-    - "[MESSAGE] <center> &8-------------------&7**&8-------------------"
+    - "[MESSAGE] <center:CHAT> &5&oPlugin made by DaviXG7"
+    - "[MESSAGE] <center:CHAT> &8-------------------&7**&8-------------------"
     - "[SOUND] ENTITY_PLAYER_LEVELUP, 10.0, 0.0"
     - "[FIREWORK] BALL_LARGE, #FF0000, #FFFF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
@@ -227,20 +222,20 @@ auto-broadcast:
     #Create your announcement
     #You can send in actionbars
     - ad:
-      - "<center> &8-------------------&7**&8-------------------"
-      - "<center> &e&lANNOUNCEMENT:"
-      - "<center> &9This plugin was made by &bDaviXG7"
-      - "<center> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &e&lANNOUNCEMENT:"
+      - "<center:CHAT> &9This plugin was made by &bDaviXG7"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
     - ad:
-      - "<center> &8-------------------&7**&8-------------------"
-      - "<center> &e&lANNOUNCEMENT:"
-      - "<center> &aRate XG7Lobby in &e5 &bstars!"
-      - "<center> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &e&lANNOUNCEMENT:"
+      - "<center:CHAT> &aRate XG7Lobby in &e5 &bstars!"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
     - ad:
-      - "<center> &8-------------------&7**&8-------------------"
-      - "<center> &e&lANNOUNCEMENT:"
-      - "<center> &fVisit our website: &bhttps://xg7plugins.com"
-      - "<center> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
+      - "<center:CHAT> &e&lANNOUNCEMENT:"
+      - "<center:CHAT> &fVisit our website: &bhttps://xg7plugins.com"
+      - "<center:CHAT> &8-------------------&7**&8-------------------"
 
 ##################################################################
 #                             MOTD                               #
@@ -254,8 +249,8 @@ motd:
   max-players: 9999
 
   text:
-    - "<center> &9XG7&3Lob&bby&r"
-    - "<center> &5&oMade by DaviXG7"
+    - "<center:MOTD> &9XG7&3Lob&bby&r"
+    - "<center:MOTD> &5&oMade by DaviXG7"
 
 ##################################################################
 #                           SCORES                               #
@@ -301,8 +296,8 @@ tablist:
   update-time: 500ms
 
   #You can use the placeholders:
-  custom-player-prefix: "&8[&9XG7&8]&r "
-  custom-player-suffix: " &8[&3Lo&bbby&8]&r"
+  custom-player-prefix: "&8[%luckperms_prefix%&8]&r "
+  custom-player-suffix: " &8[&9XG7&3Lo&bbby&8]&r"
 
   headers:
 
@@ -440,7 +435,7 @@ custom-commands:
     aliases: ["dc"]
     actions:
       - "[MESSAGE]  "
-      - "[MESSAGE] <center> &9Join our Discord: &bhttps://discord.gg/jfrn8w92kF"
+      - "[MESSAGE] <center:CHAT> &9Join our Discord: &bhttps://discord.gg/jfrn8w92kF"
       - "[MESSAGE]  "
 
   site:
@@ -449,7 +444,7 @@ custom-commands:
     description: "Visit our website"
     actions:
       - "[MESSAGE]  "
-      - "[MESSAGE] <center> &9Visit our website: &bhttps://example.com"
+      - "[MESSAGE] <center:CHAT> &9Visit our website: &bhttps://example.com"
       - "[MESSAGE]  "
 
 anti-swearing:

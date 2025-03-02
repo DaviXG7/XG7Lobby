@@ -44,10 +44,10 @@ public class AntiSpam implements Listener {
             double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("lobby-chat-spam", player);
             Text.fromLang(player,XG7Lobby.getInstance(), "chat.message-cooldown").thenAccept(text -> text
                     .replace("player", player.getName())
-                    .replace("[MILLISECONDS]", String.valueOf((cooldownToToggle)))
-                    .replace("[SECONDS]", String.valueOf((int) ((cooldownToToggle) / 1000)))
-                    .replace("[MINUTES]", String.valueOf((int) ((cooldownToToggle) / 60000)))
-                    .replace("[HOURS]", String.valueOf((int) ((cooldownToToggle) / 3600000)))
+                    .replace("milliseconds", String.valueOf((cooldownToToggle)))
+                    .replace("seconds", String.valueOf((int) ((cooldownToToggle) / 1000)))
+                    .replace("minutes", String.valueOf((int) ((cooldownToToggle) / 60000)))
+                    .replace("hours", String.valueOf((int) ((cooldownToToggle) / 3600000)))
                     .send(player));
             event.setCancelled(true);
             return;

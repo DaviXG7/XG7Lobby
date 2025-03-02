@@ -4,6 +4,7 @@ import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.modules.xg7scores.Score;
 import com.xg7plugins.modules.xg7scores.builder.BossBarBuilder;
+import com.xg7plugins.server.MinecraftVersion;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 
@@ -17,7 +18,7 @@ public class BossBarLoader extends ScoreLoader {
     public Score load() {
         if (!isEnabled) return null;
 
-        if (XG7Plugins.getMinecraftVersion() > 8) {
+        if (MinecraftVersion.isNewerThan(8)) {
             boolean isPublic = config.get("public", Boolean.class).orElse(false);
 
             BarColor color = config.get("color", BarColor.class).orElse(BarColor.WHITE);

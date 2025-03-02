@@ -4,9 +4,11 @@ import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.server.MinecraftVersion;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
+import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -169,15 +171,14 @@ public class DefaultPlayerEvents implements Listener {
             enabledPath = {"config", "cancel-death-by-void", "false"}
     )
     public void voidCheck(PlayerMoveEvent event) {
-        if (event.getPlayer().getLocation().getY() < (XG7Plugins.getMinecraftVersion() > 17 ? -70 : -6)) {
-            XG7Lobby.getInstance().getLobbyManager().getRandomLobby().thenAccept(lobby -> {
-                if (lobby.getLocation() == null) {
-                    XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation()));
-                    return;
-                }
+        if (event.getPlayer().getLocation().getY() < (MinecraftVersion.isNewerThan(17) ? -70 : -6)) {
+            LobbyLocation location = XG7Lobby.getInstance().getLobbyManager().getRandomLobby().join();
+            if (location == null || location.getLocation() == null) {
+                XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation()));
+                return;
+            }
 
-                XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(event.getPlayer()));
-            });
+            XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> location.teleport(event.getPlayer()));
         }
     }
 

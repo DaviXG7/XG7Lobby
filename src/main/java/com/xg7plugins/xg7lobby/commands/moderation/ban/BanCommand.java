@@ -88,10 +88,10 @@ public class BanCommand implements ICommand {
         long finalMinutes = minutes;
         long finalSeconds = seconds;
         if (target.isOnline()) {
-            target.getPlayer().kickPlayer(Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.ban.on-ban").join().replace("reason", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).getText());
+            target.getPlayer().kickPlayer(Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.ban.on-ban").join().replace("reason", reason).replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).getText());
         }
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.ban.on-ban-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason).replace("[TIME]", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.ban.on-ban-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason).replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
 
         if (reason != null) {
             lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("ban-warn-level", Integer.class).orElse(0), reason));

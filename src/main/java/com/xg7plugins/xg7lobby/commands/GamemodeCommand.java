@@ -8,6 +8,7 @@ import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
+import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -80,11 +81,13 @@ public class GamemodeCommand implements ICommand {
 
         target.getPlayer().setGameMode(mode.getGameMode());
 
+        if (mode == Mode.SURVIVAL || mode == Mode.ADVENTURE) LobbyPlayer.cast(target.getUniqueId(), false).thenAccept(LobbyPlayer::fly);
+
         OfflinePlayer finalTarget = target;
         Text.fromLang(target.getPlayer(),XG7Lobby.getInstance(), "commands.gamemode.set")
-                .thenAccept(text -> text.replace("[GAMEMODE]", mode.name().toLowerCase()).send(finalTarget.getPlayer()));
+                .thenAccept(text -> text.replace("gamemode", mode.name().toLowerCase()).send(finalTarget.getPlayer()));
         if (isOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.gamemode.set-other")
-                .thenAccept(text -> text.replace("[GAMEMODE]", mode.name().toLowerCase()).replace("player", finalTarget.getName()).send(sender));
+                .thenAccept(text -> text.replace("gamemode", mode.name().toLowerCase()).replace("player", finalTarget.getName()).send(sender));
     }
 
     @Override

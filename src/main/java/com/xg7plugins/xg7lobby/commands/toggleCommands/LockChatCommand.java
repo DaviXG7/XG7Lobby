@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.commands.toggleCommands;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
@@ -25,9 +26,9 @@ public class LockChatCommand implements ICommand {
 
     @Override
     public void onCommand(CommandSender sender, CommandArgs args) {
-        XG7Lobby.getInstance().getServerInfo().setChatLocked(!XG7Lobby.getInstance().getServerInfo().isChatLocked());
+        XG7Plugins.serverInfo().setAtribute("lobbyChatLocked", !XG7Plugins.serverInfo().getAtribute("lobbyChatLocked", Boolean.class).orElse(true));
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "chat.on-" + (XG7Lobby.getInstance().getServerInfo().isChatLocked() ? "lock" : "unlock")).thenAccept(text -> text.send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "chat.on-" + (XG7Plugins.serverInfo().getAtribute("lobbyChatLocked", Boolean.class).orElse(false) ? "lock" : "unlock")).thenAccept(text -> text.send(sender));
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.xg7plugins.events.PacketListener;
 import com.xg7plugins.modules.xg7menus.XG7Menus;
 import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.modules.xg7scores.XG7Scores;
+import com.xg7plugins.server.MinecraftVersion;
+import com.xg7plugins.server.SoftDependencies;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.utils.Debug;
 import com.xg7plugins.utils.Metrics;
@@ -44,7 +46,6 @@ import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
 import com.xg7plugins.xg7lobby.inventories.warn_menu.WarnMenu;
-import com.xg7plugins.xg7lobby.lobby.ServerInfo;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.*;
@@ -58,7 +59,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -84,7 +84,6 @@ public final class XG7Lobby extends Plugin {
     private ActionsProcessor actionsProcessor;
     private LobbyManager lobbyManager;
     private PlayerDAO playerDAO;
-    private ServerInfo serverInfo;
     private InventoryManager inventoryManager;
     private CustomCommandManager customCommandManager;
     @Getter
@@ -95,7 +94,6 @@ public final class XG7Lobby extends Plugin {
         super.onLoad();
         actionsProcessor = new ActionsProcessor();
         playerDAO = new PlayerDAO();
-        serverInfo = new ServerInfo(this);
     }
 
     @Override
@@ -106,7 +104,9 @@ public final class XG7Lobby extends Plugin {
 
         lobbyManager = new LobbyManager();
 
-        if (XG7Plugins.isPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
+        if (SoftDependencies.hasPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
+
+        XG7Plugins.serverInfo().setAtribute("lobbyChatLocked", false);
 
         Config config = getConfigsManager().getConfig("config");
 
@@ -130,7 +130,7 @@ public final class XG7Lobby extends Plugin {
         Debug.of(XG7Lobby.getInstance()).loading("Loading action events...");
         loadActions();
 
-        if (XG7Plugins.isBungeecord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        if (XG7Plugins.serverInfo().isBungercord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         Debug.of(XG7Lobby.getInstance()).loading("Loading menus...");
 
@@ -194,12 +194,12 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), XG7Plugins.getMinecraftVersion() > 14 ? new CommandAntiTab() : null, new PVPListener(globalPVPManager)};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), MinecraftVersion.isNewerThan(13) ? new CommandAntiTab() : null, new PVPListener(globalPVPManager)};
     }
 
     @Override
     public PacketListener[] loadPacketEvents() {
-        return new PacketListener[]{XG7Plugins.getMinecraftVersion() < 14 ? new CommandAntiTabOlder() : null};
+        return new PacketListener[]{MinecraftVersion.isOlderThan(14) ? new CommandAntiTabOlder() : null};
     }
 
     @Override
