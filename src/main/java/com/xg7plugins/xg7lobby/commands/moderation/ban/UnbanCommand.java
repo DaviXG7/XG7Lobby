@@ -52,7 +52,7 @@ public class UnbanCommand implements ICommand {
 
         XG7Plugins.getInstance().getServer().getBanList(org.bukkit.BanList.Type.NAME).pardon(target.getName());
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unban.on-unban").thenAccept(text -> text.replace("player", target.getName()).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unban.on-unban").thenAccept(text -> text.replace("target", target.getName()).send(sender));
 
     }
 

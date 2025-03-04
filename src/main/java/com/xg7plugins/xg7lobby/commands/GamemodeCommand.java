@@ -58,7 +58,7 @@ public class GamemodeCommand implements ICommand {
         }
 
         if (args.len() > 1) {
-            if (!sender.hasPermission("xg7lobby.command.gamemode.other")) {
+            if (!sender.hasPermission("xg7lobby.command.gamemode-other")) {
                 Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
@@ -87,7 +87,7 @@ public class GamemodeCommand implements ICommand {
         Text.fromLang(target.getPlayer(),XG7Lobby.getInstance(), "commands.gamemode.set")
                 .thenAccept(text -> text.replace("gamemode", mode.name().toLowerCase()).send(finalTarget.getPlayer()));
         if (isOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.gamemode.set-other")
-                .thenAccept(text -> text.replace("gamemode", mode.name().toLowerCase()).replace("player", finalTarget.getName()).send(sender));
+                .thenAccept(text -> text.replace("gamemode", mode.name().toLowerCase()).replace("target", finalTarget.getName()).send(sender));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class GamemodeCommand implements ICommand {
             case 1:
                 return Arrays.asList("s", "c", "a", "sp");
             case 2:
-                if (!sender.hasPermission("xg7lobby.command.gamemode.other")) return Collections.emptyList();
+                if (!sender.hasPermission("xg7lobby.command.gamemode-other")) return Collections.emptyList();
                 return XG7Plugins.getInstance().getServer().getOnlinePlayers().stream().map(OfflinePlayer::getName).collect(Collectors.toList());
         }
 

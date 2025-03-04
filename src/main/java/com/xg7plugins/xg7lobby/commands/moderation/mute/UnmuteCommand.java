@@ -60,7 +60,7 @@ public class UnmuteCommand implements ICommand {
             Text.fromLang( target.getPlayer(),XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
         }
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.replace("player", target.getName()).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.replace("target", target.getName()).send(sender));
     }
 
     @Override

@@ -46,7 +46,7 @@ public class FlyCommand implements ICommand {
         }
 
         if (args.len() > 0) {
-            if (!sender.hasPermission("xg7lobby.command.fly.other")) {
+            if (!sender.hasPermission("xg7lobby.command.fly-other")) {
                 Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
@@ -72,7 +72,7 @@ public class FlyCommand implements ICommand {
                 Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
             lobbyPlayer.update().join();
-            if (finalIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("player", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
+            if (finalIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("target", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();
             return null;

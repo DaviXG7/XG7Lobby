@@ -11,7 +11,7 @@ import com.xg7plugins.modules.xg7menus.XG7Menus;
 import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
-import com.xg7plugins.xg7lobby.inventories.warn_menu.WarnMenu;
+import com.xg7plugins.xg7lobby.inventories.defaults.warn_menu.WarnMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 
 @Command(
         name = "warns",
-        permission = "xg7lobby.commands.warns",
+        permission = "xg7lobby.command.warns",
         description = "View a player's warnings",
-        syntax = "/warns %player%",
+        syntax = "xg7lobby warns (player)",
         isPlayerOnly = true
 )
 public class WarnsCommand implements ICommand {
@@ -42,7 +42,7 @@ public class WarnsCommand implements ICommand {
         Player target = player;
 
         if (args.len() == 1) {
-            if (!sender.hasPermission("xg7lobby.commands.warns.others")) {
+            if (!sender.hasPermission("xg7lobby.command.warns-other")) {
                 Text.fromLang(sender, XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }

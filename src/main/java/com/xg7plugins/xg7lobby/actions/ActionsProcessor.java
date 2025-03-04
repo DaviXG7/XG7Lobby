@@ -2,6 +2,7 @@ package com.xg7plugins.xg7lobby.actions;
 
 import com.xg7plugins.utils.Condition;
 import com.xg7plugins.utils.Pair;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+@Getter
 public class ActionsProcessor {
 
     private final HashMap<String, List<Action>> actions = new HashMap<>();

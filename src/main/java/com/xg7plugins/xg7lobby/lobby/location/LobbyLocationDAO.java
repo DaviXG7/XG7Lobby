@@ -86,4 +86,16 @@ public class LobbyLocationDAO implements DAO<String, LobbyLocation> {
         }, XG7Plugins.taskManager().getAsyncExecutors().get("database"));
 
     }
+
+    public CompletableFuture<Void> deleteLobby(LobbyLocation location) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                Transaction.delete(XG7Lobby.getInstance(), location).onError(Throwable::printStackTrace).waitForResult();
+                XG7Plugins.getInstance().getDatabaseManager().uncacheEntity(XG7Lobby.getInstance(),location.getID());
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+                throw new RuntimeException(e);
+            }
+
+        }, XG7Plugins.taskManager().getAsyncExecutors().get("database"));
+    }
 }

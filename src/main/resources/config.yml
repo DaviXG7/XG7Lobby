@@ -519,6 +519,8 @@ global-pvp:
 
   hide-players-not-in-pvp: true
 
+  disable-multi-jumps: true
+
   on-enter-pvp:
     heal: true
     clear-inventory: true
@@ -540,8 +542,6 @@ global-pvp:
 
     actions:
       - "[BROADCAST] &f%player_name% left the PvP!"
-
-  # on-death-actions:
 
   commands-blocked:
     - "/lobby"

@@ -21,11 +21,22 @@ public class LaunchPadEvent implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         Config config = XG7Lobby.getInstance().getConfig("config");
 
-        XMaterial topBlock = XMaterial.matchXMaterial(config.get("launchpad.top-block", String.class).orElse("")).orElse(null);
-        XMaterial bottomBlock = XMaterial.matchXMaterial(config.get("launchpad.bottom-block", String.class).orElse("")).orElse(null);
+        String topBlock = config.get("launchpad.top-block", String.class).orElse(null);
+        String bottomBlock = config.get("launchpad.bottom-block", String.class).orElse(null);
+
+        XMaterial topBlockMaterial = null;
+        XMaterial bottomBlockMaterial = null;
+
+        if (topBlock != null && !topBlock.isEmpty()) {
+            topBlockMaterial = XMaterial.matchXMaterial(topBlock).orElse(null);
+        }
+        if (bottomBlock != null && !bottomBlock.isEmpty()) {
+            bottomBlockMaterial = XMaterial.matchXMaterial(bottomBlock).orElse(null);
+        }
 
         Player player = event.getPlayer();
-        if ((topBlock == null || player.getLocation().getBlock().getType() == topBlock.get()) && (bottomBlock == null || player.getLocation().add(0, -1, 0).getBlock().getType() == bottomBlock.get())) {
+
+        if ((topBlockMaterial == null|| player.getLocation().getBlock().getType() == topBlockMaterial.get()) && (bottomBlockMaterial == null || player.getLocation().subtract(0, 1, 0).getBlock().getType() == bottomBlockMaterial.get())) {
             double power = config.get("launchpad.power", Double.class).orElse(1.0);
             double height = config.get("launchpad.height", Double.class).orElse(1.0);
 

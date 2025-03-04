@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Command(
         name = "setlobby",
-        permission = "xg7lobby.command.setlobby",
+        permission = "xg7lobby.command.lobby.set",
         syntax = "xg7lobby setlobby (id) (<id> ([world,x,y,z] or [world,x,y,z,yaw,pitch]))",
         description = "Sets the lobby location",
         isInEnabledWorldOnly = true,

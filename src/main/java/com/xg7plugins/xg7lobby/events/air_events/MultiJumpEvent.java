@@ -63,6 +63,8 @@ public class MultiJumpEvent implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         if (!jumpingPlayers.containsKey(event.getPlayer().getUniqueId())) return;
 
+        if (Config.mainConfigOf(XG7Lobby.getInstance()).get("global-pvp.disable-multi-jumps", Boolean.class).orElse(false) && XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer())) return;
+
         if (event.getPlayer().isOnGround()) {
             event.getPlayer().setAllowFlight(true);
             jumpingPlayers.remove(event.getPlayer().getUniqueId());

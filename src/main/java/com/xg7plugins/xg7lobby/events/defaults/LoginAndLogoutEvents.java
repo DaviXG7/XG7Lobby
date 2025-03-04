@@ -103,17 +103,18 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
         lobbyPlayer.setPlayerHiding(lobbyPlayer.isPlayerHiding());
 
+        Bukkit.getOnlinePlayers().stream().filter(p -> XG7Lobby.getInstance().isInWorldEnabled(p) && XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(p) && Config.mainConfigOf(XG7Lobby.getInstance()).get("global-pvp.hide-players-not-in-pvp", Boolean.class).orElse(false)).forEach(p -> p.hidePlayer(player));
+
         if (player.getWorld() == newWorld || config.get("on-join.run-events-when-return-to-the-world", Boolean.class).orElse(false)) XG7Lobby.getInstance().getActionsProcessor().process(config.get("on-first-join.enabled", Boolean.class).orElse(false) && lobbyPlayer.isFirstJoin() ? "on-first-join" : "on-join", player);
 
         if (config.get("on-join.tp-to-lobby", Boolean.class).orElse(true)) {
 
             XG7Lobby.getInstance().getLobbyManager().getRandomLobby().thenAccept(lobby -> {
                 if (lobby.getLocation() == null) {
-                    Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-teleport." + (player.hasPermission("xg7lobby.command.setlobby") ? "on-error-doesnt-exist-adm" : "on-error-doesnt-exist"))
-                            .join().send(player.getPlayer());
+                    Text.fromLang(player,XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (player.hasPermission("xg7lobby.command.lobby.set") ? "-adm" : "")).thenAccept(text -> text.send(player));
                     return;
                 }
-                lobby.teleport(player.getPlayer());
+                XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(player));
             });
 
         }

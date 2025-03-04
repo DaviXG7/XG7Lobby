@@ -40,7 +40,11 @@ public class ExecuteActionCommand implements ICommand {
             return;
         }
 
-        String actionArgs = Strings.join(Arrays.asList(args.getArgs()), ' ');
+        String actionArgs = "";
+
+        if (args.len() > 2) {
+            actionArgs = Strings.join(Arrays.asList(args.getArgs()), ' ');
+        }
 
         XG7Lobby.getInstance().getActionsProcessor().process(Collections.singletonList(actionArgs), (Player) sender);
     }

@@ -40,7 +40,7 @@ public class Lobby implements ICommand {
         String id;
 
         if (args.len() > 0) {
-            if (!sender.hasPermission("xg7lobby.command.lobby.teleport.id")) {
+            if (!sender.hasPermission("xg7lobby.command.lobby.teleport-id")) {
                 Text.fromLang(sender,XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
@@ -61,7 +61,7 @@ public class Lobby implements ICommand {
         }
 
         if (args.len() > 1) {
-            if (!sender.hasPermission("xg7lobby.command.lobby.teleport.other")) {
+            if (!sender.hasPermission("xg7lobby.command.lobby.teleport-other")) {
                 Text.fromLang(sender,XG7Plugins.getInstance(), "commands.no-permission").thenAccept(text -> text.send(sender));
                 return;
             }
@@ -90,7 +90,7 @@ public class Lobby implements ICommand {
         if (XG7Plugins.getInstance().getCooldownManager().containsPlayer("lobby-cooldown-after", targetToTeleport)) {
             double cooldownToToggle = XG7Plugins.getInstance().getCooldownManager().getReamingTime("lobby-cooldown-after", targetToTeleport);
             Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-cooldown" + (finalTargetIsOther ? "-other" : "")).thenAccept(text -> text
-                    .replace("player", finalTargetToTeleport.getName())
+                    .replace("target", finalTargetToTeleport.getName())
                     .replace("milliseconds", String.valueOf((cooldownToToggle)))
                     .replace("seconds", String.valueOf((int) ((cooldownToToggle) / 1000)))
                     .replace("minutes", String.valueOf((int) ((cooldownToToggle) / 60000)))
@@ -103,7 +103,7 @@ public class Lobby implements ICommand {
 
             try {
                 if (lobby == null) {
-                    Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (sender.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(sender));
+                    Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (sender.hasPermission("xg7lobby.command.lobby.set") ? "-adm" : "")).thenAccept(text -> text.send(sender));
                     return;
                 }
 
@@ -143,7 +143,7 @@ public class Lobby implements ICommand {
 
                 if (finalTargetIsOther) {
                     Text.fromLang(sender, XG7Lobby.getInstance(), "lobby.on-teleport.on-success-other").thenAccept(text -> {
-                        text.replace("player", finalTargetToTeleport.getName()).send(sender);
+                        text.replace("target", finalTargetToTeleport.getName()).send(sender);
                     });
                 }
             } catch (Exception e) {
@@ -164,7 +164,7 @@ public class Lobby implements ICommand {
         if (args.len() == 1 && sender.hasPermission("xg7lobby.command.lobby.id")) {
             return XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(ob -> ob instanceof LobbyLocation).map(e -> ((LobbyLocation)e).getID()).collect(Collectors.toList());
         }
-        if (args.len() == 2 && sender.hasPermission("xg7lobby.command.lobby.other")) {
+        if (args.len() == 2 && sender.hasPermission("xg7lobby.command.lobby.teleport-others")) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         }
         return ICommand.super.onTabComplete(sender, args);

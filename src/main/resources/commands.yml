@@ -17,5 +17,8 @@ vanish: ["7lvanish", "7lv", "vanish"]
 execute: ["7lexecute", "7le", "execute"]
 pvp: ["7lpvp", "pvp"]
 warns: ["7lwarns", "7lw", "warns"]
+resetstats: ["7lresetstats", "7lrs", "resetstats"]
+deletelobby: ["7ldeletelobby", "7ldl", "deletelobby"]
+lobbies: ["7llobbies", "7lls", "lobbies"]
 
 config-version: test-1.0

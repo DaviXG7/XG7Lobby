@@ -6,21 +6,49 @@ api-version: '1.16'
 depend:
   - "XG7Plugins"
 
+softdepend:
+  - "LuckPerms"
+
 permissions:
   xg7lobby.admin:
     description: Permission to use the admin commands.
     default: op
+    children:
+      xg7lobby.command.*: true
+      xg7lobby.attack: true
+      xg7lobby.chat.*: true
 
   xg7lobby.command.*:
     description: Permission to use all commands.
     default: op
     children:
       xg7lobby.command.fly: true
+      xg7lobby.command.fly-other: true
+      xg7lobby.command.lockchat: true
       xg7lobby.command.gamemode: true
+      xg7lobby.command.gamemode-others: true
       xg7lobby.command.build: true
-      xg7lobby.command.setlobby: true
-      xg7lobby.command.lobby: true
+      xg7lobby.command.build-other: true
+      xg7lobby.command.lobby.*: true
+      xg7lobby.command.warns: true
+      xg7lobby.command.warns-other: true
+      xg7lobby.command.resetstats: true
+      xg7lobby.command.vanish: true
+      xg7lobby.command.help: true
       xg7lobby.command.moderation.*: true
+
+  xg7lobby.command.lobby.*:
+    description: Permission to use all lobby commands.
+    default: op
+    children:
+      xg7lobby.command.lobby.teleport: true
+      xg7lobby.command.lobby.teleport-id: true
+      xg7lobby.command.lobby.teleport-others: true
+      xg7lobby.command.lobby.set: true
+      xg7lobby.command.lobby.delete: true
+      xg7lobby.command.lobby.bypass-cooldown: true
+      xg7lobby.command.lobby.see-lobbies: true
+
 
   xg7lobby.command.moderation.*:
     description: Permission to use all moderation commands.
@@ -34,10 +62,6 @@ permissions:
       xg7lobby.command.moderation.tempban: true
       xg7lobby.command.moderation.tempmute: true
       xg7lobby.command.moderation.warn: true
-
-  xg7lobby.attack:
-    description: Permission to attack
-    default: op
 
   xg7lobby.chat.*:
     description: Permission to use all chat restrictions.

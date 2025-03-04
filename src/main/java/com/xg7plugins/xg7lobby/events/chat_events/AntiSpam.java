@@ -53,7 +53,6 @@ public class AntiSpam implements Listener {
             return;
         }
 
-        if (lastMessages.containsKey(player.getUniqueId())) {
             if (config.get("anti-spam.message-cannot-be-the-same", Boolean.class).orElse(true)) {
                 String lastMessage = this.lastMessages.get(player.getUniqueId());
                 if (lastMessage != null && lastMessage.equalsIgnoreCase(event.getMessage())) {
@@ -63,7 +62,6 @@ public class AntiSpam implements Listener {
                 }
                 lastMessages.put(player.getUniqueId(), event.getMessage());
             }
-        }
 
         XG7Plugins.getInstance().getCooldownManager().addCooldown(player, "lobby-chat-spam", config.getTime("anti-spam.cooldown").orElse(500L));
 

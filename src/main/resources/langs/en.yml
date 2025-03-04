@@ -6,18 +6,18 @@ commands:
   fly:
     toggle-on: "&aFly mode enabled."
     toggle-off: "&cFly mode disabled."
-    toggle-other-on: "&aFly mode enabled for %player%."
-    toggle-other-off: "&cFly mode disabled for %player%."
+    toggle-other-on: "&aFly mode enabled for %target%."
+    toggle-other-off: "&cFly mode disabled for %target%."
 
   gamemode:
     invalid-gamemode: "&cInvalid gamemode. Use (0, s), (1, c), (2, a) or (3, sp)."
     set: "&aGamemode set to %gamemode%."
-    set-other: "&aGamemode set to %gamemode% for %player%."
+    set-other: "&aGamemode set to %gamemode% for %target%."
   build:
     toggle-on: "&aBuild mode enabled."
     toggle-off: "&cBuild mode disabled."
-    toggle-other-on: "&aBuild mode enabled for %player%."
-    toggle-other-off: "&cBuild mode disabled for %player%."
+    toggle-other-on: "&aBuild mode enabled for %target%."
+    toggle-other-off: "&cBuild mode disabled for %target%."
 
   warn:
     level-invalid: "&cInvalid warn level. Use a number between 1 and 3."
@@ -29,7 +29,7 @@ commands:
     on-pardon: "&aWarn with id %id% pardoned successfully."
 
     on-warn: "&cYou have been warned by an admin. Reason: %reason%."
-    on-warn-sender: "&aPlayer %player% has been warned successfully by %reason%."
+    on-warn-sender: "&aPlayer %target% has been warned successfully by %reason%."
 
     warn-ban: "&cYou have been banned for reaching the maximum number of warns.\n Reason: %reason%."
     warn-mute: "&cYou have been muted for reaching the maximum number of warns.\n Reason: %reason%."
@@ -41,20 +41,20 @@ commands:
     mute-admin: "&cYou can't mute an admin."
 
     on-mute: "&cYou have been muted for %time%."
-    on-mute-sender: "&aPlayer %player% has been muted successfully for %time%."
+    on-mute-sender: "&aPlayer %v% has been muted successfully for %time%."
 
   unmute:
     not-muted: "&cThis player is not muted."
 
     on-unmute: "&aYou have been unmuted."
-    on-unmute-sender: "&aPlayer %player% has been unmuted successfully."
+    on-unmute-sender: "&aPlayer %target% has been unmuted successfully."
 
   kick:
 
     kick-admin: "&cYou can't kick an admin."
 
     on-kick: "&cYou have been kicked by an admin. Reason: %reason%."
-    on-kick-sender: "&aPlayer %player% has been kicked successfully by %reason%."
+    on-kick-sender: "&aPlayer %target% has been kicked successfully by %reason%."
 
   ban:
     already-banned: "&cThis player is already banned."
@@ -62,13 +62,18 @@ commands:
     ban-admin: "&cYou can't ban an admin."
 
     on-ban: "&cYou have been banned for %time%. Reason: %reason%."
-    on-ban-sender: "&aPlayer %player% has been banned successfully for %time% by %reason%."
+    on-ban-sender: "&aPlayer %target% has been banned successfully for %time% by %reason%."
 
   unban:
     not-banned: "&cThis player is not banned."
 
-    on-unban: "&aPlayer %player% has been unbanned successfully."
+    on-unban: "&aPlayer %target% has been unbanned successfully."
     on-unban-ip: "&a%ip% has been unbanned successfully."
+
+  reset-stats:
+    on-reset: "&aPlayer %target% stats reset successfully."
+    kills-reset: "&aPlayer %target% kills reset successfully."
+    deaths-reset: "&aPlayer %target% deaths reset successfully."
 
 
 lobby:
@@ -82,13 +87,18 @@ lobby:
     on-error-doesnt-exist: "&cThe lobby location doesn't exist. Wait for an admin to set it."
     on-error-doesnt-exist-adm: "&cThe lobby location doesn't exist. Use /setlobby to set it."
     on-success: "&aTeleported to the lobby successfully."
-    on-success-other: "&aTeleported %player% to the lobby successfully."
+    on-success-other: "&aTeleported %target% to the lobby successfully."
     on-cooldown: "&cYou can't teleport to the lobby for another %seconds% seconds."
     on-cooldown-other: "&cYou can't teleport to the lobby this player for another %seconds% seconds."
 
   on-join-events:
     title: "&bWelcome"
     message1: "&5&oPlugin made by DaviXG7"
+
+  delete:
+    id-not-found: "&cLobby location with id %id% not found."
+    on-error: "&cError while trying to delete the lobby location."
+    on-success: "&aLobby location %id% deleted successfully."
 
   on-teleporting-message: "<action> &7Teleporting to the lobby %seconds%s... Don't move!"
   teleport-cancelled: "&cTeleport cancelled!"
@@ -123,8 +133,8 @@ chat:
   locked: "&cYou can't send messages. The chat is locked."
 
   swear: "&cYou can't swear in the chat."
-
   muted: "&cYou are muted. You can't send messages for %time%."
+
 
   same-message: "&cYou can't send the same message twice."
   message-cooldown: "&cYou can't send messages for another %seconds% seconds."
@@ -144,12 +154,12 @@ pvp:
   on-enter: "&aYou are in global PvP mode."
   on-leave: "&cYou are no longer in global PvP mode."
 
-  on-death-with-killer: "&c%player% has killed by %killer%."
-  on-death-without-killer: "&c%player% has died by %cause%."
+  on-death-with-killer: "&c%victim% has killed by %killer%."
+  on-death-without-killer: "&c%victim% has died by %cause%."
 
   on-attack: "&cYou can't attack this player. He is not in global PvP mode."
 
-  pvp-disabling: "&cYour pvp is being disabled in %seconds% seconds. Dont move!"
+  pvp-disabling: "<action> &cYour pvp is being disabled in %seconds% seconds. Dont move!"
   disable-cancelled: "&cPvP disabling cancelled!"
 
   pvp-command: "You can't use this command in global PvP mode."
@@ -182,14 +192,116 @@ warn-menu:
 
   id-message: "&7Click to copy the warn id %id%."
 
-lobby-menu:
+lobbies-menu:
 
   title: "&b&lLobbies"
 
   lobby-item:
-      name: "&bLobby %name%"
-      server: "&7Server&b: &r%server%"
-      location: "&7Location&b: &rWorld: %world%, X: %x%, Y: %y%, Z: %z%, YAW: %yaw%, PITCH: %pitch%"
-      click-to-teleport: "&7Click to teleport to the lobby."
+    name: "&bLobby %id%"
 
-config-version: test-1.0
+    server: "&7Server&b: &r%server%"
+    location: "&7Location&b: &rWorld: %world%, X: %x%, Y: %y%, Z: %z%, YAW: %yaw%, PITCH: %pitch%"
+    click-to-tp: "&7Click to teleport to the lobby."
+
+    for-admins:
+      click-to-tp: "&7Left click to teleport to the lobby."
+      click-to-remove: "&7Right click to remove the lobby location."
+
+  go-back: "&cPrevious page"
+  go-next: "&aNext page"
+  close: "&cClose"
+
+
+help:
+
+  menu:
+    title: "&b&lXG7Lobby Help"
+
+    close-item: "&cClose"
+    go-back-item: "&cBack"
+    go-next-item: "&aNext"
+
+    profile-item:
+      name: "&bProfile"
+      lore:
+        kills: "&7Kills&b: &9%xg7lobby_player_kills%"
+        deaths: "&7Deaths&b: &c%xg7lobby_player_deaths%"
+        kdr: "&7KDR&b: &9%xg7lobby_player_kdr%"
+        build-enabled: "&7Build&b: &r%xg7lobby_player_is_build_enabled%"
+        fly-enabled: "&7Fly&b: &r%xg7lobby_player_is_flying%"
+        chat-locked: "&7Chat locked&b: &r%xg7lobby_chat_locked%"
+
+    commands-item:
+      name: "&bCommands"
+      lore: "Click here to see the commands"
+
+    actions-item:
+      name: "&bActions"
+      lore: "Click here to see the actions"
+
+    set-lobby-item:
+      name: "&cLobby"
+      lore:
+        current-location: "&7Current location&b: %random_lobby_location%"
+        click: "Click here to set the lobby location"
+
+    selectors-guide-item:
+      name: "&bSelectors Guide"
+      lore: "Click here to see the selectors guide"
+
+    custom-commands-guide-item:
+        name: "&bCustom Commands Guide"
+        lore: "Click here to see the custom commands guide"
+
+    about-item:
+      name: "&bAbout"
+      lore: "Click here to see the plugin information"
+
+    collaborators-item:
+      name: "&bCollaborators"
+      lore: "Click here to see the collaborators"
+
+
+    collaborators-menu-title: "&b&lCollaborators"
+
+    actions-menu:
+      title: "&b&lActions"
+
+      action-item:
+
+        name: "&bAction %id%"
+        lore:
+          description: "&7Description&b: &r%description%"
+          usage: "&7Usage&b: &r%usage%"
+  about:
+    - "About &9XG7Lobby"
+    - ""
+    - "Version: &a%version%&r"
+    - "Website: &a&n%website%&r"
+    - "GitHub: &a&n%github%&r"
+    - "Discord: &a&n%discord%&r"
+    - ""
+    - "This plugin was made for"
+    - "lobby management."
+    - "It goal is to give fun"
+    - "to the players and security"
+    - "in lobby worlds."
+    - ""
+    - "&oDeveloped by DaviXG7"
+
+  selector-guide:
+    - ""
+
+  custom-commands-guide:
+    - ""
+
+
+
+
+
+
+
+
+
+
+config-version: 1.0

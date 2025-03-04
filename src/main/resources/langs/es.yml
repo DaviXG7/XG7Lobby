@@ -1,27 +1,27 @@
-formated-name: "Español (ES)"
+formated-name: "Español"
 
 commands:
   not-online: "Este jugador no está en línea."
 
   fly:
-    toggle-on: "&aModo vuelo activado."
-    toggle-off: "&cModo vuelo desactivado."
-    toggle-other-on: "&aModo vuelo activado para %player%."
-    toggle-other-off: "&cModo vuelo desactivado para %player%."
+    toggle-on: "&aModo de vuelo activado."
+    toggle-off: "&cModo de vuelo desactivado."
+    toggle-other-on: "&aModo de vuelo activado para %target%."
+    toggle-other-off: "&cModo de vuelo desactivado para %target%."
 
   gamemode:
     invalid-gamemode: "&cModo de juego inválido. Usa (0, s), (1, c), (2, a) o (3, sp)."
-    set: "&aModo de juego cambiado a %gamemode%."
-    set-other: "&aModo de juego cambiado a %gamemode% para %player%."
-
+    set: "&aModo de juego establecido a %gamemode%."
+    set-other: "&aModo de juego establecido a %gamemode% para %target%."
   build:
-    toggle-on: "&aModo construcción activado."
-    toggle-off: "&cModo construcción desactivado."
-    toggle-other-on: "&aModo construcción activado para %player%."
-    toggle-other-off: "&cModo construcción desactivado para %player%."
+    toggle-on: "&aModo de construcción activado."
+    toggle-off: "&cModo de construcción desactivado."
+    toggle-other-on: "&aModo de construcción activado para %target%."
+    toggle-other-off: "&cModo de construcción desactivado para %target%."
 
   warn:
     level-invalid: "&cNivel de advertencia inválido. Usa un número entre 1 y 3."
+
     warn-admin: "&cNo puedes advertir a un administrador."
 
     invalid-id: "¡ID de advertencia inválido!"
@@ -29,31 +29,32 @@ commands:
     on-pardon: "&aAdvertencia con ID %id% perdonada con éxito."
 
     on-warn: "&cHas sido advertido por un administrador. Razón: %reason%."
-    on-warn-sender: "&aEl jugador %player% ha sido advertido con éxito por %reason%."
+    on-warn-sender: "&aJugador %target% ha sido advertido con éxito por %reason%."
 
     warn-ban: "&cHas sido baneado por alcanzar el número máximo de advertencias.\n Razón: %reason%."
-    warn-mute: "&cHas sido muteado por alcanzar el número máximo de advertencias.\n Razón: %reason%."
+    warn-mute: "&cHas sido silenciado por alcanzar el número máximo de advertencias.\n Razón: %reason%."
     warn-kick: "&cHas sido expulsado por alcanzar el número máximo de advertencias.\n Razón: %reason%."
 
   mute:
-    already-muted: "&cEste jugador ya está muteado."
+    already-muted: "&cEste jugador ya está silenciado."
 
-    mute-admin: "&cNo puedes mutear a un administrador."
+    mute-admin: "&cNo puedes silenciar a un administrador."
 
-    on-mute: "&cHas sido muteado por %time%."
-    on-mute-sender: "&aEl jugador %player% ha sido muteado con éxito por %time%."
+    on-mute: "&cHas sido silenciado por %time%."
+    on-mute-sender: "&aJugador %v% ha sido silenciado con éxito por %time%."
 
   unmute:
-    not-muted: "&cEste jugador no está muteado."
+    not-muted: "&cEste jugador no está silenciado."
 
-    on-unmute: "&aHas sido desmuteado."
-    on-unmute-sender: "&aEl jugador %player% ha sido desmuteado con éxito."
+    on-unmute: "&aHas sido desilenciado."
+    on-unmute-sender: "&aJugador %target% ha sido desilenciado con éxito."
 
   kick:
+
     kick-admin: "&cNo puedes expulsar a un administrador."
 
     on-kick: "&cHas sido expulsado por un administrador. Razón: %reason%."
-    on-kick-sender: "&aEl jugador %player% ha sido expulsado con éxito por %reason%."
+    on-kick-sender: "&aJugador %target% ha sido expulsado con éxito por %reason%."
 
   ban:
     already-banned: "&cEste jugador ya está baneado."
@@ -61,13 +62,19 @@ commands:
     ban-admin: "&cNo puedes banear a un administrador."
 
     on-ban: "&cHas sido baneado por %time%. Razón: %reason%."
-    on-ban-sender: "&aEl jugador %player% ha sido baneado con éxito por %time% por %reason%."
+    on-ban-sender: "&aJugador %target% ha sido baneado con éxito por %time% por %reason%."
 
   unban:
     not-banned: "&cEste jugador no está baneado."
 
-    on-unban: "&aEl jugador %player% ha sido desbaneado con éxito."
-    on-unban-ip: "&a[IP] ha sido desbaneada con éxito."
+    on-unban: "&aJugador %target% ha sido desbaneado con éxito."
+    on-unban-ip: "&a%ip% ha sido desbaneado con éxito."
+
+  reset-stats:
+    on-reset: "&aEstadísticas del jugador %target% reiniciadas con éxito."
+    kills-reset: "&aAsesinatos del jugador %target% reiniciados con éxito."
+    deaths-reset: "&aMuertes del jugador %target% reiniciadas con éxito."
+
 
 lobby:
 
@@ -80,27 +87,33 @@ lobby:
     on-error-doesnt-exist: "&cLa ubicación del lobby no existe. Espera a que un administrador la establezca."
     on-error-doesnt-exist-adm: "&cLa ubicación del lobby no existe. Usa /setlobby para establecerla."
     on-success: "&aTeletransportado al lobby con éxito."
-    on-success-other: "&aTeletransportado %player% al lobby con éxito."
-    on-cooldown: "&cNo puedes teletransportarte al lobby durante otros %seconds% segundos."
-    on-cooldown-other: "&cNo puedes teletransportar a este jugador al lobby durante otros %seconds% segundos."
+    on-success-other: "&aTeletransportado %target% al lobby con éxito."
+    on-cooldown: "&cNo puedes teletransportarte al lobby durante %seconds% segundos más."
+    on-cooldown-other: "&cNo puedes teletransportar a este jugador al lobby durante %seconds% segundos más."
 
   on-join-events:
     title: "&bBienvenido"
     message1: "&5&oPlugin hecho por DaviXG7"
 
-  on-teleporting-message: "<action> &7Teletransportándose al lobby en %seconds%s... ¡No te muevas!"
+  delete:
+    id-not-found: "&cUbicación del lobby con ID %id% no encontrada."
+    on-error: "&cError al intentar eliminar la ubicación del lobby."
+    on-success: "&aUbicación del lobby %id% eliminada con éxito."
+
+  on-teleporting-message: "<action> &7Teletransportando al lobby en %seconds%s... ¡No te muevas!"
   teleport-cancelled: "&c¡Teletransporte cancelado!"
 
 messages:
 
-  on-join: "&b%player%&7, &eha entrado al juego!"
-  on-first-join: "&b%player%&7, &eha entrado al juego por primera vez!"
+  on-join: "&b%target%&7, &e¡se unió al juego!"
+  on-first-join: "&b%target%&7, &e¡se unió al juego por primera vez!"
 
-  on-quit: "&b%player%&7, &eha salido del juego!"
+  on-quit: "&b%target%&7, &e¡abandonó el juego!"
+
 
 multi-jump-left: "<action> &7Te quedan &b%jumps% &7saltos."
 
-build-not-enabled: "&c¡No puedes construir! Usa /build para activarlo."
+build-not-enabled: "&c¡Tienes la construcción desactivada! Usa /build para activarla."
 
 player-prohibitions:
   break-blocks: "&cNo puedes romper bloques."
@@ -119,19 +132,19 @@ chat:
 
   locked: "&cNo puedes enviar mensajes. El chat está bloqueado."
 
-  swear: "&cNo puedes decir malas palabras en el chat."
+  swear: "&cNo puedes decir groserías en el chat."
+  muted: "&cEstás silenciado. No puedes enviar mensajes durante %time%."
 
-  muted: "&cEstás muteado. No puedes enviar mensajes durante %time%."
 
   same-message: "&cNo puedes enviar el mismo mensaje dos veces."
-  message-cooldown: "&cNo puedes enviar mensajes durante otros %seconds% segundos."
+  message-cooldown: "&cNo puedes enviar mensajes durante %seconds% segundos más."
   send-much-messages: "&cEstás enviando mensajes demasiado rápido. Por favor, reduce la velocidad."
 
   prohibited-command: "&cComando no encontrado."
 
 menu-does-not-exist: "&cEste menú no existe."
 
-selector-cooldown: "&cNo puedes usar el selector durante otros %seconds% segundos."
+selector-cooldown: "&cNo puedes usar el selector durante %seconds% segundos más."
 
 hide-players:
   show: "&aLos jugadores ahora son visibles."
@@ -141,12 +154,12 @@ pvp:
   on-enter: "&aEstás en modo PvP global."
   on-leave: "&cYa no estás en modo PvP global."
 
-  on-death-with-killer: "&c%player% fue asesinado por %killer%."
-  on-death-without-killer: "&c%player% murió por %cause%."
+  on-death-with-killer: "&c%player% ha sido asesinado por %killer%."
+  on-death-without-killer: "&c%player% ha muerto por %cause%."
 
   on-attack: "&cNo puedes atacar a este jugador. No está en modo PvP global."
 
-  pvp-disabling: "&cTu PvP se desactivará en %seconds% segundos. ¡No te muevas!"
+  pvp-disabling: "<action> &cTu PvP se está desactivando en %seconds% segundos. ¡No te muevas!"
   disable-cancelled: "&c¡Desactivación de PvP cancelada!"
 
   pvp-command: "No puedes usar este comando en modo PvP global."
@@ -161,9 +174,41 @@ scoreboard:
   deaths: "&7Muertes&b: &c%xg7lobby_player_global_pvp_deaths%"
 
   players-online: "&7Jugadores en línea&b: &a%server_online%"
-  players-in-pvp: "&7Jugadores en PvP&b: &a%xg7lobby_players_in_global_pvp%"
+  players-in-pvp: "&7Jugadores en pvp&b: &a%xg7lobby_players_in_global_pvp%"
 
 warn-menu:
   title: "&c&lAdvertencias de %target%"
+
+  warn-item:
+    name: "&cAdvertencia %id%"
+    reason: "&7Razón&b: &r%reason%"
+    level: "&7Nivel&b: &r%level%"
+    date: "&7Fecha&b: &r%date%  "
+    click-to-copy-id: "&7Haz clic para copiar el ID de la advertencia."
+
+  go-back: "&cPágina anterior"
+  go-next: "&aPágina siguiente"
+  close: "&cCerrar"
+
+  id-message: "&7Haz clic para copiar el ID de la advertencia %id%."
+
+lobbies-menu:
+
+  title: "&b&lLobbies"
+
+  lobby-item:
+    name: "&bLobby %id%"
+
+    server: "&7Servidor&b: &r%server%"
+    location: "&7Ubicación&b: &rMundo: %world%, X: %x%, Y: %y%, Z: %z%, YAW: %yaw%, PITCH: %pitch%"
+    click-to-tp: "&7Haz clic para teletransportarte al lobby."
+
+    for-admins:
+      click-to-tp: "&7Clic izquierdo para teletransportarte al lobby."
+      click-to-remove: "&7Clic derecho para eliminar la ubicación del lobby."
+
+  go-back: "&cPágina anterior"
+  go-next: "&aPágina siguiente"
+  close: "&cCerrar"
 
 config-version: test-1.0

@@ -1,14 +1,12 @@
-package com.xg7plugins.xg7lobby.inventories.warn_menu;
+package com.xg7plugins.xg7lobby.inventories.defaults.warn_menu;
 
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.modules.xg7menus.Slot;
 import com.xg7plugins.modules.xg7menus.events.ClickEvent;
-import com.xg7plugins.modules.xg7menus.events.MenuEvent;
 import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.modules.xg7menus.menus.gui.PageMenu;
 import com.xg7plugins.utils.Pair;
 import com.xg7plugins.utils.text.Text;
-import com.xg7plugins.utils.text.TextCentralizer;
 import com.xg7plugins.xg7lobby.XG7Lobby;
 import com.xg7plugins.xg7lobby.lobby.player.LobbyPlayer;
 import net.md_5.bungee.api.chat.TextComponent;

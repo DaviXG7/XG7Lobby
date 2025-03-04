@@ -90,7 +90,7 @@ public class MuteCommand implements ICommand {
                 Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.mute.on-mute").thenAccept(text -> text.replace("reason", reason != null ? reason : "").replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(lobbyPlayer.getPlayer()));
             }
 
-            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.mute.on-mute-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason != null ? reason : "").replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
+            Text.fromLang(sender, XG7Lobby.getInstance(), "commands.mute.on-mute-sender").thenAccept(text -> text.replace("target", target.getName()).replace("reason", reason != null ? reason : "").replace("time", String.format("%dd, %02dh %02dm %02ds", days, finalHours, finalMinutes, finalSeconds)).send(sender));
 
             if (reason != null) {
                 lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), XG7Lobby.getInstance().getConfig("config").get("mute-warn-level", Integer.class).orElse(0), reason));

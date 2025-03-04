@@ -1,4 +1,4 @@
-package com.xg7plugins.xg7lobby.inventories.warn_menu;
+package com.xg7plugins.xg7lobby.inventories.defaults.warn_menu;
 
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;

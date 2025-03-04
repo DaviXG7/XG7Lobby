@@ -43,7 +43,7 @@ public class GlobalPVPManager {
 
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-        LobbySelector mainMenu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(XG7Lobby.getInstance().getConfig("config").get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+        LobbySelector mainMenu = (LobbySelector) XG7Lobby.getInstance().getInventoryManager().getInventory(Config.mainConfigOf(XG7Lobby.getInstance()).get("main-selector-id", String.class).orElse(null));
 
         if (mainMenu != null) {
             mainMenu.close(player);
@@ -81,7 +81,7 @@ public class GlobalPVPManager {
 
         lobbyPlayer.setPlayerHiding(lobbyPlayer.isPlayerHiding());
 
-        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(config.get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+        LobbySelector menu =(LobbySelector) XG7Lobby.getInstance().getInventoryManager().getInventory(Config.mainConfigOf(XG7Lobby.getInstance()).get("main-selector-id", String.class).orElse(null));
 
         if (menu != null) menu.open(player);
 

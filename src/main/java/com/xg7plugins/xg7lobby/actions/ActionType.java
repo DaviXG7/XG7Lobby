@@ -7,6 +7,8 @@ import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.particles.XParticle;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.modules.xg7menus.item.Item;
+import com.xg7plugins.modules.xg7menus.item.SkullItem;
 import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
 import com.xg7plugins.modules.xg7menus.menus.gui.Menu;
 import com.xg7plugins.modules.xg7menus.menus.holders.MenuHolder;
@@ -14,6 +16,7 @@ import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
 import com.xg7plugins.server.MinecraftVersion;
 import com.xg7plugins.tasks.CooldownManager;
 import com.xg7plugins.utils.Debug;
+import com.xg7plugins.utils.Pair;
 import com.xg7plugins.utils.Parser;
 import com.xg7plugins.utils.location.Location;
 import com.xg7plugins.utils.text.Text;
@@ -32,6 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
@@ -39,10 +43,10 @@ import java.util.stream.IntStream;
 @Getter
 public enum ActionType {
 
-    MESSAGE(false, (player, args) -> Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().send(player)),
-    COMMAND(false, (player, args) -> player.performCommand(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
-    CONSOLE(false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
-    TITLE(true,(player, args) -> {
+    MESSAGE("[MESSAGE] message...", "Send a message to a player", "WRITABLE_BOOK", false, (player, args) -> Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().send(player)),
+    COMMAND("[COMMAND] command...", "Make a player execute a command", "COMMAND_BLOCK", false, (player, args) -> player.performCommand(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
+    CONSOLE("[CONSOLE] command...", "Make console execute a command", "COMMAND_BLOCK", false, (player, args) -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
+    TITLE("[TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>]", "Send a title to a player", "OAK_SIGN", true,(player, args) -> {
         if (args.length == 1) {
             player.sendTitle(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText(), "");
             return;
@@ -59,7 +63,7 @@ public enum ActionType {
         throw new ActionException("TITLE", "Incorrectly amount of args: " + args.length + ". The right way to use is [TITLE] title, Optional:[subtitle], Optional:[<fade, fade in, fade out>].\n" +
                 "Use \"_\" to remove the title in the second case or subtitle or title in the last case.");
     }),
-    EFFECT(true,(player, args) -> {
+    EFFECT("[EFFECT] potion, duration, amplifier, Optional:[ambient, Optional:[particles, Optional:[icon]]].", "Gives a effect to a player", "POTION", true,(player, args) -> {
 
         try {
             switch (args.length) {
@@ -81,7 +85,7 @@ public enum ActionType {
         }
 
     }),
-    TP(true,(player, args) ->{
+    TP("[TP] world, x, y, z, Optional:[yaw,pitch]", "Teleports a player to a specific location", "ENDER_PEARL",true,(player, args) ->{
         try {
             switch (args.length) {
                 case 4:
@@ -99,9 +103,9 @@ public enum ActionType {
             throw new ActionException("TP", "Unable to convert text in values, check if the values are correct. world: TEXT: (WORLD NAME), x: DECIMAL, y: DECIMAL, z: DECIMAL, yaw: DECIMAL, pitch: DECIMAL");
         }
     }),
-    BROADCAST(false,(player, args) -> Bukkit.broadcastMessage(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
-    SUMMON(true,(player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
-    SOUND(true,(player, args) -> {
+    BROADCAST("[BROADCAST] message", "Broadcast a message", "PAPER", false,(player, args) -> Bukkit.broadcastMessage(Text.detectLangs(player,XG7Lobby.getInstance(),args[0]).join().getText())),
+    SUMMON("[SUMMON] entity", "Summons a entity", "EGG", true,(player, args) -> player.getWorld().spawnEntity(player.getLocation(), XEntityType.valueOf(args[0].toUpperCase()).get())),
+    SOUND("[SOUND] sound, Optional:[volume, Optional:[pitch]]", "Play a sound on player", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVjYjQ5Y2NjYzEzNmIyZjQ3OTJhYTE5MDY3ZGM2NDVhNGVmYTEyYzM3NzQxM2QxOGNkMjEyNzM4YjE5NjlhYSJ9fX0=", true,(player, args) -> {
         try {
             switch (args.length) {
                 case 1:
@@ -121,7 +125,7 @@ public enum ActionType {
         }
 
     }),
-    PARTICLE(true,(player, args) -> {
+    PARTICLE("[PARTICLE] particle, Optional:[amount, Optional:[offset x, offset y, offset z]]","Spawn a particle", "REDSTONE", true,(player, args) -> {
         try {
             switch (args.length) {
                 case 1:
@@ -141,7 +145,7 @@ public enum ActionType {
         }
 
     }),
-    FIREWORK(true,(player, args) -> {
+    FIREWORK("[FIREWORK] type, color, colorfade, trail, flicker, power", "Spawn a firework" , "FIREWORK_ROCKET",true,(player, args) -> {
         try {
             if (args.length != 6) {
                 throw new ActionException("FIREWORK", "Incorrectly amount of args: " + args.length + ". The right way to use is [FIREWORK] type, color, colorfade, trail, flicker, power.");
@@ -171,8 +175,8 @@ public enum ActionType {
         }
 
     }),
-    CLEAR_CHAT(false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> " ").forEach(e -> Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(e)))),
-    OPEN(true, (player, args) -> {
+    CLEAR_CHAT("[CLEAR_CHAT] ", "Clear the chat","BOOK",false,(player, args) -> IntStream.range(0, 100).mapToObj(i -> " ").forEach(e -> Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(e)))),
+    OPEN("[OPEN] menu_id", "Open a custom inventory", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZiOTJlYTJiZDlhNzdhZmJkM2YxNzAzODVhNTdjZGVkNzQ5YWIxNjAxODE0NTkzZTVkZTljYWQ5NTQ5NTkyYyJ9fX0=", true, (player, args) -> {
 
         BaseMenu menu = XG7Lobby.getInstance().getInventoryManager().getInventory(args[0]);
 
@@ -183,10 +187,10 @@ public enum ActionType {
         menu.open(player);
 
     }),
-    CLOSE(false, (player, args) -> {
+    CLOSE("[CLOSE] ", "Close the inventory", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRjMzZjOWNiNTBhNTI3YWE1NTYwN2EwZGY3MTg1YWQyMGFhYmFhOTAzZThkOWFiZmM3ODI2MDcwNTU0MGRlZiJ9fX0=", false, (player, args) -> {
         player.closeInventory();
     }),
-    SWAP(true, (player, args) -> {
+    SWAP("[SWAP] itempath", "swap a item on the inventory", "EMERALD_BLOCK", true, (player, args) -> {
 
         if (args.length != 3) {
             throw new ActionException("SWAP", "Incorrectly amount of args: " + args.length + ". The right way to use is [SWAP] menuId, slot, itemPath.");
@@ -230,7 +234,7 @@ public enum ActionType {
             Menu.update(player, item.getItem().slot(slot), holder);
         }
     }),
-    REFRESH(false, (player, args) -> {
+    REFRESH("[REFRESH] ", "Refresh the menu", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2UwNzIzNTVhZmE2MTQyYmFmNTY2MGM5MDY4N2M4YzUwZGM2M2U1Nzc4MWRkYmNhNWNlM2YzNTU0ZDFlMzc1ZSJ9fX0=", false, (player, args) -> {
         if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) return;
 
         MenuHolder holder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
@@ -240,23 +244,23 @@ public enum ActionType {
             Menu.refresh(playerMenuHolder);
         }
     }),
-    HIDE_PLAYERS(false, (player, args) -> {
+    HIDE_PLAYERS("[HIDE_PLAYERS] ", "Hide the plaeyrs on lobby", "ENDER_PEARL", false, (player, args) -> {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         lobbyPlayer.setPlayerHiding(true);
     }),
-    SHOW_PLAYERS(false, (player, args) -> {
+    SHOW_PLAYERS("[SHOW_PLAYERS] ", "Show the player on lobby", "ENDER_EYE",false, (player, args) -> {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         lobbyPlayer.setPlayerHiding(false);
     }),
-    CLEAR_INVENTORY(false, (player, args) -> {
+    CLEAR_INVENTORY("[CLEAR_INVENTORY] ", "Clear the player inventory", "BARRIER", false, (player, args) -> {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
     }),
-    PVP(false, (player, args) -> {
+    PVP("[PVP] ", "Enable the pvp", "DIAMOND_SWORD",false, (player, args) -> {
         if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) XG7Lobby.getInstance().getGlobalPVPManager().addPlayerToPVP(player);
         else XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(player);
     }),
-    EQUIP(true, (player, args) -> {
+    EQUIP("[EQUIP] equipslot, material", "Equip an item", "IRON_CHESTPLATE", true, (player, args) -> {
         Slot slot = Slot.valueOf(args[0].toUpperCase());
         XMaterial material = XMaterial.valueOf(args[1]);
         switch (slot) {
@@ -281,14 +285,14 @@ public enum ActionType {
                 break;
         }
     }),
-    LOBBY(true, (player, args) -> {
+    LOBBY("[LOBBY] id", "Teleport to a lobby", "BLAZE_ROD", true, (player, args) -> {
 
         if (args.length != 1)
             throw new ActionException("LOBBY", "Incorrectly amount of args: " + args.length + ". The right way to use is [LOBBY] lobbyId.");
 
         XG7Lobby.getInstance().getLobbyManager().getLobby(args[0]).thenAccept(lobby -> {
             if (lobby == null) {
-                Text.fromLang(player, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (player.hasPermission("xg7lobby.commands.lobby.setlobby") ? "-adm" : "")).thenAccept(text -> text.send(player));
+                Text.fromLang(player, XG7Lobby.getInstance(), "lobby.on-teleport.on-error-doesnt-exist" + (player.hasPermission("xg7lobby.command.lobby.set") ? "-adm" : "")).thenAccept(text -> text.send(player));
                 return;
             }
             XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(player));
@@ -296,6 +300,9 @@ public enum ActionType {
 
     });
 
+    private final String usage;
+    private final String description;
+    private final String icon;
     private final boolean needArgs;
     private final BiConsumer<Player, String[]> action;
 

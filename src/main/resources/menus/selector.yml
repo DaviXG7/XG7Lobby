@@ -1,5 +1,7 @@
 type: SELECTOR
 
+#to disable the menu, delete de file and reload the plugin
+
 #DON'T CHANGE THIS ID
 id: "selector"
 
@@ -31,6 +33,17 @@ items:
         - "[OPEN] profile"
         - "[CLOSE] "
 
+  lobbies:
+
+    material: NETHER_STAR
+    name: "&aLobbies"
+    lore:
+      - "&7Click to view the lobbies menu!"
+    amount: 1
+    glow: true
+    actions:
+      - "[COMMAND] 7llobbies"
+
   hidePlayers:
 
     material: LIME_DYE
@@ -60,7 +73,7 @@ items:
       - "[SWAP] hidePlayers"
 
 grid:
-  - ["games","profile","","","","","","","hidePlayers"]
+  - ["games","profile","","","","","","hidePlayers","lobbies"]
 
 
 config-version: test-1.0

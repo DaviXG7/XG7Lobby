@@ -52,6 +52,7 @@ public class PVPListener implements LobbyEvent {
         if (!pvpManager.isPlayerInPVP(damager)) return;
 
         if (!pvpManager.isPlayerInPVP(victim)) {
+            event.setCancelled(true);
             Text.fromLang(damager, XG7Lobby.getInstance(), "pvp.on-attack").join().send(damager);
             return;
         }
@@ -82,17 +83,18 @@ public class PVPListener implements LobbyEvent {
             XG7Lobby.getInstance().getActionsProcessor().process("on-pvp-death", event.getEntity());
 
             Bukkit.getOnlinePlayers().forEach(player -> {
+                if (!pvpManager.isPlayerInPVP(player)) return;
                 if (killer != null) {
                     Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-with-killer").join()
-                            .replace("player", event.getEntity().getName())
-                            .replace("killer", event.getEntity().getKiller().getName())
+                            .replace("victim", event.getEntity().getName())
+                            .replace("killer", killer.getOfflinePlayer().getName())
                             .replace("cause", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                             .send(player);
                     return;
                 }
 
                 Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-without-killer").join()
-                        .replace("player", event.getEntity().getName())
+                        .replace("victim", event.getEntity().getName())
                         .replace("cause", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                         .send(player);
             });

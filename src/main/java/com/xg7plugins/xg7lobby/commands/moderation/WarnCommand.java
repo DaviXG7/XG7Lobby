@@ -7,6 +7,7 @@ import com.xg7plugins.commands.setup.Command;
 import com.xg7plugins.commands.setup.CommandArgs;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
+import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.data.database.query.Query;
 import com.xg7plugins.modules.xg7menus.item.Item;
 import com.xg7plugins.utils.text.Text;
@@ -80,7 +81,7 @@ public class WarnCommand implements ICommand {
 
         lobbyPlayer.addInfraction(new Warn(lobbyPlayer.getPlayerUUID(), level, reason));
 
-        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.on-warn-sender").thenAccept(text -> text.replace("player", target.getName()).replace("reason", reason).send(sender));
+        Text.fromLang(sender, XG7Lobby.getInstance(), "commands.warn.on-warn-sender").thenAccept(text -> text.replace("target", target.getName()).replace("reason", reason).send(sender));
         if (target.isOnline()) Text.fromLang(lobbyPlayer.getPlayer(), XG7Lobby.getInstance(), "commands.warn.on-warn").thenAccept(text -> text.replace("reason", reason).send(target.getPlayer()));
 
 
@@ -94,6 +95,18 @@ public class WarnCommand implements ICommand {
                 names.add("pardon");
                 return names;
             case 2:
+                if (args.get(0, String.class).equalsIgnoreCase("pardon")) {
+
+                    List<Entity> lobbyPlayers = XG7Plugins.getInstance().getDatabaseManager().getCachedEntities().asMap().join().values().stream().filter(entity -> entity instanceof LobbyPlayer).collect(Collectors.toList());
+                    List<String> warnIds = new ArrayList<>();
+
+                    for (Entity entity : lobbyPlayers) {
+                        LobbyPlayer lobbyPlayer = (LobbyPlayer) entity;
+                        warnIds.addAll(lobbyPlayer.getInfractions().stream().map(warn -> warn.getID().toString()).collect(Collectors.toList()));
+                    }
+
+                    return warnIds;
+                }
                 return XG7Lobby.getInstance().getConfig("config").getList("warn-levels", Map.class).orElse(new ArrayList<>()).stream().map(map -> map.get("level").toString()).collect(Collectors.toList());
             case 3:
                 return Collections.singletonList("Reason");
@@ -106,7 +119,7 @@ public class WarnCommand implements ICommand {
             name = "pardon",
             description = "Pardon a warn",
             syntax = "/warn pardon <warnid>",
-            permission = "xg7lobby.command.moderation.warn.pardon",
+            permission = "xg7lobby.command.moderation.warn",
             isAsync = true
     )
     static class Pardon implements ICommand {

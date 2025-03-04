@@ -27,14 +27,17 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
         return "2.0";
     }
 
-    public String onPlaceholderRequest(Player player, String identifier) {
+    public String onPlaceholderRequest(Player player, @NotNull String identifier) {
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         if (lobbyPlayer == null) {
             return null;
         }
 
-
         switch (identifier) {
+            case "chat_locked":
+                return XG7Plugins.serverInfo().getAtribute("lobbyChatLocked", Boolean.class).orElse(false) + "";
+            case "random_lobby_location":
+                return XG7Lobby.getInstance().getLobbyManager().getRandomLobby().join().toString();
             case "player_is_hiding":
                 return lobbyPlayer.isPlayerHiding() + "";
             case "player_is_muted":
@@ -53,6 +56,8 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
                 return lobbyPlayer.getGlobalPVPKills() + "";
             case "player_global_pvp_deaths":
                 return lobbyPlayer.getGlobalPVPDeaths() + "";
+            case "player_global_pvp_kdr":
+                return (lobbyPlayer.getGlobalPVPDeaths() == 0 ? lobbyPlayer.getGlobalPVPKills() : lobbyPlayer.getGlobalPVPKills() / lobbyPlayer.getGlobalPVPDeaths()) + "";
         }
 
         return null;

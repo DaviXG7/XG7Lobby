@@ -3,14 +3,18 @@ package com.xg7plugins.xg7lobby;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.boot.PluginConfigurations;
+import com.xg7plugins.commands.defaultCommands.reloadCommand.ReloadCause;
 import com.xg7plugins.commands.setup.ICommand;
 import com.xg7plugins.data.config.Config;
 import com.xg7plugins.data.database.entity.Entity;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.PacketListener;
 
+import com.xg7plugins.help.guihelp.HelpCommandGUI;
 import com.xg7plugins.modules.xg7menus.XG7Menus;
 import com.xg7plugins.modules.xg7menus.menus.BaseMenu;
+import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.modules.xg7menus.menus.player.PlayerMenu;
 import com.xg7plugins.modules.xg7scores.XG7Scores;
 import com.xg7plugins.server.MinecraftVersion;
 import com.xg7plugins.server.SoftDependencies;
@@ -20,6 +24,8 @@ import com.xg7plugins.utils.Metrics;
 import com.xg7plugins.xg7lobby.actions.ActionsProcessor;
 import com.xg7plugins.xg7lobby.commands.*;
 import com.xg7plugins.xg7lobby.commands.customcommand.CustomCommandManager;
+import com.xg7plugins.xg7lobby.commands.lobby.DeleteLobby;
+import com.xg7plugins.xg7lobby.commands.lobby.LobbiesCommand;
 import com.xg7plugins.xg7lobby.commands.lobby.Lobby;
 import com.xg7plugins.xg7lobby.commands.lobby.SetLobby;
 import com.xg7plugins.xg7lobby.commands.moderation.KickCommand;
@@ -43,9 +49,13 @@ import com.xg7plugins.xg7lobby.events.chat_events.*;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
+import com.xg7plugins.xg7lobby.help.menu.ActionsMenu;
+import com.xg7plugins.xg7lobby.help.menu.CollaboratorsMenu;
+import com.xg7plugins.xg7lobby.help.menu.XG7LobbyHelpGUI;
 import com.xg7plugins.xg7lobby.inventories.InventoryManager;
+import com.xg7plugins.xg7lobby.inventories.defaults.LobbiesMenu;
 import com.xg7plugins.xg7lobby.inventories.menu.LobbySelector;
-import com.xg7plugins.xg7lobby.inventories.warn_menu.WarnMenu;
+import com.xg7plugins.xg7lobby.inventories.defaults.warn_menu.WarnMenu;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyLocation;
 import com.xg7plugins.xg7lobby.lobby.location.LobbyManager;
 import com.xg7plugins.xg7lobby.lobby.player.*;
@@ -102,42 +112,45 @@ public final class XG7Lobby extends Plugin {
 
         Metrics.getMetrics(this, 24625);
 
-        lobbyManager = new LobbyManager();
-
         if (SoftDependencies.hasPlaceholderAPI()) new XG7LobbyPlaceholderExpansion().register();
 
         XG7Plugins.serverInfo().setAtribute("lobbyChatLocked", false);
 
+        ReloadCause.registerCause(this, new ReloadCause("scores"));
+        ReloadCause.registerCause(this, new ReloadCause("actions"));
+        ReloadCause.registerCause(this, new ReloadCause("menus"));
+
         Config config = getConfigsManager().getConfig("config");
 
         if (config.get("menus-enabled",Boolean.class).orElse(false)) {
-
-            Debug.of(XG7Lobby.getInstance()).loading("Loading custom menus...");
+            Debug.of(this).loading("Loading custom menus...");
             inventoryManager = new InventoryManager(this, "games", "profile", "selector", "pvp_selector");
-
         }
 
         if (config.get("global-pvp.enabled", Boolean.class).orElse(false)) {
-            Debug.of(XG7Lobby.getInstance()).loading("Loading global pvp manager...");
+            Debug.of(this).loading("Loading global pvp manager...");
             globalPVPManager = new GlobalPVPManager(config);
         }
 
         if (config.get("custom-commands-enabled", Boolean.class).orElse(false)) {
-            Debug.of(XG7Lobby.getInstance()).loading("Loading custom commands...");
+            Debug.of(this).loading("Loading custom commands...");
             customCommandManager = new CustomCommandManager(config);
         }
 
-        Debug.of(XG7Lobby.getInstance()).loading("Loading action events...");
+        Debug.of(this).loading("Loading lobby manager...");
+        lobbyManager = new LobbyManager();
+
+        Debug.of(this).loading("Loading action events...");
         loadActions();
 
         if (XG7Plugins.serverInfo().isBungercord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
-        Debug.of(XG7Lobby.getInstance()).loading("Loading menus...");
-
+        Debug.of(this).loading("Loading menus...");
 
         List<BaseMenu> menus = new ArrayList<>();
 
         menus.add(new WarnMenu());
+        menus.add(new LobbiesMenu());
 
         menus.addAll(inventoryManager.getInventories());
 
@@ -158,12 +171,12 @@ public final class XG7Lobby extends Plugin {
 
         XG7Scores.getInstance().registerScores(scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load());
 
-
         Bukkit.getOnlinePlayers().forEach(player -> {
 
             LobbyPlayer.cast(player.getUniqueId(), false);
 
-            LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m instanceof LobbySelector).map(m -> (LobbySelector) m).findFirst().orElse(null);
+            LobbySelector menu = (LobbySelector) XG7Lobby.getInstance().getInventoryManager().getInventory(config.get("main-selector-id", String.class).orElse(null));
+
 
             if (menu != null) menu.open(player);
         });
@@ -183,13 +196,69 @@ public final class XG7Lobby extends Plugin {
     }
 
     @Override
+    public void onReload(ReloadCause cause) {
+        super.onReload(cause);
+        if (cause.equals("scores")) {
+
+            Bukkit.getOnlinePlayers().stream().filter(XG7Lobby.getInstance()::isInWorldEnabled).forEach(XG7Scores.getInstance()::removePlayer);
+
+            Config config = getConfig("config");
+
+            XG7Scores.getInstance().unregisterScore("xg7lobby-sb");
+            XG7Scores.getInstance().unregisterScore("xg7lobby-ab");
+            XG7Scores.getInstance().unregisterScore("xg7lobby-bb");
+            XG7Scores.getInstance().unregisterScore("xg7lobby-tb");
+            XG7Scores.getInstance().unregisterScore("xg7lobby-xp");
+
+            ScoreboardLoader scoreboardLoader = new ScoreboardLoader(config);
+            TablistLoader tablistLoader = new TablistLoader(config);
+            BossBarLoader bossBarLoader = new BossBarLoader(config);
+            ActionBarLoader actionBarLoader = new ActionBarLoader(config);
+            XPBarLoader xpBarLoader = new XPBarLoader(config);
+
+
+            if (scoreboardLoader.isEnabled() || tablistLoader.isEnabled() || bossBarLoader.isEnabled() || actionBarLoader.isEnabled() || xpBarLoader.isEnabled()) {
+                XG7Plugins.taskManager().runTask(XG7Plugins.taskManager().getRegisteredTask(XG7Plugins.getInstance(), "score-task"));
+            }
+
+            XG7Scores.getInstance().registerScores(scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load());
+
+            Bukkit.getOnlinePlayers().stream().filter(XG7Lobby.getInstance()::isInWorldEnabled).forEach(XG7Scores.getInstance()::addPlayer);
+        }
+        if (cause.equals("actions")) {
+            actionsProcessor.getActions().clear();
+            loadActions();
+        }
+        if (cause.equals("menus")) {
+            if (inventoryManager != null) {
+                inventoryManager.getInventoriesMap().clear();
+                inventoryManager = new InventoryManager(this, "games", "profile", "selector", "pvp_selector");
+
+                LobbySelector newSelector = (LobbySelector) XG7Lobby.getInstance().getInventoryManager().getInventory(Config.mainConfigOf(XG7Lobby.getInstance()).get("main-selector-id", String.class).orElse(null));
+
+                Bukkit.getOnlinePlayers().stream().filter(XG7Lobby.getInstance()::isInWorldEnabled).forEach(player -> {
+                    if (globalPVPManager.isPlayerInPVP(player)) {
+                        globalPVPManager.removePlayerFromPVP(player);
+                    }
+                    PlayerMenuHolder holder = XG7Menus.getInstance().getPlayerMenuHolder(player.getUniqueId());
+                    if (holder != null) ((PlayerMenu)holder.getMenu()).close(player);
+
+
+                    if (newSelector != null) newSelector.open(player);
+                });
+
+            }
+        }
+    }
+
+    @Override
     public Class<? extends Entity>[] loadEntites() {
         return new Class[]{LobbyPlayer.class, LobbyLocation.class};
     }
 
     @Override
     public ICommand[] loadCommands() {
-        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand(), new PVPCommand(), new WarnsCommand()};
+        return new ICommand[]{new SetLobby(), new Lobby(), new FlyCommand(), new GamemodeCommand(), new BuildCommand(), new LockChatCommand(),new WarnCommand(), new KickCommand(), new BanCommand(), new BanIPCommand(), new UnbanIPCommand(), new UnbanCommand(), new MuteCommand(), new UnmuteCommand(), new OpenInventoryCommand(), new VanishCommand(), new ExecuteActionCommand(), new PVPCommand(), new WarnsCommand(), new LobbiesCommand(), new DeleteLobby(), new ResetStats()};
     }
 
     @Override
@@ -209,6 +278,11 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public void loadHelp() {
+
+        this.helpCommandGUI = new HelpCommandGUI(this,  new XG7LobbyHelpGUI());
+
+        helpCommandGUI.registerMenu("actions", new ActionsMenu());
+        helpCommandGUI.registerMenu("collaborators", new CollaboratorsMenu());
 
     }
 
