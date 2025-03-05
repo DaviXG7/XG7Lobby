@@ -278,7 +278,7 @@ public enum ActionType {
                 break;
             case OFFHAND:
                 if (MinecraftVersion.isOlderThan(9)) {
-                    Debug.of(XG7Lobby.getInstance()).error("The offhand slot is only available in 1.9 or higher.");
+                    Debug.of(XG7Lobby.getInstance()).severe("The offhand slot is only available in 1.9 or higher.");
                     return;
                 }
                 player.getInventory().setItemInOffHand(material.parseItem());

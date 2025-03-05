@@ -120,7 +120,15 @@ public class LobbyPlayer implements Entity<UUID,LobbyPlayer> {
 
         isPlayerHiding = playerHiding;
 
-        if (before != isPlayerHiding) update().join();
+        // Update the player in the database
+        // It is causing crashes sometimes
+        // I'm trying to fix with this code
+        if (before != isPlayerHiding) update().exceptionally(throwable -> {
+            throwable.printStackTrace();
+            this.isPlayerHiding = before;
+            setPlayerHiding(before);
+            return false;
+        });
 
         if (!getOfflinePlayer().isOnline()) return;
 

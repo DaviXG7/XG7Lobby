@@ -25,7 +25,7 @@ public class LobbyInventoryBuilder {
     public LobbyInventoryBuilder(String id, Config config) {
         this.id = id;
         this.config = config;
-        this.title = config.get("title", String.class).orElse("No title");
+        this.title = config.get("title", String.class, true, new Object[0]).orElse("No title");
 
         List<List<String>> slots = (List<List<String>>) config.getConfig().getList("grid");
 
@@ -55,9 +55,9 @@ public class LobbyInventoryBuilder {
             for (String key : section.getKeys(false)) items.put(key, InventoryManager.fromConfig(config, key));
         }
 
-        this.fillItem = XMaterial.matchXMaterial(config.get("fill-material",String.class).orElse("AIR")).orElse(XMaterial.AIR);
+        this.fillItem = XMaterial.matchXMaterial(config.get("fill-material",String.class, true, new Object[0]).orElse("AIR")).orElse(XMaterial.AIR);
 
-        this.size = config.get("rows", Integer.class).orElse(6) * 9;
+        this.size = config.get("rows", Integer.class, true, new Object[0]).orElse(6) * 9;
 
     }
 
