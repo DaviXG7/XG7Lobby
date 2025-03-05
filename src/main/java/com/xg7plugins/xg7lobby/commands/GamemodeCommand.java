@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.commands;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
@@ -105,7 +106,7 @@ public class GamemodeCommand implements ICommand {
 
     @Override
     public Item getIcon() {
-        return null;
+        return Item.commandIcon(XMaterial.GRASS_BLOCK, this);
     }
 
     public enum Mode {

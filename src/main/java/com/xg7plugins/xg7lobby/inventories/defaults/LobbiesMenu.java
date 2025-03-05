@@ -55,7 +55,7 @@ public class LobbiesMenu extends PageMenu {
 
             lore.add("lang:[lobbies-menu.lobby-item.server]");
             lore.add("lang:[lobbies-menu.lobby-item.location]");
-            if (!player.hasPermission("xg7lobby.command.lobby.delete")) lore.add("lang:[lobby-menu.lobby-item.click-to-tp]");
+            if (!player.hasPermission("xg7lobby.command.lobby.delete")) lore.add("lang:[lobbies-menu.lobby-item.click-to-tp]");
             else {
                 lore.add("lang:[lobbies-menu.lobby-item.for-admins.click-to-tp]");
                 lore.add("lang:[lobbies-menu.lobby-item.for-admins.click-to-remove]");

@@ -40,9 +40,9 @@ public class ExecuteActionCommand implements ICommand {
             return;
         }
 
-        String actionArgs = "";
+        String actionArgs = args.get(0,String.class) + " ";
 
-        if (args.len() > 2) {
+        if (args.len() > 1) {
             actionArgs = Strings.join(Arrays.asList(args.getArgs()), ' ');
         }
 

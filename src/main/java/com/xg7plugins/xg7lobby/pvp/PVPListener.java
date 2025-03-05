@@ -1,6 +1,7 @@
 package com.xg7plugins.xg7lobby.pvp;
 
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.tasks.Task;
 import com.xg7plugins.utils.text.Text;
@@ -21,7 +22,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.ArrayList;
 
-public class PVPListener implements LobbyEvent {
+public class PVPListener implements Listener {
 
     private final GlobalPVPManager pvpManager;
 
@@ -117,11 +118,6 @@ public class PVPListener implements LobbyEvent {
 
         pvpManager.addPlayerToPVP(player);
 
-    }
-
-    @Override
-    public void onWorldLeave(Player player, World newWorld) {
-        pvpManager.removePlayerFromPVP(player);
     }
 
     @EventHandler

@@ -49,6 +49,7 @@ import com.xg7plugins.xg7lobby.events.chat_events.*;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultPlayerEvents;
 import com.xg7plugins.xg7lobby.events.defaults.DefaultWorldEvents;
 import com.xg7plugins.xg7lobby.events.defaults.LoginAndLogoutEvents;
+import com.xg7plugins.xg7lobby.help.chat.XG7LobbyHelpInChat;
 import com.xg7plugins.xg7lobby.help.menu.ActionsMenu;
 import com.xg7plugins.xg7lobby.help.menu.CollaboratorsMenu;
 import com.xg7plugins.xg7lobby.help.menu.XG7LobbyHelpGUI;
@@ -171,7 +172,7 @@ public final class XG7Lobby extends Plugin {
 
         XG7Scores.getInstance().registerScores(scoreboardLoader.load(), tablistLoader.load(), bossBarLoader.load(), actionBarLoader.load(), xpBarLoader.load());
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        Bukkit.getOnlinePlayers().stream().filter(this::isInWorldEnabled).forEach(player -> {
 
             LobbyPlayer.cast(player.getUniqueId(), false);
 
@@ -180,6 +181,8 @@ public final class XG7Lobby extends Plugin {
 
             if (menu != null) menu.open(player);
         });
+
+        getServer().getPluginManager().registerEvents(new MOTDEvent(), this);
 
     }
 
@@ -263,7 +266,7 @@ public final class XG7Lobby extends Plugin {
 
     @Override
     public Listener[] loadEvents() {
-        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new MOTDEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), MinecraftVersion.isNewerThan(13) ? new CommandAntiTab() : null, new PVPListener(globalPVPManager)};
+        return new Listener[]{new LoginAndLogoutEvents(), new LobbyCooldownEvent(), new FlyEvent(), new MultiJumpEvent(), new DefaultPlayerEvents(), new LaunchPadEvent(), new DefaultWorldEvents(), new AntiSpam(), new AntiSwear(), new MutedChat(), new ChatLockedEvent(), new CommandProcess(), MinecraftVersion.isNewerThan(13) ? new CommandAntiTab() : null, new PVPListener(globalPVPManager)};
     }
 
     @Override
@@ -283,6 +286,8 @@ public final class XG7Lobby extends Plugin {
 
         helpCommandGUI.registerMenu("actions", new ActionsMenu());
         helpCommandGUI.registerMenu("collaborators", new CollaboratorsMenu());
+
+        this.helpInChat = new XG7LobbyHelpInChat();
 
     }
 

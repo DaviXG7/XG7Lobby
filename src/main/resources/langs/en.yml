@@ -41,7 +41,7 @@ commands:
     mute-admin: "&cYou can't mute an admin."
 
     on-mute: "&cYou have been muted for %time%."
-    on-mute-sender: "&aPlayer %v% has been muted successfully for %time%."
+    on-mute-sender: "&aPlayer %target% has been muted successfully for %time%."
 
   unmute:
     not-muted: "&cThis player is not muted."
@@ -224,9 +224,9 @@ help:
     profile-item:
       name: "&bProfile"
       lore:
-        kills: "&7Kills&b: &9%xg7lobby_player_kills%"
-        deaths: "&7Deaths&b: &c%xg7lobby_player_deaths%"
-        kdr: "&7KDR&b: &9%xg7lobby_player_kdr%"
+        kills: "&7Kills&b: &9%xg7lobby_player_global_pvp_kills%"
+        deaths: "&7Deaths&b: &c%xg7lobby_player_global_pvp_deaths%"
+        kdr: "&7KDR&b: &9%xg7lobby_player_global_pvp_kdr%"
         build-enabled: "&7Build&b: &r%xg7lobby_player_is_build_enabled%"
         fly-enabled: "&7Fly&b: &r%xg7lobby_player_is_flying%"
         chat-locked: "&7Chat locked&b: &r%xg7lobby_chat_locked%"
@@ -250,8 +250,8 @@ help:
       lore: "Click here to see the selectors guide"
 
     custom-commands-guide-item:
-        name: "&bCustom Commands Guide"
-        lore: "Click here to see the custom commands guide"
+      name: "&bCustom Commands Guide"
+      lore: "Click here to see the custom commands guide"
 
     about-item:
       name: "&bAbout"
@@ -283,25 +283,83 @@ help:
     - ""
     - "This plugin was made for"
     - "lobby management."
-    - "It goal is to give fun"
-    - "to the players and security"
+    - "It goal is to give"
+    - "fun and security"
+    - "to the players"
     - "in lobby worlds."
     - ""
     - "&oDeveloped by DaviXG7"
 
   selector-guide:
+    - "&9Selectors Guide"
     - ""
+    - "&7Selectors are special hotbar items"
+    - "&7that perform actions when clicked."
+    - ""
+    - "&6How to Create:"
+    - "&7Navigate to configuration:"
+    - "- menus/selector.yml ->"
+    - "items"
+    - ""
+    - "&6Item Configuration:"
+    - "&7Define these properties:"
+    - "- item: Material type"
+    - "- name: Display name"
+    - ""
+    - "- lore: Description"
+    - "- grow: Enchantment effect"
+    - ""
+    - "- amount: Quantity"
+    - "- slot: Item position"
+    - ""
+    - "- custom-model-data: Custom model"
+    - "- item-flags: Special properties"
+    - "- actions: Action list"
+    - ""
+    - "&6Cooldown:"
+    - "&7Manage item usage frequency"
+    - ""
+    - "&7&oTips: Configure wisely"
 
   custom-commands-guide:
+    - "&9Custom Commands Guide"
     - ""
+    - "&7Learn how to create custom commands"
+    - ""
+    - "&6Important Note:"
+    - "&7Cannot use arguments like:"
+    - "- test arg1/arg3 arg2"
+    - ""
+    - "&6Configuration Location:"
+    - "&7Navigate to:"
+    - "- custom-commands section"
+    - ""
+    - "&6Command Creation Steps:"
+    - "&7Create a new command section with:"
+    - ""
+    - "- description: Command explanation"
+    - ""
+    - "- aliases: Alternative command names"
+    - ""
+    - "- permission: Required access level"
+    - ""
+    - "- actions: Command execution list"
+    - ""
+    - "&7&oTips: Keep commands clear and simple"
 
+  chat:
 
+    title: "&7Welcome to the &6XG7Lobby &7help page!"
 
+    content: "&eXG7Lobby is a plugin that aims to facilitate the lobby \nmanagement.\nClick to see more information."
 
+    back: "&aClick to back to the help"
 
+    lang: "&aLanguages&f: &1click here to change profile lang"
+    commands: "&aCommands&f: &1click here to see the commands"
+    selector-guide: "&aSelectors Guide&f: &1click here to see the selectors guide"
+    custom-commands-guide: "&aCustom Commands Guide&f: &1click here to see the custom commands guide"
 
-
-
-
+help-in-chat.commands-title: "&7Commands of &6XG7Lobby &8(&7%page%&8/&7%max_page%&8)"
 
 config-version: 1.0

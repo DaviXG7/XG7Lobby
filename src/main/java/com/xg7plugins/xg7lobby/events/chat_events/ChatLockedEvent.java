@@ -16,7 +16,7 @@ public class ChatLockedEvent implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         if (event.getPlayer().hasPermission("xg7lobby.chat.ignore-lock")) return;
-        if (XG7Plugins.serverInfo().getAtribute("chat-locked", Boolean.class).orElse(false)) {
+        if (XG7Plugins.serverInfo().getAtribute("lobbyChatLocked", Boolean.class).orElse(false)) {
             if (XG7Lobby.getInstance().getConfig("config").get("lock-chat-only-on-lobby", Boolean.class).orElse(false) && !XG7Lobby.getInstance().isInWorldEnabled(event.getPlayer())) return;
 
             Text.fromLang(event.getPlayer(),XG7Lobby.getInstance(), "chat.locked").thenAccept(text -> text.send(event.getPlayer()));

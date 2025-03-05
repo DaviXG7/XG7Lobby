@@ -58,11 +58,11 @@ public class XG7LobbyHelpGUI extends Menu {
                 Item.from(XMaterial.matchXMaterial("COMMAND_BLOCK").orElse(XMaterial.ENDER_PEARL)).name("lang:[help.menu.commands-item.name]").lore("lang:[help.menu.commands-item.lore]").slot(28),
                 setLobbyItem,
                 Item.from(XMaterial.OAK_SIGN).name("lang:[help.menu.actions-item.name]").lore("lang:[help.menu.actions-item.lore]").slot(30),
-                Item.from(XMaterial.BOOK).name("lang:[help.menu.selectors-guide-item.name]").lore("lang:[help-menu.index.selectors-guide-item.lore]").slot(32),
-                Item.from(XMaterial.WRITABLE_BOOK).name("lang:[help.menu.about-item.name]").lore("lang:[help-menu.index.about-item.lore]").slot(33),
-                Item.from(XMaterial.BLAZE_ROD).name("lang:[help.menu.custom-commands-guide-item.name]").lore("lang:[help-menu.index.custom-commands-guide-item.lore]").slot(34),
+                Item.from(XMaterial.BOOK).name("lang:[help.menu.selectors-guide-item.name]").lore("lang:[help.menu.selectors-guide-item.lore]").slot(32),
+                Item.from(XMaterial.WRITABLE_BOOK).name("lang:[help.menu.about-item.name]").lore("lang:[help.menu.about-item.lore]").slot(33),
+                Item.from(XMaterial.BLAZE_ROD).name("lang:[help.menu.custom-commands-guide-item.name]").lore("lang:[help.menu.custom-commands-guide-item.lore]").slot(34),
                 Item.from(XMaterial.matchXMaterial("BARRIER").orElse(XMaterial.OAK_DOOR)).name("lang:[help.menu.close-item]").slot(45),
-                Item.from(XMaterial.PAPER).name("lang:[help.menu.collaborators-item]").slot(53)
+                Item.from(XMaterial.PAPER).name("lang:[help.menu.collaborators-item.name]").slot(53)
         );
     }
 
@@ -85,12 +85,11 @@ public class XG7LobbyHelpGUI extends Menu {
                 plugin.getHelpCommandGUI().getMenu("actions").open(player);
                 break;
             case 32:
-                //selector guide
-                break;
             case 33:
+            case 34:
                 Config lang = XG7Plugins.getInstance().getLangManager().getLangByPlayer(plugin, player).join().getLangConfiguration();
 
-                List<String> about = lang.getList("help-menu.about", String.class).orElse(new ArrayList<>());
+                List<String> about = lang.getList("help." + (event.getClickedSlot() == 32 ? "selector-guide" : event.getClickedSlot() == 33 ? "about" : "custom-commands-guide"), String.class).orElse(new ArrayList<>());
 
                 BookItem bookItem = BookItem.newBook();
 
@@ -120,9 +119,6 @@ public class XG7LobbyHelpGUI extends Menu {
 
                 player.closeInventory();
                 bookItem.openBook(player);
-                break;
-            case 34:
-                //custom commands guide
                 break;
             case 53:
                 plugin.getHelpCommandGUI().getMenu("collaborators").open(player);

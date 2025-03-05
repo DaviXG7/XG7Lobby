@@ -1,13 +1,31 @@
 
+#ID of the menu, must be unique
 id: "games"
 
+#Type of the menu, NORMAL or SELECTOR
 type: "NORMAL"
 
+#Title of the menu
 title: "&a&lGames"
 
+#Rows of the menu
 rows: 3
 
+#Here you can define the items of the menu
 items:
+
+  #Example section:
+
+  #name-of-the-item:
+  #  material: MATERIAL <- Material of the item
+  #  name: "&aNAME" <- Name of the item
+  #  lore: <- Lore of the item
+  #    - "&7LORE"
+  #  amount: 1 <- Amount of the item
+  #  glow: true <- If the item should glow
+  #  actions: <- Actions of the item
+  #    - "[COMMAND] COMMAND"
+  #    - "[CLOSE] "
 
   survival:
 
@@ -33,11 +51,13 @@ items:
         - "[COMMAND] /server bedwars"
         - "[CLOSE] "
 
+#Fill material of the menu
 fill-material: GRAY_STAINED_GLASS_PANE
 
+#Place the items in this grid with name of section
 grid:
   - ["","","","",        "","",       "","",""]
   - ["","","","survival","","bedwars","","",""]
   - ["","","","",        "","",       "","",""]
 
-config-version: test-1.0
+config-version: 1.0

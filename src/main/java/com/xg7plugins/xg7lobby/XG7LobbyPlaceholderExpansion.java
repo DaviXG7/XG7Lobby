@@ -38,6 +38,8 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
                 return XG7Plugins.serverInfo().getAtribute("lobbyChatLocked", Boolean.class).orElse(false) + "";
             case "random_lobby_location":
                 return XG7Lobby.getInstance().getLobbyManager().getRandomLobby().join().toString();
+            case "player_warns":
+                return lobbyPlayer.getInfractions().size() + "";
             case "player_is_hiding":
                 return lobbyPlayer.isPlayerHiding() + "";
             case "player_is_muted":
@@ -48,7 +50,7 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
                 return lobbyPlayer.isBuildEnabled() + "";
             case "player_is_flying":
                 return lobbyPlayer.isFlying() + "";
-            case "player_is_global_pvp_enabled":
+            case "player_is_in_pvp":
                 return XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player) + "";
             case "players_in_global_pvp":
                 return XG7Lobby.getInstance().getGlobalPVPManager().getInPVP().size() + "";

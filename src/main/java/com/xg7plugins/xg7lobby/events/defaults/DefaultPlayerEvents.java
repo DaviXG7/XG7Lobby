@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
 public class DefaultPlayerEvents implements Listener {
@@ -195,6 +196,12 @@ public class DefaultPlayerEvents implements Listener {
     @EventHandler(isOnlyInWorld = true)
     public void onDeath(PlayerDeathEvent event) {
         event.getDrops().clear();
+    }
+
+    @EventHandler(isOnlyInWorld = true, priority = EventPriority.LOW)
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP((Player) event.getWhoClicked())) return;
+        if (!event.getWhoClicked().hasPermission("xg7lobby.inv")) event.setCancelled(true);
     }
 
     @EventHandler(isOnlyInWorld = true)

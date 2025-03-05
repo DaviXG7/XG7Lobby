@@ -1,5 +1,130 @@
+#
+#__   _______ ______ _           _     _
+#\ \ / / ____|____  | |         | |   | |
+# \ V / |  __    / /| |     ___ | |__ | |__  _   _
+#  > <| | |_ |  / / | |    / _ \| '_ \| '_ \| | | |
+# / . \ |__| | / /  | |___| (_) | |_) | |_) | |_| |
+#/_/ \_\_____|/_/   |______\___/|_.__/|_.__/ \__, |
+#                                             __/ |
+#                                            |___/
+
+#Use %player_name% to replace player name
+#You need the PlaceHolderAPI for that!
+
+#Colors:
+#&0 - Black           | &8 - Dark Gray
+#&1 - Dark blue       | &9 - Blue
+#&2 - Dark green      | &a - Green
+#&3 - Dark cyan       | &b - Cyan
+#&4 - Dark red        | &c - Red
+#&5 - Purple          | &d - Pink
+#&6 - Orange          | &e - Yellow
+#&7 - Gray            | &f - White
+
+#Lettering options:
+#&k - Random    | &n - Underlined
+#&l - Bold     | &o - Italic
+#&m - Track     | &r - Reset
+
+#HEX to get hex color!
+#Only in 1.16+
+#<hex:#FFFFFF>text</hex>
+
+#Placeholders
+
+# %xg7lobby_chat_locked%: Returns whether the lobby chat is locked (true/false).
+# %xg7lobby_random_lobby_location%: Returns a random lobby location.
+# %xg7lobby_player_is_hiding%: Returns whether the player is hiding other players (true/false).
+# %xg7lobby_player_is_muted%: Returns whether the player is muted (true/false).
+# %xg7lobby_player_warns%: Returns the number of warnings the player has.
+# %xg7lobby_player_time_for_unmute%: Returns the remaining time for the player to be unmuted (format: dd/MM/yyyy HH:mm:ss).
+# %xg7lobby_player_is_build_enabled%: Returns whether build mode is enabled for the player (true/false).
+# %xg7lobby_player_is_flying%: Returns whether fly mode is enabled for the player (true/false).
+# %xg7lobby_player_is_in_pvp%: Returns whether the player is in global PvP mode (true/false).
+# %xg7lobby_players_in_global_pvp%: Returns the number of players currently in global PvP mode.
+# %xg7lobby_player_global_pvp_kills%: Returns the number of kills the player has in global PvP.
+# %xg7lobby_player_global_pvp_deaths%: Returns the number of deaths the player has in global PvP.
+# %xg7lobby_player_global_pvp_kdr%: Returns the kill/death ratio (KDR) of the player in global PvP.
+
+#Actions
+
+#You can use actions in the "actions:" or "events:"
+#The right way to use your action is: [ACTION] content
+
+#[MESSAGE] Send a message
+#[TITLE] Send a title
+
+#[FIREWORK] Summons a firework
+#Ex.: [FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1
+
+#Ex.: [TITLE] &bWelcome!, Subtitle
+#[BROADCAST] Advertise to everyone.
+
+#[COMMAND] Make the player execute a command
+#[CONSOLE] Make console execute a command
+
+#[SOUND] play a sound
+#[SOUND] ENTITY_EXPERIENCE_ORB_PICKUP, (Volume) 10.0, (Pitch) 10.0"
+
+#[SUMMON] Summons an entity
+
+#[EFFECT] give an effect to the player
+#[EFFECT] effect, duration, amplifier
+
+#[EQUIP] equip an item to the player
+#[EQUIP] SLOT, MATERIAL
+
+#[CLEAR_CHAT] clear the chat
+
+#[CLEAR_INVENTORY] clear the player's inventory
+
+#[PARTICLE] create a particle
+#[PARTICLE] particle, amount, x,y,z offset
+
+#[TP] teleport player for an exact location
+#[TP] world, x, y, z (yaw, pictch)
+
+#[LOBBY] Teleport the player to a lobby
+#[LOBBY] lobby-id
+
+#[OPEN] Opens an inventory
+#[CLOSE] Closes an inventory
+#[REFRESH] Refreshes the inventory
+#[SWAP] Swaps the item in the inventory
+#[SWAP] item-id
+#There in the selectors.yml file you can create an inventory
+#Mode of use: "[OPEN] (id)", "[CLOSE] "
+
+#%player% returns the player's name (if you are not using PLACEHOLDER API)
+
+#[HIDE_PLAYERS] hide the players
+#[SHOW_PLAYERS] show the players
+
+#[GAMEMODE] change the game mode of the player
+
+#<center:CHAT> Centers your text according to Minecraft's default chat size
+#It is an approximate centering according to the pixels of each letter in the game
+
+#[PERMISSION] Only do the action if you have permission
+#[OPEN] 1 [PERMISSION: your.permission]
+#[OPEN] 1 [!PERMISSION: your.permission] (If you don't have permission)
+
+#<action> Send an action
+
+#[PERMISSION] Only do the action if the condition is true
+#[OPEN] 1 [IF: %xg7lobby_players_hiding%]
+#[OPEN] 1 [!IF: #%xg7lobby_players_hiding%] (If the condition is false)
+
+#Links:
+
+#Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+#Entities: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Entity.html
+
+
 prefix: "&1X&9G&37&bLobby&r"
 
+#Worlds where the plugin will be enabled
 enabled-worlds:
   - "world"
   - "lobby"
@@ -80,7 +205,7 @@ on-join:
     - "[FIREWORK] BALL_LARGE, #FF0000, #00FF00, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #00FFFF, true, true, 1"
     - "[OPEN] [NO_PERMISSION: xg7lobby.admin] profile"
-    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7l help"
 
 on-first-join:
   enabled: true
@@ -102,7 +227,7 @@ on-first-join:
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FF00FF, true, true, 1"
     - "[FIREWORK] BALL_LARGE, #FF00FF, #FFFF00, true, true, 1"
     - "[OPEN] [NO_PERMISSION: xg7lobby.admin] profile"
-    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7lhelp"
+    - "[COMMAND] [PERMISSION: xg7lobby.command.help] 7l help"
 
 
 effects-task-delay: 5s
@@ -338,6 +463,9 @@ bossbar:
   color: "BLUE"
   style: "SOLID"
 
+  #This is a public bossbar
+  #Don't support placeholders
+  #+1.9
   public: false
 
 actionbar:
@@ -556,4 +684,4 @@ global-pvp:
     - "/back"
 
 
-config-version: test-1.0
+config-version: 1.0

@@ -5,6 +5,8 @@ import com.xg7plugins.data.config.Config;
 
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.modules.xg7menus.XG7Menus;
+import com.xg7plugins.modules.xg7menus.menus.holders.PlayerMenuHolder;
+import com.xg7plugins.modules.xg7menus.menus.player.PlayerMenu;
 import com.xg7plugins.modules.xg7scores.XG7Scores;
 import com.xg7plugins.utils.text.Text;
 import com.xg7plugins.xg7lobby.XG7Lobby;
@@ -37,7 +39,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
         Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
 
-        LobbyPlayer.cast(event.getPlayer().getUniqueId(), true).thenAccept(lobbyPlayer -> {
+        LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).thenAccept(lobbyPlayer -> {
             Player player = lobbyPlayer.getPlayer();
 
             boolean messageOnlyInLobby = config.get("on-join.send-join-message-only-on-lobby", Boolean.class).orElse(false);
@@ -96,6 +98,7 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
     @Override
     public void onWorldJoin(Player player, World newWorld) {
+
         Config config = XG7Lobby.getInstance().getConfigsManager().getConfig("config");
 
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
@@ -133,13 +136,13 @@ public class LoginAndLogoutEvents implements LobbyEvent {
 
     @Override
     public void onWorldLeave(Player player, World newWorld) {
+
         if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(player)) XG7Lobby.getInstance().getGlobalPVPManager().removePlayerFromPVP(player);
         player.closeInventory();
-        LobbySelector menu = XG7Lobby.getInstance().getInventoryManager().getInventories().stream().filter(m -> m.getId().equals(XG7Lobby.getInstance().getConfig("config").get("main-selector-id", String.class).orElse(null))).map(m -> (LobbySelector) m).findFirst().orElse(null);
+        PlayerMenuHolder menu = XG7Menus.getInstance().getPlayerMenuHolder(player.getUniqueId());
 
-        if (menu != null) {
-            menu.close(player);
-        }
+        if (menu != null) ((PlayerMenu)menu.getMenu()).close(player);
+
         Bukkit.getOnlinePlayers().forEach(player::showPlayer);
         player.setMaxHealth(20);
         player.setHealth(20);

@@ -31,4 +31,4 @@ grid:
   - ["sword", "bow", "arrow", "", "", "", "", "", ""]
 
 
-config-version: test-1.0
+config-version: 1.0

@@ -21,4 +21,4 @@ resetstats: ["7lresetstats", "7lrs", "resetstats"]
 deletelobby: ["7ldeletelobby", "7ldl", "deletelobby"]
 lobbies: ["7llobbies", "7lls", "lobbies"]
 
-config-version: test-1.0
+config-version: 1.0

@@ -52,6 +52,6 @@ public class DeleteLobby implements ICommand {
 
     @Override
     public Item getIcon() {
-        return Item.commandIcon(XMaterial.BLAZE_ROD, this);
+        return Item.commandIcon(XMaterial.LAVA_BUCKET, this);
     }
 }

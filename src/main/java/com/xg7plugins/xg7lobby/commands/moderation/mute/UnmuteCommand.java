@@ -1,5 +1,6 @@
 package com.xg7plugins.xg7lobby.commands.moderation.mute;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.xg7plugins.XG7Plugins;
 import com.xg7plugins.boot.Plugin;
 import com.xg7plugins.commands.setup.Command;
@@ -57,7 +58,7 @@ public class UnmuteCommand implements ICommand {
         lobbyPlayer.update().join();
 
         if (target.isOnline()) {
-            Text.fromLang( target.getPlayer(),XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
+            Text.fromLang(target.getPlayer(),XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.send(target.getPlayer()));
         }
 
         Text.fromLang(sender, XG7Lobby.getInstance(), "commands.unmute.on-unmute-sender").thenAccept(text -> text.replace("target", target.getName()).send(sender));
@@ -70,6 +71,6 @@ public class UnmuteCommand implements ICommand {
 
     @Override
     public Item getIcon() {
-        return null;
+        return Item.commandIcon(XMaterial.PAPER, this);
     }
 }

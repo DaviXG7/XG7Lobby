@@ -76,4 +76,4 @@ grid:
   - ["games","profile","","","","","","hidePlayers","lobbies"]
 
 
-config-version: test-1.0
+config-version: 1.0

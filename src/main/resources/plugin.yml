@@ -17,6 +17,7 @@ permissions:
       xg7lobby.command.*: true
       xg7lobby.attack: true
       xg7lobby.chat.*: true
+      xg7lobby.inv: true
 
   xg7lobby.command.*:
     description: Permission to use all commands.
