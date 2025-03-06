@@ -1,6 +1,8 @@
 package com.xg7plugins.xg7lobby.pvp;
 
 import com.xg7plugins.XG7Plugins;
+import com.xg7plugins.cache.ObjectCache;
+import com.xg7plugins.data.config.Config;
 import com.xg7plugins.events.Listener;
 import com.xg7plugins.events.bukkitevents.EventHandler;
 import com.xg7plugins.tasks.Task;
@@ -15,16 +17,25 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class PVPListener implements Listener {
 
     private final GlobalPVPManager pvpManager;
+
+    private final ObjectCache<UUID, UUID> combatLog = new ObjectCache<>(
+            XG7Lobby.getInstance(),
+            Config.mainConfigOf(XG7Lobby.getInstance()).getTime("global-pvp.combat-log-remove").orElse(1000L * 30),
+            true,
+            "combat-log",
+            true,
+            UUID.class,
+            UUID.class
+    );
 
     public PVPListener(GlobalPVPManager pvpManager) {
         this.pvpManager = pvpManager;
@@ -60,6 +71,11 @@ public class PVPListener implements Listener {
 
         event.setCancelled(false);
 
+        if (victim.getUniqueId().equals(damager.getUniqueId())) return;
+
+        combatLog.remove(victim.getUniqueId());
+        combatLog.put(victim.getUniqueId(), damager.getUniqueId());
+
     }
 
     @EventHandler(isOnlyInWorld = true)
@@ -77,18 +93,31 @@ public class PVPListener implements Listener {
             LobbyPlayer killer = event.getEntity().getKiller() != null ? LobbyPlayer.cast(event.getEntity().getKiller().getUniqueId(), false).join() : null;
 
             if (killer != null) {
-                killer.setGlobalPVPKills(killer.getGlobalPVPKills() + 1);
-                killer.update();
+                if (killer.getPlayerUUID().equals(event.getEntity().getUniqueId())) {
+                    killer = null;
+                } else {
+                    killer.setGlobalPVPKills(killer.getGlobalPVPKills() + 1);
+                    killer.update();
+                }
+            }
+            if (killer == null) {
+                UUID killerUUID = combatLog.get(event.getEntity().getUniqueId()).join();
+                if (killerUUID != null && !killerUUID.equals(event.getEntity().getUniqueId())) {
+                    killer = LobbyPlayer.cast(killerUUID, false).join();
+                    killer.setGlobalPVPKills(killer.getGlobalPVPKills() + 1);
+                    killer.update();
+                }
             }
 
             XG7Lobby.getInstance().getActionsProcessor().process("on-pvp-death", event.getEntity());
 
+            LobbyPlayer finalKiller = killer;
             Bukkit.getOnlinePlayers().forEach(player -> {
-                if (!pvpManager.isPlayerInPVP(player)) return;
-                if (killer != null) {
+                if (!pvpManager.isPlayerInPVP(player) && !Config.mainConfigOf(XG7Lobby.getInstance()).get("global-pvp.send-kill-message-only-in-pvp",Boolean.class).orElse(false)) return;
+                if (finalKiller != null) {
                     Text.fromLang(player,XG7Lobby.getInstance(), "pvp.on-death-with-killer").join()
                             .replace("victim", event.getEntity().getName())
-                            .replace("killer", killer.getOfflinePlayer().getName())
+                            .replace("killer", finalKiller.getOfflinePlayer().getName())
                             .replace("cause", event.getEntity().getLastDamageCause().getCause().name().toLowerCase())
                             .send(player);
                     return;
@@ -100,8 +129,34 @@ public class PVPListener implements Listener {
                         .send(player);
             });
 
+            combatLog.remove(event.getEntity().getUniqueId());
+
         });
 
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        UUID killerUUID = combatLog.get(event.getPlayer().getUniqueId()).join();
+        if (killerUUID != null && !killerUUID.equals(event.getPlayer().getUniqueId())) {
+            LobbyPlayer player = LobbyPlayer.cast(event.getPlayer().getUniqueId(), false).join();
+            player.setGlobalPVPDeaths(player.getGlobalPVPDeaths() + 1);
+            player.update();
+            LobbyPlayer killer = LobbyPlayer.cast(killerUUID, false).join();
+            killer.setGlobalPVPKills(killer.getGlobalPVPKills() + 1);
+            killer.update();
+            Bukkit.getOnlinePlayers().forEach(p -> {
+                if (!pvpManager.isPlayerInPVP(p) && !Config.mainConfigOf(XG7Lobby.getInstance()).get("global-pvp.send-kill-message-only-in-pvp", Boolean.class).orElse(false))
+                    return;
+
+                Text.fromLang(p, XG7Lobby.getInstance(), "pvp.on-death-with-killer").join()
+                        .replace("victim", event.getPlayer().getName())
+                        .replace("killer", killer.getOfflinePlayer().getName())
+                        .replace("cause", event.getPlayer().getLastDamageCause().getCause().name().toLowerCase())
+                        .send(p);
+            });
+        }
+        combatLog.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler

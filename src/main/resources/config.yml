@@ -87,6 +87,9 @@
 #[LOBBY] Teleport the player to a lobby
 #[LOBBY] lobby-id
 
+#[BUNGEE] Teleport the player to another server
+#[BUNGEE] server-name
+
 #[OPEN] Opens an inventory
 #[CLOSE] Closes an inventory
 #[REFRESH] Refreshes the inventory
@@ -400,6 +403,12 @@ scoreboard:
     - ""
     - "&8www.example.com"
 
+health-display:
+
+  enabled: true
+
+  suffix: "&c❤"
+
 tablist:
   enabled: true
 
@@ -637,6 +646,12 @@ global-pvp:
 
   disable-multi-jumps: true
 
+  disable-launchpad: true
+
+  combat-log-remove: 20s
+
+  send-kill-message-only-in-pvp: false
+
   on-enter-pvp:
     heal: true
     clear-inventory: true
@@ -672,4 +687,4 @@ global-pvp:
     - "/back"
 
 
-config-version: 1.1
+config-version: 2

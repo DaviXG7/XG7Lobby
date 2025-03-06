@@ -26,8 +26,15 @@ public class XG7LobbyPlaceholderExpansion extends PlaceholderExpansion {
     public @NotNull String getVersion() {
         return "2.0";
     }
+    @Override
+    public boolean persist() {
+        return true;
+    }
 
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {
+        if (player == null) {
+            return null;
+        }
         LobbyPlayer lobbyPlayer = LobbyPlayer.cast(player.getUniqueId(), false).join();
         if (lobbyPlayer == null) {
             return null;

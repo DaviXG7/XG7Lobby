@@ -66,12 +66,18 @@ public class FlyCommand implements ICommand {
 
         OfflinePlayer finalTarget = target;
         LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {
+            boolean isFlying = lobbyPlayer.isFlying();
             lobbyPlayer.setFlying(!lobbyPlayer.isFlying());
+            lobbyPlayer.update().exceptionally(throwable -> {
+                throwable.printStackTrace();
+                lobbyPlayer.setFlying(isFlying);
+                lobbyPlayer.update();
+                return null;
+            });
             if (finalTarget.isOnline()) {
                 XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), lobbyPlayer::fly);
                 Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
-            lobbyPlayer.update().join();
             if (finalIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.fly." + (lobbyPlayer.isFlying() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("target", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();

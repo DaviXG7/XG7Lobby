@@ -63,11 +63,17 @@ public class BuildCommand implements ICommand {
 
         OfflinePlayer finalTarget = target;
         LobbyPlayer.cast(target.getUniqueId(), true).thenAccept(lobbyPlayer -> {
+            boolean before = lobbyPlayer.isBuildEnabled();
             lobbyPlayer.setBuildEnabled(!lobbyPlayer.isBuildEnabled());
+            lobbyPlayer.update().exceptionally(throwable -> {
+                throwable.printStackTrace();
+                lobbyPlayer.setBuildEnabled(before);
+                lobbyPlayer.update();
+                return null;
+            });
             if (finalTarget.isOnline()) {
                 Text.fromLang(lobbyPlayer.getPlayer(),XG7Lobby.getInstance(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-on" : "toggle-off")).thenAccept(text -> text.send(lobbyPlayer.getPlayer()));
             }
-            lobbyPlayer.update().join();
             if (finalIsOther) Text.fromLang(sender, XG7Lobby.getInstance(), "commands.build." + (lobbyPlayer.isBuildEnabled() ? "toggle-other-on" : "toggle-other-off")).thenAccept(text -> text.replace("target", lobbyPlayer.getPlayer().getDisplayName()).send(sender));
         }).exceptionally(throwable -> {
             throwable.printStackTrace();

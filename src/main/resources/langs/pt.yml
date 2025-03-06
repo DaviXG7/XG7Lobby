@@ -141,7 +141,7 @@ scoreboard:
   name: "&7Nome&b: &b%player_name%"
   rank: "&7Rank&b: &r[%luckperms_prefix%]"
   global-pvp: "&e&lPvP Global&b:"
-  kills: "&7Mortes&b: &9%xg7lobby_player_global_pvp_kills%"
+  kills: "&7Kills&b: &9%xg7lobby_player_global_pvp_kills%"
   deaths: "&7Mortes&b: &c%xg7lobby_player_global_pvp_deaths%"
   players-online: "&7Jogadores online&b: &a%server_online%"
   players-in-pvp: "&7Jogadores em PvP&b: &a%xg7lobby_players_in_global_pvp%"
@@ -304,4 +304,4 @@ help:
 
 help-in-chat.commands-title: "&7Comandos do &6XG7Lobby &8(&7%page%&8/&7%max_page%&8)"
 
-config-version: 1.0
+config-version: 1.1

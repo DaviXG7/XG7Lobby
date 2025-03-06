@@ -21,6 +21,8 @@ public class LaunchPadEvent implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         Config config = XG7Lobby.getInstance().getConfig("config");
 
+        if (XG7Lobby.getInstance().getGlobalPVPManager().isPlayerInPVP(event.getPlayer()) && config.get("global-pvp.disable-launchpad", Boolean.class).orElse(true)) return;
+
         String topBlock = config.get("launchpad.top-block", String.class).orElse(null);
         String bottomBlock = config.get("launchpad.bottom-block", String.class).orElse(null);
 

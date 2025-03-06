@@ -16,7 +16,7 @@ import java.util.function.Function;
 public abstract class ScoreLoader {
 
     @Getter
-    protected final boolean isEnabled;
+    protected boolean isEnabled;
     protected final ScoreConfig config;
     protected final long delay;
     protected final Function<Player, Boolean> condition = player -> XG7Lobby.getInstance().isInWorldEnabled(player);

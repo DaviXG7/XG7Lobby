@@ -35,6 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
@@ -298,6 +299,16 @@ public enum ActionType {
             XG7Plugins.taskManager().runSyncTask(XG7Lobby.getInstance(), () -> lobby.teleport(player));
         });
 
+    }),
+    BUNGEE("[BUNGEE] server", "Connect to a bungee server", "ENDER_PEARL", true, (player, args) -> {
+        if (args.length != 1)
+            throw new ActionException("BUNGEE", "Incorrectly amount of args: " + args.length + ". The right way to use is [BUNGEE] server.");
+
+        try {
+            XG7Plugins.serverInfo().connectTo(args[0],player);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     });
 
     private final String usage;

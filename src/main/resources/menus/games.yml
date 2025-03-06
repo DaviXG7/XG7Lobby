@@ -36,7 +36,7 @@ items:
     amount: 1
     glow: true
     actions:
-      - "[COMMAND] server survival"
+      - "[BUNGEE] survival"
       - "[CLOSE] "
 
   bedwars:
@@ -48,7 +48,7 @@ items:
       amount: 1
       glow: true
       actions:
-        - "[COMMAND] /server bedwars"
+        - "[BUNGEE] bedwars"
         - "[CLOSE] "
 
 #Fill material of the menu
@@ -60,4 +60,4 @@ grid:
   - ["","","","survival","","bedwars","","",""]
   - ["","","","",        "","",       "","",""]
 
-config-version: 1.0
+config-version: 2
