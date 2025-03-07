@@ -144,8 +144,6 @@ public final class XG7Lobby extends Plugin {
         Debug.of(this).loading("Loading action events...");
         loadActions();
 
-        if (XG7Plugins.serverInfo().isBungercord()) getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
         Debug.of(this).loading("Loading menus...");
 
         List<BaseMenu> menus = new ArrayList<>();

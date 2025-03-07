@@ -303,10 +303,10 @@ public enum ActionType {
     BUNGEE("[BUNGEE] server", "Connect to a bungee server", "ENDER_PEARL", true, (player, args) -> {
         if (args.length != 1)
             throw new ActionException("BUNGEE", "Incorrectly amount of args: " + args.length + ". The right way to use is [BUNGEE] server.");
-
         try {
             XG7Plugins.serverInfo().connectTo(args[0],player);
         } catch (IOException e) {
+            Debug.of(XG7Lobby.getInstance()).severe("Error while connecting to the server: " + args[0]);
             throw new RuntimeException(e);
         }
     });
